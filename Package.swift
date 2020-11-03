@@ -18,11 +18,21 @@ let package = Package(
         )
     ],
     dependencies: [
+        .package(
+            name: "swift-composable-architecture",
+            url: "https://github.com/pointfreeco/swift-composable-architecture",
+            from: "0.9.0"
+        )
     ],
     targets: [
         .target(
             name: "ComposableCoordinator",
-            dependencies: []
+            dependencies: [
+                .product(
+                    name: "ComposableArchitecture",
+                    package: "swift-composable-architecture"
+                )
+            ]
         ),
         .testTarget(
             name: "ComposableCoordinatorTests",

@@ -1,3 +1,3 @@
 import Foundation
 
-typealias ScreenID = UUID
+public typealias ScreenID = UUID
