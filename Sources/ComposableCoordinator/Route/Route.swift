@@ -1,11 +1,11 @@
 import Foundation
 
-public struct Route: Hashable {
-  public let url: URL
-  public let arguments: AnyHashable
+public protocol Route: Hashable {
+  var presentationStyle: ScreenPresentationStyle { get }
+}
 
-  public init<H: Hashable>(url: URL, arguments: H) {
-    self.url = url
-    self.arguments = arguments
+public extension Route {
+  func eraseToAnyRoute() -> AnyRoute {
+    AnyRoute(self)
   }
 }

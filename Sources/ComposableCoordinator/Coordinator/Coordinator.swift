@@ -4,13 +4,13 @@ import SwiftUI
 
 public struct Coordinator {
   private let _coordinate: (CoordinatorAction) -> Void
-  private let _buildRoute: (Route) -> Coordinated?
-  private let _parse: (URL) -> Route?
+  private let _buildRoute: (AnyRoute) -> Coordinated?
+  private let _parse: (URL) -> AnyRoute?
 
   public init(
     coordinate: @escaping (CoordinatorAction) -> Void,
-    buildRoute: @escaping (Route) -> Coordinated?,
-    parse: @escaping (URL) -> Route?
+    buildRoute: @escaping (AnyRoute) -> Coordinated?,
+    parse: @escaping (URL) -> AnyRoute?
   ) {
     self._coordinate = coordinate
     self._buildRoute = buildRoute
@@ -21,11 +21,11 @@ public struct Coordinator {
     _coordinate(action)
   }
 
-  func build(_ route: Route) -> Coordinated? {
+  func build(_ route: AnyRoute) -> Coordinated? {
     _buildRoute(route)
   }
 
-  func parse(_ url: URL) -> Route? {
+  func parse(_ url: URL) -> AnyRoute? {
     _parse(url)
   }
 }

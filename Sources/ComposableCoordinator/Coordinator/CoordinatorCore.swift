@@ -5,7 +5,7 @@ public struct CoordinatorState: Equatable {
 }
 
 public enum CoordinatorAction: Equatable {
-  case goTo(Route)
+  case goTo(AnyRoute)
   
   case pushDismissed(on: ScreenID)
   case sheetDismissed(on: ScreenID)
