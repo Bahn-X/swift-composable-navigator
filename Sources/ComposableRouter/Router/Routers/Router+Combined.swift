@@ -1,17 +1,15 @@
-public extension Coordinator {
+public extension Router {
   static func combine(
-    _ coordinators: [Coordinator]
-  ) -> Coordinator {
-    let buildRoute = { route -> Coordinated? in
-      return coordinators
+    _ routers: [Router]
+  ) -> Router {
+    let buildRoute = { route -> Routed? in
+      return routers
         .compactMap { $0.build(route) }
         .first
     }
 
-    return Coordinator(
-      coordinate: { action in
-        coordinators.forEach { $0.coordinate(action) }
-      },
+    return Router(
+      route: { action in routers.first(where: { $0.route(action) }) != nil },
       buildRoute: { route in
         buildRoute(route).map {
           var next = $0
@@ -20,7 +18,7 @@ public extension Coordinator {
         }
       },
       parse: { url in
-        coordinators
+        routers
           .compactMap { $0.parse(url) }
           .first
       }
@@ -28,8 +26,8 @@ public extension Coordinator {
   }
 
   static func combine(
-    _ coordinators: Coordinator...
-  ) -> Coordinator {
+    _ coordinators: Router...
+  ) -> Router {
     combine(coordinators)
   }
 }

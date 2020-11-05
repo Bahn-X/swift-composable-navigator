@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-composable-coordinator",
+    name: "swift-composable-router",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "ComposableCoordinator",
-            targets: ["ComposableCoordinator"]
+            name: "ComposableRouter",
+            targets: ["ComposableRouter"]
         )
     ],
     dependencies: [
@@ -26,7 +26,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "ComposableCoordinator",
+            name: "ComposableRouter",
             dependencies: [
                 .product(
                     name: "ComposableArchitecture",

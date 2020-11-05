@@ -1,17 +1,17 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct Coordinated: View {
+public struct Routed: View {
   @Environment(\.parentScreenID) private var parentID
   @Environment(\.currentScreenID) private var currentID
-  private let store: Store<CoordinatorState, CoordinatorAction>
+  private let store: Store<RouterState, RouterAction>
   private let content: () -> AnyView
   
-  var buildRoute: (AnyRoute) -> Coordinated?
+  var buildRoute: (AnyRoute) -> Routed?
   
   public init<Content: View>(
-    store: Store<CoordinatorState, CoordinatorAction>,
-    buildRoute: @escaping (AnyRoute) -> Coordinated?,
+    store: Store<RouterState, RouterAction>,
+    buildRoute: @escaping (AnyRoute) -> Routed?,
     @ViewBuilder content: @escaping () -> Content
   ) {
     self.store = store
@@ -45,7 +45,7 @@ public struct Coordinated: View {
 
   // MARK: - Helpers
   private func next(
-    in state: CoordinatorState
+    in state: RouterState
   ) -> ScreenState? {
     state.screens[currentID]
       .flatMap(\.next)
@@ -53,7 +53,7 @@ public struct Coordinated: View {
   }
 
   private func push(
-    state: CoordinatorState
+    state: RouterState
   ) -> ScreenState? {
     next(in: state)
       .flatMap { nextScreen in
@@ -62,13 +62,13 @@ public struct Coordinated: View {
   }
 
   private func pushIsActive(
-    state: CoordinatorState
+    state: RouterState
   ) -> Bool {
     push(state: state) != nil
   }
 
   private func sheet(
-    state: CoordinatorState
+    state: RouterState
   ) -> ScreenState? {
     next(in: state)
       .flatMap { nextScreen in
@@ -86,7 +86,7 @@ public struct Coordinated: View {
   }
 
   private func enrichNext(
-    _ coordinated: Coordinated,
+    _ coordinated: Routed,
     nextID: ScreenID
   ) -> some View {
     coordinated
