@@ -1,14 +1,14 @@
 import SwiftUI
 
-enum ParentScreenID: EnvironmentKey {
-  static let defaultValue: ScreenID? = nil
+public enum ParentScreenID: EnvironmentKey {
+  public static let defaultValue: ScreenID? = nil
 }
 
-enum CurrentScreenID: EnvironmentKey {
-  static let defaultValue: ScreenID = ScreenID()
+public enum CurrentScreenID: EnvironmentKey {
+  public static let defaultValue: ScreenID = ScreenID()
 }
 
-extension EnvironmentValues {
+public extension EnvironmentValues {
   var parentScreenID: ScreenID? {
     get { self[ParentScreenID.self] }
     set { self[ParentScreenID.self] = newValue }

@@ -4,29 +4,29 @@ import SwiftUI
 public struct Coordinated: View {
   @Environment(\.parentScreenID) private var parentID
   @Environment(\.currentScreenID) private var currentID
-  
   private let store: Store<CoordinatorState, CoordinatorAction>
-  private let content: (ScreenID) -> AnyView
+  private let content: () -> AnyView
+  
   var buildRoute: (AnyRoute) -> Coordinated?
   
   public init<Content: View>(
     store: Store<CoordinatorState, CoordinatorAction>,
     buildRoute: @escaping (AnyRoute) -> Coordinated?,
-    @ViewBuilder content: @escaping (ScreenID) -> Content
+    @ViewBuilder content: @escaping () -> Content
   ) {
     self.store = store
     self.buildRoute = buildRoute
-    self.content = { id in AnyView(content(id)) }
+    self.content = { AnyView(content()) }
   }
   
   public var body: some View {
     WithViewStore(store) { viewStore in
-      content(currentID)
+      content()
         .id(currentID)
         .sheet(
           item: viewStore.binding(
             get: sheet,
-            send: .sheetDismissed(on: currentID)
+            send: .dismissSheet(on: currentID)
           ),
           content: build
         )
@@ -35,7 +35,7 @@ public struct Coordinated: View {
             destination: push(state: viewStore.state).map(build),
             isActive: viewStore.binding(
               get: pushIsActive,
-              send: .pushDismissed(on: currentID)
+              send: .pop(on: currentID)
             ),
             label: { EmptyView() }
           )

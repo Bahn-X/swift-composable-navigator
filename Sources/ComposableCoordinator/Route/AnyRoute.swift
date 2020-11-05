@@ -1,5 +1,5 @@
 public struct AnyRoute: Hashable {
-  let route: AnyHashable
+  private let route: AnyHashable
   let presentationStyle: ScreenPresentationStyle
 
   public init<R: Route>(_ route: R) {

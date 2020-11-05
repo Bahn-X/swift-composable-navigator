@@ -1,5 +1,6 @@
 import Foundation
 
+//swiftymocky: AutoMockable
 public protocol Route: Hashable {
   var presentationStyle: ScreenPresentationStyle { get }
 }
