@@ -35,8 +35,8 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "ComposableCoordinatorTests",
-            dependencies: ["ComposableCoordinator"]
+            name: "ComposableRouterTests",
+            dependencies: ["ComposableRouter"]
         )
     ]
 )

@@ -1,6 +1,6 @@
 import XCTest
 @testable import ComposableCoordinator
 
-final class ComposableCoordinatorTests: XCTestCase {
+final class ComposableRouterTests: XCTestCase {
     static var allTests: [(String, () -> Void)] = []
 }
