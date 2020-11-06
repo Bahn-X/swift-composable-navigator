@@ -1,26 +1,29 @@
 import Foundation
 
+
 public struct Router {
-  private let _route: (RouterAction) -> Bool
-  private let _buildRoute: (AnyRoute) -> Routed?
+  private let _route: (RouterAction) -> Void
+  private let _buildPath: ([ScreenState]) -> Routed?
   private let _parse: (URL) -> [AnyRoute]?
 
   public init(
-    route: @escaping (RouterAction) -> Bool,
-    buildRoute: @escaping (AnyRoute) -> Routed?,
+    route: @escaping (RouterAction) -> Void = { _ in
+        fatalError("route unimplemented. Wrap your Router in a Root router.")
+    },
+    buildPath: @escaping ([ScreenState]) -> Routed?,
     parse: @escaping (URL) -> [AnyRoute]?
   ) {
     self._route = route
-    self._buildRoute = buildRoute
+    self._buildPath = buildPath
     self._parse = parse
   }
 
-  public func route(_ action: RouterAction) -> Bool {
+  public func route(_ action: RouterAction) -> Void {
     _route(action)
   }
 
-  func build(_ route: AnyRoute) -> Routed? {
-    _buildRoute(route)
+  func build(_ path: [ScreenState]) -> Routed? {
+    _buildPath(path)
   }
 
   func parse(_ url: URL) -> [AnyRoute]? {

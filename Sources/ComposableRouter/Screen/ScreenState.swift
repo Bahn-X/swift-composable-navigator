@@ -1,8 +1,6 @@
 import Foundation
 
-struct ScreenState: Hashable, Identifiable {
-  let id: ScreenID
-  let parent: ScreenID?
+public struct ScreenState: Hashable, Identifiable {
+  public let id: ScreenID
   let content: AnyRoute
-  var next: ScreenID?
 }

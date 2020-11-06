@@ -8,20 +8,16 @@ extension Router {
     parse: @escaping (URL) -> R?,
     @ViewBuilder content build: @escaping (R) -> Content
   ) -> Router {
-    let route = { (action: RouterAction) -> Bool in
-      ViewStore(store).send(action)
-      return true
-    }
-
-    let buildRoute = { (route: AnyRoute) -> Routed? in
-      guard let unwrappedRoute: R = route.unwrap() else {
+    let buildPath = { (path: [ScreenState]) -> Routed? in
+      guard let unwrappedScreenState = path.first,
+            let route: R = unwrappedScreenState.content.unwrap() else {
         return nil
       }
 
       return Routed(
         store: store,
-        buildRoute: { _ in fatalError(".matching coordinator implementation should replace this closure") },
-        content: { build(unwrappedRoute) }
+        content: build(route),
+        next: nil
       )
     }
 
@@ -30,14 +26,7 @@ extension Router {
     }
 
     return Router(
-      route: route,
-      buildRoute: { route in
-        buildRoute(route).map {
-          var next = $0
-          next.buildRoute = buildRoute
-          return next
-        }
-      },
+      buildPath: buildPath,
       parse: parseURL
     )
   }
