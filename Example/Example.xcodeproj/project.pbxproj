@@ -10,6 +10,9 @@
 		236E65802559498C00C19B46 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E657F2559498C00C19B46 /* ExampleApp.swift */; };
 		236E65842559498D00C19B46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65832559498D00C19B46 /* Assets.xcassets */; };
 		236E65872559498D00C19B46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65862559498D00C19B46 /* Preview Assets.xcassets */; };
+		23A5B5B5255982A300B319DA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5B4255982A300B319DA /* HomeView.swift */; };
+		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
+		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
 		23B758A225594A010073D19F /* ComposableRouter in Frameworks */ = {isa = PBXBuildFile; productRef = 23B758A125594A010073D19F /* ComposableRouter */; };
 /* End PBXBuildFile section */
@@ -22,6 +25,9 @@
 		236E65882559498D00C19B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		236E6590255949C500C19B46 /* swift-composable-coordinator */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "swift-composable-coordinator"; path = ..; sourceTree = "<group>"; };
 		236E6592255949DA00C19B46 /* AppCore.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AppCore.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23A5B5B4255982A300B319DA /* HomeView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23A5B5BA2559846B00B319DA /* DetailView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23A5B5BF2559866000B319DA /* SettingsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; tabWidth = 2; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -57,6 +63,9 @@
 		236E657E2559498C00C19B46 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				23A5B5BE2559865600B319DA /* Settings Screen */,
+				23A5B5B92559846300B319DA /* Detail Screen */,
+				23A5B5B32559829A00B319DA /* Home Screen */,
 				236E6592255949DA00C19B46 /* AppCore.swift */,
 				236E657F2559498C00C19B46 /* ExampleApp.swift */,
 				236E65832559498D00C19B46 /* Assets.xcassets */,
@@ -72,6 +81,30 @@
 				236E65862559498D00C19B46 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		23A5B5B32559829A00B319DA /* Home Screen */ = {
+			isa = PBXGroup;
+			children = (
+				23A5B5B4255982A300B319DA /* HomeView.swift */,
+			);
+			path = "Home Screen";
+			sourceTree = "<group>";
+		};
+		23A5B5B92559846300B319DA /* Detail Screen */ = {
+			isa = PBXGroup;
+			children = (
+				23A5B5BA2559846B00B319DA /* DetailView.swift */,
+			);
+			path = "Detail Screen";
+			sourceTree = "<group>";
+		};
+		23A5B5BE2559865600B319DA /* Settings Screen */ = {
+			isa = PBXGroup;
+			children = (
+				23A5B5BF2559866000B319DA /* SettingsView.swift */,
+			);
+			path = "Settings Screen";
 			sourceTree = "<group>";
 		};
 		23B758A025594A010073D19F /* Frameworks */ = {
@@ -153,6 +186,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23A5B5C02559866000B319DA /* SettingsView.swift in Sources */,
+				23A5B5B5255982A300B319DA /* HomeView.swift in Sources */,
+				23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */,
 				236E65802559498C00C19B46 /* ExampleApp.swift in Sources */,
 				23B7589E255949F60073D19F /* AppCore.swift in Sources */,
 			);

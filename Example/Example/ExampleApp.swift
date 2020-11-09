@@ -1,9 +1,3 @@
-//
-//  ExampleApp.swift
-//  Example
-//
-//  Created by DanielDPeter on 09.11.20.
-//
 import ComposableRouter
 import SwiftUI
 
@@ -13,7 +7,7 @@ struct ExampleApp: App {
     WindowGroup {
       Root(
         store: routerStore,
-        router: router
+        router: appRouter
       )
     }
   }

@@ -1,105 +1,90 @@
 import Foundation
 import ComposableArchitecture
-import ComposableRouter
+@testable import ComposableRouter
 import SwiftUI
+
+struct AppState: Equatable {
+  var home: HomeState { HomeState() }
+  var detail: DetailState { DetailState(id: "123") }
+  var settings: SettingsState { SettingsState() }
+}
+
+enum AppAction: Equatable {
+  case home(HomeAction)
+  case detail(DetailAction)
+  case settings(SettingsAction)
+}
 
 struct AppEnvironment {
   let router: Router
 }
 
-struct HomeRoute: Route {
-  let presentationStyle: ScreenPresentationStyle = .push
-}
+let appReducer = Reducer<
+  AppState,
+  AppAction,
+  AppEnvironment
+>.combine(
+  .empty
+)
 
-struct DetailRoute: Route {
-  let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
-  
-  let detailID: String
-}
-
-extension Router {
-  static func home(
-    coordinator: Store<RouterState, RouterAction>,
-    store: Store<Int, Int>
-  ) -> Router {
-    .route(
-      store: coordinator,
-      parse: { (url: URL) in
-        guard url.host == "home" else { return nil }
-        return HomeRoute()
-      },
-      content: { (route: HomeRoute) in Text("Home") }
-    )
-  }
-  
-  static func detail(
-    coordinator: Store<RouterState, RouterAction>,
-    store: Store<Int, Int>
-  ) -> Router {
-    .route(
-      store: coordinator,
-      parse: { _ in DetailRoute(detailID: "123") },
-      content: { (route: DetailRoute) in
-        Text("Detail: \(route.detailID)")
-          .navigationBarTitle(Text("Detail"), displayMode: .inline)
-      }
-    )
-  }
-}
+let appStore = Store<AppState, AppAction>(
+  initialState: AppState(),
+  reducer: .empty,
+  environment: ()
+)
 
 let routerStore = Store<RouterState, RouterAction>(
   initialState: RouterState(
-    screens: [
-      ScreenState(
-        id: .init(),
-        content: HomeRoute().eraseToAnyRoute()
-      ),
-      ScreenState(
-        id: .init(),
-        content: DetailRoute(
-          detailID: "123"
-        ).eraseToAnyRoute()
-      )
+    path: [
+      IdentifiedScreen(id: .root, content: HomeScreen()),
+      IdentifiedScreen(id: ScreenID(), content: SettingsScreen())
     ]
   ),
-  reducer: .empty,
-  environment: ()
+  reducer: routerReducer,
+  environment: RouterEnvironment()
 )
 
-let homeStore = Store<Int, Int>(
-  initialState: 1,
-  reducer: .empty,
-  environment: ()
-)
-
-let router: Router = .root(
+let appRouter: Router = .root(
   store: routerStore,
-  router:
-    .nested(
-      store: routerStore,
-      parse: { _ in HomeRoute() },
-      content: { _ in
-        VStack {
-          Text("This is the home view")
-          Text("More")
+  router: .screen( // /home
+    store: routerStore,
+    parse: { url in
+      url.host == "home" ? HomeScreen(): nil
+    },
+    content: { _ in
+      HomeView(
+        store: appStore.scope(state: \.home, action: AppAction.home)
+      )
+    },
+    nesting: .anyOf(
+      .screen( // detail?id=123
+        store: routerStore,
+        parse: { url in
+          guard url.host == "detail" else {
+            return nil
+          }
+
+          return DetailScreen(detailID: "123")
+        },
+        content: { (screen: DetailScreen) in
+          DetailView(
+            store: appStore.scope(state: \.detail, action: AppAction.detail)
+          )
         }
-      },
-      next: .anyOf(
-        .detail(
-          coordinator: routerStore,
-          store: homeStore
-        )
+      ),
+      .screen( // settings
+        store: routerStore,
+        parse: { url in
+          guard url.host == "settings" else {
+            return nil
+          }
+
+          return SettingsScreen()
+        },
+        content: { (screen: SettingsScreen) in
+          SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
+        }
       )
     )
+  )
 )
-
-let appEnvironment = AppEnvironment(router: router)
-
-struct AppEnvironment_Previews: PreviewProvider {
-  static var previews: some View {
-    Root(
-      store: routerStore,
-      router: router
-    )
-  }
-}

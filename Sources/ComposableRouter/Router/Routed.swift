@@ -3,10 +3,10 @@ import SwiftUI
 
 public struct Routed: View {
   public struct Next: Identifiable {
-    let screenState: ScreenState
+    let screenState: IdentifiedScreen
     let content: AnyView
 
-    init<Content: View>(screenState: ScreenState, content: Content) {
+    init<Content: View>(screenState: IdentifiedScreen, content: Content) {
       self.screenState = screenState
       switch screenState.content.presentationStyle {
         case .push, .sheet(allowsPush: false):
@@ -44,7 +44,7 @@ public struct Routed: View {
         .sheet(
           item: viewStore.binding(
             get: { _ in sheet },
-            send: .dismissSheet(on: currentID)
+            send: .dismissSuccessor(of: currentID)
           ),
           content: { sheet in
             sheet.content
@@ -61,7 +61,7 @@ public struct Routed: View {
             },
             isActive: viewStore.binding(
               get: { _ in pushIsActive } ,
-              send: .pop(on: currentID)
+              send: .dismissSuccessor(of: currentID)
             ),
             label: { EmptyView() }
           )

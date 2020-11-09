@@ -19,8 +19,11 @@ public struct Root: View {
         store,
         content: { viewStore in
           router
-            .build(viewStore.screens)?
-            .environment(\.currentScreenID, .root)
+            .build(viewStore.path)?
+            .environment(
+              \.currentScreenID,
+              viewStore.path.first?.id ?? .root
+            )
         }
       )
     }
