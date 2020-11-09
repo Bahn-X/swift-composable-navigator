@@ -1,5 +1,5 @@
 import XCTest
-@testable import ComposableCoordinator
+@testable import ComposableRouter
 
 final class ComposableRouterTests: XCTestCase {
     static var allTests: [(String, () -> Void)] = []

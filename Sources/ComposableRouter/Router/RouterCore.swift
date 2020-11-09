@@ -1,7 +1,11 @@
 import Foundation
 
 public struct RouterState: Equatable {
-  var screens: [ScreenID: ScreenState]
+  var screens: [ScreenState]
+  
+  public init(screens: [ScreenState]) {
+    self.screens = screens
+  }
 }
 
 public enum RouterAction: Equatable {
@@ -12,5 +16,5 @@ public enum RouterAction: Equatable {
 }
 
 struct RouterEnvironment {
-  let uuid: () -> UUID
+  let screenID: () -> ScreenID
 }

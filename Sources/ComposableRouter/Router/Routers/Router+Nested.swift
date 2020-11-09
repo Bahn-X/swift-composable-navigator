@@ -1,45 +1,39 @@
 import ComposableArchitecture
 import Foundation
+import SwiftUI
 
-extension Router {
-  static func nested(
+public extension Router {
+  static func nested<R: Route, Content: View>(
     store: Store<RouterState, RouterAction>,
-    _ root: Router,
+    parse: @escaping (URL) -> R?,
+    @ViewBuilder content build: @escaping (R) -> Content,
     next: Router
   ) -> Router {
     let buildPath = { (path: [ScreenState]) -> Routed? in
-      guard let route = path.first else {
+      guard let route: R = path.first?.content.unwrap() else {
         return nil
       }
+      let tail = Array(path.dropFirst())
 
-      return root.build([route]).flatMap { root in
-        let tail = Array(path.dropFirst())
-        guard let tailFirst = tail.first else {
-          return nil
+      return Routed(
+        store: store,
+        content: build(route),
+        next: tail.first.flatMap { nextScreen in
+          Routed.Next(screenState: nextScreen, content: next.build(tail))
         }
-        var r = root
-        r.next = Routed.Next(screenState: tailFirst, content: next.build(tail))
-        return r
-      }
+      )
     }
 
-    let parse = { (url: URL) -> [AnyRoute]? in
-      let path = url.absoluteString
-        .split(separator: "/")
-        .map(String.init)
-        .compactMap(URL.init(string:))
-
-      guard let head = path.first else {
+    let parse = { (url: [URL]) -> [AnyRoute]? in
+      guard let first = url.first else {
         return nil
       }
 
-      let tail = path.dropFirst()
-          .map(\.absoluteString)
-          .joined(separator: "/")
-//        .compactMap(URL.init(string:))
+      let tail = Array(url.dropFirst())
 
-      // TODO: figure out parsing and if we should use [URL] instead of URL
-      return [] // root.parse(head) + next.parse(tail)
+      return parse(first).flatMap { first in
+        [first.eraseToAnyRoute()] + (next.parse(tail) ?? [])
+      }
     }
 
     return Router(

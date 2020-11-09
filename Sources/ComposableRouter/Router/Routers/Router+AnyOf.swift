@@ -10,7 +10,7 @@ public extension Router {
         .first
     }
 
-    let parse = { (url: URL) in
+    let parse = { (url: [URL]) in
       routers
         .compactMap { $0.parse(url) }
         .first

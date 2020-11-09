@@ -8,7 +8,15 @@ public struct Routed: View {
 
     init<Content: View>(screenState: ScreenState, content: Content) {
       self.screenState = screenState
-      self.content = AnyView(content)
+      switch screenState.content.presentationStyle {
+        case .push, .sheet(allowsPush: false):
+          self.content = AnyView(content)
+        case .sheet(allowsPush: true):
+          self.content = AnyView(
+            NavigationView { content }
+              .navigationViewStyle(StackNavigationViewStyle())
+          )
+      }
     }
 
     public var id: ScreenID { screenState.id }
@@ -17,7 +25,7 @@ public struct Routed: View {
   @Environment(\.currentScreenID) private var currentID
   private let store: Store<RouterState, RouterAction>
   private let content: AnyView
-  var next: Next?
+  private let next: Next?
 
   public init<Content: View>(
     store: Store<RouterState, RouterAction>,
@@ -63,13 +71,19 @@ public struct Routed: View {
 
   private var sheet: Next? {
     next.flatMap { next in
-      next.screenState.content.presentationStyle == .sheet ? next: nil
+      guard case .sheet = next.screenState.content.presentationStyle else {
+        return nil
+      }
+      return next
     }
   }
 
   private var push: Next? {
     next.flatMap { next in
-      next.screenState.content.presentationStyle == .push ? next: nil
+      guard case .push = next.screenState.content.presentationStyle else {
+        return nil
+      }
+      return next
     }
   }
 

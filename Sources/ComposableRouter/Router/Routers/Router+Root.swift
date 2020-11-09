@@ -1,6 +1,6 @@
 import ComposableArchitecture
 
-extension Router {
+public extension Router {
   static func root(
     store: Store<RouterState, RouterAction>,
     router: Router

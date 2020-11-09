@@ -1,6 +1,6 @@
 import Foundation
 
-public enum ScreenPresentationStyle: Equatable {
+public enum ScreenPresentationStyle: Hashable {
   case push
-  case sheet
+  case sheet(allowsPush: Bool = true)
 }
