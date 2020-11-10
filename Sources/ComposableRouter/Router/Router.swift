@@ -3,14 +3,14 @@ import Foundation
 public struct Router {
   private let _route: (RouterAction) -> Void
   private let _buildPath: ([IdentifiedScreen]) -> Routed?
-  private let _parse: ([URL]) -> [AnyScreen]?
+  private let _parse: ([DeeplinkComponent]) -> [AnyScreen]?
 
   public init(
     route: @escaping (RouterAction) -> Void = { _ in
       fatalError("route unimplemented. Wrap your Router in a Root router.")
     },
     buildPath: @escaping ([IdentifiedScreen]) -> Routed?,
-    parse: @escaping ([URL]) -> [AnyScreen]?
+    parse: @escaping ([DeeplinkComponent]) -> [AnyScreen]?
   ) {
     self._route = route
     self._buildPath = buildPath
@@ -25,7 +25,7 @@ public struct Router {
     _buildPath(path)
   }
 
-  func parse(_ url: [URL]) -> [AnyScreen]? {
+  func parse(_ url: [DeeplinkComponent]) -> [AnyScreen]? {
     _parse(url)
   }
 }

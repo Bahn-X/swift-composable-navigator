@@ -183,7 +183,56 @@ final class RouterReducerTests: XCTestCase {
     )
   }
 
-  func test_pop() {
-    
+  func test_dismissSuccessor_of_id() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let testStore = TestStore(
+      initialState: RouterState(
+        path: [
+          IdentifiedScreen(id: .root, content: root),
+          IdentifiedScreen(id: first, content: next),
+          IdentifiedScreen(id: second, content: root)
+        ]
+      ),
+      reducer: routerReducer,
+      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+    )
+
+    testStore.assert(
+      .send(
+        .dismissSuccessor(of: first),
+        { state in
+          state.path = [
+            IdentifiedScreen(id: .root, content: self.root),
+            IdentifiedScreen(id: first, content: self.next)
+          ]
+        }
+      )
+    )
+  }
+
+  func test_dismissSuccessor_of_non_existing() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+
+    let testStore = TestStore(
+      initialState: RouterState(
+        path: [
+          IdentifiedScreen(id: .root, content: root),
+          IdentifiedScreen(id: first, content: next),
+          IdentifiedScreen(id: second, content: root)
+        ]
+      ),
+      reducer: routerReducer,
+      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+    )
+
+    testStore.assert(
+      .send(
+        .dismissSuccessor(of: third)
+      )
+    )
   }
 }

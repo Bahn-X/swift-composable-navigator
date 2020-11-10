@@ -5,7 +5,7 @@ import SwiftUI
 public extension Router {
   static func screen<S: Screen, Content: View>(
     store: Store<RouterState, RouterAction>,
-    parse: @escaping (URL) -> S?,
+    parse: @escaping (DeeplinkComponent) -> S?,
     @ViewBuilder content build: @escaping (S) -> Content,
     nesting: Router? = nil
   ) -> Router {
@@ -30,7 +30,7 @@ public extension Router {
       )
     }
 
-    let parse = { (url: [URL]) -> [AnyScreen]? in
+    let parse = { (url: [DeeplinkComponent]) -> [AnyScreen]? in
       guard let first = url.first, let firstScreen = parse(first) else {
         return nil
       }

@@ -91,8 +91,8 @@ func initializeRouter() -> Router {
     store: routerStore,
     router: .screen( // /home
       store: routerStore,
-      parse: { url in
-        url.host == "home" ? HomeScreen(): nil
+      parse: { pathElement in
+        pathElement.name == "home" ? HomeScreen(): nil
       },
       content: { _ in
         HomeView(
@@ -105,8 +105,8 @@ func initializeRouter() -> Router {
       nesting: .anyOf(
         .screen( // detail?id=123
           store: routerStore,
-          parse: { url in
-            guard url.host == "detail" else {
+          parse: { pathElement in
+            guard pathElement.name == "detail" else {
               return nil
             }
 
@@ -129,8 +129,8 @@ func initializeRouter() -> Router {
         ),
         .screen( // settings
           store: routerStore,
-          parse: { url in
-            guard url.host == "settings" else {
+          parse: { pathElement in
+            guard pathElement.name == "settings" else {
               return nil
             }
 
