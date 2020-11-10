@@ -16,6 +16,12 @@ struct SettingsScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
 }
 
+let settingsReducer = Reducer<
+  SettingsState,
+  SettingsAction,
+  SettingsEnvironment
+>.empty
+
 struct SettingsView: View {
   let store: Store<SettingsState, SettingsAction>
 

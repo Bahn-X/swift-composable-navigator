@@ -16,7 +16,7 @@ struct DetailEnvironment {
 
 
 struct DetailScreen: Screen {
-  let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
+  let presentationStyle: ScreenPresentationStyle = .push
   let detailID: String
 }
 
@@ -29,6 +29,12 @@ struct DetailView: View {
     }
   }
 }
+
+let detailReducer = Reducer<
+  DetailState,
+  DetailAction,
+  DetailEnvironment
+>.empty
 
 struct DetailView_Previews: PreviewProvider {
   static var previews: some View {
