@@ -4,7 +4,7 @@ import SwiftUI
 public struct Root: View {
   private let store: Store<RouterState, RouterAction>
   private let router: Router
-  
+
   public init(
     store: Store<RouterState, RouterAction>,
     router: Router
@@ -12,21 +12,21 @@ public struct Root: View {
     self.store = store
     self.router = router
   }
-  
+
   public var body: some View {
-    NavigationView {
-      WithViewStore(
-        store,
-        content: { viewStore in
+    WithViewStore(
+      store,
+      content: { viewStore in
+        NavigationView {
           router
-            .build(viewStore.path)?
+            .build(path: viewStore.path)?
             .environment(
               \.currentScreenID,
               viewStore.path.first?.id ?? .root
             )
         }
-      )
-    }
-    .navigationViewStyle(StackNavigationViewStyle())
+        .navigationViewStyle(StackNavigationViewStyle())
+      }
+    )
   }
 }

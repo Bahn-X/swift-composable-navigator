@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-@testable import ComposableRouter
+import ComposableRouter
 import SwiftUI
 
 struct AppState: Equatable {
@@ -77,11 +77,15 @@ let routerStore = Store<RouterState, RouterAction>(
       IdentifiedScreen(
         id: ScreenID(),
         content: DetailScreen(detailID: "0")
+      ),
+      IdentifiedScreen(
+        id: ScreenID(),
+        content: SettingsScreen()
       )
     ]
   ),
-  reducer: routerReducer,
-  environment: RouterEnvironment()
+  reducer: routerReducer.debug(),
+  environment: RouterEnvironment(screenID: ScreenID.init)
 )
 
 func initializeRouter() -> Router {
@@ -125,7 +129,20 @@ func initializeRouter() -> Router {
                 )
               }
             )
-          }
+          },
+          nesting: .screen( // settings
+            store: routerStore,
+            parse: { pathElement in
+              guard pathElement.name == "settings" else {
+                return nil
+              }
+
+              return SettingsScreen()
+            },
+            content: { (screen: SettingsScreen) in
+              SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
+            }
+          )
         ),
         .screen( // settings
           store: routerStore,

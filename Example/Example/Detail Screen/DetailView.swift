@@ -8,6 +8,7 @@ struct DetailState: Equatable {
 
 enum DetailAction: Equatable {
   case viewAppeared
+  case settingsButtonTapped
 }
 
 struct DetailEnvironment {
@@ -26,6 +27,12 @@ struct DetailView: View {
   var body: some View {
     WithViewStore(store) { viewStore in
       Text("Detail for: \(viewStore.id)")
+        .navigationBarItems(
+          trailing: Button(
+            action: { viewStore.send(.settingsButtonTapped)},
+            label: { Image(systemName: "gear") }
+          )
+        )
     }
   }
 }
@@ -34,7 +41,20 @@ let detailReducer = Reducer<
   DetailState,
   DetailAction,
   DetailEnvironment
->.empty
+> { state, action, environment in
+  switch action {
+    case .viewAppeared:
+      return .none
+    case .settingsButtonTapped:
+      return .fireAndForget {
+        environment
+          .router
+          .route(
+            .go(to: SettingsScreen())
+          )
+      }
+  }
+}
 
 struct DetailView_Previews: PreviewProvider {
   static var previews: some View {

@@ -235,4 +235,27 @@ final class RouterReducerTests: XCTestCase {
       )
     )
   }
+
+    func test_dismissSuccessor_of_last() {
+      let first = ScreenID()
+      let second = ScreenID()
+
+      let testStore = TestStore(
+        initialState: RouterState(
+          path: [
+            IdentifiedScreen(id: .root, content: root),
+            IdentifiedScreen(id: first, content: next),
+            IdentifiedScreen(id: second, content: root)
+          ]
+        ),
+        reducer: routerReducer,
+        environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      )
+
+      testStore.assert(
+        .send(
+          .dismissSuccessor(of: second)
+        )
+      )
+    }
 }

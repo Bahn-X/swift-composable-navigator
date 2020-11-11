@@ -4,15 +4,15 @@ public extension Router {
   static func anyOf(
     _ routers: [Router]
   ) -> Router {
-    let buildPath = { route -> Routed? in
+    let buildPath = { path -> Routed? in
       return routers
-        .compactMap { $0.build(route) }
+        .compactMap { $0.build(path: path) }
         .first
     }
 
-    let parse = { (url: [DeeplinkComponent]) in
+    let parse = { (components: [DeeplinkComponent]) in
       routers
-        .compactMap { $0.parse(url) }
+        .compactMap { $0.parse(components: components) }
         .first
     }
 

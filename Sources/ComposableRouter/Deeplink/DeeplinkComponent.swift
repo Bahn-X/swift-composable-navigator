@@ -9,11 +9,6 @@ public struct DeeplinkComponent: Equatable {
   public let name: String
   public let queryItems: [String: QueryItem]?
 
-  init(name: String, queryItems: [String: QueryItem]?) {
-    self.name = name
-    self.queryItems = queryItems
-  }
-
   public init?(url: URL) {
     guard let host = url.host else {
       return nil
@@ -35,6 +30,11 @@ public struct DeeplinkComponent: Equatable {
           ?? .flag
       }
     )
+  }
+
+  init(name: String, queryItems: [String: QueryItem]?) {
+    self.name = name
+    self.queryItems = queryItems
   }
 }
 

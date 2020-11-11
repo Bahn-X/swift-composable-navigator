@@ -9,8 +9,16 @@ public struct RouterState: Equatable {
     ]
   }
 
-  init(path: [IdentifiedScreen]) {
+  public init(path: [IdentifiedScreen]) {
     self.path = path
+  }
+
+  func tail(from id: ScreenID) -> [IdentifiedScreen]? {
+    guard let index = path.firstIndex(where: { $0.id == id }) else {
+      return nil
+    }
+
+    return Array(path.suffix(from: index))
   }
 }
 
@@ -44,7 +52,7 @@ public enum RouterAction: Equatable {
 public struct RouterEnvironment {
   let screenID: () -> ScreenID
 
-  public init(screenID: @escaping () -> ScreenID = ScreenID.init) {
+  public init(screenID: @escaping () -> ScreenID) {
     self.screenID = screenID
   }
 }
@@ -73,7 +81,7 @@ public let routerReducer = Reducer<
       let reversedPath = state.path.reversed()
 
       guard let index = reversedPath.firstIndex(
-              where: { $0.content == predecessor }
+        where: { $0.content == predecessor }
       ) else {
         return .none
       }
@@ -103,7 +111,7 @@ public let routerReducer = Reducer<
         return .none
       }
 
-      state.path = Array(state.path.prefix(upTo: index + 1))
+      state.path = Array(state.path.prefix(upTo: index.advanced(by: 1)))
 
       return .none
   }

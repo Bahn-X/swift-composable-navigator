@@ -21,11 +21,11 @@ public struct Router {
     _route(action)
   }
 
-  func build(_ path: [IdentifiedScreen]) -> Routed? {
+  func build(path: [IdentifiedScreen]) -> Routed? {
     _buildPath(path)
   }
 
-  func parse(_ url: [DeeplinkComponent]) -> [AnyScreen]? {
-    _parse(url)
+  func parse(components: [DeeplinkComponent]) -> [AnyScreen]? {
+    _parse(components)
   }
 }
