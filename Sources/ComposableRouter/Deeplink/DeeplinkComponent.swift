@@ -1,13 +1,13 @@
 import Foundation
 
 public struct DeeplinkComponent: Equatable {
-  public enum QueryItem: Equatable {
+  public enum Argument: Equatable {
     case flag
     case value(String)
   }
 
   public let name: String
-  public let queryItems: [String: QueryItem]?
+  public let arguments: [String: Argument]?
 
   public init?(url: URL) {
     guard let host = url.host else {
@@ -15,7 +15,7 @@ public struct DeeplinkComponent: Equatable {
     }
 
     self.name = host
-    self.queryItems = URLComponents(
+    self.arguments = URLComponents(
       url: url,
       resolvingAgainstBaseURL: false
     )?
@@ -26,15 +26,15 @@ public struct DeeplinkComponent: Equatable {
         items[item.name] = item
           .value?
           .removingPercentEncoding
-          .flatMap(QueryItem.value)
+          .flatMap(Argument.value)
           ?? .flag
       }
     )
   }
 
-  init(name: String, queryItems: [String: QueryItem]?) {
+  init(name: String, queryItems: [String: Argument]?) {
     self.name = name
-    self.queryItems = queryItems
+    self.arguments = queryItems
   }
 }
 
