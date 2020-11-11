@@ -17,7 +17,7 @@ public struct RouterState: Equatable {
     path.first(where: { $0.id == id })
   }
 
-  func tail(from id: ScreenID) -> [IdentifiedScreen]? {
+  func suffix(from id: ScreenID) -> [IdentifiedScreen]? {
     guard let index = path.firstIndex(where: { $0.id == id }) else {
       return nil
     }
@@ -77,12 +77,12 @@ public let routerReducer = Reducer<
 
         return .none
       }
-
       state.path
         .append(
           IdentifiedScreen(id: environment.screenID(), content: successor)
         )
       return .none
+
     case let .goBack(to: predecessor):
       let reversedPath = state.path.reversed()
 
@@ -95,40 +95,36 @@ public let routerReducer = Reducer<
       state.path = reversedPath
         .suffix(from: index)
         .reversed()
-
       return .none
+
     case let .replace(path: path):
       let newPath = path.enumerated().map { (index, element) -> IdentifiedScreen in
         let id = index == 0 ? ScreenID.root: environment.screenID()
         return IdentifiedScreen(id: id, content: element)
       }
-
       state.path = newPath
       return .none
+
     case let .dismiss(id):
       guard id != state.path.first?.id, let index = state.path.firstIndex(where: { $0.id == id }) else {
         return .none
       }
-
       state.path = Array(state.path.prefix(upTo: index))
       return .none
+
     case let .dismissSuccessor(of: id):
       guard let index = state.path.firstIndex(where: { $0.id == id }) else {
         return .none
       }
-
       state.path = Array(state.path.prefix(upTo: index.advanced(by: 1)))
+      return .none
 
-      return .none
     case let .didAppear(id):
-      state.path = state.path.map { pathElement in
-        guard pathElement.id == id else {
-          return pathElement
-        }
-        var new = pathElement
-        new.didAppear = true
-        return new
+      guard let index = state.path.firstIndex(where: { $0.id == id }) else {
+        return .none
       }
+      state.path[index].didAppear = true
       return .none
+      
   }
 }

@@ -22,8 +22,8 @@ public extension Router {
     }
 
     let parse = { (components: [DeeplinkComponent]) -> [AnyScreen]? in
-      guard let first = components.first,
-            let firstScreen = parse(first) else {
+      guard let head = components.first,
+            let firstScreen = parse(head) else {
         return nil
       }
 

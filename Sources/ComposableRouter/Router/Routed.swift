@@ -29,25 +29,17 @@ public struct Routed: View {
       content
         .sheet(
           item: sheetBinding(in: viewStore),
-          content: { sheet in
-            next?(sheet.path)
-              .environment(\.parentScreenID, currentID)
-              .environment(\.currentScreenID, sheet.id)
-          }
+          content: build(successor:)
         )
         .overlay(
           NavigationLink(
-            destination: push(in: viewStore).flatMap { push in
-              next?(push.path)
-                .environment(\.parentScreenID, currentID)
-                .environment(\.currentScreenID, push.id)
-            },
+            destination: push(in: viewStore).flatMap(build(successor:)),
             isActive: pushIsActive(in: viewStore),
             label: { EmptyView() }
           )
         )
         .onAppear {
-          if !(viewStore.path.first(where: { $0.id == currentID })?.didAppear ?? true) {
+          if !(viewStore.state.screen(with: currentID)?.didAppear ?? true) {
             DispatchQueue.main.async {
               viewStore.send(.didAppear(currentID))
             }
@@ -63,8 +55,8 @@ public struct Routed: View {
     viewStore.binding(
       get: { state -> Bool in
         guard (viewStore.state.screen(with: currentID)?.didAppear ?? false),
-              let tail = state.tail(from: currentID)?.dropFirst(),
-              let successor = tail.first,
+              let suffix = state.suffix(from: currentID)?.dropFirst(),
+              let successor = suffix.first,
               case .push = successor.content.presentationStyle
         else {
           return false
@@ -79,14 +71,14 @@ public struct Routed: View {
   private func push(
     in viewStore: ViewStore<RouterState, RouterAction>
   ) -> Successor? {
-    guard let tail = viewStore.state.tail(from: currentID)?.dropFirst(),
-          let successor = tail.first,
+    guard let suffix = viewStore.state.suffix(from: currentID)?.dropFirst(),
+          let successor = suffix.first,
           case .push = successor.content.presentationStyle
     else {
       return nil
     }
 
-    return Successor(first: successor, path: Array(tail))
+    return Successor(first: successor, path: Array(suffix))
   }
 
   private func sheetBinding(
@@ -94,16 +86,22 @@ public struct Routed: View {
   ) -> Binding<Successor?> {
     viewStore.binding(
       get: { state -> Successor? in
-        guard let tail = state.tail(from: currentID)?.dropFirst(),
-              let successor = tail.first,
+        guard let suffix = state.suffix(from: currentID)?.dropFirst(),
+              let successor = suffix.first,
               case .sheet = successor.content.presentationStyle
         else {
           return nil
         }
 
-        return Successor(first: successor, path: Array(tail))
+        return Successor(first: successor, path: Array(suffix))
       },
       send: .dismissSuccessor(of: currentID)
     )
+  }
+
+  private func build(successor: Successor) -> some View {
+    next?(successor.path)
+      .environment(\.parentScreenID, currentID)
+      .environment(\.currentScreenID, successor.id)
   }
 }
