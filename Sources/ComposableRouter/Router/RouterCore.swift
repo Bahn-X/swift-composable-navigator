@@ -13,6 +13,10 @@ public struct RouterState: Equatable {
     self.path = path
   }
 
+  func screen(with id: ScreenID) -> IdentifiedScreen? {
+    path.first(where: { $0.id == id })
+  }
+
   func tail(from id: ScreenID) -> [IdentifiedScreen]? {
     guard let index = path.firstIndex(where: { $0.id == id }) else {
       return nil
@@ -47,6 +51,8 @@ public enum RouterAction: Equatable {
   /// Dimisses the screen identified by the provided id. This leads either to a pop or sheet dismiss, depending on the screen presentation style
   case dismiss(ScreenID)
   case dismissSuccessor(of: ScreenID)
+
+  case didAppear(ScreenID)
 }
 
 public struct RouterEnvironment {
@@ -113,6 +119,16 @@ public let routerReducer = Reducer<
 
       state.path = Array(state.path.prefix(upTo: index.advanced(by: 1)))
 
+      return .none
+    case let .didAppear(id):
+      state.path = state.path.map { pathElement in
+        guard pathElement.id == id else {
+          return pathElement
+        }
+        var new = pathElement
+        new.didAppear = true
+        return new
+      }
       return .none
   }
 }

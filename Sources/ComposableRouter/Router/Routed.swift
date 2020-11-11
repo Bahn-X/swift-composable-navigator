@@ -46,6 +46,13 @@ public struct Routed: View {
             label: { EmptyView() }
           )
         )
+        .onAppear {
+          if !(viewStore.path.first(where: { $0.id == currentID })?.didAppear ?? true) {
+            DispatchQueue.main.async {
+              viewStore.send(.didAppear(currentID))
+            }
+          }
+        }
     }
     .id(currentID)
   }
@@ -55,7 +62,8 @@ public struct Routed: View {
   ) -> Binding<Bool> {
     viewStore.binding(
       get: { state -> Bool in
-        guard let tail = state.tail(from: currentID)?.dropFirst(),
+        guard (viewStore.state.screen(with: currentID)?.didAppear ?? false),
+              let tail = state.tail(from: currentID)?.dropFirst(),
               let successor = tail.first,
               case .push = successor.content.presentationStyle
         else {

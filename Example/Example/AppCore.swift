@@ -84,7 +84,7 @@ let routerStore = Store<RouterState, RouterAction>(
       )
     ]
   ),
-  reducer: routerReducer.debug(),
+  reducer: routerReducer,
   environment: RouterEnvironment(screenID: ScreenID.init)
 )
 
