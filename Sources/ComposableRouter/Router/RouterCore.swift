@@ -28,10 +28,10 @@ public struct RouterState: Equatable {
 
 public enum RouterAction: Equatable {
   /// Appends the provided route to the current path
-  case go(to: AnyScreen)
+  case go(to: AnyScreen, on: ScreenID)
   /// Appends the provided route to the current path
-  public static func go<S: Screen>(to screen: S) -> RouterAction {
-    .go(to: screen.eraseToAnyScreen())
+  public static func go<S: Screen>(to screen: S, on id: ScreenID) -> RouterAction {
+    .go(to: screen.eraseToAnyScreen(), on: id)
   }
 
   /// Searches for the first occurence of the provided route in the path and moves back to it
@@ -69,18 +69,14 @@ public let routerReducer = Reducer<
   RouterEnvironment
 > { state, action, environment in
   switch action {
-    case let .go(to: successor):
-      guard !state.path.isEmpty else {
-        state.path = [
-          IdentifiedScreen(id: .root, content: successor)
-        ]
-
+    case let .go(to: successor, on: id):
+      guard let index = state.path.firstIndex(where: { $0.id == id }) else {
         return .none
       }
-      state.path
-        .append(
-          IdentifiedScreen(id: environment.screenID(), content: successor)
-        )
+
+      state.path = state.path.prefix(upTo: index.advanced(by: 1)) + [
+        IdentifiedScreen(id: environment.screenID(), content: successor)
+      ]
       return .none
 
     case let .goBack(to: predecessor):
@@ -125,6 +121,5 @@ public let routerReducer = Reducer<
       }
       state.path[index].didAppear = true
       return .none
-      
   }
 }

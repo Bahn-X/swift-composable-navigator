@@ -7,14 +7,15 @@ struct HomeState: Equatable {
 }
 enum HomeAction: Equatable {
   case viewAppeared
-  case selected(element: String)
-  case settingsButtonTapped
+  case selected(element: String, on: ScreenID)
+  case settingsButtonTapped(ScreenID)
 }
 struct HomeEnvironment {
   let router: Router
 }
 
 struct HomeView: View {
+  @Environment(\.currentScreenID) var currentScreenID
   let store: Store<HomeState, HomeAction>
 
   var body: some View {
@@ -26,7 +27,7 @@ struct HomeView: View {
           content: { element in
             Button(
               action: {
-                viewStore.send(.selected(element: element))
+                viewStore.send(.selected(element: element, on: currentScreenID))
               },
               label: {
                 Text("Element \(element)")
@@ -40,10 +41,11 @@ struct HomeView: View {
       }
       .navigationBarItems(
         trailing: Button(
-          action: { viewStore.send(.settingsButtonTapped)},
+          action: { viewStore.send(.settingsButtonTapped(currentScreenID))},
           label: { Image(systemName: "gear") }
         )
       )
+      .navigationBarTitle("Example App")
     }
   }
 }
@@ -60,20 +62,20 @@ let homeReducer = Reducer<
   switch action {
     case .viewAppeared:
       return .none
-    case .settingsButtonTapped:
+    case let .settingsButtonTapped(id):
       return .fireAndForget {
         environment
           .router
           .route(
-            .go(to: SettingsScreen())
+            .go(to: SettingsScreen(), on: id)
           )
       }
-    case let .selected(element):
+    case let .selected(element, screenID):
       return .fireAndForget {
         environment
           .router
           .route(
-            .go(to: DetailScreen(detailID: element))
+            .go(to: DetailScreen(detailID: element), on: screenID)
           )
       }
   }

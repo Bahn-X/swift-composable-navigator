@@ -99,9 +99,17 @@ public struct Routed: View {
     )
   }
 
-  private func build(successor: Successor) -> some View {
-    next?(successor.path)
+  @ViewBuilder private func build(successor: Successor) -> some View {
+    let content = next?(successor.path)
       .environment(\.parentScreenID, currentID)
       .environment(\.currentScreenID, successor.id)
+
+    switch successor.first.content.presentationStyle {
+      case .push, .sheet(allowsPush: false):
+          content
+      case .sheet(allowsPush: true):
+        NavigationView { content }
+        .navigationViewStyle(StackNavigationViewStyle())
+    }
   }
 }

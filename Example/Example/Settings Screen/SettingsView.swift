@@ -27,6 +27,7 @@ struct SettingsView: View {
 
   var body: some View {
     Text("Settings")
+      .navigationBarTitle("Settings", displayMode: .inline)
   }
 }
 

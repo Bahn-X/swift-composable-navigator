@@ -23,7 +23,7 @@ final class RouterReducerTests: XCTestCase {
 
     testStore.assert(
       .send(
-        .go(to: next),
+        .go(to: next, on: .root),
         { state in
           state.path = [
             IdentifiedScreen(id: .root, content: self.root),
