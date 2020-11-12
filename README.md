@@ -7,7 +7,6 @@ Composable Router is a library for building deep-linkable SwiftUI applications w
 This library mainly revolves around three main concepts: routing paths, screens, and routers. 
 
 * **Routing Path**
-
 A routing path is a path that describes the order of visible screens in the  application. It is a first-class representation of the <url-path> defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A routing path consists of screens.  
 
 * **Screen**
