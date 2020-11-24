@@ -2,13 +2,13 @@ import ComposableArchitecture
 import Foundation
 import SwiftUI
 
-public extension Router {
+public extension Navigator {
   static func screen<S: Screen, Content: View>(
-    store: Store<RouterState, RouterAction>,
+    store: Store<NavigatorState, NavigatorAction>,
     parse: @escaping (DeeplinkComponent) -> S?,
     @ViewBuilder content build: @escaping (S) -> Content,
-    nesting: Router? = nil
-  ) -> Router {
+    nesting: Navigator? = nil
+  ) -> Navigator {
     let buildPath = { (path: [IdentifiedScreen]) -> Routed? in
       guard let head: S = path.first?.content.unwrap() else {
         return nil
@@ -33,7 +33,7 @@ public extension Router {
       return [firstScreen.eraseToAnyScreen()] + nestedScreens
     }
 
-    return Router(
+    return Navigator(
       buildPath: buildPath,
       parse: parse
     )

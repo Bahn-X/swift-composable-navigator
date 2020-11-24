@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import ComposableRouter
+import ComposableNavigator
 import SwiftUI
 
 struct SettingsState: Equatable {}
@@ -9,7 +9,7 @@ enum SettingsAction: Equatable {
 }
 
 struct SettingsEnvironment {
-  let router: Router
+  let navigator: Navigator
 }
 
 struct SettingsScreen: Screen {

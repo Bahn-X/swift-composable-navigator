@@ -4,7 +4,7 @@
 import PackageDescription
 
 let package = Package(
-    name: "swift-composable-router",
+    name: "swift-composable-navigator",
     platforms: [
         .iOS(.v13),
         .macOS(.v10_15),
@@ -13,8 +13,8 @@ let package = Package(
     ],
     products: [
         .library(
-            name: "ComposableRouter",
-            targets: ["ComposableRouter"]
+            name: "ComposableNavigator",
+            targets: ["ComposableNavigator"]
         )
     ],
     dependencies: [
@@ -26,7 +26,7 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "ComposableRouter",
+            name: "ComposableNavigator",
             dependencies: [
                 .product(
                     name: "ComposableArchitecture",
@@ -35,9 +35,9 @@ let package = Package(
             ]
         ),
         .testTarget(
-            name: "ComposableRouterTests",
+            name: "ComposableNavigatorTests",
             dependencies: [
-                "ComposableRouter"
+                "ComposableNavigator"
             ]
         )
     ]

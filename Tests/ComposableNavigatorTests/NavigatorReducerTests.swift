@@ -1,14 +1,14 @@
 import ComposableArchitecture
-@testable import ComposableRouter
+@testable import ComposableNavigator
 import XCTest
 
-final class RouterReducerTests: XCTestCase {
-  let root = TestRoute(
+final class NavigatorReducerTests: XCTestCase {
+  let root = TestScreen(
     identifier: "root",
     presentationStyle: .push
   )
 
-  let next = TestRoute(
+  let next = TestScreen(
     identifier: "next",
     presentationStyle: .push
   )
@@ -16,9 +16,9 @@ final class RouterReducerTests: XCTestCase {
   func test_go_to() {
     let expectedNextID = ScreenID()
     let testStore = TestStore(
-      initialState: RouterState(root: root),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { expectedNextID })
+      initialState: NavigatorState(root: root),
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { expectedNextID })
     )
 
     testStore.assert(
@@ -37,14 +37,14 @@ final class RouterReducerTests: XCTestCase {
   func test_goBack_to_existing() {
     let expectedNextID = ScreenID()
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
             IdentifiedScreen(id: .root, content: root),
             IdentifiedScreen(id: expectedNextID, content: next)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -62,17 +62,17 @@ final class RouterReducerTests: XCTestCase {
   func test_goBack_to_non_existing() {
     let expectedNextID = ScreenID()
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: expectedNextID, content: next)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
-    let nonExistent = TestRoute(identifier: "non-existent", presentationStyle: .push)
+    let nonExistent = TestScreen(identifier: "non-existent", presentationStyle: .push)
 
     testStore.assert(
       .send(
@@ -84,19 +84,19 @@ final class RouterReducerTests: XCTestCase {
   func test_replace_path() {
     let expectedNextID = ScreenID()
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: expectedNextID, content: next)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { expectedNextID })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { expectedNextID })
     )
 
     let newPath = [
-      TestRoute(identifier: "newRoot", presentationStyle: .push).eraseToAnyScreen(),
-      TestRoute(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
+      TestScreen(identifier: "newRoot", presentationStyle: .push).eraseToAnyScreen(),
+      TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
     ]
 
     testStore.assert(
@@ -104,8 +104,8 @@ final class RouterReducerTests: XCTestCase {
         .replace(path: newPath),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: TestRoute(identifier: "newRoot", presentationStyle: .push)),
-            IdentifiedScreen(id: expectedNextID, content: TestRoute(identifier: "newDetail", presentationStyle: .push))
+            IdentifiedScreen(id: .root, content: TestScreen(identifier: "newRoot", presentationStyle: .push)),
+            IdentifiedScreen(id: expectedNextID, content: TestScreen(identifier: "newDetail", presentationStyle: .push))
           ]
         }
       )
@@ -114,13 +114,13 @@ final class RouterReducerTests: XCTestCase {
 
   func test_dismiss_root_doesNothing() {
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -135,15 +135,15 @@ final class RouterReducerTests: XCTestCase {
     let second = ScreenID()
 
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: first, content: next),
           IdentifiedScreen(id: second, content: root)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -165,15 +165,15 @@ final class RouterReducerTests: XCTestCase {
     let third = ScreenID()
 
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: first, content: next),
           IdentifiedScreen(id: second, content: root)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -188,15 +188,15 @@ final class RouterReducerTests: XCTestCase {
     let second = ScreenID()
 
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: first, content: next),
           IdentifiedScreen(id: second, content: root)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -218,15 +218,15 @@ final class RouterReducerTests: XCTestCase {
     let third = ScreenID()
 
     let testStore = TestStore(
-      initialState: RouterState(
+      initialState: NavigatorState(
         path: [
           IdentifiedScreen(id: .root, content: root),
           IdentifiedScreen(id: first, content: next),
           IdentifiedScreen(id: second, content: root)
         ]
       ),
-      reducer: routerReducer,
-      environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
     )
 
     testStore.assert(
@@ -241,15 +241,15 @@ final class RouterReducerTests: XCTestCase {
       let second = ScreenID()
 
       let testStore = TestStore(
-        initialState: RouterState(
+        initialState: NavigatorState(
           path: [
             IdentifiedScreen(id: .root, content: root),
             IdentifiedScreen(id: first, content: next),
             IdentifiedScreen(id: second, content: root)
           ]
         ),
-        reducer: routerReducer,
-        environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+        reducer: navigatorReducer,
+        environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
       )
 
       testStore.assert(
@@ -264,15 +264,15 @@ final class RouterReducerTests: XCTestCase {
         let second = ScreenID()
 
         let testStore = TestStore(
-          initialState: RouterState(
+          initialState: NavigatorState(
             path: [
               IdentifiedScreen(id: .root, content: root),
               IdentifiedScreen(id: first, content: next),
               IdentifiedScreen(id: second, content: root)
             ]
           ),
-          reducer: routerReducer,
-          environment: RouterEnvironment(screenID: { fatalError("unimplemented") })
+          reducer: navigatorReducer,
+          environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
         )
 
         testStore.assert(

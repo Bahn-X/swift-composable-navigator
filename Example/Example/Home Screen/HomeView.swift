@@ -1,5 +1,5 @@
 import ComposableArchitecture
-import ComposableRouter
+import ComposableNavigator
 import SwiftUI
 
 struct HomeState: Equatable {
@@ -11,7 +11,7 @@ enum HomeAction: Equatable {
   case settingsButtonTapped(ScreenID)
 }
 struct HomeEnvironment {
-  let router: Router
+  let navigator: Navigator
 }
 
 struct HomeView: View {
@@ -65,7 +65,7 @@ let homeReducer = Reducer<
     case let .settingsButtonTapped(id):
       return .fireAndForget {
         environment
-          .router
+          .navigator
           .route(
             .go(to: SettingsScreen(), on: id)
           )
@@ -73,7 +73,7 @@ let homeReducer = Reducer<
     case let .selected(element, screenID):
       return .fireAndForget {
         environment
-          .router
+          .navigator
           .route(
             .go(to: DetailScreen(detailID: element), on: screenID)
           )

@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-import ComposableRouter
+import ComposableNavigator
 import SwiftUI
 
 struct AppState: Equatable {
@@ -30,18 +30,18 @@ enum AppAction: Equatable {
 }
 
 struct AppEnvironment {
-  let router: Router
+  let navigator: Navigator
 
   var home: HomeEnvironment {
-    HomeEnvironment(router: router)
+    HomeEnvironment(navigator: navigator)
   }
 
   var detail: DetailEnvironment {
-    DetailEnvironment(router: router)
+    DetailEnvironment(navigator: navigator)
   }
 
   var settings: SettingsEnvironment {
-    SettingsEnvironment(router: router)
+    SettingsEnvironment(navigator: navigator)
   }
 }
 
@@ -67,8 +67,8 @@ let appReducer = Reducer<
   )
 )
 
-let routerStore = Store<RouterState, RouterAction>(
-  initialState: RouterState(
+let navigatorStore = Store<NavigatorState, NavigatorAction>(
+  initialState: NavigatorState(
     path: [
       IdentifiedScreen(
         id: .root,
@@ -84,17 +84,17 @@ let routerStore = Store<RouterState, RouterAction>(
       )
     ]
   ),
-  reducer: routerReducer,
-  environment: RouterEnvironment(screenID: ScreenID.init)
+  reducer: navigatorReducer,
+  environment: NavigatorEnvironment(screenID: ScreenID.init)
 )
 
-func initializeRouter() -> Router {
+func initializeNavigator() -> Navigator {
   var appStore: Store<AppState, AppAction>!
 
-  let appRouter: Router = .root(
-    store: routerStore,
-    router: .screen( // /home
-      store: routerStore,
+  let appRouter: Navigator = .root(
+    store: navigatorStore,
+    navigator: .screen( // /home
+      store: navigatorStore,
       parse: { pathElement in
         pathElement.name == "home" ? HomeScreen(): nil
       },
@@ -108,13 +108,15 @@ func initializeRouter() -> Router {
       },
       nesting: .anyOf(
         .screen( // detail?id=123
-          store: routerStore,
+          store: navigatorStore,
           parse: { pathElement in
-            guard pathElement.name == "detail" else {
+            guard pathElement.name == "detail",
+                  case .value(let id) = pathElement.arguments?["id"]
+            else {
               return nil
             }
 
-            return DetailScreen(detailID: "123")
+            return DetailScreen(detailID: id)
           },
           content: { (screen: DetailScreen) in
             IfLetStore(
@@ -131,7 +133,7 @@ func initializeRouter() -> Router {
             )
           },
           nesting: .screen( // settings
-            store: routerStore,
+            store: navigatorStore,
             parse: { pathElement in
               guard pathElement.name == "settings" else {
                 return nil
@@ -145,7 +147,7 @@ func initializeRouter() -> Router {
           )
         ),
         .screen( // settings
-          store: routerStore,
+          store: navigatorStore,
           parse: { pathElement in
             guard pathElement.name == "settings" else {
               return nil
@@ -166,7 +168,7 @@ func initializeRouter() -> Router {
       elements: (0..<10).map(String.init)
     ),
     reducer: appReducer,
-    environment: AppEnvironment(router: appRouter)
+    environment: AppEnvironment(navigator: appRouter)
   )
 
   return appRouter

@@ -1,6 +1,6 @@
-import ComposableRouter
+import ComposableNavigator
 
-struct TestRoute: Screen {
+struct TestScreen: Screen {
   let identifier: String
   let presentationStyle: ScreenPresentationStyle
 

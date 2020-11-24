@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23258303256D2524001A191B /* ComposableNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = 23258302256D2524001A191B /* ComposableNavigator */; };
 		236E65802559498C00C19B46 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E657F2559498C00C19B46 /* ExampleApp.swift */; };
 		236E65842559498D00C19B46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65832559498D00C19B46 /* Assets.xcassets */; };
 		236E65872559498D00C19B46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65862559498D00C19B46 /* Preview Assets.xcassets */; };
@@ -14,7 +15,6 @@
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
-		23B758A225594A010073D19F /* ComposableRouter in Frameworks */ = {isa = PBXBuildFile; productRef = 23B758A125594A010073D19F /* ComposableRouter */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,7 +35,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23B758A225594A010073D19F /* ComposableRouter in Frameworks */,
+				23258303256D2524001A191B /* ComposableNavigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -131,7 +131,7 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				23B758A125594A010073D19F /* ComposableRouter */,
+				23258302256D2524001A191B /* ComposableNavigator */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -379,9 +379,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		23B758A125594A010073D19F /* ComposableRouter */ = {
+		23258302256D2524001A191B /* ComposableNavigator */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = ComposableRouter;
+			productName = ComposableNavigator;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

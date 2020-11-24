@@ -1,15 +1,15 @@
-import ComposableRouter
+import ComposableNavigator
 import SwiftUI
 
 @main
 struct ExampleApp: App {
-  let appRouter = initializeRouter()
+  let appNavigator = initializeNavigator()
 
   var body: some Scene {
     WindowGroup {
       Root(
-        store: routerStore,
-        router: appRouter
+        store: navigatorStore,
+        navigator: appNavigator
       )
     }
   }

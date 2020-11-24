@@ -2,15 +2,15 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct Root: View {
-  private let store: Store<RouterState, RouterAction>
-  private let router: Router
+  private let store: Store<NavigatorState, NavigatorAction>
+  private let navigator: Navigator
 
   public init(
-    store: Store<RouterState, RouterAction>,
-    router: Router
+    store: Store<NavigatorState, NavigatorAction>,
+    navigator: Navigator
   ) {
     self.store = store
-    self.router = router
+    self.navigator = navigator
   }
 
   public var body: some View {
@@ -18,7 +18,7 @@ public struct Root: View {
       store,
       content: { viewStore in
         NavigationView {
-          router
+          navigator
             .build(path: viewStore.path)?
             .environment(
               \.currentScreenID,

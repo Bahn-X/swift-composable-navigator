@@ -1,13 +1,13 @@
 import Foundation
 
-public struct Router {
-  private let _route: (RouterAction) -> Void
+public struct Navigator {
+  private let _route: (NavigatorAction) -> Void
   private let _buildPath: ([IdentifiedScreen]) -> Routed?
   private let _parse: ([DeeplinkComponent]) -> [AnyScreen]?
 
   public init(
-    route: @escaping (RouterAction) -> Void = { _ in
-      fatalError("route unimplemented. Wrap your Router in a Root router.")
+    route: @escaping (NavigatorAction) -> Void = { _ in
+      fatalError("route unimplemented. Wrap your Router in a Root navigator.")
     },
     buildPath: @escaping ([IdentifiedScreen]) -> Routed?,
     parse: @escaping ([DeeplinkComponent]) -> [AnyScreen]?
@@ -17,7 +17,7 @@ public struct Router {
     self._parse = parse
   }
 
-  public func route(_ action: RouterAction) -> Void {
+  public func route(_ action: NavigatorAction) -> Void {
     _route(action)
   }
 

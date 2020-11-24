@@ -1,30 +1,30 @@
 import Foundation
 
-public extension Router {
+public extension Navigator {
   static func anyOf(
-    _ routers: [Router]
-  ) -> Router {
+    _ navigators: [Navigator]
+  ) -> Navigator {
     let buildPath = { path -> Routed? in
-      return routers
+      return navigators
         .compactMap { $0.build(path: path) }
         .first
     }
 
     let parse = { (components: [DeeplinkComponent]) in
-      routers
+      navigators
         .compactMap { $0.parse(components: components) }
         .first
     }
 
-    return Router(
+    return Navigator(
       buildPath: buildPath,
       parse: parse
     )
   }
 
   static func anyOf(
-    _ routers: Router...
-  ) -> Router {
-    anyOf(routers)
+    _ navigators: Navigator...
+  ) -> Navigator {
+    anyOf(navigators)
   }
 }

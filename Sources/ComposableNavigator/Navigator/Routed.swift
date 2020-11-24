@@ -10,12 +10,12 @@ public struct Routed: View {
   }
 
   @Environment(\.currentScreenID) private var currentID
-  private let store: Store<RouterState, RouterAction>
+  private let store: Store<NavigatorState, NavigatorAction>
   private let content: AnyView
   private let next: (([IdentifiedScreen]) -> Routed?)?
 
   public init<Content: View>(
-    store: Store<RouterState, RouterAction>,
+    store: Store<NavigatorState, NavigatorAction>,
     content: Content,
     next: (([IdentifiedScreen]) -> Routed?)?
   ) {
@@ -50,7 +50,7 @@ public struct Routed: View {
   }
 
   private func pushIsActive(
-    in viewStore: ViewStore<RouterState, RouterAction>
+    in viewStore: ViewStore<NavigatorState, NavigatorAction>
   ) -> Binding<Bool> {
     viewStore.binding(
       get: { state -> Bool in
@@ -69,7 +69,7 @@ public struct Routed: View {
   }
 
   private func push(
-    in viewStore: ViewStore<RouterState, RouterAction>
+    in viewStore: ViewStore<NavigatorState, NavigatorAction>
   ) -> Successor? {
     guard let suffix = viewStore.state.suffix(from: currentID)?.dropFirst(),
           let successor = suffix.first,
@@ -82,7 +82,7 @@ public struct Routed: View {
   }
 
   private func sheetBinding(
-    in viewStore: ViewStore<RouterState, RouterAction>
+    in viewStore: ViewStore<NavigatorState, NavigatorAction>
   ) -> Binding<Successor?> {
     viewStore.binding(
       get: { state -> Successor? in

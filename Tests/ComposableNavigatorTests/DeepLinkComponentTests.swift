@@ -1,4 +1,4 @@
-@testable import ComposableRouter
+@testable import ComposableNavigator
 import XCTest
 
 final class DeeplinkComponentTests: XCTestCase {
