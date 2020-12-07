@@ -4,7 +4,7 @@ public struct IdentifiedScreen: Hashable, Identifiable {
   public let id: ScreenID
   let content: AnyScreen
 
-  var didAppear = false
+  var hasAppeared = false
 
   public init(id: ScreenID, content: AnyScreen) {
     self.id = id

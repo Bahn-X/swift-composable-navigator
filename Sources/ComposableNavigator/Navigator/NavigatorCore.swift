@@ -119,7 +119,7 @@ public let navigatorReducer = Reducer<
       guard let index = state.path.firstIndex(where: { $0.id == id }) else {
         return .none
       }
-      state.path[index].didAppear = true
+      state.path[index].hasAppeared = true
       return .none
   }
 }

@@ -279,7 +279,7 @@ final class NavigatorReducerTests: XCTestCase {
           .send(
             .didAppear(second),
             { state in
-                state.path[2].didAppear = true
+                state.path[2].hasAppeared = true
             }
           )
         )

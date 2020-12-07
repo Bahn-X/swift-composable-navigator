@@ -12,15 +12,18 @@ public struct Routed: View {
   @Environment(\.currentScreenID) private var currentID
   private let store: Store<NavigatorState, NavigatorAction>
   private let content: AnyView
+  private let onAppear: (Bool) -> Void
   private let next: (([IdentifiedScreen]) -> Routed?)?
 
   public init<Content: View>(
     store: Store<NavigatorState, NavigatorAction>,
     content: Content,
+    onAppear: @escaping (Bool) -> Void,
     next: (([IdentifiedScreen]) -> Routed?)?
   ) {
     self.store = store
     self.content = AnyView(content)
+    self.onAppear = onAppear
     self.next = next
   }
 
@@ -39,7 +42,13 @@ public struct Routed: View {
           )
         )
         .onAppear {
-          if !(viewStore.state.screen(with: currentID)?.didAppear ?? true) {
+          guard let screenState = viewStore.state.screen(with: currentID) else {
+            return
+          }
+
+          self.onAppear(!screenState.hasAppeared)
+
+          if !screenState.hasAppeared {
             DispatchQueue.main.async {
               viewStore.send(.didAppear(currentID))
             }
@@ -54,7 +63,7 @@ public struct Routed: View {
   ) -> Binding<Bool> {
     viewStore.binding(
       get: { state -> Bool in
-        guard (viewStore.state.screen(with: currentID)?.didAppear ?? false),
+        guard (viewStore.state.screen(with: currentID)?.hasAppeared ?? false),
               let suffix = state.suffix(from: currentID)?.dropFirst(),
               let successor = suffix.first,
               case .push = successor.content.presentationStyle
@@ -95,7 +104,10 @@ public struct Routed: View {
 
         return Successor(first: successor, path: Array(suffix))
       },
-      send: .dismissSuccessor(of: currentID)
+      send: { value in
+        if value == nil { onAppear(false) }
+        return .dismissSuccessor(of: currentID)
+      }
     )
   }
 
