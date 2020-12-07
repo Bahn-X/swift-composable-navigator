@@ -9,20 +9,20 @@ let package = Package(
         .iOS(.v13),
         .macOS(.v10_15),
         .tvOS(.v13),
-        .watchOS(.v6)
+        .watchOS(.v6),
     ],
     products: [
         .library(
             name: "ComposableNavigator",
             targets: ["ComposableNavigator"]
-        )
+        ),
     ],
     dependencies: [
         .package(
             name: "swift-composable-architecture",
             url: "https://github.com/pointfreeco/swift-composable-architecture",
-            from: "0.9.0"
-        )
+            from: "0.7.0"
+        ),
     ],
     targets: [
         .target(
@@ -31,14 +31,14 @@ let package = Package(
                 .product(
                     name: "ComposableArchitecture",
                     package: "swift-composable-architecture"
-                )
+                ),
             ]
         ),
         .testTarget(
             name: "ComposableNavigatorTests",
             dependencies: [
-                "ComposableNavigator"
+                "ComposableNavigator",
             ]
-        )
+        ),
     ]
 )
