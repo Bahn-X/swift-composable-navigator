@@ -2,24 +2,24 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct Root: View {
-  private let store: Store<NavigatorState, NavigatorAction>
+  private let dataSource: Navigator.DataSource
   private let navigator: Navigator
 
   public init(
-    store: Store<NavigatorState, NavigatorAction>,
+    dataSource: Navigator.DataSource,
     navigator: Navigator
   ) {
-    self.store = store
+    self.dataSource = dataSource
     self.navigator = navigator
   }
 
   public var body: some View {
     WithViewStore(
-      store,
+      dataSource,
       content: { viewStore in
         NavigationView {
           navigator
-            .build(path: viewStore.path)?
+            .build(dataSource: dataSource, path: viewStore.path)?
             .environment(
               \.currentScreenID,
               viewStore.path.first?.id ?? .root

@@ -2,16 +2,16 @@ import ComposableArchitecture
 
 public extension Navigator {
   static func root(
-    store: Store<NavigatorState, NavigatorAction>,
+    dataSource: Navigator.DataSource,
     navigator: Navigator
   ) -> Navigator {
     let route = { (action: NavigatorAction) in
-      ViewStore(store).send(action)
+      ViewStore(dataSource).send(action)
     }
 
     return Navigator(
       route: route,
-      buildPath: navigator.build,
+      buildPath: navigator.build(dataSource:path:),
       parse: navigator.parse
     )
   }

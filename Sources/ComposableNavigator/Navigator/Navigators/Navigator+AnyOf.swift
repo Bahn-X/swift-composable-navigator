@@ -4,9 +4,9 @@ public extension Navigator {
   static func anyOf(
     _ navigators: [Navigator]
   ) -> Navigator {
-    let buildPath = { path -> Routed? in
+    let buildPath = { (dataSource: Navigator.DataSource, path) -> Routed? in
       return navigators
-        .compactMap { $0.build(path: path) }
+        .compactMap { $0.build(dataSource: dataSource, path: path) }
         .first
     }
 

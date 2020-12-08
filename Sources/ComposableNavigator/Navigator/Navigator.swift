@@ -1,15 +1,18 @@
 import Foundation
+import ComposableArchitecture
 
 public struct Navigator {
+  public typealias DataSource = Store<NavigatorState, NavigatorAction>
+
   private let _route: (NavigatorAction) -> Void
-  private let _buildPath: ([IdentifiedScreen]) -> Routed?
+  private let _buildPath: (DataSource, [IdentifiedScreen]) -> Routed?
   private let _parse: ([DeeplinkComponent]) -> [AnyScreen]?
 
   public init(
     route: @escaping (NavigatorAction) -> Void = { _ in
-      fatalError("route unimplemented. Wrap your Router in a Root navigator.")
+      fatalError("route unimplemented. Wrap your Navigator in a Root navigator.")
     },
-    buildPath: @escaping ([IdentifiedScreen]) -> Routed?,
+    buildPath: @escaping (DataSource, [IdentifiedScreen]) -> Routed?,
     parse: @escaping ([DeeplinkComponent]) -> [AnyScreen]?
   ) {
     self._route = route
@@ -21,8 +24,8 @@ public struct Navigator {
     _route(action)
   }
 
-  func build(path: [IdentifiedScreen]) -> Routed? {
-    _buildPath(path)
+  func build(dataSource: DataSource, path: [IdentifiedScreen]) -> Routed? {
+    return _buildPath(dataSource, path)
   }
 
   func parse(components: [DeeplinkComponent]) -> [AnyScreen]? {

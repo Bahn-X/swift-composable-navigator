@@ -25,9 +25,8 @@ Let's look at an example navigator:
 
 ```swift
 let appNavigator: Navigator = .root(
-  store: navigatorStore,
+  dataSource: navigatorStore,
   navigator: .screen(
-    store: navigatorStore,
     parse: { pathElement in
         pathElement.name == "home" ? HomeScreen(): nil
     },
@@ -40,8 +39,8 @@ let appNavigator: Navigator = .root(
       )
     },
     nesting: .anyOf(
-      .settingsNavigator(store: navigatorStore),
-      .detailNavigator(store: navigatorStore)
+      .settingsNavigator(dataSource: navigatorStore),
+      .detailNavigator(dataSource: navigatorStore)
     )
   )
 )
@@ -58,7 +57,7 @@ Based on `appNavigator`, the following routing paths are valid routing paths:
 
 ```swift
 .root(
-  store: navigatorStore,
+  dataSource: navigatorStore,
   navigator: ...
 )
 ```
@@ -70,7 +69,6 @@ The screen navigator describes how a single screen is built given a routing path
 
 ```swift
 Navigator.screen(
-  store: navigatorStore,
   parse: { pathElement in
     pathElement.name == "home" ? HomeScreen(): nil
   },
@@ -93,8 +91,8 @@ This navigator parses the home screen from any URL starting with `home`. The nes
 ```swift
 ...
     nesting: .anyOf(
-      .settingsNavigator(store: navigatorStore),
-      .detailNavigator(store: navigatorStore)
+      .settingsNavigator(dataSource: navigatorStore),
+      .detailNavigator(dataSource: navigatorStore)
     )
 ...
 ```
@@ -108,8 +106,7 @@ As an applications navigation tree grows, the number of possible routing paths i
 ```swift
 // Option A: Global factory function
 func detailNavigator(
-  navigatorStore: Store<NavigatorState, NavigatorAction>,
-  ... // other dependencies
+  ... // dependencies
 ) -> Navigator {
   .screen(
     ... // implementation of the detail navigator
@@ -119,8 +116,7 @@ func detailNavigator(
 // Option B: Extend the Navigator type and add a convenience factory method
 extension Navigator {
   static func detailNavigator(
-  navigatorStore: Store<NavigatorState, NavigatorAction>,
-  ... // other dependencies
+  ... // dependencies
   ) -> Navigator {
     .screen(
       ... // implementation of the detail navigator

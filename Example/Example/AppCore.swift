@@ -92,9 +92,8 @@ func initializeNavigator() -> Navigator {
   var appStore: Store<AppState, AppAction>!
 
   let appRouter: Navigator = .root(
-    store: navigatorStore,
+    dataSource: navigatorStore,
     navigator: .screen( // /home
-      store: navigatorStore,
       parse: { pathElement in
         pathElement.name == "home" ? HomeScreen(): nil
       },
@@ -108,7 +107,6 @@ func initializeNavigator() -> Navigator {
       },
       nesting: .anyOf(
         .screen( // detail?id=123
-          store: navigatorStore,
           parse: { pathElement in
             guard pathElement.name == "detail",
                   case .value(let id) = pathElement.arguments?["id"]
@@ -133,7 +131,6 @@ func initializeNavigator() -> Navigator {
             )
           },
           nesting: .screen( // settings
-            store: navigatorStore,
             parse: { pathElement in
               guard pathElement.name == "settings" else {
                 return nil
@@ -147,7 +144,6 @@ func initializeNavigator() -> Navigator {
           )
         ),
         .screen( // settings
-          store: navigatorStore,
           parse: { pathElement in
             guard pathElement.name == "settings" else {
               return nil

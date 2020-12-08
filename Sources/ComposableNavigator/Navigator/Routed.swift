@@ -10,25 +10,25 @@ public struct Routed: View {
   }
 
   @Environment(\.currentScreenID) private var currentID
-  private let store: Store<NavigatorState, NavigatorAction>
+  private let dataSource: Navigator.DataSource
   private let content: AnyView
   private let onAppear: (Bool) -> Void
   private let next: (([IdentifiedScreen]) -> Routed?)?
 
   public init<Content: View>(
-    store: Store<NavigatorState, NavigatorAction>,
+    dataSource: Navigator.DataSource,
     content: Content,
     onAppear: @escaping (Bool) -> Void,
     next: (([IdentifiedScreen]) -> Routed?)?
   ) {
-    self.store = store
+    self.dataSource = dataSource
     self.content = AnyView(content)
     self.onAppear = onAppear
     self.next = next
   }
 
   public var body: some View {
-    WithViewStore(store) { viewStore in
+    WithViewStore(dataSource) { viewStore in
       content
         .sheet(
           item: sheetBinding(in: viewStore),

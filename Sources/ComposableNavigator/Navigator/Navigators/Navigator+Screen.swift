@@ -7,8 +7,6 @@ public extension Navigator {
    Creates a navigator responsible for a single screen.
 
    - Parameters:
-      - store:
-        Store keeping the navigation state in sync.
       - parse:
         Closure describing how to parse the screen from a given deeplink component.
       - onAppear:
@@ -19,22 +17,23 @@ public extension Navigator {
         Any navigators that can follow after this screen
    */
   static func screen<S: Screen, Content: View>(
-    store: Store<NavigatorState, NavigatorAction>,
     parse: @escaping (DeeplinkComponent) -> S?,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content,
     nesting: Navigator? = nil
   ) -> Navigator {
-    let buildPath = { (path: [IdentifiedScreen]) -> Routed? in
+    let buildPath = { (dataSource: DataSource, path: [IdentifiedScreen]) -> Routed? in
       guard let head: S = path.first?.content.unwrap() else {
         return nil
       }
 
       return Routed(
-        store: store,
+        dataSource: dataSource,
         content: build(head),
         onAppear: onAppear,
-        next: nesting?.build(path:)
+        next: nesting.flatMap { nesting in
+            { path in nesting.build(dataSource: dataSource, path: path) }
+        }
       )
     }
 
