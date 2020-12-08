@@ -39,8 +39,8 @@ let appNavigator: Navigator = .root(
       )
     },
     nesting: .anyOf(
-      .settingsNavigator(dataSource: navigatorStore),
-      .detailNavigator(dataSource: navigatorStore)
+      .settingsNavigator(store: settingsStore),
+      .detailNavigator(store: detailStore)
     )
   )
 )

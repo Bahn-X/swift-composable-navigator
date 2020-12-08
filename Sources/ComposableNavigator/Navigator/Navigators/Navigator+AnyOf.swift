@@ -4,21 +4,25 @@ public extension Navigator {
   static func anyOf(
     _ navigators: [Navigator]
   ) -> Navigator {
-    let buildPath = { (dataSource: Navigator.DataSource, path) -> Routed? in
-      return navigators
-        .compactMap { $0.build(dataSource: dataSource, path: path) }
-        .first
-    }
+    Navigator(
+        lateInit: { dataSource in
+          let initializedNavigators = navigators.map {
+            $0.lateInit(dataSource: dataSource)
+          }
 
-    let parse = { (components: [DeeplinkComponent]) in
-      navigators
-        .compactMap { $0.parse(components: components) }
-        .first
-    }
-
-    return Navigator(
-      buildPath: buildPath,
-      parse: parse
+          return Navigator(
+            buildPath: { path -> Routed? in
+              return initializedNavigators
+                .compactMap { $0.build(path: path) }
+                .first
+            },
+            parse: { (components: [DeeplinkComponent]) in
+              initializedNavigators
+                .compactMap { $0.parse(components: components) }
+                .first
+            }
+          )
+        }
     )
   }
 

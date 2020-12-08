@@ -7,10 +7,7 @@ struct ExampleApp: App {
 
   var body: some Scene {
     WindowGroup {
-      Root(
-        dataSource: navigatorStore,
-        navigator: appNavigator
-      )
+      appNavigator
     }
   }
 }
