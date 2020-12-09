@@ -4,7 +4,7 @@ public extension Navigator {
     static func conditional(
         either: Navigator,
         or: Navigator,
-        _ condition: @escaping () -> Bool
+        basedOn condition: @escaping () -> Bool
     ) -> Navigator {
         Navigator(
             lateInit: { dataSource in
