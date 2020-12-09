@@ -1,7 +1,7 @@
 import Foundation
 
-public struct DeeplinkComponent: Equatable {
-  public enum Argument: Equatable {
+public struct DeeplinkComponent: Hashable {
+  public enum Argument: Hashable {
     case flag
     case value(String)
   }
