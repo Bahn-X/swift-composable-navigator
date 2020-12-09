@@ -32,7 +32,7 @@ public struct DeeplinkComponent: Hashable {
     )
   }
 
-  init(name: String, queryItems: [String: Argument]?) {
+  public init(name: String, queryItems: [String: Argument]? = nil) {
     self.name = name
     self.arguments = queryItems
   }
