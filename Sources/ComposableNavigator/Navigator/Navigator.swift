@@ -8,17 +8,14 @@ public struct Navigator: View {
   private let _route: (NavigatorAction) -> Void
   private let _buildPath: ([IdentifiedScreen]) -> Routed?
   private let _content: () -> Root
-  private let _parse: ([DeeplinkComponent]) -> [AnyScreen]?
   private let _lateInit: (DataSource) -> Navigator
 
   init(
     route: @escaping (NavigatorAction) -> Void,
-    content: Root,
-    parse: @escaping ([DeeplinkComponent]) -> [AnyScreen]?
+    content: Root
   ) {
     self._route = route
     self._content = { content }
-    self._parse = parse
 
     self._buildPath = { _ in
       fatalError("buildPath unimplemented. Root navigators do not build paths.")
@@ -30,8 +27,7 @@ public struct Navigator: View {
   }
 
   public init(
-    buildPath: @escaping ([IdentifiedScreen]) -> Routed?,
-    parse: @escaping ([DeeplinkComponent]) -> [AnyScreen]?
+    buildPath: @escaping ([IdentifiedScreen]) -> Routed?
   ) {
     self._route = { _ in
       fatalError("route unimplemented. Wrap your Navigator in a Root navigator.")
@@ -42,7 +38,6 @@ public struct Navigator: View {
     }
 
     self._buildPath = buildPath
-    self._parse = parse
 
     self._lateInit = { _ in
       fatalError("unexpected late init call. Did you try late initialising an already intialised navigator?")
@@ -60,10 +55,6 @@ public struct Navigator: View {
       fatalError("content unimplemented. Wrap your Navigator in a Root navigator.")
     }
 
-    self._parse = { _ in
-      fatalError("parse unimplemented. Wrap your Navigator in a Root navigator.")
-    }
-
     self._buildPath = { _ in
       fatalError("buildPath unimplemented. Wrap your Navigator in a Root navigator.")
     }
@@ -76,11 +67,7 @@ public struct Navigator: View {
   public var body: some View {
     _content()
   }
-
-  public func parse(components: [DeeplinkComponent]) -> [AnyScreen]? {
-    _parse(components)
-  }
-
+    
   func build(path: [IdentifiedScreen]) -> Routed? {
     return _buildPath(path)
   }

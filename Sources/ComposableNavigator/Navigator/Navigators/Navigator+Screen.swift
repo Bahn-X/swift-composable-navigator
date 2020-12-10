@@ -7,17 +7,14 @@ public extension Navigator {
    Creates a navigator responsible for a single screen.
 
    - Parameters:
-   - parse:
-   Closure describing how to parse the screen from a given deeplink component.
-   - onAppear:
-   Called whenever the screen appears. The passed bool is true, if it is the screens initial appear.
-   - content:
-   Closure describing how to build a SwiftUI view given the screen data.
-   - nesting:
-   Any navigators that can follow after this screen
+    - onAppear:
+      Called whenever the screen appears. The passed bool is true, if it is the screens initial appear.
+    - content:
+      Closure describing how to build a SwiftUI view given the screen data.
+    - nesting:
+      Any navigators that can follow after this screen
    */
   static func screen<S: Screen, Content: View>(
-    parse: @escaping (DeeplinkComponent) -> S?,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content,
     nesting: Navigator? = nil
@@ -38,17 +35,6 @@ public extension Navigator {
                 .flatMap { $0.lateInit(dataSource: dataSource) }?
                 .build(path:)
             )
-          },
-          parse: { (components: [DeeplinkComponent]) -> [AnyScreen]? in
-            guard let head = components.first,
-                  let firstScreen = parse(head) else {
-              return nil
-            }
-
-            let tail = Array(components.dropFirst())
-            let nestedScreens = (nesting?.parse(components: tail) ?? [])
-
-            return [firstScreen.eraseToAnyScreen()] + nestedScreens
           }
         )
       }

@@ -27,9 +27,6 @@ Let's look at an example navigator:
 let appNavigator: Navigator = .root(
   dataSource: navigatorStore,
   navigator: .screen(
-    parse: { pathElement in
-        pathElement.name == "home" ? HomeScreen(): nil
-    },
     content: { _ in
       HomeView(
         store: appStore.scope(
@@ -65,14 +62,11 @@ Based on `appNavigator`, the following routing paths are valid routing paths:
 The root navigator passes actions to the NavigatorStore. An application should only have one root navigator and wrap the routing tree defining navigator.
 
 ### Screen Navigator
-The screen navigator describes how a single screen is built given a routing path.  
+The screen navigator describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
 
 ```swift
 Navigator.screen(
-  parse: { pathElement in
-    pathElement.name == "home" ? HomeScreen(): nil
-  },
-  content: { screen in
+  content: { (_: HomeScreen) in
     HomeView(
      store: appStore.scope(
        state: \.home, 
@@ -84,20 +78,66 @@ Navigator.screen(
 )
 ```
 
-This navigator parses the home screen from any URL starting with `home`. The nesting argument optionally expects a navigator and allows to present subsequent screens.
+The nesting argument optionally expects a navigator and allows to present/push subsequent screens.
 
 ### AnyOf Navigator
 
 ```swift
-...
+.screen(
+//  ...
     nesting: .anyOf(
-      .settingsNavigator(dataSource: navigatorStore),
-      .detailNavigator(dataSource: navigatorStore)
+        .settingsNavigator(store: settingsStore),
+        .detailNavigator(store: detailStore)
     )
+)
+    
 ...
 ```
 
-If a screen can have more than one possible successor, the AnyOf navigator allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf navigator as a `nesting` argument.
+If a screen can have more than one possible successor, the AnyOf navigator allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf navigator as a `nesting` argument. 
+
+Read AnyOf navigators as "any of the listed navigators takes care of the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+```
+        -- Settings
+Home ---
+        -- Detail
+```
+
+Keep in mind, that the order of the listed navigators matters. The first navigator that can handle the path will build it. 
+
+### Conditional Navigator
+In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional navigator.
+
+```swift
+.conditional(
+    either: homeScreenNavigator(store: homeStore),
+    or: loginScreen(store: loginStore),
+    basedOn: { user.isLoggedIn }
+)
+```
+
+The example here would never built routing paths using the homeScreenNavigator if the user isn't logged in. The condition is checked on each change of the routing path.
+
+### Wildcard Navigator
+Wildcard navigators allow you to replace any screen with the expected one. Based on the example for the conditional navigator,  you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenNavigator. This would lead to an empty application, which is unfortunate. 
+
+To mitigate this problem, you can combine a conditional navigator with a wildcard navigator:
+
+```swift
+.conditional(
+    either: .wildcard(
+        screen: HomeScreen(),
+        navigator: homeScreenNavigator(store: homeStore)
+    ),
+    or: wildcard(
+        screen: LoginScreen(), 
+        loginScreen(store: loginStore)
+    ),
+    basedOn: { user.isLoggedIn }
+)
+```
+
+This is example basically states: Whatever path I get, the first element should be a defined screen.
 
 ### Building custom navigators
 

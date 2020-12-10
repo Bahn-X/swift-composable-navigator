@@ -14,8 +14,7 @@ public extension Navigator {
 
     return Navigator(
       route: route,
-      content: Root(dataSource: dataSource, navigator: initializedNavigator),
-      parse: initializedNavigator.parse
+      content: Root(dataSource: dataSource, navigator: initializedNavigator)
     )
   }
 }

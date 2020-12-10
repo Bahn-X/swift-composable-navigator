@@ -94,10 +94,7 @@ func initializeNavigator() -> Navigator {
   let appRouter: Navigator = .root(
     dataSource: navigatorStore,
     navigator: .screen( // /home
-      parse: { pathElement in
-        pathElement.name == "home" ? HomeScreen(): nil
-      },
-      content: { _ in
+      content: { (_: HomeScreen) in
         HomeView(
           store: appStore.scope(
             state: \.home,
@@ -107,15 +104,6 @@ func initializeNavigator() -> Navigator {
       },
       nesting: .anyOf(
         .screen( // detail?id=123
-          parse: { pathElement in
-            guard pathElement.name == "detail",
-                  case .value(let id) = pathElement.arguments?["id"]
-            else {
-              return nil
-            }
-
-            return DetailScreen(detailID: id)
-          },
           content: { (screen: DetailScreen) in
             IfLetStore(
               appStore.scope(
@@ -131,26 +119,12 @@ func initializeNavigator() -> Navigator {
             )
           },
           nesting: .screen( // settings
-            parse: { pathElement in
-              guard pathElement.name == "settings" else {
-                return nil
-              }
-
-              return SettingsScreen()
-            },
             content: { (screen: SettingsScreen) in
               SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
             }
           )
         ),
         .screen( // settings
-          parse: { pathElement in
-            guard pathElement.name == "settings" else {
-              return nil
-            }
-
-            return SettingsScreen()
-          },
           content: { (screen: SettingsScreen) in
             SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
           }
