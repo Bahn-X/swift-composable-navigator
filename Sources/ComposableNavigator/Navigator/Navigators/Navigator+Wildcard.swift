@@ -13,7 +13,9 @@ public extension Navigator {
               return nil
             }
 
-            return navigator.build(path: [identifiedWildcard] + path[1...])
+            return navigator
+                .lateInit(dataSource: dataSource)
+                .build(path: [identifiedWildcard] + path[1...])
           }
         )
       }

@@ -6,14 +6,10 @@ public extension Navigator {
   ) -> Navigator {
     Navigator(
       lateInit: { dataSource in
-        let initializedNavigators = navigators.map { navigator in
-          navigator.lateInit(dataSource: dataSource)
-        }
-
         return Navigator(
           buildPath: { path -> Routed? in
-            for navigator in initializedNavigators {
-              if let view = navigator.build(path: path) {
+            for navigator in navigators {
+              if let view = navigator.lateInit(dataSource: dataSource).build(path: path) {
                 return view
               }
             }

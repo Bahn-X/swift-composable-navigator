@@ -10,11 +10,12 @@ public extension Navigator {
       ViewStore(dataSource).send(action)
     }
 
-    let initializedNavigator = navigator.lateInit(dataSource: dataSource)
-
     return Navigator(
       route: route,
-      content: Root(dataSource: dataSource, navigator: initializedNavigator)
+      content: Root(
+        dataSource: dataSource,
+        navigator: navigator.lateInit(dataSource: dataSource)
+      )
     )
   }
 }
