@@ -6,8 +6,8 @@ public extension Navigator {
   ) -> Navigator {
     Navigator(
       lateInit: { dataSource in
-        let initializedNavigators = navigators.map {
-          $0.lateInit(dataSource: dataSource)
+        let initializedNavigators = navigators.map { navigator in
+          navigator.lateInit(dataSource: dataSource)
         }
 
         return Navigator(
