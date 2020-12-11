@@ -66,7 +66,8 @@ public struct Routed: View {
         guard (viewStore.state.screen(with: currentID)?.hasAppeared ?? false),
               let suffix = state.suffix(from: currentID)?.dropFirst(),
               let successor = suffix.first,
-              case .push = successor.content.presentationStyle
+              case .push = successor.content.presentationStyle,
+              next?([successor]) != nil
         else {
           return false
         }
@@ -97,7 +98,8 @@ public struct Routed: View {
       get: { state -> Successor? in
         guard let suffix = state.suffix(from: currentID)?.dropFirst(),
               let successor = suffix.first,
-              case .sheet = successor.content.presentationStyle
+              case .sheet = successor.content.presentationStyle,
+              next?([successor]) != nil
         else {
           return nil
         }
