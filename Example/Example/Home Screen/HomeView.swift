@@ -66,17 +66,13 @@ let homeReducer = Reducer<
       return .fireAndForget {
         environment
           .navigator
-          .route(
-            .go(to: SettingsScreen(), on: id)
-          )
+          .go(to: SettingsScreen(), on: id)
       }
     case let .selected(element, screenID):
       return .fireAndForget {
         environment
           .navigator
-          .route(
-            .go(to: DetailScreen(detailID: element), on: screenID)
-          )
+          .go(to: DetailScreen(detailID: element), on: screenID)
       }
   }
 }

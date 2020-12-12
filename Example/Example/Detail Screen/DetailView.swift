@@ -51,9 +51,7 @@ let detailReducer = Reducer<
       return .fireAndForget {
         environment
           .navigator
-          .route(
-            .go(to: SettingsScreen(), on: id)
-          )
+          .go(to: SettingsScreen(), on: id)
       }
   }
 }

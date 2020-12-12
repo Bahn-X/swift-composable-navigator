@@ -84,16 +84,22 @@ let navigatorStore = Store<NavigatorState, NavigatorAction>(
       )
     ]
   ),
-  reducer: navigatorReducer,
+  reducer: navigatorReducer.debug(),
   environment: NavigatorEnvironment(screenID: ScreenID.init)
 )
 
-func initializeNavigator() -> Navigator {
-  var appStore: Store<AppState, AppAction>!
+func initializeApp() -> some View {
+  let appNavigator: Navigator = Navigator(store: navigatorStore)
 
-  let appRouter: Navigator = .root(
-    dataSource: navigatorStore,
-    navigator: .screen( // /home
+  let appStore = Store<AppState, AppAction>(
+    initialState: AppState(
+      elements: (0..<10).map(String.init)
+    ),
+    reducer: appReducer,
+    environment: AppEnvironment(navigator: appNavigator)
+  )
+
+  let pathBuilder: PathBuilder = .screen( // /home
       content: { (_: HomeScreen) in
         HomeView(
           store: appStore.scope(
@@ -109,13 +115,14 @@ func initializeNavigator() -> Navigator {
               appStore.scope(
                 state: { state in
                   state.details.first(where: { $0.id == screen.detailID }) },
-                action: { action in AppAction.detail(id: screen.detailID, action)}
+                action: { action in AppAction.detail(id: screen.detailID, action) }
               ),
               then: { detailStore in
                 DetailView(
                   store: detailStore
                 )
-              }
+              },
+              else: Text("123")
             )
           },
           nesting: .screen( // settings
@@ -131,16 +138,11 @@ func initializeNavigator() -> Navigator {
         )
       )
     )
-  )
 
-  appStore = Store<AppState, AppAction>(
-    initialState: AppState(
-      elements: (0..<10).map(String.init)
-    ),
-    reducer: appReducer,
-    environment: AppEnvironment(navigator: appRouter)
+  return Root(
+    store: navigatorStore,
+    navigator: appNavigator,
+    pathBuilder: pathBuilder
   )
-
-  return appRouter
 }
 
