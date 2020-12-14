@@ -2,7 +2,7 @@ import ComposableArchitecture
 import ComposableNavigator
 
 public extension PathBuilder {
-  func ifLetStore<State: Equatable, Action>(
+  static func ifLetStore<State: Equatable, Action>(
     store: Store<State?, Action>,
     then: @escaping (Store<State, Action>) -> PathBuilder,
     else: PathBuilder?
