@@ -14,4 +14,20 @@ public extension PathBuilder {
       }
     )
   }
+
+  static func `if`<LetContent>(
+    `let`: @escaping () -> LetContent?,
+    then: @escaping (LetContent) -> PathBuilder,
+    else: PathBuilder? = nil
+  ) -> PathBuilder {
+    PathBuilder(
+      buildPath: { path in
+        if let letContent = `let`() {
+          return then(letContent).build(path: path)
+        } else {
+          return `else`?.build(path: path)
+        }
+      }
+    )
+  }
 }

@@ -5,7 +5,7 @@ public struct PathBuilder {
     self._buildPath = buildPath
   }
 
-  func build(path: [IdentifiedScreen]) -> Routed? {
+  public func build(path: [IdentifiedScreen]) -> Routed? {
     return _buildPath(path)
   }
 }
