@@ -58,57 +58,57 @@ public let navigatorReducer = Reducer<
   NavigatorEnvironment
 > { state, action, environment in
   switch action {
-    case let .go(to: successor, on: id):
-      guard let index = state.path.firstIndex(where: { $0.id == id }) else {
-        return .none
-      }
-
-      state.path = state.path.prefix(upTo: index.advanced(by: 1)) + [
-        IdentifiedScreen(id: environment.screenID(), content: successor)
-      ]
+  case let .go(to: successor, on: id):
+    guard let index = state.path.firstIndex(where: { $0.id == id }) else {
       return .none
+    }
 
-    case let .goBack(to: predecessor):
-      let reversedPath = state.path.reversed()
+    state.path = state.path.prefix(upTo: index.advanced(by: 1)) + [
+      IdentifiedScreen(id: environment.screenID(), content: successor)
+    ]
+    return .none
 
-      guard let index = reversedPath.firstIndex(
-        where: { $0.content == predecessor }
-      ) else {
-        return .none
-      }
+  case let .goBack(to: predecessor):
+    let reversedPath = state.path.reversed()
 
-      state.path = reversedPath
-        .suffix(from: index)
-        .reversed()
+    guard let index = reversedPath.firstIndex(
+      where: { $0.content == predecessor }
+    ) else {
       return .none
+    }
 
-    case let .replace(path: path):
-      let newPath = path.enumerated().map { (index, element) -> IdentifiedScreen in
-        let id = index == 0 ? ScreenID.root: environment.screenID()
-        return IdentifiedScreen(id: id, content: element)
-      }
-      state.path = newPath
-      return .none
+    state.path = reversedPath
+      .suffix(from: index)
+      .reversed()
+    return .none
 
-    case let .dismiss(id):
-      guard id != state.path.first?.id, let index = state.path.firstIndex(where: { $0.id == id }) else {
-        return .none
-      }
-      state.path = Array(state.path.prefix(upTo: index))
-      return .none
+  case let .replace(path: path):
+    let newPath = path.enumerated().map { (index, element) -> IdentifiedScreen in
+      let id = index == 0 ? ScreenID.root: environment.screenID()
+      return IdentifiedScreen(id: id, content: element)
+    }
+    state.path = newPath
+    return .none
 
-    case let .dismissSuccessor(of: id):
-      guard let index = state.path.firstIndex(where: { $0.id == id }) else {
-        return .none
-      }
-      state.path = Array(state.path.prefix(upTo: index.advanced(by: 1)))
+  case let .dismiss(id):
+    guard id != state.path.first?.id, let index = state.path.firstIndex(where: { $0.id == id }) else {
       return .none
+    }
+    state.path = Array(state.path.prefix(upTo: index))
+    return .none
 
-    case let .didAppear(id):
-      guard let index = state.path.firstIndex(where: { $0.id == id }) else {
-        return .none
-      }
-      state.path[index].hasAppeared = true
+  case let .dismissSuccessor(of: id):
+    guard let index = state.path.firstIndex(where: { $0.id == id }) else {
       return .none
+    }
+    state.path = Array(state.path.prefix(upTo: index.advanced(by: 1)))
+    return .none
+
+  case let .didAppear(id):
+    guard let index = state.path.firstIndex(where: { $0.id == id }) else {
+      return .none
+    }
+    state.path[index].hasAppeared = true
+    return .none
   }
 }

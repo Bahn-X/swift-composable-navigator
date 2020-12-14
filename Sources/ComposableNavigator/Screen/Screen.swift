@@ -1,6 +1,3 @@
-import Foundation
-
-//swiftymocky: AutoMockable
 public protocol Screen: Hashable {
   var presentationStyle: ScreenPresentationStyle { get }
 }

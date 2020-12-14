@@ -1,5 +1,3 @@
-import Foundation
-
 public struct IdentifiedScreen: Hashable, Identifiable {
   public let id: ScreenID
   public let content: AnyScreen

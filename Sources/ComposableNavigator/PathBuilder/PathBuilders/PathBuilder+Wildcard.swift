@@ -1,5 +1,3 @@
-import SwiftUI
-
 public extension PathBuilder {
   static func wildcard<S: Screen>(
     screen: S,

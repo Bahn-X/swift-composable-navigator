@@ -44,12 +44,12 @@ public struct Navigator {
     dismissSuccessor: @escaping (ScreenID) -> Void,
     didAppear: @escaping (ScreenID) -> Void
   ) {
-      self._go = go
-      self._goBack = goBack
-      self._replace = replace
-      self._dismiss = dismiss
-      self._dismissSuccessor = dismissSuccessor
-      self._didAppear = didAppear
+    self._go = go
+    self._goBack = goBack
+    self._replace = replace
+    self._dismiss = dismiss
+    self._dismissSuccessor = dismissSuccessor
+    self._didAppear = didAppear
   }
 }
 
@@ -63,12 +63,12 @@ extension Navigator {
     didAppear: @escaping (ScreenID) -> Void = { _ in fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") }
   ) -> Navigator {
     Navigator(
-        go: go,
-        goBack: goBack,
-        replace: replace,
-        dismiss: dismiss,
-        dismissSuccessor: dismissSuccessor,
-        didAppear: didAppear
+      go: go,
+      goBack: goBack,
+      replace: replace,
+      dismiss: dismiss,
+      dismissSuccessor: dismissSuccessor,
+      didAppear: didAppear
     )
   }
 }

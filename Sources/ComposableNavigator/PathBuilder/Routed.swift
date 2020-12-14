@@ -8,12 +8,12 @@ public struct Routed: View {
     let path: [IdentifiedScreen]
 
     init?(path: [IdentifiedScreen]) {
-        guard let first = path.first else {
-            return nil
-        }
+      guard let first = path.first else {
+        return nil
+      }
 
-        self.first = first
-        self.path = path
+      self.first = first
+      self.path = path
     }
 
     var id: ScreenID { first.id }
@@ -115,10 +115,10 @@ public struct Routed: View {
       .environment(\.navigator, navigator)
 
     switch successors.first.content.presentationStyle {
-      case .push, .sheet(allowsPush: false):
-          content
-      case .sheet(allowsPush: true):
-        NavigationView { content }
+    case .push, .sheet(allowsPush: false):
+      content
+    case .sheet(allowsPush: true):
+      NavigationView { content }
         .navigationViewStyle(StackNavigationViewStyle())
     }
   }

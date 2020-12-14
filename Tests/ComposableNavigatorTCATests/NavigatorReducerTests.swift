@@ -40,8 +40,8 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-            IdentifiedScreen(id: .root, content: root),
-            IdentifiedScreen(id: expectedNextID, content: next)
+          IdentifiedScreen(id: .root, content: root),
+          IdentifiedScreen(id: expectedNextID, content: next)
         ]
       ),
       reducer: navigatorReducer,
@@ -237,52 +237,52 @@ final class NavigatorReducerTests: XCTestCase {
     )
   }
 
-    func test_dismissSuccessor_of_last() {
-      let first = ScreenID()
-      let second = ScreenID()
+  func test_dismissSuccessor_of_last() {
+    let first = ScreenID()
+    let second = ScreenID()
 
-      let testStore = TestStore(
-        initialState: NavigatorState(
-          path: [
-            IdentifiedScreen(id: .root, content: root),
-            IdentifiedScreen(id: first, content: next),
-            IdentifiedScreen(id: second, content: root)
-          ]
-        ),
-        reducer: navigatorReducer,
-        environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
+    let testStore = TestStore(
+      initialState: NavigatorState(
+        path: [
+          IdentifiedScreen(id: .root, content: root),
+          IdentifiedScreen(id: first, content: next),
+          IdentifiedScreen(id: second, content: root)
+        ]
+      ),
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
+    )
+
+    testStore.assert(
+      .send(
+        .dismissSuccessor(of: second)
       )
+    )
+  }
 
-      testStore.assert(
-        .send(
-          .dismissSuccessor(of: second)
-        )
+  func test_didAppear() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let testStore = TestStore(
+      initialState: NavigatorState(
+        path: [
+          IdentifiedScreen(id: .root, content: root),
+          IdentifiedScreen(id: first, content: next),
+          IdentifiedScreen(id: second, content: root)
+        ]
+      ),
+      reducer: navigatorReducer,
+      environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
+    )
+
+    testStore.assert(
+      .send(
+        .didAppear(second),
+        { state in
+          state.path[2].hasAppeared = true
+        }
       )
-    }
-
-    func test_didAppear() {
-        let first = ScreenID()
-        let second = ScreenID()
-
-        let testStore = TestStore(
-          initialState: NavigatorState(
-            path: [
-              IdentifiedScreen(id: .root, content: root),
-              IdentifiedScreen(id: first, content: next),
-              IdentifiedScreen(id: second, content: root)
-            ]
-          ),
-          reducer: navigatorReducer,
-          environment: NavigatorEnvironment(screenID: { fatalError("unimplemented") })
-        )
-
-        testStore.assert(
-          .send(
-            .didAppear(second),
-            { state in
-                state.path[2].hasAppeared = true
-            }
-          )
-        )
-    }
+    )
+  }
 }
