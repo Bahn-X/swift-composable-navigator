@@ -5,7 +5,7 @@ public extension PathBuilder {
   static func ifLetStore<State: Equatable, Action>(
     store: Store<State?, Action>,
     then: @escaping (Store<State, Action>) -> PathBuilder,
-    else: PathBuilder?
+    else: PathBuilder? = nil
   ) -> PathBuilder {
     PathBuilder(
       buildPath: { path in
