@@ -54,12 +54,21 @@ public struct Navigator {
 }
 
 extension Navigator {
-  static let stub = Navigator(
-    go: { _, _ in fatalError("go(to:) unimplemented in stub") },
-    goBack: { _ in fatalError("goBack(to:) unimplemented in stub") },
-    replace: { _ in fatalError("replace(path:) unimplemented in stub") },
-    dismiss: { _ in fatalError("dismiss(id:) unimplemented in stub") },
-    dismissSuccessor: { _ in fatalError("dismissSuccessor(of:) unimplemented in stub") },
-    didAppear: { _ in fatalError("didAppear(id:) unimplemented in stub") }
-  )
+  static func stub(
+    go: @escaping (AnyScreen, ScreenID) -> Void = { _, _ in fatalError("go(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    goBack: @escaping (AnyScreen) -> Void = { _ in fatalError("goBack(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    replace: @escaping ([AnyScreen]) -> Void = { _ in fatalError("replace(path:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    dismiss: @escaping (ScreenID) -> Void = { _ in fatalError("dismiss(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    dismissSuccessor: @escaping (ScreenID) -> Void = { _ in fatalError("dismissSuccessor(of:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    didAppear: @escaping (ScreenID) -> Void = { _ in fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") }
+  ) -> Navigator {
+    Navigator(
+        go: go,
+        goBack: goBack,
+        replace: replace,
+        dismiss: dismiss,
+        dismissSuccessor: dismissSuccessor,
+        didAppear: didAppear
+    )
+  }
 }

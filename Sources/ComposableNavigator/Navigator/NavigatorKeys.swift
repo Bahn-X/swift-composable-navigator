@@ -1,7 +1,7 @@
 import SwiftUI
 
 public enum NavigatorKey: EnvironmentKey {
-  public static let defaultValue: Navigator = .stub
+  public static let defaultValue: Navigator = .stub()
 }
 
 
