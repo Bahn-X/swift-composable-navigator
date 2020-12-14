@@ -1,5 +1,6 @@
 import ComposableArchitecture
 @testable import ComposableNavigator
+@testable import ComposableNavigatorTCA
 import XCTest
 
 final class NavigatorReducerTests: XCTestCase {
@@ -11,7 +12,7 @@ final class NavigatorReducerTests: XCTestCase {
   let next = TestScreen(
     identifier: "next",
     presentationStyle: .push
-  )
+  ).eraseToAnyScreen()
 
   func test_go_to() {
     let expectedNextID = ScreenID()
@@ -49,7 +50,7 @@ final class NavigatorReducerTests: XCTestCase {
 
     testStore.assert(
       .send(
-        .goBack(to: root),
+        .goBack(to: root.eraseToAnyScreen()),
         { state in
           state.path = [
             IdentifiedScreen(id: .root, content: self.root)
@@ -76,7 +77,7 @@ final class NavigatorReducerTests: XCTestCase {
 
     testStore.assert(
       .send(
-        .goBack(to: nonExistent)
+        .goBack(to: nonExistent.eraseToAnyScreen())
       )
     )
   }

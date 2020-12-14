@@ -2,9 +2,9 @@ import Foundation
 
 public struct IdentifiedScreen: Hashable, Identifiable {
   public let id: ScreenID
-  let content: AnyScreen
+  public let content: AnyScreen
 
-  var hasAppeared = false
+  public var hasAppeared = false
 
   public init(id: ScreenID, content: AnyScreen) {
     self.id = id

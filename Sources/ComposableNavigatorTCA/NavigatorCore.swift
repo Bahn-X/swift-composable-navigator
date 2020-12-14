@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import ComposableNavigator
 
 public struct NavigatorState: Equatable {
   var path: [IdentifiedScreen]
@@ -29,24 +30,12 @@ public struct NavigatorState: Equatable {
 public enum NavigatorAction: Equatable {
   /// Appends the provided route to the current path
   case go(to: AnyScreen, on: ScreenID)
-  /// Appends the provided route to the current path
-  public static func go<S: Screen>(to screen: S, on id: ScreenID) -> NavigatorAction {
-    .go(to: screen.eraseToAnyScreen(), on: id)
-  }
 
   /// Searches for the first occurence of the provided route in the path and moves back to it
   case goBack(to: AnyScreen)
-  /// Searches for the first occurence of the provided route in the path and moves back to it
-  public static func goBack<S: Screen>(to route: S) -> NavigatorAction {
-    .goBack(to: route.eraseToAnyScreen())
-  }
 
   /// Replaces the current navigation path with the provided path
   case replace(path: [AnyScreen])
-  /// Replaces the current navigation path with the provided path
-  public static func replace(path: AnyScreen...) -> NavigatorAction {
-    .replace(path: path)
-  }
 
   /// Dimisses the screen identified by the provided id. This leads either to a pop or sheet dismiss, depending on the screen presentation style
   case dismiss(ScreenID)

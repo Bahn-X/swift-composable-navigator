@@ -1,6 +1,7 @@
 import Foundation
 import ComposableArchitecture
 import ComposableNavigator
+import ComposableNavigatorTCA
 import SwiftUI
 
 struct AppState: Equatable {
@@ -84,7 +85,7 @@ let navigatorStore = Store<NavigatorState, NavigatorAction>(
       )
     ]
   ),
-  reducer: navigatorReducer.debug(),
+  reducer: navigatorReducer,
   environment: NavigatorEnvironment(screenID: ScreenID.init)
 )
 
@@ -141,7 +142,6 @@ func initializeApp() -> some View {
 
   return Root(
     store: navigatorStore,
-    navigator: appNavigator,
     pathBuilder: pathBuilder
   )
 }

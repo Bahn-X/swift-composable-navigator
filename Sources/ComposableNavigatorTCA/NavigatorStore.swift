@@ -1,4 +1,5 @@
 import ComposableArchitecture
+import ComposableNavigator
 
 public extension Store where State == NavigatorState, Action == NavigatorAction {
     convenience init<Root: Screen>(root: Root) {

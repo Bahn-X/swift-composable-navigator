@@ -15,6 +15,7 @@
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
+		23D1112325875790008DF0AA /* ComposableNavigatorTCA in Frameworks */ = {isa = PBXBuildFile; productRef = 23D1112225875790008DF0AA /* ComposableNavigatorTCA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23D1112325875790008DF0AA /* ComposableNavigatorTCA in Frameworks */,
 				23258303256D2524001A191B /* ComposableNavigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -132,6 +134,7 @@
 			name = Example;
 			packageProductDependencies = (
 				23258302256D2524001A191B /* ComposableNavigator */,
+				23D1112225875790008DF0AA /* ComposableNavigatorTCA */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -382,6 +385,10 @@
 		23258302256D2524001A191B /* ComposableNavigator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableNavigator;
+		};
+		23D1112225875790008DF0AA /* ComposableNavigatorTCA */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableNavigatorTCA;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
