@@ -53,7 +53,7 @@ public struct Navigator {
   }
 }
 
-extension Navigator {
+public extension Navigator {
   static func stub(
     go: @escaping (AnyScreen, ScreenID) -> Void = { _, _ in fatalError("go(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
     goBack: @escaping (AnyScreen) -> Void = { _ in fatalError("goBack(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
