@@ -27,8 +27,8 @@ final class NavigatorReducerTests: XCTestCase {
         .go(to: next, on: .root),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: self.root),
-            IdentifiedScreen(id: expectedNextID, content: self.next)
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+            IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
           ]
         }
       )
@@ -40,8 +40,8 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: expectedNextID, content: next)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -53,7 +53,7 @@ final class NavigatorReducerTests: XCTestCase {
         .goBack(to: root.eraseToAnyScreen()),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: self.root)
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
           ]
         }
       )
@@ -65,8 +65,8 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: expectedNextID, content: next)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -87,8 +87,8 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: expectedNextID, content: next)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -105,8 +105,8 @@ final class NavigatorReducerTests: XCTestCase {
         .replace(path: newPath),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: TestScreen(identifier: "newRoot", presentationStyle: .push)),
-            IdentifiedScreen(id: expectedNextID, content: TestScreen(identifier: "newDetail", presentationStyle: .push))
+            IdentifiedScreen(id: .root, content: TestScreen(identifier: "newRoot", presentationStyle: .push), hasAppeared: false),
+            IdentifiedScreen(id: expectedNextID, content: TestScreen(identifier: "newDetail", presentationStyle: .push), hasAppeared: false)
           ]
         }
       )
@@ -117,7 +117,7 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -138,9 +138,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -152,8 +152,8 @@ final class NavigatorReducerTests: XCTestCase {
         .dismiss(second),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: self.root),
-            IdentifiedScreen(id: first, content: self.next)
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+            IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
           ]
         }
       )
@@ -168,9 +168,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -191,9 +191,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -205,8 +205,8 @@ final class NavigatorReducerTests: XCTestCase {
         .dismissSuccessor(of: first),
         { state in
           state.path = [
-            IdentifiedScreen(id: .root, content: self.root),
-            IdentifiedScreen(id: first, content: self.next)
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+            IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
           ]
         }
       )
@@ -221,9 +221,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -244,9 +244,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,
@@ -267,9 +267,9 @@ final class NavigatorReducerTests: XCTestCase {
     let testStore = TestStore(
       initialState: NavigatorState(
         path: [
-          IdentifiedScreen(id: .root, content: root),
-          IdentifiedScreen(id: first, content: next),
-          IdentifiedScreen(id: second, content: root)
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: false)
         ]
       ),
       reducer: navigatorReducer,

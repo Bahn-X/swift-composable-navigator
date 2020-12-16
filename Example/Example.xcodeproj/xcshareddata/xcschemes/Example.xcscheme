@@ -32,9 +32,19 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ComposableRouterTests"
-               BuildableName = "ComposableRouterTests"
-               BlueprintName = "ComposableRouterTests"
+               BlueprintIdentifier = "ComposableNavigatorTCATests"
+               BuildableName = "ComposableNavigatorTCATests"
+               BlueprintName = "ComposableNavigatorTCATests"
+               ReferencedContainer = "container:..">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "ComposableNavigatorTests"
+               BuildableName = "ComposableNavigatorTests"
+               BlueprintName = "ComposableNavigatorTests"
                ReferencedContainer = "container:..">
             </BuildableReference>
          </TestableReference>

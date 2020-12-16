@@ -73,15 +73,18 @@ let navigatorStore = Store<NavigatorState, NavigatorAction>(
     path: [
       IdentifiedScreen(
         id: .root,
-        content: HomeScreen()
+        content: HomeScreen(),
+        hasAppeared: false
       ),
       IdentifiedScreen(
         id: ScreenID(),
-        content: DetailScreen(detailID: "0")
+        content: DetailScreen(detailID: "0"),
+        hasAppeared: false
       ),
       IdentifiedScreen(
         id: ScreenID(),
-        content: SettingsScreen()
+        content: SettingsScreen(),
+        hasAppeared: false
       )
     ]
   ),

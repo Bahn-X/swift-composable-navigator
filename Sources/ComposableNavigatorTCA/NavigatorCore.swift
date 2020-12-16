@@ -6,7 +6,7 @@ public struct NavigatorState: Equatable {
 
   public init<Root: Screen>(root: Root) {
     self.path = [
-      IdentifiedScreen(id: .root, content: root)
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false)
     ]
   }
 
@@ -64,7 +64,11 @@ public let navigatorReducer = Reducer<
     }
 
     state.path = state.path.prefix(upTo: index.advanced(by: 1)) + [
-      IdentifiedScreen(id: environment.screenID(), content: successor)
+        IdentifiedScreen(
+            id: environment.screenID(),
+            content: successor,
+            hasAppeared: false
+        )
     ]
     return .none
 
@@ -85,7 +89,7 @@ public let navigatorReducer = Reducer<
   case let .replace(path: path):
     let newPath = path.enumerated().map { (index, element) -> IdentifiedScreen in
       let id = index == 0 ? ScreenID.root: environment.screenID()
-      return IdentifiedScreen(id: id, content: element)
+      return IdentifiedScreen(id: id, content: element, hasAppeared: false)
     }
     state.path = newPath
     return .none
