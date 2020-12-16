@@ -5,7 +5,9 @@ public extension PathBuilder {
   ) -> PathBuilder {
     PathBuilder(
       buildPath: { path in
-        guard let identifiedWildcard = path.first.map({ IdentifiedScreen(id: $0.id, content: screen.eraseToAnyScreen()) }) else {
+        guard let identifiedWildcard = path.first.map(
+            { IdentifiedScreen(id: $0.id, content: screen.eraseToAnyScreen(), hasAppeared: $0.hasAppeared) }
+        ) else {
           return nil
         }
         
