@@ -30,4 +30,19 @@ public extension PathBuilder {
       }
     )
   }
+
+  static func `if`<S: Screen>(
+    screen pathBuilder: @escaping (S) -> PathBuilder?,
+    else: PathBuilder? = nil
+  ) -> PathBuilder {
+    PathBuilder(
+      buildPath: { path in
+        guard let unwrappedScreen: S = path.first?.content.unwrap() else {
+          return `else`?.build(path: path)
+        }
+
+        return pathBuilder(unwrappedScreen)?.build(path: path)
+      }
+    )
+  }
 }
