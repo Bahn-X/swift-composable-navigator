@@ -37,8 +37,10 @@ struct DemoView: View {
 Navigators allow programatic navigation and can be injected where needed. 
 
 ### **Path builder**
+A path builder defines how a path element and its successors are built into a view hierarchy.
+
 #### Path builder composition
-As the library name suggests, Composable Navigator is based on the concept of navigator composition. It uses navigator composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
+The Composable Navigator is based on the concept of path builder composition. It uses path builder composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
 
 Let's look at an example navigator (using TCA):
 
