@@ -4,13 +4,13 @@ Composable Navigator is a library for building deep-linkable SwiftUI application
 ## What is the Composable Navigator?
 This library mainly revolves around three main concepts: routing paths, path builders, and navigator. 
 
-## **Routing Path**
+### **Routing Path**
 A routing path is a path that describes the order of visible screens in the  application. It is a first-class representation of the <url-path> defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A routing path consists of screens.
 
 #### **Screen**
 A screen is a first-class representation of the information needed to build a view. Screens can be parsed from URLs and can contain arguments like IDs, initial values, and flags. Screens define how they are presented. Currently, sheet and push presentation styles are supported.
 
-## **Navigator**
+### **Navigator**
 The navigator manages the application's current routing path and allows mutations on it. The navigator acts as an interface to an underlying data source. The navigator object is accessible via the view environment environment.
 
 ```swift
@@ -36,8 +36,8 @@ struct DemoView: View {
 
 Navigators allow programatic navigation and can be injected where needed. 
 
-## **Path builder**
-### Path builder composition
+### **Path builder**
+#### Path builder composition
 As the library name suggests, Composable Navigator is based on the concept of navigator composition. It uses navigator composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
 
 Let's look at an example navigator (using TCA):

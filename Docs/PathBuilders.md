@@ -1,5 +1,5 @@
 # Path builders
-### Screen path builder
+## Screen path builder
 The screen path builder describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
 
 ```swift
@@ -14,7 +14,7 @@ PathBuilder.screen(
 
 The Home screen builder extracts `HomeScreen` instances from the routing path and uses it's nesting path builder to build the remaining path. 
 
-### AnyOf path builder
+## AnyOf path builder
 ```swift
 .screen(
 //  ...
@@ -37,7 +37,7 @@ Home ---
 
 Keep in mind, that the order of the listed path builders matters. The first path builders that can handle the path will build it. 
 
-### Conditional path builder
+## Conditional path builder
 In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
 
 ```swift
@@ -50,7 +50,7 @@ In some cases, you want to make sure that the user will never be able to reach c
 
 The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
 
-#### if let path builder
+### if let path builder
 The ifLet path builder unwraps an optional value and provides it to the path builder defining closure. 
 
 ```swift
@@ -63,7 +63,7 @@ The ifLet path builder unwraps an optional value and provides it to the path bui
 )
 ```
 
-#### if screen path builder
+### if screen path builder
 The ifLet path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure. 
 
 ```swift
@@ -75,7 +75,7 @@ The ifLet path builder unwraps a screen, if the path element matches the screen 
 )
 ```
 
-### Wildcard path builder
+## Wildcard path builder
 Wildcard path builder replaces any screen with a predefined one. Based on the example for the conditional path builder, you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate. 
 
 To mitigate this problem, you can combine a conditional path builder with a wildcard path builder:
@@ -96,13 +96,13 @@ To mitigate this problem, you can combine a conditional path builder with a wild
 
 This is example basically states: Whatever path I get, the first element should be a defined screen.
 
-### Empty path builder
+## Empty path builder
 The empty path builder does not build any screen and just returns nil for all screens. You can use .empty as a stub.
 
-### Implementing custom path builder
+## Implementing custom path builder
 As an applications routing tree grows, the number of possible routing paths increases. To avoid code duplication, use any of these three patterns: 
 
-#### Option A: global functions
+### Option A: global functions
 ```swift
 // Option A: Global factory function
 func detailScreenBuilder(
@@ -115,7 +115,7 @@ func detailScreenBuilder(
 }
 ```
 
-#### Option B: Extending the PathBuilder type
+### Option B: Extending the PathBuilder type
 Extend the PathBuilder type with static convenience factory methods for each of your apps screen.
 ```swift
 extension PathBuilder {
@@ -130,7 +130,7 @@ extension PathBuilder {
 }
 ```
 
-#### Option C: Extend screen types
+### Option C: Extend screen types
 Extend the screen type with static convenience factory methods.
 ```swift
 extension DetailScreen {
