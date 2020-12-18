@@ -15,7 +15,7 @@ The navigator manages the application's current routing path and allows mutation
 
 ```swift
 import SwiftUI
-struct VanillaDemoView: View {
+struct DemoView: View {
     @Environment(\.navigator) var navigator
     @Environment(\.currentScreenID) var id
 
@@ -23,7 +23,7 @@ struct VanillaDemoView: View {
       VStack {
         Button(
             action: { navigator.go(to: HomeScreen(), on: id) },
-            label: { Text("Hallo Vanilla SwiftUI") }
+            label: { Text("Go to home screen") }
         ),
         Button(
             action: { navigator.go(to: DetailScreen(id: id), on: id) },
@@ -40,12 +40,12 @@ Navigators allow programatic navigation and can be injected where needed.
 ### Path builder composition
 As the library name suggests, Composable Navigator is based on the concept of navigator composition. It uses navigator composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
 
-Let's look at an example navigator:
+Let's look at an example navigator (using TCA):
 
 ```swift
 let appBuilder: PathBuilder = .screen(
   HomeScreen.self,
-  content: { _ in
+  content: {
     HomeView(
       store: appStore.scope(
           state: \.home,
@@ -70,6 +70,33 @@ Based on `appBuilder`, the following routing paths are valid routing paths:
 All available path builders are documented [here](./Docs/PathBuilders.md).
 
 ## Usage
+```swift
+import ComposableNavigator
+import SwiftUI
+
+let appBuilder: PathBuilder = .screen(
+  HomeScreen.self,
+  content: { HomeView(...) },
+  nesting: .anyOf(
+    DetailScreen.builder(...),
+    SettingsScreen.builder(...)
+  )
+)
+
+@main
+struct ExampleApp: App {
+  let dataSource = Navigator.Datasource(root: HomeScreen())
+
+  var body: some Scene {
+    WindowGroup {
+      Root(
+        dataSource: dataSource,
+        pathBuilder: appBuilder
+      )
+    }
+  }
+}
+```
 
 ## Dependency injection 
 The composable navigator was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and it's approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app navigator, the composable navigator gives you full control over dependency injection. In the future, we will remove the dependency on TCA to allow usage in Vanilla SwiftUI applications.

@@ -6,12 +6,7 @@ The screen path builder describes how a single screen is built.  The content clo
 PathBuilder.screen(
   HomeScreen.self,
   content: {
-    HomeView(
-     store: appStore.scope(
-       state: \.home, 
-       action: AppAction.home
-     )
-    )
+    HomeView(...)
   },
   nesting: ...
 )
@@ -24,8 +19,8 @@ The Home screen builder extracts `HomeScreen` instances from the routing path an
 .screen(
 //  ...
     nesting: .anyOf(
-        SettingsScreen.builder(store: settingsStore),
-        DetailScreen.builder(store: detailStore)
+        SettingsScreen.builder(...),
+        DetailScreen.builder(...)
     )
 )
 ...
@@ -55,6 +50,31 @@ In some cases, you want to make sure that the user will never be able to reach c
 
 The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
 
+#### if let path builder
+The ifLet path builder unwraps an optional value and provides it to the path builder defining closure. 
+
+```swift
+.if(
+  let: { store.detailStore }, 
+  then: { detailStore in 
+    DetailScreen.builder(store: detailStore)
+  }
+  else: // fallback if the value is not set.
+)
+```
+
+#### if screen path builder
+The ifLet path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure. 
+
+```swift
+.if(
+  screen: { (screen: DetailScreen) in
+    DetailScreen.builder(store.detailStore(for: screen.id))
+  },
+  else: // fallback
+)
+```
+
 ### Wildcard path builder
 Wildcard path builder replaces any screen with a predefined one. Based on the example for the conditional path builder, you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate. 
 
@@ -75,6 +95,9 @@ To mitigate this problem, you can combine a conditional path builder with a wild
 ```
 
 This is example basically states: Whatever path I get, the first element should be a defined screen.
+
+### Empty path builder
+The empty path builder does not build any screen and just returns nil for all screens. You can use .empty as a stub.
 
 ### Implementing custom path builder
 As an applications routing tree grows, the number of possible routing paths increases. To avoid code duplication, use any of these three patterns: 
