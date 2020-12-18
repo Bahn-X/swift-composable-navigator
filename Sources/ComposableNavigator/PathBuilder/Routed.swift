@@ -77,7 +77,12 @@ public struct Routed: View {
 
         return true
       },
-      set: { _ in navigator.dismissSuccessor(id: screen.id) }
+      set: { _ in
+        guard let successor = successors.first else {
+            return
+        }
+        navigator.dismiss(id: successor.id)
+      }
     )
   }
 
@@ -103,7 +108,11 @@ public struct Routed: View {
       },
       set: { value in
         if value == nil { onAppear(false) }
-        navigator.dismissSuccessor(id: screen.id)
+
+        guard let successor = successors.first else {
+            return
+        }
+        navigator.dismiss(id: successor.id)
       }
     )
   }
