@@ -23,11 +23,19 @@ let settingsReducer = Reducer<
 >.empty
 
 struct SettingsView: View {
+  @Environment(\.navigator) var navigator
   let store: Store<SettingsState, SettingsAction>
 
   var body: some View {
-    Text("Settings")
-      .navigationBarTitle("Settings", displayMode: .inline)
+    VStack {
+      Text("Settings")
+        .navigationBarTitle("Settings", displayMode: .inline)
+
+      Button(
+        action: { navigator.goBack(to: HomeScreen()) },
+        label: { Text("Go back to home screen") }
+      )
+    }
   }
 }
 

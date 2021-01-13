@@ -27,3 +27,16 @@ public struct Root<Datasource: NavigatorDatasource>: View {
     .navigationViewStyle(StackNavigationViewStyle())
   }
 }
+
+public extension Root where Datasource == Navigator.Datasource {
+    init(
+        dataSource: Datasource,
+        pathBuilder: PathBuilder
+    ) {
+        self.init(
+            dataSource: dataSource,
+            navigator: Navigator(dataSource: dataSource),
+            pathBuilder: pathBuilder
+        )
+    }
+}

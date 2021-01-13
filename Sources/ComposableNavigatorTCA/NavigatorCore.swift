@@ -73,17 +73,13 @@ public let navigatorReducer = Reducer<
     return .none
 
   case let .goBack(to: predecessor):
-    let reversedPath = state.path.reversed()
-
-    guard let index = reversedPath.firstIndex(
+    guard let index = state.path.lastIndex(
       where: { $0.content == predecessor }
     ) else {
       return .none
     }
 
-    state.path = reversedPath
-      .suffix(from: index)
-      .reversed()
+    state.path = Array(state.path.prefix(through: index))
     return .none
 
   case let .replace(path: path):

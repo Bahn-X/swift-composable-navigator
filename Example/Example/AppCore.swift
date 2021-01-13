@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-import ComposableNavigator
+@testable import ComposableNavigator
 import ComposableNavigatorTCA
 import SwiftUI
 
@@ -68,33 +68,28 @@ let appReducer = Reducer<
   )
 )
 
-let navigatorStore = Store<NavigatorState, NavigatorAction>(
-  initialState: NavigatorState(
-    path: [
-      IdentifiedScreen(
-        id: .root,
-        content: HomeScreen(),
-        hasAppeared: false
-      ),
-      IdentifiedScreen(
-        id: ScreenID(),
-        content: DetailScreen(detailID: "0"),
-        hasAppeared: false
-      ),
-      IdentifiedScreen(
-        id: ScreenID(),
-        content: SettingsScreen(),
-        hasAppeared: false
-      )
-    ]
-  ),
-  reducer: navigatorReducer,
-  environment: NavigatorEnvironment(screenID: ScreenID.init)
+let dataSource = Navigator.Datasource(
+  path: [
+    IdentifiedScreen(
+      id: .root,
+      content: HomeScreen(),
+      hasAppeared: false
+    ),
+    IdentifiedScreen(
+      id: ScreenID(),
+      content: DetailScreen(detailID: "0"),
+      hasAppeared: false
+    ),
+    IdentifiedScreen(
+      id: ScreenID(),
+      content: SettingsScreen(),
+      hasAppeared: false
+    )
+  ]
 )
 
 func initializeApp() -> some View {
-  let appNavigator: Navigator = Navigator(store: navigatorStore)
-
+  let appNavigator: Navigator = Navigator(dataSource: dataSource)
   let appStore = Store<AppState, AppAction>(
     initialState: AppState(
       elements: (0..<10).map(String.init)
@@ -125,8 +120,7 @@ func initializeApp() -> some View {
                 DetailView(
                   store: detailStore
                 )
-              },
-              else: Text("123")
+              }
             )
           },
           nesting: .screen( // settings
@@ -144,7 +138,7 @@ func initializeApp() -> some View {
     )
 
   return Root(
-    store: navigatorStore,
+    dataSource: dataSource,
     pathBuilder: pathBuilder
   )
 }

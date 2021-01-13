@@ -1,9 +1,5 @@
 import Foundation
 
-public protocol NavigatorDatasource: ObservableObject {
-  var path: [IdentifiedScreen] { get }
-}
-
 public struct Navigator {
   private let _go: (AnyScreen, ScreenID) -> Void
   private let _goBack: (AnyScreen) -> Void
