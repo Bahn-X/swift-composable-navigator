@@ -48,12 +48,6 @@ let package = Package(
       dependencies: [
         "ComposableNavigator",
       ]
-    ),
-    .testTarget(
-      name: "ComposableNavigatorTCATests",
-      dependencies: [
-        "ComposableNavigatorTCA",
-      ]
-    ),
+    )
   ]
 )

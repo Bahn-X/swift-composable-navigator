@@ -1,12 +1,7 @@
-import Combine
 import Foundation
 
-public protocol NavigatorDatasource: ObservableObject {
-  var path: [IdentifiedScreen] { get }
-}
-
 public extension Navigator {
-  class Datasource: NavigatorDatasource {
+  class Datasource: ObservableObject {
     @Published public var path: [IdentifiedScreen]
 
     let screenID: () -> ScreenID

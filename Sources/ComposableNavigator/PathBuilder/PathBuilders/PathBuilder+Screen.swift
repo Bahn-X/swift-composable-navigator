@@ -38,8 +38,6 @@ public extension PathBuilder {
         }
 
         return Routed(
-          screen: head,
-          successors: Array(path[1...]),
           content: build(unwrapped),
           onAppear: onAppear,
           next: nesting?.build(path:)
@@ -89,8 +87,6 @@ public extension PathBuilder {
         }
 
         return Routed(
-          screen: head,
-          successors: Array(path[1...]),
           content: build(),
           onAppear: onAppear,
           next: nesting?.build(path:)

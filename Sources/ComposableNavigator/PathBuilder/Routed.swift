@@ -1,7 +1,9 @@
 import SwiftUI
 
 public struct Routed: View {
+  @Environment(\.currentScreenID) var screenID
   @Environment(\.navigator) var navigator
+  @EnvironmentObject var dataSource: Navigator.Datasource
 
   private struct Successors: Identifiable {
     let first: IdentifiedScreen
@@ -19,21 +21,15 @@ public struct Routed: View {
     var id: ScreenID { first.id }
   }
 
-  private let screen: IdentifiedScreen
-  private let successors: [IdentifiedScreen]
   private let content: AnyView
   private let onAppear: (Bool) -> Void
   private let next: (([IdentifiedScreen]) -> Routed?)?
 
   public init<Content: View>(
-    screen: IdentifiedScreen,
-    successors: [IdentifiedScreen],
     content: Content,
     onAppear: @escaping (Bool) -> Void,
     next: (([IdentifiedScreen]) -> Routed?)?
   ) {
-    self.screen = screen
-    self.successors = successors
     self.content = AnyView(content)
     self.onAppear = onAppear
     self.next = next
@@ -53,22 +49,37 @@ public struct Routed: View {
         )
       )
       .onAppear {
-        self.onAppear(!screen.hasAppeared)
+        if let screen = self.screen {
+          self.onAppear(!screen.hasAppeared)
 
-        if !screen.hasAppeared {
-          DispatchQueue.main.async {
-            navigator.didAppear(id: screen.id)
+          if !screen.hasAppeared {
+            DispatchQueue.main.async {
+              navigator.didAppear(id: screenID)
+            }
           }
         }
       }
-      .id(screen.id)
+  }
+
+  private var screen: IdentifiedScreen? {
+    dataSource.path.first(where: { $0.id == screenID })
+  }
+
+  private var successors: Successors? {
+    guard let screen = self.screen,
+          let index = dataSource.path.firstIndex(of: screen)
+    else {
+      return nil
+    }
+
+    return Successors(path: Array(dataSource.path.suffix(from: index + 1)))
   }
 
   private var pushIsActive: Binding<Bool> {
     Binding(
       get: {
-        guard screen.hasAppeared,
-              let successor = successors.first,
+        guard screen?.hasAppeared ?? false,
+              let successor = successors?.first,
               case .push = successor.content.presentationStyle,
               next?([successor]) != nil
         else {
@@ -78,7 +89,7 @@ public struct Routed: View {
         return true
       },
       set: { _ in
-        guard let successor = successors.first else {
+        guard let successor = successors?.first else {
             return
         }
         navigator.dismiss(id: successor.id)
@@ -87,29 +98,30 @@ public struct Routed: View {
   }
 
   private var push: Successors? {
-    guard let successor = successors.first, case .push = successor.content.presentationStyle else {
+    guard let successor = successors?.first,
+          case .push = successor.content.presentationStyle else {
       return nil
     }
 
-    return Successors(path: successors)
+    return successors
   }
 
   private var sheetBinding: Binding<Successors?> {
     Binding(
       get: { () -> Successors? in
-        guard let successor = successors.first,
+        guard let successor = successors?.first,
               case .sheet = successor.content.presentationStyle,
               next?([successor]) != nil
         else {
           return nil
         }
 
-        return Successors(path: successors)
+        return successors
       },
       set: { value in
         if value == nil { onAppear(false) }
 
-        guard let successor = successors.first else {
+        guard let successor = successors?.first else {
             return
         }
         navigator.dismiss(id: successor.id)
@@ -119,9 +131,10 @@ public struct Routed: View {
 
   @ViewBuilder private func build(successors: Successors) -> some View {
     let content = next?(successors.path)
-      .environment(\.parentScreenID, screen.id)
+      .environment(\.parentScreenID, screenID)
       .environment(\.currentScreenID, successors.id)
       .environment(\.navigator, navigator)
+      .environmentObject(dataSource)
 
     switch successors.first.content.presentationStyle {
     case .push, .sheet(allowsPush: false):
