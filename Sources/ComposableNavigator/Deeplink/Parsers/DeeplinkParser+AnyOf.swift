@@ -1,4 +1,4 @@
-extension DeeplinkParser {
+public extension DeeplinkParser {
   static func anyOf(
     _ parsers: [DeeplinkParser]
   ) -> DeeplinkParser {
