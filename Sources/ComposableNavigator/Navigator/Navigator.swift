@@ -15,8 +15,12 @@ public struct Navigator {
   public func goBack<S: Screen>(to route: S) {
     _goBack(route.eraseToAnyScreen())
   }
-
+  
   public func replace(path: AnyScreen...) {
+    _replace(path)
+  }
+
+  public func replace(path: [AnyScreen]) {
     _replace(path)
   }
 
