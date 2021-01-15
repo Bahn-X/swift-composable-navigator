@@ -51,10 +51,37 @@ public extension Navigator {
     }
 
     func replace(path: [AnyScreen]) -> Void {
-      let newPath = path.enumerated().map { (index, element) -> IdentifiedScreen in
-        let id = index == 0 ? ScreenID.root: screenID()
-        return IdentifiedScreen(id: id, content: element, hasAppeared: false)
-      }
+      let pathPrefix = self.path.prefix(path.count)
+
+      let firstNonMatchingContent = pathPrefix
+        .enumerated()
+        .first(
+          where: { (index, element) in
+            element.content != path[index]
+          }
+        )?
+        .offset
+        ?? pathPrefix.count
+
+      let matchingContentRange = 0..<firstNonMatchingContent
+
+      let newPath = path
+        .enumerated()
+        .map { (index, element) -> IdentifiedScreen in
+          let oldPathElement: IdentifiedScreen? = matchingContentRange.contains(index)
+            ? self.path[index]
+            : nil
+
+          let fallBackID = (index == 0) ? ScreenID.root: self.screenID()
+          let id: ScreenID = oldPathElement.map(\.id) ?? fallBackID
+          let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
+
+          return IdentifiedScreen(
+            id: id,
+            content: element,
+            hasAppeared: hasAppeared
+          )
+        }
 
       self.path = newPath
     }
