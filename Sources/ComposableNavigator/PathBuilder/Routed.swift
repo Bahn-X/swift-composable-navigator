@@ -109,7 +109,8 @@ public struct Routed: View {
   private var sheetBinding: Binding<Successors?> {
     Binding(
       get: { () -> Successors? in
-        guard let successor = successors?.first,
+        guard screen?.hasAppeared ?? false,
+              let successor = successors?.first,
               case .sheet = successor.content.presentationStyle,
               next?([successor]) != nil
         else {
