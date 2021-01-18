@@ -1,6 +1,6 @@
 import Foundation
 
-public struct Deeplink {
+public struct Deeplink: Hashable {
   public let components: [DeeplinkComponent]
 }
 
