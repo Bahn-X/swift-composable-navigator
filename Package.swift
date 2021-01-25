@@ -25,7 +25,7 @@ let package = Package(
     .package(
       name: "swift-composable-architecture",
       url: "https://github.com/pointfreeco/swift-composable-architecture",
-      from: "0.7.0"
+      .upToNextMinor(from: "0.11.0")
     ),
   ],
   targets: [
