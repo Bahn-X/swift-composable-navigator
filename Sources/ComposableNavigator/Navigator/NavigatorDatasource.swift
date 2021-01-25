@@ -6,6 +6,18 @@ public extension Navigator {
 
     let screenID: () -> ScreenID
 
+    public convenience init(
+      root: AnyScreen,
+      screenID: @escaping () -> ScreenID = ScreenID.init
+    ) {
+      self.init(
+        path: [
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false)
+        ],
+        screenID: screenID
+      )
+    }
+
     public convenience init<S: Screen>(
       root: S,
       screenID: @escaping () -> ScreenID = ScreenID.init
