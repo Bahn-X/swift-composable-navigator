@@ -43,4 +43,12 @@ public extension Root {
       pathBuilder: pathBuilder
     )
   }
+
+  func debug() -> Root {
+    Root(
+      dataSource: dataSource,
+      navigator: navigator.debug(),
+      pathBuilder: pathBuilder
+    )
+  }
 }

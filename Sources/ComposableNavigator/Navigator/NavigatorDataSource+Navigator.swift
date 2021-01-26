@@ -1,6 +1,7 @@
 public extension Navigator {
   init(dataSource: Navigator.Datasource) {
     self.init(
+      path: { dataSource.path },
       go: { screen, id in
         dataSource.go(to: screen, on: id)
       },
