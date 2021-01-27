@@ -1,3 +1,5 @@
+import SwiftUI
+
 public extension PathBuilder {
   /**
    Wildcard path builders replace any screen with a predefined one.
@@ -31,11 +33,11 @@ public extension PathBuilder {
       - pathBuilder:
         The path builder used to build the altered path.
   */
-  static func wildcard<S: Screen>(
+  static func wildcard<S: Screen, Content: View>(
     screen: S,
-    pathBuilder: PathBuilder
-  ) -> PathBuilder {
-    PathBuilder(
+    pathBuilder: PathBuilder<Content>
+  ) -> PathBuilder<Content> {
+    PathBuilder<Content>(
       buildPath: { path in
         guard let identifiedWildcard = path.first.map(
             { IdentifiedScreen(id: $0.id, content: screen.eraseToAnyScreen(), hasAppeared: $0.hasAppeared) }

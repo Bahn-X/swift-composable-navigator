@@ -1,0 +1,118 @@
+// AUTO-GENERATED: Do not edit
+% import string
+%{        
+  letters = string.ascii_uppercase
+  combineCount = 10
+}%
+import SwiftUI
+
+% for i in range(2, combineCount+1):
+%{
+  genericCharacters = letters[0:i]
+  requirements = ", ".join(map(lambda x: "{0}: View".format(x), genericCharacters))
+  enumName = "Either{0}<{1}>".format(genericCharacters, requirements)
+}%
+public enum ${enumName}: View {
+%   for c in genericCharacters: 
+  case ${c.lower()}(${c}) 
+% end
+
+  public var body: some View {
+    switch self {
+%   for c in genericCharacters: 
+    case let .${c.lower()}(${c}):
+      ${c}
+% end
+    }
+  }
+}
+
+% end
+public extension PathBuilder {
+% for i in range(2, combineCount+1):
+%{
+    # ABCD...
+    genericCharacters = letters[0:i]
+    genericCharactersLower = map(string.lower, genericCharacters)
+
+    # BCD...
+    allButFirst = genericCharacters[1:]
+    allButFirstLower = map(string.lower, allButFirst)
+
+    # A, B, C, D...
+    genericTypeList = ", ".join(genericCharacters)
+
+    # A: View, B: View, ...
+    requirements = ",\n".join(map(lambda x: "    {0}: View".format(x), genericCharacters))
+
+    # Combined<A, B, C, D>
+    enumName = "Either{0}<{1}>".format(genericCharacters, genericTypeList)
+
+    # _ a: PathBuilder<A>,\n ...
+    parameters = ",\n".join(map(lambda x: "    _ {0}: PathBuilder<{1}>".format(x.lower(), x), genericCharacters))
+
+    # PathBuilder<Either<A, B, C, D>>
+    combinedPathBuilderType = "PathBuilder<{0}>".format(enumName)
+}%
+  /***
+   ```swift
+   .screen(
+   //  ...
+       nesting: .anyOf(
+           SettingsScreen.builder(store: settingsStore),
+           DetailScreen.builder(store: detailStore)
+       )
+   )
+   ...
+   ```
+
+   If a screen can have more than one possible successor, the AnyOf path builder allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf path builder as a `nesting` argument.
+
+   Read AnyOf path builders as "any of the listed path builder builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+   ```
+           -- Settings
+   Home ---
+           -- Detail
+   ```
+
+   Keep in mind, that the order of the listed path builders matters. The first path builders that can handle the path will build it.
+
+   ⚠️ The anyOf PathBuilder is limited to 10 elements, stack .anyOf path builders if a screen can be followed up by more than ten screens ⚠️
+   ```swift
+   .screen(
+   //  ...
+       nesting: .anyOf(
+           .anyOf(
+             // ... 10 pathBuilders here
+           ),
+           .anyOf(
+             // ... the other path builders
+           )
+       )
+   )
+   ...
+   ```
+  */
+  static func anyOf<
+${requirements}  
+  >(
+${parameters}
+  ) -> ${combinedPathBuilderType} {
+    ${combinedPathBuilderType}(
+      buildPath: { path -> ${enumName}? in 
+        if let aContent = a.build(path: path) {
+          return .a(aContent)
+        }
+% for c in allButFirstLower:
+        else if let ${c}Content = ${c}.build(path: path) {
+          return .${c}(${c}Content)
+        }
+% end
+        else {
+          return nil
+        }
+      }
+    )
+  }
+% end
+}

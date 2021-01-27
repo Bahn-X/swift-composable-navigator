@@ -4,7 +4,9 @@ public extension PathBuilder {
 
    Only use .empty as a stub value.
   */
-  static let empty = PathBuilder(
-    buildPath: { _ in nil }
-  )
+  static var empty: PathBuilder<Never> {
+    PathBuilder<Never>(
+      buildPath: { _ in nil }
+    )
+  }
 }

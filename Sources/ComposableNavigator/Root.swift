@@ -1,14 +1,14 @@
 import SwiftUI
 
-public struct Root: View {
+public struct Root<R: View>: View {
   @ObservedObject private var dataSource: Navigator.Datasource
   private let navigator: Navigator
-  private let pathBuilder: PathBuilder
+  private let pathBuilder: PathBuilder<R>
 
   public init(
     dataSource: Navigator.Datasource,
     navigator: Navigator,
-    pathBuilder: PathBuilder
+    pathBuilder: PathBuilder<R>
   ) {
     self.dataSource = dataSource
     self.navigator = navigator
@@ -35,7 +35,7 @@ public struct Root: View {
 public extension Root {
   init(
     dataSource: Navigator.Datasource,
-    pathBuilder: PathBuilder
+    pathBuilder: PathBuilder<R>
   ) {
     self.init(
       dataSource: dataSource,
