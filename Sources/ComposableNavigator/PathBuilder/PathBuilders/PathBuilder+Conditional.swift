@@ -104,7 +104,7 @@ public extension PathBuilders {
     _ condition: @escaping () -> Bool,
     then thenBuilder: If,
     else elseBuilder: Else
-  ) -> some PathBuilder {
+  ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if condition(), let this = thenBuilder.build(path: path) {
@@ -143,7 +143,7 @@ public extension PathBuilders {
     `let`: @escaping () -> LetContent?,
     then: @escaping (LetContent) -> If,
     else: Else
-  ) -> some PathBuilder {
+  ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         guard let letContent = `let`() else {
@@ -175,7 +175,7 @@ public extension PathBuilders {
   static func `if`<S: Screen, If: PathBuilder, Else: PathBuilder>(
     screen pathBuilder: @escaping (S) -> If,
     else: Else
-  ) -> some PathBuilder {
+  ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         guard let unwrappedScreen: S = path.first?.content.unwrap() else {
@@ -204,7 +204,7 @@ public extension PathBuilders {
    */
   static func `if`<S: Screen, If: PathBuilder>(
     screen pathBuilder: @escaping (S) -> If
-  ) -> some PathBuilder {
+  ) -> _PathBuilder<EitherAB<If.Content, Never>> {
     PathBuilders.if(
       screen: pathBuilder,
       else: PathBuilders.empty
