@@ -3,6 +3,7 @@ import SwiftUI
 public struct Routed<Content: View, Next: View>: View {
   @Environment(\.currentScreenID) var screenID
   @Environment(\.navigator) var navigator
+  @Environment(\.treatSheetDismissAsAppearInPresenter) var treatSheetDismissAsAppearInPresenter
   @EnvironmentObject var dataSource: Navigator.Datasource
 
   private struct Successors: Identifiable {
@@ -48,7 +49,7 @@ public struct Routed<Content: View, Next: View>: View {
           label: { EmptyView() }
         )
       )
-      .onAppear {
+      .uiKitOnAppear {
         if let screen = self.screen {
           self.onAppear(!screen.hasAppeared)
 
@@ -120,7 +121,7 @@ public struct Routed<Content: View, Next: View>: View {
         return successors
       },
       set: { value in
-        if value == nil { onAppear(false) }
+        if value == nil, treatSheetDismissAsAppearInPresenter { onAppear(false) }
 
         guard let successor = successors?.first else {
             return
@@ -135,6 +136,7 @@ public struct Routed<Content: View, Next: View>: View {
       .environment(\.parentScreenID, screenID)
       .environment(\.currentScreenID, successors.id)
       .environment(\.navigator, navigator)
+      .environment(\.treatSheetDismissAsAppearInPresenter, treatSheetDismissAsAppearInPresenter)
       .environmentObject(dataSource)
 
     switch successors.first.content.presentationStyle {
