@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct Routed: View {
+public struct Routed<Content: View, Next: View>: View {
   @Environment(\.currentScreenID) var screenID
   @Environment(\.navigator) var navigator
   @EnvironmentObject var dataSource: Navigator.Datasource
@@ -21,16 +21,16 @@ public struct Routed: View {
     var id: ScreenID { first.id }
   }
 
-  private let content: AnyView
+  private let content: Content
   private let onAppear: (Bool) -> Void
-  private let next: (([IdentifiedScreen]) -> Routed?)?
+  private let next: (([IdentifiedScreen]) -> Next?)?
 
-  public init<Content: View>(
+  public init(
     content: Content,
     onAppear: @escaping (Bool) -> Void,
-    next: (([IdentifiedScreen]) -> Routed?)?
+    next: (([IdentifiedScreen]) -> Next?)?
   ) {
-    self.content = AnyView(content)
+    self.content = content
     self.onAppear = onAppear
     self.next = next
   }
