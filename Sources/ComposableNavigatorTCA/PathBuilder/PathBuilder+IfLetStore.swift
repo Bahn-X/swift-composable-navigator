@@ -6,13 +6,15 @@ public extension PathBuilders {
   static func ifLetStore<
     State: Equatable,
     Action,
-    If: View,
-    Else: View
+    If,
+    Else,
+    IfBuilder: PathBuilder,
+    ElseBuilder: PathBuilder
   >(
     store: Store<State?, Action>,
-    then: @escaping (Store<State, Action>) -> _PathBuilder<If>,
-    else: _PathBuilder<Else>
-  ) -> _PathBuilder<EitherAB<If, Else>> {
+    then: @escaping (Store<State, Action>) -> IfBuilder,
+    else: ElseBuilder
+  ) -> _PathBuilder<EitherAB<If, Else>> where IfBuilder.Content == If, ElseBuilder.Content == Else {
     _PathBuilder<EitherAB<If, Else>>(
       buildPath: { path -> EitherAB<If, Else>? in
         if let state = ViewStore(store).state {
@@ -27,11 +29,12 @@ public extension PathBuilders {
   static func ifLetStore<
     State: Equatable,
     Action,
-    If: View
+    If,
+    IfBuilder: PathBuilder
   >(
     store: Store<State?, Action>,
-    then: @escaping (Store<State, Action>) -> _PathBuilder<If>
-  ) -> _PathBuilder<If> {
+    then: @escaping (Store<State, Action>) -> IfBuilder
+  ) -> _PathBuilder<If> where IfBuilder.Content == If {
     _PathBuilder<If>(
       buildPath: { path -> If? in
         if let state = ViewStore(store).state {
