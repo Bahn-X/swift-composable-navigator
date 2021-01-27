@@ -1,6 +1,11 @@
 import SwiftUI
 
-public struct PathBuilder<Content: View> {
+public protocol PathBuilder {
+  associatedtype Content: View
+  func build(path: [IdentifiedScreen]) -> Content?
+}
+
+public struct _PathBuilder<Content: View>: PathBuilder {
   private let _buildPath: ([IdentifiedScreen]) -> Content?
 
   public init(buildPath: @escaping ([IdentifiedScreen]) -> Content?) {
@@ -11,3 +16,5 @@ public struct PathBuilder<Content: View> {
     return _buildPath(path)
   }
 }
+
+public enum PathBuilders {}

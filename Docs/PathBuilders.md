@@ -3,7 +3,7 @@
 The screen path builder describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
 
 ```swift
-PathBuilder.screen(
+PathBuilders.screen(
   HomeScreen.self,
   content: {
     HomeView(...)
@@ -16,9 +16,9 @@ The Home screen builder extracts `HomeScreen` instances from the routing path an
 
 ## AnyOf path builder
 ```swift
-.screen(
+PathBuilders.screen(
 //  ...
-    nesting: .anyOf(
+    nesting: Builders.anyOf(
         SettingsScreen.builder(...),
         DetailScreen.builder(...)
     )
@@ -41,7 +41,7 @@ Keep in mind, that the order of the listed path builders matters. The first path
 In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
 
 ```swift
-.conditional(
+PathBuilders.conditional(
     either: HomeScreen.builder(store: homeStore),
     or: LoginScreen.builder(store: loginStore),
     basedOn: { user.isLoggedIn }
@@ -54,7 +54,7 @@ The example here would never built routing paths using the HomeScreen.nuilder if
 The ifLet path builder unwraps an optional value and provides it to the path builder defining closure. 
 
 ```swift
-.if(
+PathBuilders.if(
   let: { store.detailStore }, 
   then: { detailStore in 
     DetailScreen.builder(store: detailStore)
@@ -67,7 +67,7 @@ The ifLet path builder unwraps an optional value and provides it to the path bui
 The ifLet path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure. 
 
 ```swift
-.if(
+PathBuilders.if(
   screen: { (screen: DetailScreen) in
     DetailScreen.builder(store.detailStore(for: screen.id))
   },
@@ -81,14 +81,14 @@ Wildcard path builder replaces any screen with a predefined one. Based on the ex
 To mitigate this problem, you can combine a conditional path builder with a wildcard path builder:
 
 ```swift
-.conditional(
-    either: .wildcard(
+PathBuilders.conditional(
+    either: PathBuilders.wildcard(
         screen: HomeScreen(),
         pathBuilder: HomeScreen.builder(store: homeStore)
     ),
-    or: wildcard(
+    or: PathBuilders.wildcard(
         screen: LoginScreen(), 
-        loginScreen(store: loginStore)
+        pathBuilder: loginScreen(store: loginStore)
     ),
     basedOn: { user.isLoggedIn }
 )
@@ -107,22 +107,22 @@ As an applications routing tree grows, the number of possible routing paths incr
 // Option A: Global factory function
 func detailScreenBuilder(
   ... // dependencies
-) -> PathBuilder {
-  .screen(
+) -> some PathBuilder {
+  PathBuilders.screen(
     DetailScreen.self,
     ... // implementation of the detail path builder
   )
 }
 ```
 
-### Option B: Extending the PathBuilder type
+### Option B: Extending the PathBuilders type
 Extend the PathBuilder type with static convenience factory methods for each of your apps screen.
 ```swift
-extension PathBuilder {
+extension PathBuilders {
   static func detailScreenBuilder(
   ... // dependencies
-  ) -> PathBuilder {
-    .screen(
+  ) -> some PathBuilder {
+    PathBuilders.screen(
       DetailScreen.self,
       ... // implementation of the detail path builder
     )
@@ -136,8 +136,8 @@ Extend the screen type with static convenience factory methods.
 extension DetailScreen {
   static func builder(
   ... // dependencies
-  ) -> PathBuilder {
-    .screen(
+  ) -> some PathBuilder {
+    PathBuilders.screen(
       DetailScreen.self,
       ... // implementation of the detail path builder
     )
