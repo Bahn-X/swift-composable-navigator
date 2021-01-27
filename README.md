@@ -45,7 +45,7 @@ The Composable Navigator is based on the concept of path builder composition. It
 Let's look at an example navigator (using TCA):
 
 ```swift
-let appBuilder: PathBuilder = .screen(
+let appBuilder: PathBuilder = PathBuilders.screen(
   HomeScreen.self,
   content: {
     HomeView(
@@ -55,7 +55,7 @@ let appBuilder: PathBuilder = .screen(
       )
     )
   },
-  nesting: .anyOf(
+  nesting: PathBuilders.anyOf(
     DetailScreen.builder(store: detailStore),
     SettingsScreen.builder(store: settingsStore)
   )
@@ -76,7 +76,7 @@ All available path builders are documented [here](./Docs/PathBuilders.md).
 import ComposableNavigator
 import SwiftUI
 
-let appBuilder: PathBuilder = .screen(
+let appBuilder: PathBuilder = PathBuilders.screen(
   HomeScreen.self,
   content: { HomeView(...) },
   nesting: .anyOf(

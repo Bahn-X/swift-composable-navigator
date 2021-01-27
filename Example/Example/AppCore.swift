@@ -98,46 +98,7 @@ func initializeApp() -> some View {
     environment: AppEnvironment(navigator: appNavigator)
   )
 
-  let pathBuilder: PathBuilder = .screen( // /home
-    onAppear: { _ in print("HomeView appeared") },
-    content: { (_: HomeScreen) in
-      HomeView(
-        store: appStore.scope(
-          state: \.home,
-          action: AppAction.home
-        )
-      )
-    },
-    nesting: .anyOf(
-      .screen( // detail?id=123
-        content: { (screen: DetailScreen) in
-          IfLetStore(
-            appStore.scope(
-              state: { state in
-                state.details.first(where: { $0.id == screen.detailID }) },
-              action: { action in AppAction.detail(id: screen.detailID, action) }
-            ),
-            then: { detailStore in
-              DetailView(
-                store: detailStore
-              )
-            }
-          )
-        },
-        nesting: .screen( // settings
-          content: { (screen: SettingsScreen) in
-            SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
-          }
-        )
-      ),
-      .screen( // settings
-        content: { (screen: SettingsScreen) in
-          SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
-        }
-      )
-    )
-  )
-
+  let pathBuilder = HomeScreen.builder(appStore: appStore)
   return Root(
     dataSource: dataSource,
     pathBuilder: pathBuilder

@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension PathBuilder {
+public extension PathBuilders {
   /**
    The conditional path builder controls which path builder is reponsible for building the routing path based on condition.
 
@@ -25,12 +25,19 @@ public extension PathBuilder {
       - basedOn:
         Condition evaluated every time the routing path is built.
   */
-  static func conditional<If: View, Else: View>(
-    either: PathBuilder<If>,
-    or: PathBuilder<Else>,
+  static func conditional<
+    If: PathBuilder,
+    Else: PathBuilder
+  >(
+    either: If,
+    or: Else,
     basedOn condition: @escaping () -> Bool
-  ) -> PathBuilder<EitherAB<If, Else>> {
-    .if(condition, then: either, else: or)
+  ) -> some PathBuilder {
+    PathBuilders.if(
+        condition,
+        then: either,
+        else: or
+    )
   }
 
   /**
@@ -54,12 +61,12 @@ public extension PathBuilder {
       - then:
         PathBuilder used to build the routing path, if the condition is true.
    */
-  static func `if`<If: View>(
+  static func `if`<If: PathBuilder>(
     _ condition: @escaping () -> Bool,
-    then builder: PathBuilder<If>
-  ) -> PathBuilder<If> {
-    PathBuilder<If>(
-      buildPath: { path -> If? in
+    then builder: If
+  ) -> some PathBuilder {
+    _PathBuilder<If.Content>(
+      buildPath: { path -> If.Content? in
         if condition() {
           return builder.build(path: path)
         } else {
@@ -93,13 +100,13 @@ public extension PathBuilder {
       - else:
         PathBuilder used to build the routing path, if the condition is false.
    */
-  static func `if`<If: View, Else: View>(
+  static func `if`<If: PathBuilder, Else: PathBuilder>(
     _ condition: @escaping () -> Bool,
-    then thenBuilder: PathBuilder<If>,
-    else elseBuilder: PathBuilder<Else>
-  ) -> PathBuilder<EitherAB<If, Else>> {
-    PathBuilder<EitherAB<If, Else>>(
-      buildPath: { path -> EitherAB<If, Else>? in
+    then thenBuilder: If,
+    else elseBuilder: Else
+  ) -> some PathBuilder {
+    _PathBuilder<EitherAB<If.Content, Else.Content>>(
+      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if condition(), let this = thenBuilder.build(path: path) {
           return .a(this)
         } else if let that = elseBuilder.build(path: path) {
@@ -132,13 +139,13 @@ public extension PathBuilder {
       - else:
         Fallback pathbuilder used if the screen cannot be unwrapped.
    */
-  static func `if`<LetContent, If: View, Else: View>(
+  static func `if`<LetContent, If: PathBuilder, Else: PathBuilder>(
     `let`: @escaping () -> LetContent?,
-    then: @escaping (LetContent) -> PathBuilder<If>,
-    else: PathBuilder<Else>
-  ) -> PathBuilder<EitherAB<If, Else>> {
-    PathBuilder<EitherAB<If, Else>>(
-      buildPath: { path -> EitherAB<If, Else>? in
+    then: @escaping (LetContent) -> If,
+    else: Else
+  ) -> some PathBuilder {
+    _PathBuilder<EitherAB<If.Content, Else.Content>>(
+      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         guard let letContent = `let`() else {
           return `else`.build(path: path).flatMap(EitherAB.b)
         }
@@ -165,17 +172,17 @@ public extension PathBuilder {
       - else:
         Fallback pathbuilder used if the screen cannot be unwrapped.
    */
-  static func `if`<S: Screen, If: View, Else: View>(
-    screen pathBuilder: @escaping (S) -> PathBuilder<If>?,
-    else: PathBuilder<Else>
-  ) -> PathBuilder<EitherAB<If, Else>> {
-    PathBuilder<EitherAB<If, Else>>(
-      buildPath: { path -> EitherAB<If, Else>? in
+  static func `if`<S: Screen, If: PathBuilder, Else: PathBuilder>(
+    screen pathBuilder: @escaping (S) -> If,
+    else: Else
+  ) -> some PathBuilder {
+    _PathBuilder<EitherAB<If.Content, Else.Content>>(
+      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         guard let unwrappedScreen: S = path.first?.content.unwrap() else {
           return `else`.build(path: path).flatMap(EitherAB.b)
         }
 
-        return pathBuilder(unwrappedScreen)?.build(path: path).flatMap(EitherAB.a)
+        return pathBuilder(unwrappedScreen).build(path: path).flatMap(EitherAB.a)
       }
     )
   }
@@ -195,9 +202,12 @@ public extension PathBuilder {
       - screen:
         Closure defining the path builder based on the unwrapped screen object.
    */
-  static func `if`<S: Screen, If: View>(
-    screen pathBuilder: @escaping (S) -> PathBuilder<If>?
-  ) -> PathBuilder<EitherAB<If, Never>> {
-    .if(screen: pathBuilder, else: .empty)
+  static func `if`<S: Screen, If: PathBuilder>(
+    screen pathBuilder: @escaping (S) -> If
+  ) -> some PathBuilder {
+    PathBuilders.if(
+      screen: pathBuilder,
+      else: PathBuilders.empty
+    )
   }
 }

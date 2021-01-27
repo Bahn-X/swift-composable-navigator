@@ -1,6 +1,6 @@
 import SwiftUI
 
-public extension PathBuilder {
+public extension PathBuilders {
   /**
    Creates a path builder responsible for a single screen.
 
@@ -26,12 +26,17 @@ public extension PathBuilder {
      - nesting:
         Any path builder that can follow after this screen
    */
-  static func screen<S: Screen, Content: View, Successor: View>(
+  static func screen<
+    S: Screen,
+    Content: View,
+    SuccessorBuilder: PathBuilder,
+    Successor
+  >(
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content,
-    nesting: PathBuilder<Successor>
-  ) -> PathBuilder<Routed<Content, Successor>> {
-    PathBuilder<Routed<Content, Successor>>(
+    nesting: SuccessorBuilder
+  ) -> _PathBuilder<Routed<Content, Successor>> where SuccessorBuilder.Content == Successor {
+    _PathBuilder<Routed<Content, Successor>>(
       buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor>? in
         guard let head = path.first, let unwrapped: S = head.content.unwrap() else {
           return nil
@@ -71,11 +76,11 @@ public extension PathBuilder {
   static func screen<S: Screen, Content: View>(
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content
-  ) -> PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<Routed<Content, Never>> {
     screen(
       onAppear: onAppear,
       content: build,
-      nesting: .empty
+      nesting: PathBuilders.empty
     )
   }
 
@@ -107,13 +112,18 @@ public extension PathBuilder {
       - nesting:
         Any path builder that can follow after this screen
    */
-  static func screen<S: Screen, Content: View, Successor: View>(
+  static func screen<
+    S: Screen,
+    Content: View,
+    SuccessorBuilder: PathBuilder,
+    Successor
+  >(
     _ type: S.Type,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content,
-    nesting: PathBuilder<Successor>
-  ) -> PathBuilder<Routed<Content, Successor>> {
-    PathBuilder<Routed<Content, Successor>>(
+    nesting: SuccessorBuilder
+  ) -> _PathBuilder<Routed<Content, Successor>> where SuccessorBuilder.Content == Successor {
+    _PathBuilder<Routed<Content, Successor>>(
       buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor>? in
         guard let head = path.first, head.content.is(S.self) else {
           return nil
@@ -157,12 +167,12 @@ public extension PathBuilder {
     _ type: S.Type,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content
-  ) -> PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<Routed<Content, Never>> {
     screen(
       type,
       onAppear: onAppear,
       content: build,
-      nesting: .empty
+      nesting: PathBuilders.empty
     )
   }
 }

@@ -52,6 +52,50 @@ struct HomeView: View {
 
 struct HomeScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
+
+  static func builder(
+    appStore: Store<AppState, AppAction>
+  ) -> some PathBuilder {
+    PathBuilders.screen( // /home
+      onAppear: { _ in print("HomeView appeared") },
+      content: { (_: HomeScreen) in
+        HomeView(
+          store: appStore.scope(
+            state: \.home,
+            action: AppAction.home
+          )
+        )
+      },
+      nesting: PathBuilders.anyOf(
+        PathBuilders.screen( // detail?id=123
+          content: { (screen: DetailScreen) in
+            IfLetStore(
+              appStore.scope(
+                state: { state in
+                  state.details.first(where: { $0.id == screen.detailID }) },
+                action: { action in AppAction.detail(id: screen.detailID, action) }
+              ),
+              then: { detailStore in
+                DetailView(
+                  store: detailStore
+                )
+              }
+            )
+          },
+          nesting: PathBuilders.screen( // settings
+            content: { (screen: SettingsScreen) in
+              SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
+            }
+          )
+        ),
+        PathBuilders.screen( // settings
+          content: { (screen: SettingsScreen) in
+            SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
+          }
+        )
+      )
+    )
+  }
 }
 
 let homeReducer = Reducer<

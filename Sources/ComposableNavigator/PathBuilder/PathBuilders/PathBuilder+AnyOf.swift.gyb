@@ -28,7 +28,7 @@ public enum ${enumName}: View {
 }
 
 % end
-public extension PathBuilder {
+public extension PathBuilders {
 % for i in range(2, combineCount+1):
 %{
     # ABCD...
@@ -42,17 +42,23 @@ public extension PathBuilder {
     # A, B, C, D...
     genericTypeList = ", ".join(genericCharacters)
 
-    # A: View, B: View, ...
-    requirements = ",\n".join(map(lambda x: "    {0}: View".format(x), genericCharacters))
+    # A,\n B\n, ...
+    requirements = ",\n".join(map(lambda x: "    {0}".format(x), genericCharacters))
+
+    # ABuilder: PathBuilder, BBuilder: PathBuilder, ...
+    builderRequirements = ",\n".join(map(lambda x: "    {0}Builder: PathBuilder".format(x), genericCharacters))
 
     # Combined<A, B, C, D>
     enumName = "Either{0}<{1}>".format(genericCharacters, genericTypeList)
 
     # _ a: PathBuilder<A>,\n ...
-    parameters = ",\n".join(map(lambda x: "    _ {0}: PathBuilder<{1}>".format(x.lower(), x), genericCharacters))
+    parameters = ",\n".join(map(lambda x: "    _ {0}: {1}Builder".format(x.lower(), x), genericCharacters))
+
+    # ABuilder.Content == A
+    whereCondition = "where " + ",\n        ".join(map(lambda x: "{0}Builder.Content == {0}".format(x), genericCharacters))
 
     # PathBuilder<Either<A, B, C, D>>
-    combinedPathBuilderType = "PathBuilder<{0}>".format(enumName)
+    combinedPathBuilderType = "_PathBuilder<{0}>".format(enumName)
 }%
   /***
    ```swift
@@ -94,10 +100,13 @@ public extension PathBuilder {
    ```
   */
   static func anyOf<
-${requirements}  
+${requirements},
+${builderRequirements}
   >(
 ${parameters}
-  ) -> ${combinedPathBuilderType} {
+  ) -> ${combinedPathBuilderType}
+  ${whereCondition}
+  {
     ${combinedPathBuilderType}(
       buildPath: { path -> ${enumName}? in 
         if let aContent = a.build(path: path) {
