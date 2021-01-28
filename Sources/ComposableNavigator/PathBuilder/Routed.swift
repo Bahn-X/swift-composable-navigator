@@ -89,8 +89,8 @@ public struct Routed<Content: View, Next: View>: View {
 
         return true
       },
-      set: { _ in
-        guard let successor = successors?.first else {
+      set: { isActive in
+        guard !isActive, let successor = successors?.first, successor.hasAppeared else {
             return
         }
         navigator.dismiss(id: successor.id)
@@ -121,11 +121,11 @@ public struct Routed<Content: View, Next: View>: View {
         return successors
       },
       set: { value in
-        if value == nil, treatSheetDismissAsAppearInPresenter { onAppear(false) }
-
-        guard let successor = successors?.first else {
+        guard value == nil, let successor = successors?.first, successor.hasAppeared else {
             return
         }
+
+        if treatSheetDismissAsAppearInPresenter { onAppear(false) }
         navigator.dismiss(id: successor.id)
       }
     )
