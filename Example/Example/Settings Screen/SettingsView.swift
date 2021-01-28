@@ -32,6 +32,31 @@ struct SettingsView: View {
         .navigationBarTitle("Settings", displayMode: .inline)
 
       Button(
+        action: {
+          navigator.replace(
+            path: [
+              HomeScreen().eraseToAnyScreen(),
+              SettingsScreen().eraseToAnyScreen()
+            ]
+          )
+        },
+        label: { Text("Go to home settings") }
+      )
+
+      Button(
+        action: {
+          navigator.replace(
+            path: [
+              HomeScreen().eraseToAnyScreen(),
+              DetailScreen(detailID: "0").eraseToAnyScreen(),
+              SettingsScreen().eraseToAnyScreen()
+            ]
+          )
+        },
+        label: { Text("Go to detail 0 settings") }
+      )
+
+      Button(
         action: { navigator.goBack(to: HomeScreen()) },
         label: { Text("Go back to home screen") }
       )
