@@ -17,4 +17,5 @@ public struct _PathBuilder<Content: View>: PathBuilder {
   }
 }
 
+/// Namespace enum for all available PathBuilders
 public enum PathBuilders {}

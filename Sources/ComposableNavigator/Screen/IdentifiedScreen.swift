@@ -1,7 +1,8 @@
+/// An identified representation of a screen in a routing path
 public struct IdentifiedScreen: Hashable, Identifiable {
   public let id: ScreenID
   public let content: AnyScreen
-    public var hasAppeared: Bool
+  public var hasAppeared: Bool
 
   public init(id: ScreenID, content: AnyScreen, hasAppeared: Bool) {
     self.id = id

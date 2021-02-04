@@ -1,5 +1,5 @@
 public struct AnyScreen: Hashable {
-  private let screen: AnyHashable
+  let screen: AnyHashable
   let presentationStyle: ScreenPresentationStyle
 
   public init<S: Screen>(_ route: S) {

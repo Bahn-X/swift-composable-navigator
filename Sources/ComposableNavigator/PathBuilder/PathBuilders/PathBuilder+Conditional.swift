@@ -1,30 +1,28 @@
 import SwiftUI
 
 public extension PathBuilders {
-  /**
-   The conditional path builder controls which path builder is reponsible for building the routing path based on condition.
 
-   In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
-
-   # Example
-   ```swift
-   .conditional(
-    either: HomeScreen.builder(store: homeStore),
-    or: LoginScreen.builder(store: loginStore),
-    basedOn: { user.isLoggedIn }
-   )
-   ```
-
-   The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
-
-   - Parameters:
-      - either:
-        PathBuilder used to build the routing path, if the condition is true.
-      - or:
-        PathBuilder used to build the routing path, if the condition is false.
-      - basedOn:
-        Condition evaluated every time the routing path is built.
-  */
+  /// The conditional path builder controls which path builder is reponsible for building the routing path based on condition.
+  /// In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  ///
+  /// # Example
+  /// ```swift
+  ///   .conditional(
+  ///     either: HomeScreen.builder(store: homeStore),
+  ///     or: LoginScreen.builder(store: loginStore),
+  ///     basedOn: { user.isLoggedIn }
+  ///   )
+  /// ```
+  ///
+  /// The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
+  ///
+  /// - Parameters:
+  ///   - either:
+  ///     PathBuilder used to build the routing path, if the condition is true.
+  ///   - or:
+  ///     PathBuilder used to build the routing path, if the condition is false.
+  ///   - basedOn:
+  ///     Condition evaluated every time the routing path is built.
   static func conditional<
     If: PathBuilder,
     Else: PathBuilder
@@ -40,27 +38,25 @@ public extension PathBuilders {
     )
   }
 
-  /**
-   The if path builder controls which path builder is reponsible for building the routing path based on condition.
-
-   In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
-
-   # Example
-   ```swift
-   .if(
-    { user.isLoggedIn },
-    then: HomeScreen.builder(store: homeStore)
-   )
-   ```
-
-   The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
-
-   - Parameters:
-      - condition:
-        Condition evaluated every time the routing path is built.
-      - then:
-        PathBuilder used to build the routing path, if the condition is true.
-   */
+  ///  The if path builder controls which path builder is reponsible for building the routing path based on condition.
+  ///
+  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  ///
+  ///  # Example
+  ///  ```swift
+  ///  .if(
+  ///   { user.isLoggedIn },
+  ///   then: HomeScreen.builder(store: homeStore)
+  ///  )
+  ///  ```
+  ///
+  ///  The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
+  ///
+  ///  - Parameters:
+  ///     - condition:
+  ///       Condition evaluated every time the routing path is built.
+  ///     - then:
+  ///       PathBuilder used to build the routing path, if the condition is true.
   static func `if`<If: PathBuilder>(
     _ condition: @escaping () -> Bool,
     then builder: If
@@ -76,30 +72,28 @@ public extension PathBuilders {
     )
   }
 
-  /**
-   The if path builder controls which path builder is reponsible for building the routing path based on condition.
-
-   In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
-
-   # Example
-   ```swift
-   .if(
-    { user.isLoggedIn },
-    then: HomeScreen.builder(store: homeStore),
-    else: LoginScreen.builder(store: loginStore)
-   )
-   ```
-
-   The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
-
-   - Parameters:
-      - condition:
-        Condition evaluated every time the routing path is built.
-      - then:
-        PathBuilder used to build the routing path, if the condition is true.
-      - else:
-        PathBuilder used to build the routing path, if the condition is false.
-   */
+  ///  The if path builder controls which path builder is reponsible for building the routing path based on condition.
+  ///
+  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  ///
+  ///  # Example
+  ///  ```swift
+  ///  .if(
+  ///   { user.isLoggedIn },
+  ///   then: HomeScreen.builder(store: homeStore),
+  ///   else: LoginScreen.builder(store: loginStore)
+  ///  )
+  ///  ```
+  ///
+  ///  The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
+  ///
+  ///  - Parameters:
+  ///     - condition:
+  ///       Condition evaluated every time the routing path is built.
+  ///     - then:
+  ///       PathBuilder used to build the routing path, if the condition is true.
+  ///     - else:
+  ///       PathBuilder used to build the routing path, if the condition is false.
   static func `if`<If: PathBuilder, Else: PathBuilder>(
     _ condition: @escaping () -> Bool,
     then thenBuilder: If,
@@ -118,27 +112,26 @@ public extension PathBuilders {
     )
   }
 
-  /**
-   The ifLet path builder unwraps an optional value and provides it to the path builder defining closure.
 
-   # Example
-   ```swift
-   .if(
-      let: { store.detailStore },
-      then: { detailStore in
-        DetailScreen.builder(store: detailStore)
-      },
-      else: // fallback if the value is not set.
-   )
-   ```
-   - Parameters:
-      - let:
-        Closure unwrapping a value.
-      - then:
-        Closure defining the path builder based on the unwrapped screen object.
-      - else:
-        Fallback pathbuilder used if the screen cannot be unwrapped.
-   */
+  /// The ifLet path builder unwraps an optional value and provides it to the path builder defining closure.
+  ///
+  ///  # Example
+  ///  ```swift
+  ///  .if(
+  ///     let: { store.detailStore },
+  ///     then: { detailStore in
+  ///       DetailScreen.builder(store: detailStore)
+  ///     },
+  ///      else: // fallback if the value is not set.
+  ///  )
+  ///  ```
+  /// - Parameters:
+  ///   - let:
+  ///     Closure unwrapping a value.
+  ///   - then:
+  ///     Closure defining the path builder based on the unwrapped screen object.
+  ///   - else:
+  ///     Fallback pathbuilder used if the screen cannot be unwrapped.
   static func `if`<LetContent, If: PathBuilder, Else: PathBuilder>(
     `let`: @escaping () -> LetContent?,
     then: @escaping (LetContent) -> If,
@@ -154,24 +147,22 @@ public extension PathBuilders {
     )
   }
 
-  /**
-   The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
-
-   ```swift
-   .if(
-    screen: { (screen: DetailScreen) in
-      DetailScreen.builder(store.detailStore(for: screen.id))
-    },
-    else: // fallback
-   )
-   ```
-
-   - Parameters:
-      - screen:
-        Closure defining the path builder based on the unwrapped screen object.
-      - else:
-        Fallback pathbuilder used if the screen cannot be unwrapped.
-   */
+  ///  The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
+  ///
+  ///  ```swift
+  ///  .if(
+  ///   screen: { (screen: DetailScreen) in
+  ///     DetailScreen.builder(store.detailStore(for: screen.id))
+  ///   },
+  ///   else: // fallback
+  ///  )
+  ///  ```
+  ///
+  ///  - Parameters:
+  ///     - screen:
+  ///       Closure defining the path builder based on the unwrapped screen object.
+  ///     - else:
+  ///       Fallback pathbuilder used if the screen cannot be unwrapped.
   static func `if`<S: Screen, If: PathBuilder, Else: PathBuilder>(
     screen pathBuilder: @escaping (S) -> If,
     else: Else
@@ -187,21 +178,19 @@ public extension PathBuilders {
     )
   }
 
-  /**
-   The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
-
-   ```swift
-   .if(
-    screen: { (screen: DetailScreen) in
-      DetailScreen.builder(store.detailStore(for: screen.id))
-    }
-   )
-   ```
-
-   - Parameters:
-      - screen:
-        Closure defining the path builder based on the unwrapped screen object.
-   */
+  ///  The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
+  ///
+  ///  ```swift
+  ///  .if(
+  ///   screen: { (screen: DetailScreen) in
+  ///     DetailScreen.builder(store.detailStore(for: screen.id))
+  ///   }
+  ///  )
+  ///  ```
+  ///
+  ///  - Parameters:
+  ///    - screen:
+  ///      Closure defining the path builder based on the unwrapped screen object.
   static func `if`<S: Screen, If: PathBuilder>(
     screen pathBuilder: @escaping (S) -> If
   ) -> _PathBuilder<EitherAB<If.Content, Never>> {

@@ -4,31 +4,7 @@ public extension Navigator {
   class Datasource: ObservableObject {
     @Published public var path: [IdentifiedScreen]
 
-    let screenID: () -> ScreenID
-
-    public convenience init(
-      root: AnyScreen,
-      screenID: @escaping () -> ScreenID = ScreenID.init
-    ) {
-      self.init(
-        path: [
-          IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-        ],
-        screenID: screenID
-      )
-    }
-
-    public convenience init<S: Screen>(
-      root: S,
-      screenID: @escaping () -> ScreenID = ScreenID.init
-    ) {
-      self.init(
-        path: [
-          IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-        ],
-        screenID: screenID
-      )
-    }
+    private let screenID: () -> ScreenID
 
     init(
       path: [IdentifiedScreen],
@@ -165,5 +141,46 @@ public extension Navigator {
         )
       }
     }
+  }
+}
+
+// MARK: - Convenience Initialisers
+public extension Navigator.Datasource {
+  /// Initialise a data source given a root screen.
+  /// - Parameters:
+  ///   - root: The application's root screen
+  ///   - screenID: Closure used to initialise screen ids for new routing path elements
+  convenience init<S: Screen>(
+    root: S,
+    screenID: @escaping () -> ScreenID = ScreenID.init
+  ) {
+    self.init(
+      path: [
+        IdentifiedScreen(
+          id: .root,
+          content: root.eraseToAnyScreen(),
+          hasAppeared: false
+        )
+      ],
+      screenID: screenID
+    )
+  }
+
+  /// Initialise a data source given a routing path.
+  /// - Parameters:
+  ///   - path: The routing path built on Root view appear
+  ///   - screenID: Closure used to initialise screen ids for new routing path elements
+  convenience init(
+    path: [AnyScreen],
+    screenID: @escaping () -> ScreenID = ScreenID.init
+  ) {
+    let identifiedPath = path.map { element in
+      IdentifiedScreen(id: screenID(), content: element, hasAppeared: false)
+    }
+
+    self.init(
+      path: identifiedPath,
+      screenID: screenID
+    )
   }
 }

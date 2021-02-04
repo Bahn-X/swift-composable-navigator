@@ -1,4 +1,7 @@
 public extension Navigator {
+  /// Initialises a Navigator wrapping a Datasource object
+  /// - Parameters:
+  ///   - dataSource: The wrapped data source
   init(dataSource: Navigator.Datasource) {
     self.init(
       path: { dataSource.path },
