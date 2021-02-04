@@ -1,3 +1,5 @@
+import ComposableNavigator
+
 public struct DeeplinkHandler {
   private let navigator: Navigator
   private let parser: DeeplinkParser

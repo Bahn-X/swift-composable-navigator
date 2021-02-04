@@ -1,4 +1,4 @@
-@testable import ComposableNavigator
+@testable import ComposableDeeplinking
 import XCTest
 
 final class DeeplinkComponentTests: XCTestCase {
