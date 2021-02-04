@@ -1,3 +1,5 @@
+import ComposableNavigator
+
 public extension DeeplinkParser {
   static func prepending(
     path pathToEntrypoint: [AnyScreen],

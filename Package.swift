@@ -43,10 +43,22 @@ let package = Package(
         ),
       ]
     ),
+    .target(
+      name: "ComposableDeeplinking",
+      dependencies: [
+        .target(name: "ComposableNavigator")
+      ]
+    ),
     .testTarget(
       name: "ComposableNavigatorTests",
       dependencies: [
         "ComposableNavigator",
+      ]
+    ),
+    .testTarget(
+      name: "ComposableDeeplinkingTests",
+      dependencies: [
+        "ComposableDeeplinking",
       ]
     )
   ]

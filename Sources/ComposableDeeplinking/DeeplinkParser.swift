@@ -1,3 +1,5 @@
+import ComposableNavigator
+
 public struct DeeplinkParser {
   private let _parse: (Deeplink) -> [AnyScreen]?
 
