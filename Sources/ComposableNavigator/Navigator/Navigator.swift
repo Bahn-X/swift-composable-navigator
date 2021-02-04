@@ -3,6 +3,7 @@ import Foundation
 public struct Navigator {
   private let _path: () -> [IdentifiedScreen]
   private let _go: (AnyScreen, ScreenID) -> Void
+  private let _goToPath: ([AnyScreen], ScreenID) -> Void
   private let _goBack: (AnyScreen) -> Void
   private let _replace: ([AnyScreen]) -> Void
   private let _dismiss: (ScreenID) -> Void
@@ -15,6 +16,10 @@ public struct Navigator {
 
   public func go<S: Screen>(to screen: S, on id: ScreenID) {
     _go(screen.eraseToAnyScreen(), id)
+  }
+
+  public func go(to path: [AnyScreen], on id: ScreenID) {
+    _goToPath(path, id)
   }
 
   public func goBack<S: Screen>(to route: S) {
@@ -44,6 +49,7 @@ public struct Navigator {
   public init(
     path: @escaping () -> [IdentifiedScreen],
     go: @escaping (AnyScreen, ScreenID) -> Void,
+    goToPath: @escaping ([AnyScreen], ScreenID) -> Void,
     goBack: @escaping (AnyScreen) -> Void,
     replace: @escaping ([AnyScreen]) -> Void,
     dismiss: @escaping (ScreenID) -> Void,
@@ -52,6 +58,7 @@ public struct Navigator {
   ) {
     self._path = path
     self._go = go
+    self._goToPath = goToPath
     self._goBack = goBack
     self._replace = replace
     self._dismiss = dismiss
@@ -65,6 +72,7 @@ public extension Navigator {
   static func stub(
     path: @escaping () -> [IdentifiedScreen] = { fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
     go: @escaping (AnyScreen, ScreenID) -> Void = { _, _ in fatalError("go(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
+    goToPath: @escaping ([AnyScreen], ScreenID) -> Void = { _, _ in fatalError("append(path:, to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
     goBack: @escaping (AnyScreen) -> Void = { _ in fatalError("goBack(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
     replace: @escaping ([AnyScreen]) -> Void = { _ in fatalError("replace(path:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
     dismiss: @escaping (ScreenID) -> Void = { _ in fatalError("dismiss(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.") },
@@ -74,6 +82,7 @@ public extension Navigator {
     Navigator(
       path: path,
       go: go,
+      goToPath: goToPath,
       goBack: goBack,
       replace: replace,
       dismiss: dismiss,
@@ -91,6 +100,11 @@ public extension Navigator {
       go: { (screen, id) in
         _go(screen, id)
         print("Sent go(to: \(screen), on: \(id)).\nNew path:")
+        dump(path())
+      },
+      goToPath: { newPath, id in
+        _goToPath(newPath, id)
+        print("Sent go(to path: \(newPath), on: \(id)).\nNew path:")
         dump(path())
       },
       goBack: { (predecessor) in

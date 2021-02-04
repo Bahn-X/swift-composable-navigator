@@ -36,6 +36,93 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  func test_goTo_path_no_matching_elements() {
+    let expectedNextID = ScreenID()
+    let newID = ScreenID()
+
+    let sut = Navigator.Datasource(
+      path: [
+        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+      ],
+      screenID: { newID }
+    )
+
+    let first = TestScreen(identifier: "first", presentationStyle: .push)
+    let second = TestScreen(identifier: "second", presentationStyle: .push)
+
+
+    let appendedPath = [
+      first.eraseToAnyScreen(),
+      second.eraseToAnyScreen()
+    ]
+
+    sut.append(path: appendedPath, to: .root)
+
+    XCTAssertEqual(
+      sut.path,
+      [
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        ),
+        IdentifiedScreen(
+          id: newID,
+          content: first.eraseToAnyScreen(),
+          hasAppeared: false
+        ),
+        IdentifiedScreen(
+          id: newID,
+          content: second.eraseToAnyScreen(),
+          hasAppeared: false
+        ),
+      ]
+    )
+  }
+
+  func test_goTo_path_matching_path_elements() {
+    let expectedNextID = ScreenID()
+    let newID = ScreenID()
+
+    let sut = Navigator.Datasource(
+      path: [
+        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+      ],
+      screenID: { newID }
+    )
+
+
+    let appendedPath = [
+      TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen(),
+      TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
+    ]
+
+    sut.append(path: appendedPath, to: .root)
+
+    XCTAssertEqual(
+      sut.path,
+      [
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        ),
+        IdentifiedScreen(
+          id: expectedNextID,
+          content: next,
+          hasAppeared: true
+        ),
+        IdentifiedScreen(
+          id: newID,
+          content: TestScreen(identifier: "newDetail", presentationStyle: .push),
+          hasAppeared: false
+        ),
+      ]
+    )
+  }
+
   func test_goBack_to_existing() {
     let expectedNextID = ScreenID()
 

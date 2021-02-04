@@ -5,6 +5,9 @@ public extension Navigator {
       go: { screen, id in
         dataSource.go(to: screen, on: id)
       },
+      goToPath: { path, id in
+        dataSource.append(path: path, to: id)
+      },
       goBack: { predecessor in
         dataSource.goBack(to: predecessor)
       },
