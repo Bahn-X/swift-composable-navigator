@@ -1,5 +1,36 @@
 import SwiftUI
 
+///  Root View of any ComposableNavigator driven application
+///
+///  Embeds the content in a `NavigationView` and builds the routing path, whenever it changes.
+///  ## Usage
+///  ```swift
+///  import ComposableNavigator
+///  import SwiftUI
+///
+///  let appBuilder: PathBuilder = PathBuilders.screen(
+///    HomeScreen.self,
+///    content: { HomeView(...) },
+///    nesting: PathBuilders.anyOf(
+///      DetailScreen.builder(...),
+///      SettingsScreen.builder(...)
+///   )
+///  )
+///
+///  @main
+///  struct ExampleApp: App {
+///    let dataSource = Navigator.Datasource(root: HomeScreen())
+///
+///    var body: some Scene {
+///      WindowGroup {
+///        Root(
+///         dataSource: dataSource,
+///         pathBuilder: appBuilder
+///       )
+///      }
+///    }
+///  }
+///  ```
 public struct Root<Builder: PathBuilder>: View {
   @ObservedObject private var dataSource: Navigator.Datasource
   private let navigator: Navigator
@@ -44,6 +75,7 @@ public extension Root {
     )
   }
 
+  /// Enable  logging function calls to the Navigator object and path changes.
   func debug() -> Root {
     Root(
       dataSource: dataSource,

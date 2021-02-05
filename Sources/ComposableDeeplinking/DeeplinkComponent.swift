@@ -1,5 +1,18 @@
 import Foundation
 
+/// First class representation of a URL path component
+///
+/// # Example
+/// ```swift
+/// // scheme://name?flag&value=123
+/// DeeplinkComponent(
+///    name: "name",
+///    arguments: [
+///      "flag": .flag,
+///      "value": "123"
+///    ]
+/// )
+/// ```
 public struct DeeplinkComponent: Hashable {
   public enum Argument: Hashable {
     case flag
@@ -9,6 +22,19 @@ public struct DeeplinkComponent: Hashable {
   public let name: String
   public let arguments: [String: Argument]?
 
+  /// Initialise a deeplink component from a URL
+  ///
+  /// # Example
+  /// ```swift
+  /// // scheme://name?flag&value=123
+  /// DeeplinkComponent(
+  ///    name: "name",
+  ///    arguments: [
+  ///      "flag": .flag,
+  ///      "value": "123"
+  ///    ]
+  /// )
+  /// ```
   public init?(url: URL) {
     guard let host = url.host else {
       return nil
@@ -32,9 +58,9 @@ public struct DeeplinkComponent: Hashable {
     )
   }
 
-  public init(name: String, queryItems: [String: Argument]? = nil) {
+  public init(name: String, arguments: [String: Argument]? = nil) {
     self.name = name
-    self.arguments = queryItems
+    self.arguments = arguments
   }
 }
 

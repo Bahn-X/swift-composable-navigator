@@ -1,4 +1,5 @@
 public extension DeeplinkParser {
+  /// Any of the listed deeplink parsers might take care of parsing the deeplink
   static func anyOf(
     _ parsers: [DeeplinkParser]
   ) -> DeeplinkParser {
@@ -14,6 +15,7 @@ public extension DeeplinkParser {
     )
   }
 
+  /// Any of the listed deeplink parsers might take care of parsing the deeplink
   static func anyOf(
     _ parsers: DeeplinkParser...
   ) -> DeeplinkParser {

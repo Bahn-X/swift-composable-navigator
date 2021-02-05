@@ -8,6 +8,7 @@ struct HomeState: Equatable {
 enum HomeAction: Equatable {
   case viewAppeared
   case selected(element: String, on: ScreenID)
+  case openSettings(for: String, on: ScreenID)
   case settingsButtonTapped(ScreenID)
 }
 struct HomeEnvironment {
@@ -25,14 +26,26 @@ struct HomeView: View {
           viewStore.elements,
           id: \.self,
           content: { element in
-            Button(
-              action: {
-                viewStore.send(.selected(element: element, on: currentScreenID))
-              },
-              label: {
-                Text("Element \(element)")
-              }
-            )
+            HStack {
+              Button(
+                action: {
+                  viewStore.send(
+                    .selected(element: element, on: currentScreenID)
+                  )
+                },
+                label: {
+                  Text("Element \(element)")
+                }
+              )
+              Spacer()
+              Image(systemName: "gear")
+                .foregroundColor(.gray)
+                .onTapGesture {
+                  viewStore.send(
+                    .openSettings(for: element, on: currentScreenID)
+                  )
+                }
+            }
           }
         )
       }
@@ -106,18 +119,33 @@ let homeReducer = Reducer<
   switch action {
     case .viewAppeared:
       return .none
+
     case let .settingsButtonTapped(id):
       return .fireAndForget {
         environment
           .navigator
           .go(to: SettingsScreen(), on: id)
       }
+      
     case let .selected(element, screenID):
       return .fireAndForget {
         environment
           .navigator
           .go(to: DetailScreen(detailID: element), on: screenID)
       }
+
+  case let .openSettings(for: element, on: screenID):
+    return .fireAndForget {
+      environment
+        .navigator
+        .go(
+          to: [
+            DetailScreen(detailID: element).eraseToAnyScreen(),
+            SettingsScreen().eraseToAnyScreen()
+          ],
+          on: screenID
+        )
+    }
   }
 }
 

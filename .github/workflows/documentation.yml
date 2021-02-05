@@ -1,0 +1,26 @@
+# .github/workflows/documentation.yml
+name: Documentation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v1
+      - name: Generate Documentation
+        uses: SwiftDocOrg/swift-doc@master
+        with:
+          inputs: "Sources"
+          module-name: ComposableNavigator
+          output: "Documentation"
+      - name: Upload Documentation to Wiki
+        uses: SwiftDocOrg/github-wiki-publish-action@v1
+        with:
+          path: "Documentation"
+        env:
+          GH_PERSONAL_ACCESS_TOKEN: ${{ secrets.GH_PERSONAL_ACCESS_TOKEN }}

@@ -1,6 +1,6 @@
 import Foundation
 import ComposableArchitecture
-@testable import ComposableNavigator
+import ComposableNavigator
 import ComposableNavigatorTCA
 import SwiftUI
 
@@ -70,26 +70,14 @@ let appReducer = Reducer<
 
 let dataSource = Navigator.Datasource(
   path: [
-    IdentifiedScreen(
-      id: .root,
-      content: HomeScreen(),
-      hasAppeared: false
-    ),
-    IdentifiedScreen(
-      id: ScreenID(),
-      content: DetailScreen(detailID: "0"),
-      hasAppeared: false
-    ),
-    IdentifiedScreen(
-      id: ScreenID(),
-      content: SettingsScreen(),
-      hasAppeared: false
-    )
+    HomeScreen().eraseToAnyScreen(),
+    DetailScreen(detailID: "0").eraseToAnyScreen(),
+    SettingsScreen().eraseToAnyScreen()
   ]
 )
 
 func initializeApp() -> some View {
-  let appNavigator: Navigator = Navigator(dataSource: dataSource)
+  let appNavigator: Navigator = Navigator(dataSource: dataSource).debug()
   let appStore = Store<AppState, AppAction>(
     initialState: AppState(
       elements: (0..<10).map(String.init)
@@ -101,6 +89,7 @@ func initializeApp() -> some View {
   let pathBuilder = HomeScreen.builder(appStore: appStore)
   return Root(
     dataSource: dataSource,
+    navigator: appNavigator,
     pathBuilder: pathBuilder
   )
   .environment(\.treatSheetDismissAsAppearInPresenter, true)

@@ -22,12 +22,10 @@ struct UIKitAppear: UIViewControllerRepresentable {
 }
 
 extension View {
-    /**
-    Unfortunately, onAppear is broken in SwiftUI iOS >14.
-    Therefore, we fallback to UIKit's viewDidAppear method in `Routed<Content>` to determine when a screen is shown.
 
-    [Apple Developer Forums Discussion](https://developer.apple.com/forums/thread/655338)
-    */
+    /// Unfortunately, onAppear is broken in SwiftUI iOS >14.
+    /// Therefore, we fallback to UIKit's viewDidAppear method in `Routed<Content>` to determine when a screen is shown.
+    /// [Apple Developer Forums Discussion](https://developer.apple.com/forums/thread/655338)
     func uiKitOnAppear(_ perform: @escaping () -> Void) -> some View {
         self.background(UIKitAppear(action: perform))
     }
