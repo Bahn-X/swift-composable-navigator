@@ -100,8 +100,13 @@ struct ExampleApp: App {
 }
 ```
 
+## Deeplinking
+As ComposableNavigator builds the view hierarchy based on routing paths, it is the ideal companion to implement deeplinking. Deeplinks come in different forms and shapes, however ComposableNavigator abstracts it into a first-class representation in form of the `Deeplink` type. The ComposableDeeplinking package that is part of the ComposableNavigator contains a couple of helper types that allow you to easily replace the current routing path with a new routing path based on a `Deeplink` by defining a `DeeplinkHandler` and a composable `DeeplinkParser`.
+
+You can find more information on deeplinking and how to it [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/Deeplinking).
+
 ## Dependency injection 
-The composable navigator was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and it's approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app navigator, the composable navigator gives you full control over dependency injection. Currently, the helper package `ComposableNavigatorTCA` is part of this repository and therefore the package has a dependency on TCA. This will change in the future when `ComposableNavigatorTCA` gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
+ComposableNavigator was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and it's approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app navigator, ComposableNavigator gives you full control over dependency injection. Currently, the helper package `ComposableNavigatorTCA` is part of this repository and therefore the package has a dependency on TCA. This will change in the future when `ComposableNavigatorTCA` gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
 
 ## License
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
