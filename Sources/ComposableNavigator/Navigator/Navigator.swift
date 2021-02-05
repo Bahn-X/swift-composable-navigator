@@ -1,5 +1,6 @@
 import Foundation
 
+/// Facade type erasing the type of the underlying datasource
 public struct Navigator {
   private let _path: () -> [IdentifiedScreen]
   private let _go: (AnyScreen, ScreenID) -> Void
@@ -12,14 +13,14 @@ public struct Navigator {
 
   /// Retrieve the current value of the routing path
   /// - Returns: The current routing path
-  /// - SeeAlso: Navigator.debug()
+  /// - SeeAlso: `Navigator.debug()`
   func path() -> [IdentifiedScreen] {
     _path()
   }
 
-  /// Append a screen after a  given screen ID.
+  /// Append a screen after a  given `ScreenID`.
   ///
-  /// `go(to:, on:)` appends the given screen after the screen associated with the passed screen ID. If you call `go(to:, on:)` for a screen ID that is not associated with the last screen in the current routing path, the routing path after the screen ID is replaced with `[screen]` and therefore cut off.
+  /// `go(to:, on:)` appends the given screen after the screen associated with the passed `ScreenID`. If you call `go(to:, on:)` for a `ScreenID` that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `[screen]` and therefore cut off.
   ///
   /// ## Example
   /// ```swift
@@ -32,15 +33,15 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - screen: Destination
-  ///   - id: Screen ID used to identify where the destination should be appended
+  ///   - id: `ScreenID` used to identify where the destination should be appended
   public func go<S: Screen>(to screen: S, on id: ScreenID) {
     _go(screen.eraseToAnyScreen(), id)
   }
 
 
-  /// Replace the path  after a given screen ID with the passed path.
+  /// Replace the path  after a given `ScreenID` with the passed path.
   ///
-  /// `go(to:, on:)` appends the given path after the screen associated with the passed screen ID. If you call `go(to:, on:)` for a screen ID that is not associated with the last screen in the current routing path, the routing path after the screen ID is replaced with `path` and potentially cut off.
+  /// `go(to:, on:)` appends the given path after the screen associated with the passed `ScreenID`. If you call `go(to:, on:)` for a `ScreenID` that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `path` and potentially cut off.
   ///
   /// ## Example
   /// ```swift
@@ -58,14 +59,14 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - path: New path after `id`
-  ///   - id: Screen ID used to identify where the destination should be appended
+  ///   - id: `ScreenID` used to identify where the destination should be appended
   public func go(to path: [AnyScreen], on id: ScreenID) {
     _goToPath(path, id)
   }
 
   /// Go back to the last occurence of the screen instance in the routing path.
   ///
-  /// The function appends the given screen after the screen associated with the passed screen ID. If you call `go(to:, on:)` for a screen ID that is not associated with the last screen in the current routing path, the routing path after the screen ID is replaced with `[screen]` and therefore cut off.
+  /// The function appends the given screen after the screen associated with the passed `ScreenID`. If you call `go(to:, on:)` for a `ScreenID` that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `[screen]` and therefore cut off.
   ///
   /// ## Example
   /// ```swift
@@ -100,7 +101,6 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - path: The new routing path
-   */
   public func replace(path: AnyScreen...) {
     _replace(path)
   }
@@ -127,7 +127,6 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - path: The new routing path
-   */
   public func replace(path: [AnyScreen]) {
     _replace(path)
   }
@@ -175,7 +174,7 @@ public struct Navigator {
   }
 
 
-  /// Sets the `hasAppeared` flag to `true` for the passed screen ID.
+  /// Sets the `hasAppeared` flag to `true` for the passed `ScreenID`.
   ///
   /// Needed for nested deeplinks as SwiftUI is only "ready" to navigate once a screen has appeared.
   ///

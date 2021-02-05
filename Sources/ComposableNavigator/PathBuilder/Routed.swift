@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Screen container view, taking care of push and sheet bindings.
 public struct Routed<Content: View, Next: View>: View {
   @Environment(\.currentScreenID) var screenID
   @Environment(\.navigator) var navigator

@@ -1,9 +1,8 @@
 import SwiftUI
 
 public extension PathBuilders {
-
-  /// The conditional path builder controls which path builder is reponsible for building the routing path based on condition.
-  /// In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  /// The conditional `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
+  /// In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional `PathBuilder`s.
   ///
   /// # Example
   /// ```swift
@@ -38,9 +37,9 @@ public extension PathBuilders {
     )
   }
 
-  ///  The if path builder controls which path builder is reponsible for building the routing path based on condition.
+  ///  The if `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
   ///
-  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional `PathBuilder`s.
   ///
   ///  # Example
   ///  ```swift
@@ -72,9 +71,9 @@ public extension PathBuilders {
     )
   }
 
-  ///  The if path builder controls which path builder is reponsible for building the routing path based on condition.
+  ///  The if `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
   ///
-  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional path builders.
+  ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional `PathBuilder`s.
   ///
   ///  # Example
   ///  ```swift
@@ -112,8 +111,7 @@ public extension PathBuilders {
     )
   }
 
-
-  /// The ifLet path builder unwraps an optional value and provides it to the path builder defining closure.
+  /// The ifLet `PathBuilder` unwraps an optional value and provides it to the `PathBuilder` defining closure.
   ///
   ///  # Example
   ///  ```swift
@@ -129,7 +127,7 @@ public extension PathBuilders {
   ///   - let:
   ///     Closure unwrapping a value.
   ///   - then:
-  ///     Closure defining the path builder based on the unwrapped screen object.
+  ///     Closure defining the `PathBuilder` based on the unwrapped screen object.
   ///   - else:
   ///     Fallback pathbuilder used if the screen cannot be unwrapped.
   static func `if`<LetContent, If: PathBuilder, Else: PathBuilder>(
@@ -147,7 +145,7 @@ public extension PathBuilders {
     )
   }
 
-  ///  The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
+  ///  The if screen `PathBuilder` unwraps a screen, if the path element matches the screen type, and provides it to the `PathBuilder` defining closure.
   ///
   ///  ```swift
   ///  .if(
@@ -160,7 +158,7 @@ public extension PathBuilders {
   ///
   ///  - Parameters:
   ///     - screen:
-  ///       Closure defining the path builder based on the unwrapped screen object.
+  ///       Closure defining the `PathBuilder` based on the unwrapped screen object.
   ///     - else:
   ///       Fallback pathbuilder used if the screen cannot be unwrapped.
   static func `if`<S: Screen, If: PathBuilder, Else: PathBuilder>(
@@ -178,7 +176,7 @@ public extension PathBuilders {
     )
   }
 
-  ///  The if screen path builder unwraps a screen, if the path element matches the screen type, and provides it to the path builder defining closure.
+  ///  The if screen `PathBuilder` unwraps a screen, if the path element matches the screen type, and provides it to the `PathBuilder` defining closure.
   ///
   ///  ```swift
   ///  .if(
@@ -190,7 +188,7 @@ public extension PathBuilders {
   ///
   ///  - Parameters:
   ///    - screen:
-  ///      Closure defining the path builder based on the unwrapped screen object.
+  ///      Closure defining the `PathBuilder` based on the unwrapped screen object.
   static func `if`<S: Screen, If: PathBuilder>(
     screen pathBuilder: @escaping (S) -> If
   ) -> _PathBuilder<EitherAB<If.Content, Never>> {

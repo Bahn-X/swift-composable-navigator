@@ -3,7 +3,7 @@ import ComposableNavigator
 import SwiftUI
 
 public extension PathBuilders {
-  /// A path builder that safely unwraps a store of optional state in order to show one of two views.
+  /// A `PathBuilder` that safely unwraps a store of optional state in order to show one of two views.
   ///
   /// When the underlying state is non-`nil`, the `then` closure will be performed with a `Store` that
   /// holds onto non-optional state to build the routing path, and otherwise the `else` PathBuilder will be used.
@@ -42,7 +42,7 @@ public extension PathBuilders {
     )
   }
 
-  /// A path builder that safely unwraps a store of optional state in order to show one of two views.
+  /// A `PathBuilder` that safely unwraps a store of optional state in order to show one of two views.
   ///
   /// When the underlying state is non-`nil`, the `then` closure will be performed with a `Store` that
   /// holds onto non-optional state to build the routing path.

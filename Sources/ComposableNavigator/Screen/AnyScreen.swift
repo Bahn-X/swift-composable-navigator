@@ -1,3 +1,4 @@
+/// Type-erased representation of `Screen` objects
 public struct AnyScreen: Hashable {
   let screen: AnyHashable
   let presentationStyle: ScreenPresentationStyle

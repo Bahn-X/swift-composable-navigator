@@ -1,7 +1,10 @@
 # .github/workflows/documentation.yml
 name: Documentation
 
-on: [push]
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   build:

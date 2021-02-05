@@ -1,6 +1,7 @@
 import Foundation
 
 public extension Navigator {
+  /// Observable Object exposing routing path changes
   class Datasource: ObservableObject {
     @Published public var path: [IdentifiedScreen]
 
@@ -149,7 +150,7 @@ public extension Navigator.Datasource {
   /// Initialise a data source given a root screen.
   /// - Parameters:
   ///   - root: The application's root screen
-  ///   - screenID: Closure used to initialise screen ids for new routing path elements
+  ///   - screenID: Closure used to initialise `ScreenID`s for new routing path elements
   convenience init<S: Screen>(
     root: S,
     screenID: @escaping () -> ScreenID = ScreenID.init
@@ -169,7 +170,7 @@ public extension Navigator.Datasource {
   /// Initialise a data source given a routing path.
   /// - Parameters:
   ///   - path: The routing path built on Root view appear
-  ///   - screenID: Closure used to initialise screen ids for new routing path elements
+  ///   - screenID: Closure used to initialise `ScreenID`s for new routing path elements
   convenience init(
     path: [AnyScreen],
     screenID: @escaping () -> ScreenID = ScreenID.init

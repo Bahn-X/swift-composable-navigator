@@ -5,7 +5,7 @@ final class DeeplinkComponentTests: XCTestCase {
   func test_init_DeeplinkComponent_fromURL() {
     let expectedPathElement = DeeplinkComponent(
       name: "test",
-      queryItems: [
+      arguments: [
         "id": .value("1"),
         "message": .value("Hello World"),
         "flag": .flag
@@ -22,14 +22,14 @@ final class DeeplinkComponentTests: XCTestCase {
     let expectedPathElements = [
       DeeplinkComponent(
         name: "first",
-        queryItems: [
+        arguments: [
           "id": .value("0"),
           "flag": .flag
         ]
       ),
       DeeplinkComponent(
         name: "second",
-        queryItems: [
+        arguments: [
           "id": .value("1"),
           "flag": .flag
         ]

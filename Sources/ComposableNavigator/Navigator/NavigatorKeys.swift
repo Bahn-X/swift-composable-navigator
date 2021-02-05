@@ -1,15 +1,17 @@
 import SwiftUI
 
+/// EnvironmentKey identifying the `Navigator` allowing routing path mutations
 public enum NavigatorKey: EnvironmentKey {
   public static let defaultValue: Navigator = .stub
 }
 
+/// EnvironmentKey used to pass down treatSheetDismissAsAppearInPresenter down the view hierarchy
 public enum TreatSheetDismissAsAppearInPresenterKey: EnvironmentKey {
   public static let defaultValue: Bool = false
 }
 
 public extension EnvironmentValues {
-  /// The navigator allowing routing path mutations
+  /// The `Navigator` allowing routing path mutations
   ///
   ///  Can be used to directly navigate from a Vanilla SwiftUI.
   ///

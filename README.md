@@ -2,7 +2,7 @@
 Composable Navigator is a library for building deep-linkable SwiftUI applications with dependency injection, testing and ergonomics in mind. Composable Navigator lifts the burden of manually managing navigation state in each screen state off your shoulders and allows to navigate through applications along routing paths. 
 
 ## What is the Composable Navigator?
-This library mainly revolves around three main concepts: routing paths, path builders, and navigator. 
+This library mainly revolves around three main concepts: routing paths, `PathBuilder`s, and navigator. 
 
 ### **Routing Path**
 A routing path is a path that describes the order of visible screens in the  application. It is a first-class representation of the <url-path> defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A routing path consists of screens.
@@ -37,10 +37,10 @@ struct DemoView: View {
 Navigators allow programatic navigation and can be injected where needed. 
 
 ### **Path builder**
-A path builder defines how a path element and its successors are built into a view hierarchy.
+A `PathBuilder` defines how a path element and its successors are built into a view hierarchy.
 
 #### Path builder composition
-The Composable Navigator is based on the concept of path builder composition. It uses path builder composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
+The Composable Navigator is based on the concept of `PathBuilder` composition. It uses `PathBuilder` composition to describe all possible routing paths in an application. That also means that all possible paths are instantly accessible via routing paths, i.e. deep-linkable.
 
 Let's look at an example navigator (using TCA):
 
@@ -69,7 +69,7 @@ Based on `appBuilder`, the following routing paths are valid routing paths:
   /home/settings
 ```
 
-All available path builders are documented [here](./Docs/PathBuilders.md).
+All available `PathBuilder`s are documented [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/PathBuilders).
 
 ## Usage
 ```swift
@@ -101,7 +101,7 @@ struct ExampleApp: App {
 ```
 
 ## Dependency injection 
-The composable navigator was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and it's approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app navigator, the composable navigator gives you full control over dependency injection. In the future, we will remove the dependency on TCA to allow usage in Vanilla SwiftUI applications.
+The composable navigator was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and it's approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app navigator, the composable navigator gives you full control over dependency injection. Currently, the helper package `ComposableNavigatorTCA` is part of this repository and therefore the package has a dependency on TCA. This will change in the future when `ComposableNavigatorTCA` gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
 
 ## License
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
