@@ -156,10 +156,24 @@ public extension Navigator.Datasource {
     screenID: @escaping () -> ScreenID = ScreenID.init
   ) {
     self.init(
+      root: root.eraseToAnyScreen(),
+      screenID: screenID
+    )
+  }
+
+  /// Initialise a data source given a root screen.
+  /// - Parameters:
+  ///   - root: The application's root screen
+  ///   - screenID: Closure used to initialise `ScreenID`s for new routing path elements
+  convenience init(
+    root: AnyScreen,
+    screenID: @escaping () -> ScreenID = ScreenID.init
+  ) {
+    self.init(
       path: [
         IdentifiedScreen(
           id: .root,
-          content: root.eraseToAnyScreen(),
+          content: root,
           hasAppeared: false
         )
       ],
