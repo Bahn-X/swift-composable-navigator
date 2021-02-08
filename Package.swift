@@ -17,6 +17,10 @@ let package = Package(
       targets: ["ComposableNavigator"]
     ),
     .library(
+      name: "ComposableDeeplinking",
+      targets: ["ComposableDeeplinking"]
+    ),
+    .library(
       name: "ComposableNavigatorTCA",
       targets: ["ComposableNavigatorTCA"]
     ),
