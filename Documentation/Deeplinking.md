@@ -15,7 +15,7 @@ ComposableDeeplinking is part of the ComposableNavigator package and enables you
 <img src="./Resources/Deeplinking/urlscheme.png" width="70%"/>
 
 # AppDelegate / SceneDelegate app life cycle
-If your app is using the pre-iOS14 AppDelegate/SceneDelegate life cycle, you will need to override `scene(_ scene:, willConnectTo session: , options connectionOptions:)` and `scene(_ scene: UIScene, openURLContexts contexts: Set<UIOpenURLContext>)` in order to get url scheme based `Deeplink`s to work.
+If your app is using the pre-iOS14 AppDelegate/SceneDelegate life cycle, you will need to override [`scene(_ scene:, willConnectTo session:, options connectionOptions:)`](https://developer.apple.com/documentation/uikit/uiscenedelegate/3197914-scene) and [`scene(_ scene:, openURLContexts contexts:)`](https://developer.apple.com/documentation/uikit/uiscenedelegate/3238059-scene) in order to get url scheme based `Deeplink`s to work.
 
 ```swift
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
