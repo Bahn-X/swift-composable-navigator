@@ -3,16 +3,16 @@ ComposableDeeplinking is part of the ComposableNavigator package and enables you
 
 # Setting up an URL scheme
 1. Open the project file<br/>
-<img src="./Resources/Deeplinking/project.png" width="70%"/>
+<img src="./project.png" width="70%"/>
 
 2. Select the app target<br/>
-<img src="./Resources/Deeplinking/appTarget.png" width="30%"/>
+<img src="./appTarget.png" width="30%"/>
 
 3. Select the info tab<br/>
-<img src="./Resources/Deeplinking/infoTab.png" width="10%"/>
+<img src="./infoTab.png" width="10%"/>
 
 4. Add the url scheme<br/>
-<img src="./Resources/Deeplinking/urlscheme.png" width="70%"/>
+<img src="./urlscheme.png" width="70%"/>
 
 # AppDelegate / SceneDelegate app life cycle
 If your app is using the pre-iOS14 AppDelegate/SceneDelegate life cycle, you will need to override [`scene(_ scene:, willConnectTo session:, options connectionOptions:)`](https://developer.apple.com/documentation/uikit/uiscenedelegate/3197914-scene) and [`scene(_ scene:, openURLContexts contexts:)`](https://developer.apple.com/documentation/uikit/uiscenedelegate/3238059-scene) in order to get url scheme based `Deeplink`s to work.
