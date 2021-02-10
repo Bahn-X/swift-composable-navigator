@@ -9,7 +9,7 @@ public extension Navigator {
         dataSource.go(to: screen, on: id)
       },
       goToPath: { path, id in
-        dataSource.append(path: path, to: id)
+        dataSource.go(to: path, on: id)
       },
       goBack: { predecessor in
         dataSource.goBack(to: predecessor)
