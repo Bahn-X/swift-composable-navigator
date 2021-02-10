@@ -67,31 +67,3 @@ let appReducer = Reducer<
     environment: \.settings
   )
 )
-
-let dataSource = Navigator.Datasource(
-  path: [
-    HomeScreen().eraseToAnyScreen(),
-    DetailScreen(detailID: "0").eraseToAnyScreen(),
-    SettingsScreen().eraseToAnyScreen()
-  ]
-)
-
-func initializeApp() -> some View {
-  let appNavigator: Navigator = Navigator(dataSource: dataSource).debug()
-  let appStore = Store<AppState, AppAction>(
-    initialState: AppState(
-      elements: (0..<10).map(String.init)
-    ),
-    reducer: appReducer,
-    environment: AppEnvironment(navigator: appNavigator)
-  )
-
-  let pathBuilder = HomeScreen.builder(appStore: appStore)
-  return Root(
-    dataSource: dataSource,
-    navigator: appNavigator,
-    pathBuilder: pathBuilder
-  )
-  .environment(\.treatSheetDismissAsAppearInPresenter, true)
-}
-

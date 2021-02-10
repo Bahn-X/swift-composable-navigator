@@ -10,6 +10,11 @@
 		23258303256D2524001A191B /* ComposableNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = 23258302256D2524001A191B /* ComposableNavigator */; };
 		235F93F525D3D4600045E37D /* NavigationShortcutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */; };
 		235F93FA25D3D7770045E37D /* NavigationShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F93F925D3D7770045E37D /* NavigationShortcuts.swift */; };
+		236458A125D41D4A00190D4D /* AppDeeplinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458A025D41D4A00190D4D /* AppDeeplinkParser.swift */; };
+		236458A425D41D7A00190D4D /* HomeSettingsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458A325D41D7A00190D4D /* HomeSettingsDeeplink.swift */; };
+		236458A725D41E1B00190D4D /* ComposableDeeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = 236458A625D41E1B00190D4D /* ComposableDeeplinking */; };
+		236458AB25D41F1600190D4D /* DetailsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458AA25D41F1600190D4D /* DetailsDeeplink.swift */; };
+		236458AE25D41F8000190D4D /* DetailsSettingsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458AD25D41F8000190D4D /* DetailsSettingsDeeplink.swift */; };
 		236E65802559498C00C19B46 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E657F2559498C00C19B46 /* ExampleApp.swift */; };
 		236E65842559498D00C19B46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65832559498D00C19B46 /* Assets.xcassets */; };
 		236E65872559498D00C19B46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65862559498D00C19B46 /* Preview Assets.xcassets */; };
@@ -23,6 +28,10 @@
 /* Begin PBXFileReference section */
 		235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavigationShortcutsView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		235F93F925D3D7770045E37D /* NavigationShortcuts.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavigationShortcuts.swift; sourceTree = "<group>"; tabWidth = 2; };
+		236458A025D41D4A00190D4D /* AppDeeplinkParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDeeplinkParser.swift; sourceTree = "<group>"; };
+		236458A325D41D7A00190D4D /* HomeSettingsDeeplink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSettingsDeeplink.swift; sourceTree = "<group>"; };
+		236458AA25D41F1600190D4D /* DetailsDeeplink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsDeeplink.swift; sourceTree = "<group>"; };
+		236458AD25D41F8000190D4D /* DetailsSettingsDeeplink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsSettingsDeeplink.swift; sourceTree = "<group>"; };
 		236E657C2559498C00C19B46 /* Example.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Example.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		236E657F2559498C00C19B46 /* ExampleApp.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ExampleApp.swift; sourceTree = "<group>"; tabWidth = 2; };
 		236E65832559498D00C19B46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -42,6 +51,7 @@
 			files = (
 				23D1112325875790008DF0AA /* ComposableNavigatorTCA in Frameworks */,
 				23258303256D2524001A191B /* ComposableNavigator in Frameworks */,
+				236458A725D41E1B00190D4D /* ComposableDeeplinking in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -55,6 +65,17 @@
 				235F93F925D3D7770045E37D /* NavigationShortcuts.swift */,
 			);
 			path = "Navigation Shortcuts";
+			sourceTree = "<group>";
+		};
+		2364589E25D41C2200190D4D /* Deeplinking */ = {
+			isa = PBXGroup;
+			children = (
+				236458A025D41D4A00190D4D /* AppDeeplinkParser.swift */,
+				236458A325D41D7A00190D4D /* HomeSettingsDeeplink.swift */,
+				236458AA25D41F1600190D4D /* DetailsDeeplink.swift */,
+				236458AD25D41F8000190D4D /* DetailsSettingsDeeplink.swift */,
+			);
+			path = Deeplinking;
 			sourceTree = "<group>";
 		};
 		236E65732559498C00C19B46 = {
@@ -78,6 +99,7 @@
 		236E657E2559498C00C19B46 /* Example */ = {
 			isa = PBXGroup;
 			children = (
+				2364589E25D41C2200190D4D /* Deeplinking */,
 				235F93FD25D3ECC00045E37D /* Navigation Shortcuts */,
 				23A5B5BE2559865600B319DA /* Settings Screen */,
 				23A5B5B92559846300B319DA /* Detail Screen */,
@@ -149,6 +171,7 @@
 			packageProductDependencies = (
 				23258302256D2524001A191B /* ComposableNavigator */,
 				23D1112225875790008DF0AA /* ComposableNavigatorTCA */,
+				236458A625D41E1B00190D4D /* ComposableDeeplinking */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -205,11 +228,15 @@
 			files = (
 				23A5B5C02559866000B319DA /* SettingsView.swift in Sources */,
 				23A5B5B5255982A300B319DA /* HomeView.swift in Sources */,
+				236458AB25D41F1600190D4D /* DetailsDeeplink.swift in Sources */,
 				23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */,
 				235F93FA25D3D7770045E37D /* NavigationShortcuts.swift in Sources */,
+				236458A125D41D4A00190D4D /* AppDeeplinkParser.swift in Sources */,
 				236E65802559498C00C19B46 /* ExampleApp.swift in Sources */,
 				235F93F525D3D4600045E37D /* NavigationShortcutsView.swift in Sources */,
+				236458A425D41D7A00190D4D /* HomeSettingsDeeplink.swift in Sources */,
 				23B7589E255949F60073D19F /* AppCore.swift in Sources */,
+				236458AE25D41F8000190D4D /* DetailsSettingsDeeplink.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -401,6 +428,10 @@
 		23258302256D2524001A191B /* ComposableNavigator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableNavigator;
+		};
+		236458A625D41E1B00190D4D /* ComposableDeeplinking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableDeeplinking;
 		};
 		23D1112225875790008DF0AA /* ComposableNavigatorTCA */ = {
 			isa = XCSwiftPackageProductDependency;
