@@ -15,7 +15,7 @@ struct AppState: Equatable {
   var details: IdentifiedArray<String, DetailState> {
     get {
       IdentifiedArray(
-        elements.map(DetailState.init),
+        elements.map { DetailState(id: $0) },
         id: \.id
       )
     }

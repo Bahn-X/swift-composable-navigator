@@ -122,6 +122,12 @@ public struct Routed<Content: View, Next: View>: View {
         return successors
       },
       set: { value in
+        if let screen = screen, !screen.hasAppeared {
+          DispatchQueue.main.async {
+            navigator.didAppear(id: screenID)
+          }
+        }
+
         guard value == nil, let successor = successors?.first, successor.hasAppeared else {
             return
         }

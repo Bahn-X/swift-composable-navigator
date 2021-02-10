@@ -69,7 +69,22 @@ struct HomeScreen: Screen {
   static func builder(
     appStore: Store<AppState, AppAction>
   ) -> some PathBuilder {
-    PathBuilders.screen( // /home
+    let settingsStore = appStore.scope(
+      state: \.settings,
+      action: AppAction.settings
+    )
+
+    let buildDetailStore = { (detailID: String) -> Store<DetailState?, DetailAction> in
+      appStore.scope(
+        state: { state in
+          state.details.first(
+            where: { $0.id == detailID })
+        },
+        action: { action in AppAction.detail(id: detailID, action) }
+      )
+    }
+
+    return PathBuilders.screen( // /home
       onAppear: { _ in print("HomeView appeared") },
       content: { (_: HomeScreen) in
         HomeView(
@@ -80,32 +95,20 @@ struct HomeScreen: Screen {
         )
       },
       nesting: PathBuilders.anyOf(
-        PathBuilders.screen( // detail?id=123
-          content: { (screen: DetailScreen) in
-            IfLetStore(
-              appStore.scope(
-                state: { state in
-                  state.details.first(where: { $0.id == screen.detailID }) },
-                action: { action in AppAction.detail(id: screen.detailID, action) }
-              ),
-              then: { detailStore in
-                DetailView(
-                  store: detailStore
+        PathBuilders.if(
+          screen: { (screen: DetailScreen) in
+            PathBuilders.ifLetStore(
+              store: buildDetailStore(screen.detailID),
+              then: { store in
+                DetailScreen.builder(
+                  store: store,
+                  settingsStore: settingsStore
                 )
               }
             )
-          },
-          nesting: PathBuilders.screen( // settings
-            content: { (screen: SettingsScreen) in
-              SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
-            }
-          )
-        ),
-        PathBuilders.screen( // settings
-          content: { (screen: SettingsScreen) in
-            SettingsView(store: appStore.scope(state: \.settings, action: AppAction.settings))
           }
-        )
+        ),
+        SettingsScreen.builder(store: settingsStore)
       )
     )
   }

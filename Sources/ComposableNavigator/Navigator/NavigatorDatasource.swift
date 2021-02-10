@@ -29,7 +29,7 @@ public extension Navigator {
       ]
     }
 
-    func append(path newPath: [AnyScreen], to id: ScreenID) {
+    func go(to newPath: [AnyScreen], on id: ScreenID) {
       guard let index = path.firstIndex(where: { $0.id == id }) else {
         return
       }
@@ -56,9 +56,9 @@ public extension Navigator {
             ? suffix[index]
             : nil
 
-
           let id: ScreenID = oldPathElement.map(\.id) ?? screenID()
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
+            && (index != matchingContentRange.last || index == path.endIndex.advanced(by: -1))
 
           return IdentifiedScreen(
             id: id,
@@ -81,6 +81,10 @@ public extension Navigator {
     }
 
     func replace(path: [AnyScreen]) {
+      guard !path.isEmpty else {
+        return
+      }
+
       let pathPrefix = self.path.prefix(path.count)
 
       let firstNonMatchingContent = pathPrefix
@@ -106,6 +110,7 @@ public extension Navigator {
           let fallBackID = (index == 0) ? ScreenID.root: self.screenID()
           let id: ScreenID = oldPathElement.map(\.id) ?? fallBackID
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
+            && (index != matchingContentRange.last || index == self.path.endIndex.advanced(by: -1))
 
           return IdentifiedScreen(
             id: id,

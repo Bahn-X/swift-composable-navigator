@@ -2,65 +2,97 @@ import ComposableArchitecture
 import ComposableNavigator
 import SwiftUI
 
-struct SettingsState: Equatable {}
+struct SettingsState: Equatable {
+  var navigationShortcuts = NavigationShortcutsState()
+}
 
 enum SettingsAction: Equatable {
   case viewAppeared
+
+  case navigationShortcuts(NavigationShortcutsAction)
 }
 
 struct SettingsEnvironment {
   let navigator: Navigator
+
+  var navigationShortcuts: NavigationShortcutsEnvironment {
+    NavigationShortcutsEnvironment(navigator: navigator)
+  }
 }
 
 struct SettingsScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
+
+  static func builder(
+    store: Store<SettingsState, SettingsAction>
+  ) -> some PathBuilder {
+    PathBuilders.screen( // settings
+      content: { (screen: SettingsScreen) in
+        SettingsView(store: store)
+      },
+      nesting: NavigationShortcutsScreen.builder(
+        store: store.scope(
+          state: \.navigationShortcuts,
+          action: SettingsAction.navigationShortcuts
+        )
+      )
+    )
+  }
 }
 
 let settingsReducer = Reducer<
   SettingsState,
   SettingsAction,
   SettingsEnvironment
->.empty
+>.combine(
+  .empty,
+  navigationShortcutsReducer.pullback(
+    state: \.navigationShortcuts,
+    action: /SettingsAction.navigationShortcuts,
+    environment: \.navigationShortcuts
+  )
+)
 
 struct SettingsView: View {
   @Environment(\.navigator) var navigator
+  @Environment(\.currentScreenID) var id
   let store: Store<SettingsState, SettingsAction>
 
   var body: some View {
-    VStack {
-      Text("Settings")
-        .navigationBarTitle("Settings", displayMode: .inline)
+    HStack {
+      VStack(alignment: .leading, spacing: 16) {
+        Button(
+          action: {
+            navigator.go(
+              to: NavigationShortcutsScreen(
+                presentationStyle: .push
+              ),
+              on: id
+            )
+          },
+          label: { Text("Go to [home/detail?id={id}/settings/shortcuts?style=push]") }
+        )
 
-      Button(
-        action: {
-          navigator.replace(
-            path: [
-              HomeScreen().eraseToAnyScreen(),
-              SettingsScreen().eraseToAnyScreen()
-            ]
-          )
-        },
-        label: { Text("Go to home settings") }
-      )
+        Button(
+          action: {
+            navigator.go(
+              to: NavigationShortcutsScreen(
+                presentationStyle: .sheet(allowsPush: true)
+              ),
+              on: id
+            )
+          },
+          label: { Text("Go to [home/detail?id={id}/settings/shortcuts?style=sheet]") }
+        )
 
-      Button(
-        action: {
-          navigator.replace(
-            path: [
-              HomeScreen().eraseToAnyScreen(),
-              DetailScreen(detailID: "0").eraseToAnyScreen(),
-              SettingsScreen().eraseToAnyScreen()
-            ]
-          )
-        },
-        label: { Text("Go to detail 0 settings") }
-      )
+        NavigationShortcuts()
 
-      Button(
-        action: { navigator.goBack(to: HomeScreen()) },
-        label: { Text("Go back to home screen") }
-      )
+        Spacer()
+      }
+      Spacer()
     }
+    .padding(16)
+    .navigationTitle(Text("Settings"))
   }
 }
 
