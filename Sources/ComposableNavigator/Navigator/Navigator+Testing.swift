@@ -37,6 +37,12 @@ public extension Navigator {
     dismissSuccessorOfScreen: @escaping (AnyScreen) -> Void = { _ in
       fatalError("dismissSuccessor(of:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
+    replaceContent: @escaping (ScreenID, AnyScreen) -> Void = { _, _ in
+        fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    replaceScreen: @escaping (AnyScreen, AnyScreen) -> Void = { _, _ in
+      fatalError("replace(screen:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
     didAppear: @escaping (ScreenID) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
@@ -54,6 +60,8 @@ public extension Navigator {
       dismissScreen: dismissScreen,
       dismissSuccessor: dismissSuccessor,
       dismissSuccessorOfScreen: dismissSuccessorOfScreen,
+      replaceContent: replaceContent,
+      replaceScreen: replaceScreen,
       didAppear: didAppear
     )
   }
@@ -79,6 +87,12 @@ public extension Navigator {
     },
     dismissSuccessorInvoked: @escaping (Navigator.DismissSuccessorInvocation) -> Void = { _ in
       fatalError("dismissSuccessor(of:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    replaceContentInvoked: @escaping (Navigator.ReplaceContentInvocation) -> Void = { _ in
+        fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    replaceScreenInvoked: @escaping (Navigator.ReplaceScreenInvocation) -> Void = { _ in
+      fatalError("replace(screen:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     didAppearInvoked: @escaping (Navigator.DidAppearInvocation) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
@@ -118,6 +132,12 @@ public extension Navigator {
       },
       dismissSuccessorOfScreen: { screen in
         dismissSuccessorInvoked(Navigator.DismissSuccessorInvocation(identifier: .screen(screen)))
+      },
+      replaceContent: { id, newContent in
+        replaceContentInvoked(Navigator.ReplaceContentInvocation(id: id, newContent: newContent))
+      },
+      replaceScreen: { oldContent, newContent in
+        replaceScreenInvoked(Navigator.ReplaceScreenInvocation(oldContent: oldContent, newContent: newContent))
       },
       didAppear: { id in
         didAppearInvoked(Navigator.DidAppearInvocation(id: id))
@@ -276,6 +296,62 @@ public extension Navigator {
   ///  XCTAssertEqual(expectectedInvocations, invocations)
   ///```
   typealias DismissSuccessorInvocation = DismissInvocation
+
+  /// Testing helper
+  ///
+  /// # Example
+  /// ```swift
+  ///  var invocations = [Navigator.ReplaceScreenInvocation]()
+  ///  let expectectedInvocations = [
+  ///    Navigator.ReplaceScreenInvocation(
+  ///     oldContent: oldContent.eraseToAnyScreen(),
+  ///     newContent: expectedContent.eraseToAnyScreen()
+  ///    )
+  ///  ]
+  ///
+  ///  let sut = Navigator.mock(
+  ///    path: { self.path },
+  ///    didAppear: { id in
+  ///      invocations.append(.init(id: id))
+  ///    }
+  ///  )
+  ///
+  ///  sut.replace(screen: oldContent, with: expectedContent) // invoke code that invokes dismissSuccessor(of:)
+  ///
+  ///  XCTAssertEqual(expectectedInvocations, invocations)
+  ///```
+  struct ReplaceScreenInvocation: Hashable {
+    let oldContent: AnyScreen
+    let newContent: AnyScreen
+  }
+
+  /// Testing helper
+  ///
+  /// # Example
+  /// ```swift
+  ///  var invocations = [Navigator.ReplaceContentInvocation]()
+  ///  let expectectedInvocations = [
+  ///    Navigator.ReplaceContentInvocation(
+  ///     id: expectedID,
+  ///     newContent: expectedContent.eraseToAnyScreen()
+  ///    )
+  ///  ]
+  ///
+  ///  let sut = Navigator.mock(
+  ///    path: { self.path },
+  ///    didAppear: { id in
+  ///      invocations.append(.init(id: id))
+  ///    }
+  ///  )
+  ///
+  ///  sut.didAppear(id: expectedID) // invoke code that invokes dismissSuccessor(of:)
+  ///
+  ///  XCTAssertEqual(expectectedInvocations, invocations)
+  ///```
+  struct ReplaceContentInvocation: Hashable {
+    let id: ScreenID
+    let newContent: AnyScreen
+  }
 
   /// Testing helper
   ///

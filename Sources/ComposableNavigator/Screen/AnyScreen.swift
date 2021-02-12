@@ -1,7 +1,7 @@
 /// Type-erased representation of `Screen` objects
-public struct AnyScreen: Hashable {
+public struct AnyScreen: Hashable, Screen {
   let screen: AnyHashable
-  let presentationStyle: ScreenPresentationStyle
+  public let presentationStyle: ScreenPresentationStyle
 
   public init<S: Screen>(_ route: S) {
     self.screen = route

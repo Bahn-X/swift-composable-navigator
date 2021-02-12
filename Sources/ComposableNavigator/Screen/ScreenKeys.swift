@@ -38,11 +38,10 @@ enum CurrentScreenKey: EnvironmentKey {
   ///
   /// - SeeAlso: `Root.swift`
   static var defaultValue: AnyScreen {
-    struct DummyScreen: Screen {
+    struct UnbuildableScreen: Screen {
       let presentationStyle: ScreenPresentationStyle = .push
     }
-    print("\\.currentScreen not set. Make sure to wrap your application in a Root view or inject a screen via .environment(\\.currentScreen, screen.eraseToAnyScreen()) for testing purposes.")
-    return DummyScreen().eraseToAnyScreen()
+    return UnbuildableScreen().eraseToAnyScreen()
   }
 }
 

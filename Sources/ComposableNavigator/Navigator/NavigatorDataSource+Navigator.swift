@@ -38,6 +38,12 @@ public extension Navigator {
       dismissSuccessorOfScreen: { screen in
         dataSource.dismissSuccessor(of: screen)
       },
+      replaceContent: { id, newContent in
+        dataSource.replaceContent(of: id, with: newContent)
+      },
+      replaceScreen: { oldContent, newContent in
+        dataSource.replace(screen: oldContent, with: newContent)
+      },
       didAppear: { id in
         dataSource.didAppear(id: id)
       }

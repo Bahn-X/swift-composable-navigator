@@ -135,15 +135,37 @@ public extension Navigator {
       path = Array(path.prefix(through: index))
     }
 
-    func didAppear(id: ScreenID) {
-      path = path.map { pathElement in
-        guard pathElement.id == id else { return pathElement }
-        return IdentifiedScreen(
-          id: pathElement.id,
-          content: pathElement.content,
-          hasAppeared: true
-        )
+    func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> Void {
+      guard let index = path.firstIndex(where: { screen in screen.id == id }),
+            path[index].content != newContent else {
+        return
       }
+
+      path[index] = IdentifiedScreen(
+        id: id,
+        content: newContent,
+        hasAppeared: path[index].hasAppeared
+      )
+    }
+
+    func replace(screen: AnyScreen, with newContent: AnyScreen) -> Void {
+      guard let id = identifiedScreen(for: screen)?.id else {
+        return
+      }
+
+      replaceContent(of: id, with: newContent)
+    }
+
+    func didAppear(id: ScreenID) {
+      guard let index = path.firstIndex(where: { $0.id == id }) else {
+        return
+      }
+
+      path[index] = IdentifiedScreen(
+        id: id,
+        content: path[index].content,
+        hasAppeared: true
+      )
     }
   }
 }

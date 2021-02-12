@@ -70,7 +70,7 @@ struct SettingsView: View {
               on: id
             )
           },
-          label: { Text("Go to [home/detail?id={id}/settings/shortcuts?style=push]") }
+          label: { Text("Go to [./shortcuts?style=push]") }
         )
 
         Button(
@@ -82,7 +82,7 @@ struct SettingsView: View {
               on: id
             )
           },
-          label: { Text("Go to [home/detail?id={id}/settings/shortcuts?style=sheet]") }
+          label: { Text("Go to [./shortcuts?style=sheet]") }
         )
 
         NavigationShortcuts()
