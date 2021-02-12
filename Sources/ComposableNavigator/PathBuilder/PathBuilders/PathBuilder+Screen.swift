@@ -41,6 +41,7 @@ public extension PathBuilders {
         }
 
         return Routed(
+          wrapping: head.content,
           content: build(unwrapped),
           onAppear: onAppear,
           next: nesting.build(path:)
@@ -125,6 +126,7 @@ public extension PathBuilders {
         }
 
         return Routed(
+          wrapping: head.content,
           content: build(),
           onAppear: onAppear,
           next: nesting.build(path:)
