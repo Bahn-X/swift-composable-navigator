@@ -45,7 +45,7 @@ public struct Navigator {
 
   /// Append a screen after a  given `ScreenID`.
   ///
-  /// `go(to:, on:)` appends the given screen after the last occurence of the passed `Parent` screen object.
+  /// `go(to:, on:)` appends the given screen after the last occurrence of the passed `Parent` screen object.
   /// If you call `go(to:, on:)` for a `Screen` that is not associated with the last screen in the current routing path, the routing path after the `Parent` is replaced with `[screen]` and therefore cut off.
   ///
   /// ## Example
@@ -89,9 +89,9 @@ public struct Navigator {
     _goToPath(path, id)
   }
 
-  /// Replace the path  after the last occurence of a given `Parent` with the passed path.
+  /// Replace the path after the last occurrence of a given `Parent` with the passed path.
   ///
-  /// `go(to:, on:)` appends the given path after the last occurence of the passed `Parent` `Screen` object. If you call `go(to:, on:)` for a `Parent` screen that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `path` and potentially cut off.
+  /// `go(to:, on:)` appends the given path after the last occurrence of the passed `Parent` `Screen` object. If you call `go(to:, on:)` for a `Parent` screen that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `path` and potentially cut off.
   ///
   /// ## Example
   /// ```swift
@@ -114,9 +114,9 @@ public struct Navigator {
     _goToPathOnScreen(path, parent.eraseToAnyScreen())
   }
 
-  /// Go back to the last occurence of the screen instance in the routing path.
+  /// Go back to the last occurrence of the screen instance in the routing path.
   ///
-  /// `goBack(to:)` trims the routing path to up to the last occurence of the passed screen.
+  /// `goBack(to:)` trims the routing path to up to the last occurrence of the passed screen.
   ///
   /// ## Example
   /// ```swift
@@ -136,7 +136,7 @@ public struct Navigator {
 
   /// Go back to the specified `ScreenID` in the routing path.
   ///
-  /// `goBack(to:)` trims the routing path to up to the last occurence of the passed screen.
+  /// `goBack(to:)` trims the routing path to up to the last occurrence of the passed screen.
   ///
   /// ## Example
   /// ```swift
@@ -222,7 +222,7 @@ public struct Navigator {
     _dismiss(id)
   }
 
-  /// Removes the last occurence screen from the routing path.
+  /// Removes the last occurrence screen from the routing path.
   ///
   /// `dismiss(screen:)` does not care take the screen's presentation style into account and cuts the routing path up to the passed id.
   ///
@@ -264,7 +264,7 @@ public struct Navigator {
     _dismissSuccessor(id)
   }
 
-  /// Removes successors of  the last occurence of the passed screen from the routing path.
+  /// Removes successors of  the last occurrence of the passed screen from the routing path.
   ///
   /// `dismissSuccessor(of id:)` does not care take the screen's presentation style into account and cuts the routing path after the passed id.
   ///
