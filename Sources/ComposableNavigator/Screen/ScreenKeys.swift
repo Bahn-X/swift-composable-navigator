@@ -20,7 +20,7 @@ enum CurrentScreenIDKey: EnvironmentKey {
   static let defaultValue: ScreenID = ScreenID()
 }
 
-/// EnvironmentKey identifying the `ScreenID` of the screen preceding the screen the view is embedded in
+/// EnvironmentKey identifying the `Screen` preceding the screen the view is embedded in
 enum ParentScreenKey: EnvironmentKey {
   /// The screen preceding the screen the view is embedded in
   ///
@@ -30,7 +30,7 @@ enum ParentScreenKey: EnvironmentKey {
   static let defaultValue: AnyScreen? = nil
 }
 
-/// EnvironmentKey identifying the `ScreenID` of the screen the view is embedded in
+/// EnvironmentKey identifying the `Screen` the view is embedded in
 enum CurrentScreenKey: EnvironmentKey {
   /// The screen the view is embedded in
   ///
@@ -46,7 +46,6 @@ enum CurrentScreenKey: EnvironmentKey {
   }
 }
 
-
 public extension EnvironmentValues {
   /// The `ScreenID` of the screen preceding the screen the view is embedded in
   var parentScreenID: ScreenID? {
@@ -60,13 +59,13 @@ public extension EnvironmentValues {
     set { self[CurrentScreenIDKey.self] = newValue }
   }
 
-  /// The `ScreenID` of the screen preceding the screen the view is embedded in
+  /// The `Screen` preceding the screen the view is embedded in
   var parentScreen: AnyScreen? {
     get { self[ParentScreenKey.self] }
     set { self[ParentScreenKey.self] = newValue }
   }
 
-  /// The `ScreenID` of the screen the view is embedded in
+  /// The `Screen` the view is embedded in
   var currentScreen: AnyScreen {
     get { self[CurrentScreenKey.self] }
     set { self[CurrentScreenKey.self] = newValue }
