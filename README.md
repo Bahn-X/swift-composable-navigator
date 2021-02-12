@@ -120,7 +120,7 @@ You can find more information on deeplinking and how to use it [here](https://gi
 `ComposableNavigator` was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app path builder, ComposableNavigator gives you full control over dependency injection. Currently, the helper package `ComposableNavigatorTCA` is part of this repository and therefore the package has a dependency on TCA. This will change in the future when `ComposableNavigatorTCA` gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
 
 ## Contribution
-`ComposableNavigator` welcomes contribution. Check our [code of conduct](./Documentation/CODE_OF_CONDUCT.md) and feel free to [open issues](https://github.com/Bahn-X/swift-composable-navigator/issues/new) for ideas, questions and improvements.
+`ComposableNavigator` welcomes contribution. Check our [code of conduct](./Documentation/CODE_OF_CONDUCT.md) and feel free to [open issues](https://github.com/Bahn-X/swift-composable-navigator/issues) for ideas, questions and improvements.
 
 ## License
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
