@@ -851,6 +851,133 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  // MARK: - replaceContent(of:, with:)
+  func test_replaceContent_of_existent_id_with_newContent() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath = [
+      IdentifiedScreen(id: .root, content: expectedContent, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
+
+    let sut = Navigator.Datasource(
+      path: [
+        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+        IdentifiedScreen(id: first, content: next, hasAppeared: false),
+        IdentifiedScreen(id: second, content: root, hasAppeared: false)
+      ],
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.replaceContent(of: .root, with: expectedContent)
+
+    XCTAssertEqual(
+      sut.path,
+      expectedPath
+    )
+  }
+
+  func test_replaceContent_of_non_existent_screen_with_newContent() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
+
+    let sut = Navigator.Datasource(
+      path: expectedPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.replaceContent(of: third, with: expectedContent)
+
+    XCTAssertEqual(
+      sut.path,
+      expectedPath
+    )
+  }
+
+  // MARK: - replace(screen:, with:)
+  func test_replace_existent_screen_with_newContent() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: expectedContent, hasAppeared: false)
+    ]
+
+    let sut = Navigator.Datasource(
+      path: [
+        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+        IdentifiedScreen(id: first, content: next, hasAppeared: false),
+        IdentifiedScreen(id: second, content: root, hasAppeared: false)
+      ],
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.replace(screen: root.eraseToAnyScreen(), with: expectedContent)
+
+    XCTAssertEqual(
+      sut.path,
+      expectedPath
+    )
+  }
+
+  func test_replace_non_existent_screen_with_newContent() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let nonExistent = TestScreen(
+      identifier: "non-existent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
+
+    let sut = Navigator.Datasource(
+      path: expectedPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.replace(screen: nonExistent, with: expectedContent)
+    
+    XCTAssertEqual(
+      sut.path,
+      expectedPath
+    )
+  }
+  
   // MARK: - didAppear(id:)
   func test_didAppear() {
     let first = ScreenID()

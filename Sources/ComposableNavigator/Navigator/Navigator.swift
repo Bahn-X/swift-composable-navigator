@@ -14,6 +14,9 @@ public struct Navigator {
   private let _dismissScreen: (AnyScreen) -> Void
   private let _dismissSuccessor: (ScreenID) -> Void
   private let _dismissSuccessorOfScreen: (AnyScreen) -> Void
+  private let _replaceContent: (ScreenID, AnyScreen) -> Void
+  private let _replaceScreen: (AnyScreen, AnyScreen) -> Void
+
   private let _didAppear: (ScreenID) -> Void
 
   /// Retrieve the current value of the routing path
@@ -61,29 +64,7 @@ public struct Navigator {
   ///   - screen: Destination
   ///   - parent: `Parent` screen object used to identify where the destination should be appended
   public func go<S: Screen, Parent: Screen>(to screen: S, on parent: Parent) {
-    go(to: screen, on: parent.eraseToAnyScreen())
-  }
-
-  /// Append a screen after a  given `ScreenID`.
-  ///
-  /// `go(to:, on:)` appends the given screen after the last occurrence of the passed `Parent` screen object.
-  /// If you call `go(to:, on:)` for a `Screen` that is not associated with the last screen in the current routing path, the routing path after the `Parent` is replaced with `[screen]` and therefore cut off.
-  /// Most likely used in conjunction with @Environment(\.currentScreen).
-  ///
-  /// ## Example
-  /// ```swift
-  /// // Curent path [(Content, ID)]
-  /// // [(A, 0), (B, 1)]
-  /// navigator.go(to: C(), on: B())
-  /// // New path
-  /// // [(A, 0), (B, 1)], (C, 2)]
-  /// ```
-  ///
-  /// - Parameters:
-  ///   - screen: Destination
-  ///   - parent: `AnyScreen` screen object used to identify where the destination should be appended
-  public func go<S: Screen>(to screen: S, on parent: AnyScreen) {
-    _goToOnScreen(screen.eraseToAnyScreen(), parent)
+    _goToOnScreen(screen.eraseToAnyScreen(), parent.eraseToAnyScreen())
   }
 
   /// Replace the path  after a given `ScreenID` with the passed path.
@@ -133,32 +114,7 @@ public struct Navigator {
   ///   - path: New path after `Parent`
   ///   - parent: `Screen` used to identify where the path should be appended
   public func go<Parent: Screen>(to path: [AnyScreen], on parent: Parent) {
-    go(to: path, on: parent.eraseToAnyScreen())
-  }
-
-  /// Replace the path after the last occurrence of a given `Parent` with the passed path.
-  ///
-  /// `go(to:, on:)` appends the given path after the last occurrence of the passed `Parent` `Screen` object. If you call `go(to:, on:)` for a `Parent` screen that is not associated with the last screen in the current routing path, the routing path after the `ScreenID` is replaced with `path` and potentially cut off. Most likely used in conjunction with @Environment(\.currentScreen).
-  ///
-  /// ## Example
-  /// ```swift
-  /// // Curent path [(Content, ID)]
-  /// // [(A, 0), (B, 1)]
-  ///
-  /// navigator.go(
-  ///  to: [C().eraseToAnyScreen(), D().eraseToAnyScreen()],
-  ///  on: A()
-  /// )
-  ///
-  /// // New path
-  /// // [(A, 0), (C, 2), (D, 3)]
-  /// ```
-  ///
-  /// - Parameters:
-  ///   - path: New path after `Parent`
-  ///   - parent: `AnyScreen` used to identify where the path should be appended
-  public func go(to path: [AnyScreen], on parent: AnyScreen) {
-    _goToPathOnScreen(path, parent)
+    _goToPathOnScreen(path, parent.eraseToAnyScreen())
   }
 
   /// Go back to the last occurrence of the screen instance in the routing path.
@@ -178,27 +134,7 @@ public struct Navigator {
   /// - Parameters:
   ///   - screen: Destination
   public func goBack<S: Screen>(to screen: S) {
-    goBack(to: screen.eraseToAnyScreen())
-  }
-
-  /// Go back to the last occurrence of the screen instance in the routing path.
-  ///
-  /// `goBack(to:)` trims the routing path to up to the last occurrence of the passed screen. Most likely used in conjunction with @Environment(\.currentScreen).
-  ///
-  /// ## Example
-  /// ```swift
-  /// // Curent path [(Content, ID)]
-  /// // [(A, 0), (B, 1), (C, 2)]
-  ///
-  /// navigator.goBack(to: A())
-  ///
-  /// // New path
-  /// // [(A, 0)]
-  /// ```
-  /// - Parameters:
-  ///   - screen: Destination
-  public func goBack(to screen: AnyScreen) {
-    _goBack(screen)
+    _goBack(screen.eraseToAnyScreen())
   }
 
   /// Go back to the specified `ScreenID` in the routing path.
@@ -307,28 +243,7 @@ public struct Navigator {
   /// - Parameters:
   ///   - screen: The screen that needs to be dismissed
   public func dismiss<S: Screen>(screen: S) {
-    dismiss(screen: screen.eraseToAnyScreen())
-  }
-
-  /// Removes the last occurrence screen from the routing path.
-  ///
-  /// `dismiss(screen:)` does not care take the screen's presentation style into account and cuts the routing path up to the passed id. Most likely used in conjunction with @Environment(\.currentScreen).
-  ///
-  /// ## Example
-  /// ```swift
-  /// // Curent path [(Content, ID)]
-  /// // [(A, 0), (B, 1), (C, 2), (D,3)]
-  ///
-  /// navigator.dismiss(screen: currentScreen)
-  ///
-  /// // New path
-  /// // [(A, 0), (B, 1)]
-  /// ```
-  ///
-  /// - Parameters:
-  ///   - screen: The screen that needs to be dismissed
-  public func dismiss(screen: AnyScreen) {
-    _dismissScreen(screen)
+    _dismissScreen(screen.eraseToAnyScreen())
   }
 
   /// Removes the screen successors from the routing path.
@@ -370,28 +285,54 @@ public struct Navigator {
   /// - Parameters:
   ///   - screen: The screen that needs to be dismissed
   public func dismissSuccessor<S: Screen>(of screen: S) {
-    dismissSuccessor(of: screen.eraseToAnyScreen())
+    _dismissSuccessorOfScreen(screen.eraseToAnyScreen())
   }
 
-  /// Removes successors of  the last occurrence of the passed screen from the routing path.
+  /// Replace the `Screen` associated with an id with a new `Screen`
   ///
-  /// `dismissSuccessor(of screen:)` does not care take the screen's presentation style into account and cuts the routing path after the passed id.
+  /// `replaceContent(of id:, with:)` replaces the content associated with the passed `ScreenID` and will not assign a new `ScreenID` to the changed path element.
   ///
   /// ## Example
   /// ```swift
   /// // Curent path [(Content, ID)]
   /// // [(A, 0), (B, 1), (C, 2), (D,3)]
   ///
-  /// navigator.dismissSuccessor(of: C())
+  /// navigator.replaceContent(of: 0, with: E())
   ///
   /// // New path
-  /// // [(A, 0), (B, 1), (C, 2)]
+  /// // [(E, 0), (B, 1), (C, 2), (D,3)]
   /// ```
   ///
   /// - Parameters:
-  ///   - screen: The screen that needs to be dismissed
-  public func dismissSuccessor(of screen: AnyScreen) {
-    _dismissSuccessorOfScreen(screen)
+  ///   - id: `ScreenID` used to identify the screen that needs to be replaced
+  ///   - newContent: The new screen that will replace the screen associated with the passed `ScreenID`
+  public func replaceContent<NewContent: Screen>(of id: ScreenID, with newContent: NewContent) {
+    _replaceContent(id, newContent.eraseToAnyScreen())
+  }
+
+  /// Replace the last occurence of a `Screen` with a new `Screen`
+  ///
+  /// `replace(screen:, with:)` replaces the last occurence of the passed `Screen` with the passed newContent `Screen` and will not assign a new `ScreenID` to the changed path element.
+  ///
+  /// ## Example
+  /// ```swift
+  /// // Curent path [(Content, ID)]
+  /// // [(A, 0), (B, 1), (C, 2), (D,3)]
+  ///
+  /// navigator.replace(screen: A(), with: E())
+  ///
+  /// // New path
+  /// // [(E, 0), (B, 1), (C, 2), (D,3)]
+  /// ```
+  ///
+  /// - Parameters:
+  ///   - screen: `Screen` getting replaced
+  ///   - newContent: The new screen that will replace the screen associated with the passed `ScreenID`
+  public func replace<OldContent: Screen, NewContent: Screen>(
+    screen: OldContent,
+    with newContent: NewContent
+  ) {
+    _replaceScreen(screen.eraseToAnyScreen(), newContent.eraseToAnyScreen())
   }
 
   /// Sets the `hasAppeared` flag to `true` for the passed `ScreenID`.
@@ -417,6 +358,8 @@ public struct Navigator {
     dismissScreen: @escaping (AnyScreen) -> Void,
     dismissSuccessor: @escaping (ScreenID) -> Void,
     dismissSuccessorOfScreen: @escaping (AnyScreen) -> Void,
+    replaceContent: @escaping (ScreenID, AnyScreen) -> Void,
+    replaceScreen: @escaping (AnyScreen, AnyScreen) -> Void,
     didAppear: @escaping (ScreenID) -> Void
   ) {
     self._path = path
@@ -431,6 +374,8 @@ public struct Navigator {
     self._dismissScreen = dismissScreen
     self._dismissSuccessor = dismissSuccessor
     self._dismissSuccessorOfScreen = dismissSuccessorOfScreen
+    self._replaceContent = replaceContent
+    self._replaceScreen = replaceScreen
     self._didAppear = didAppear
   }
 }
@@ -494,6 +439,16 @@ public extension Navigator {
       dismissSuccessorOfScreen: { screen in
         _dismissSuccessorOfScreen(screen)
         print("Sent dismissSuccessor(of: \(screen)).\nNew path:")
+        dump(path())
+      },
+      replaceContent: { id, screen in
+        _replaceContent(id, screen)
+        print("Sent replaceContent(of: \(id), with: \(screen).\nNew path:")
+        dump(path())
+      },
+      replaceScreen: { oldContent, newContent in
+        _replaceScreen(oldContent, newContent)
+        print("Sent replace(screen: \(oldContent), with: \(newContent).\nNew path:")
         dump(path())
       },
       didAppear: { (id) in

@@ -6,6 +6,11 @@ public protocol Screen: Hashable {
 public extension Screen {
   /// Erase an instance of a concrete Screen type to AnyScreen
   func eraseToAnyScreen() -> AnyScreen {
-    AnyScreen(self)
+    // If the screen was already type-erased, return the type-erased instance instead of wrapping it
+    if let anyScreen = self as? AnyScreen {
+        return anyScreen
+    } else {
+        return AnyScreen(self)
+    }
   }
 }

@@ -55,6 +55,10 @@ public struct Root<Builder: PathBuilder>: View {
       dataSource.path.first?.id ?? .root
     )
     .environment(
+      \.currentScreen,
+      dataSource.path.first?.content ?? CurrentScreenKey.defaultValue
+    )
+    .environment(
       \.navigator,
       navigator
     )

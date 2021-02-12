@@ -1,6 +1,23 @@
 import SwiftUI
 
 public extension PathBuilders {
+  /// Wildcard View replaces the current path element with the passed wildcard, when it appears.
+  ///
+  /// - SeeAlso: `PathBuilders.wildcard(screen:, pathBuilder:)`
+  struct WildcardView<Content: View, Wildcard: Screen>: View {
+    @Environment(\.navigator) var navigator
+    @Environment(\.currentScreenID) var id
+    let wildcard: Wildcard
+    let content: Content
+
+    public var body: some View {
+      content
+        .uiKitOnAppear {
+          navigator.replaceContent(of: id, with: wildcard)
+        }
+    }
+  }
+
   ///  Wildcard `PathBuilder`s replace any screen with a predefined one.
   ///
   ///  Based on the example for the conditional `PathBuilder`, you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate.
@@ -38,16 +55,26 @@ public extension PathBuilders {
   >(
     screen: S,
     pathBuilder: ContentBuilder
-  ) -> _PathBuilder<Content> where ContentBuilder.Content == Content {
-    _PathBuilder<Content>(
+  ) -> _PathBuilder<WildcardView<Content,S>> where ContentBuilder.Content == Content {
+    _PathBuilder<WildcardView<Content, S>>(
       buildPath: { path in
-        guard let identifiedWildcard = path.first.map(
-            { IdentifiedScreen(id: $0.id, content: screen.eraseToAnyScreen(), hasAppeared: $0.hasAppeared) }
-        ) else {
-          return nil
-        }
-        
+        guard let identifiedWildcard = path.first
+                .map({
+                  IdentifiedScreen(
+                    id: $0.id,
+                    content: screen.eraseToAnyScreen(),
+                    hasAppeared: $0.hasAppeared
+                  )
+                })
+        else { return nil }
+
         return pathBuilder.build(path: [identifiedWildcard] + path[1...])
+          .flatMap { content in
+            WildcardView(
+              wildcard: screen,
+              content: content
+            )
+          }
       }
     )
   }
