@@ -5,23 +5,41 @@ import SwiftUI
 struct HomeState: Equatable {
   var elements: [String]
 }
+
 enum HomeAction: Equatable {
   case viewAppeared
   case selected(element: String, on: ScreenID)
   case openSettings(for: String, on: ScreenID)
-  case settingsButtonTapped(ScreenID)
+  case settingsButtonTapped
 }
+
 struct HomeEnvironment {
   let navigator: Navigator
 }
 
 struct HomeView: View {
   @Environment(\.currentScreenID) var currentScreenID
+  @Environment(\.currentScreen) var currentScreen
+  @Environment(\.navigator) var navigator
   let store: Store<HomeState, HomeAction>
 
   var body: some View {
     WithViewStore(store) { viewStore in
       List {
+        Button(
+          action: {
+            navigator.go(to: SettingsScreen(), on: currentScreen)
+          },
+          label: {
+            HStack {
+              Text("Open Settings")
+              Image(systemName: "gear")
+                .foregroundColor(.gray)
+              Spacer()
+            }
+          }
+        )
+
         ForEach(
           viewStore.elements,
           id: \.self,
@@ -54,7 +72,7 @@ struct HomeView: View {
       }
       .navigationBarItems(
         trailing: Button(
-          action: { viewStore.send(.settingsButtonTapped(currentScreenID))},
+          action: { viewStore.send(.settingsButtonTapped) },
           label: { Image(systemName: "gear") }
         )
       )
@@ -120,22 +138,22 @@ let homeReducer = Reducer<
   HomeEnvironment
 > { state, action, environment in
   switch action {
-    case .viewAppeared:
-      return .none
+  case .viewAppeared:
+    return .none
 
-    case let .settingsButtonTapped(id):
-      return .fireAndForget {
-        environment
-          .navigator
-          .go(to: SettingsScreen(), on: id)
-      }
-      
-    case let .selected(element, screenID):
-      return .fireAndForget {
-        environment
-          .navigator
-          .go(to: DetailScreen(detailID: element), on: screenID)
-      }
+  case .settingsButtonTapped:
+    return .fireAndForget {
+      environment
+        .navigator
+        .go(to: SettingsScreen(), on: HomeScreen())
+    }
+
+  case let .selected(element, screenID):
+    return .fireAndForget {
+      environment
+        .navigator
+        .go(to: DetailScreen(detailID: element), on: screenID)
+    }
 
   case let .openSettings(for: element, on: screenID):
     return .fireAndForget {

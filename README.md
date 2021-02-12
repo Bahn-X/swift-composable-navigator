@@ -15,19 +15,30 @@ The navigator manages the application's current routing path and allows mutation
 
 ```swift
 import SwiftUI
-struct DemoView: View {
+struct HomeView: View {
     @Environment(\.navigator) var navigator
-    @Environment(\.currentScreenID) var id
+    @Environment(\.currentScreen) var currentScreen
+    @Environment(\.currentScreenID) var currentScreenID
 
     var body: some View {
       VStack {
         Button(
-            action: { navigator.go(to: HomeScreen(), on: id) },
-            label: { Text("Go to home screen") }
+            action: { 
+              navigator.go(
+                to: SettingsScreen(), 
+                on: currentScreen // HomeScreen()
+              ) 
+            },
+            label: { Text("Go to settings screen") }
         ),
         Button(
-            action: { navigator.go(to: DetailScreen(id: id), on: id) },
-            label: { Text("Show detail screen for \(id)") }
+            action: { 
+              navigator.go(
+                to: DetailScreen(id: 0), 
+                on: currentScreenID
+              ) 
+            },
+            label: { Text("Show detail screen for \(0)") }
         )
       }
     }

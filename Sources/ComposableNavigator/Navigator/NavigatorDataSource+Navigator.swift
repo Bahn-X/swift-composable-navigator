@@ -8,11 +8,20 @@ public extension Navigator {
       go: { screen, id in
         dataSource.go(to: screen, on: id)
       },
+      goToOnScreen: { screen, parent in
+        dataSource.go(to: screen, on: parent)
+      },
       goToPath: { path, id in
         dataSource.go(to: path, on: id)
       },
+      goToPathOnScreen: { path, parent in
+        dataSource.go(to: path, on: parent)
+      },
       goBack: { predecessor in
         dataSource.goBack(to: predecessor)
+      },
+      goBackToID: { id in
+        dataSource.goBack(to: id)
       },
       replace: { path in
         dataSource.replace(path: path)
@@ -20,8 +29,14 @@ public extension Navigator {
       dismiss: { id in
         dataSource.dismiss(id: id)
       },
+      dismissScreen: { screen in
+        dataSource.dismiss(screen: screen)
+      },
       dismissSuccessor: { id in
         dataSource.dismissSuccessor(of: id)
+      },
+      dismissSuccessorOfScreen: { screen in
+        dataSource.dismissSuccessor(of: screen)
       },
       didAppear: { id in
         dataSource.didAppear(id: id)

@@ -35,8 +35,8 @@ public extension Navigator {
       }
 
       let suffix = path
-          .suffix(from: index.advanced(by: 1))
-          .prefix(newPath.count)
+        .suffix(from: index.advanced(by: 1))
+        .prefix(newPath.count)
 
       let firstNonMatchingContent = zip(suffix.indices, suffix)
         .first(
@@ -70,10 +70,8 @@ public extension Navigator {
       path = Array(path.prefix(through: index)) + appendedPath
     }
 
-    func goBack(to predecessor: AnyScreen) {
-      guard let index = path.lastIndex(
-        where: { $0.content == predecessor }
-      ) else {
+    func goBack(to id: ScreenID) {
+      guard let index = path.firstIndex(where: { $0.id == id }) else {
         return
       }
 
@@ -147,6 +145,38 @@ public extension Navigator {
         )
       }
     }
+  }
+}
+
+// MARK: - Screen based navigation
+extension Navigator.Datasource {
+  private func identifiedScreen(for content: AnyScreen) -> IdentifiedScreen? {
+    path.last(where: { $0.content == content })
+  }
+
+  func go(to successor: AnyScreen, on parent: AnyScreen) {
+    guard let id = identifiedScreen(for: parent)?.id else { return }
+    go(to: successor, on: id)
+  }
+
+  func go(to newPath: [AnyScreen], on parent: AnyScreen) {
+    guard let id = identifiedScreen(for: parent)?.id else { return }
+    go(to: newPath, on: id)
+  }
+
+  func goBack(to predecessor: AnyScreen) {
+    guard let id = identifiedScreen(for: predecessor)?.id else { return }
+    goBack(to: id)
+  }
+
+  func dismiss(screen: AnyScreen) {
+    guard let id = identifiedScreen(for: screen)?.id else { return }
+    dismiss(id: id)
+  }
+
+  func dismissSuccessor(of screen: AnyScreen) {
+    guard let id = identifiedScreen(for: screen)?.id else { return }
+    dismissSuccessor(of: id)
   }
 }
 

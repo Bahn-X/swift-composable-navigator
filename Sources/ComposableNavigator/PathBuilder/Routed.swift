@@ -23,15 +23,18 @@ public struct Routed<Content: View, Next: View>: View {
     var id: ScreenID { first.id }
   }
 
+  private let currentScreen: AnyScreen
   private let content: Content
   private let onAppear: (Bool) -> Void
   private let next: (([IdentifiedScreen]) -> Next?)?
 
   public init(
+    wrapping: AnyScreen,
     content: Content,
     onAppear: @escaping (Bool) -> Void,
     next: (([IdentifiedScreen]) -> Next?)?
   ) {
+    self.currentScreen = wrapping
     self.content = content
     self.onAppear = onAppear
     self.next = next
@@ -39,6 +42,7 @@ public struct Routed<Content: View, Next: View>: View {
 
   public var body: some View {
     content
+      .environment(\.currentScreen, currentScreen)
       .sheet(
         item: sheetBinding,
         content: build(successors:)
@@ -141,6 +145,7 @@ public struct Routed<Content: View, Next: View>: View {
   @ViewBuilder private func build(successors: Successors) -> some View {
     let content = next?(successors.path)
       .environment(\.parentScreenID, screenID)
+      .environment(\.parentScreen, currentScreen)
       .environment(\.currentScreenID, successors.id)
       .environment(\.navigator, navigator)
       .environment(\.treatSheetDismissAsAppearInPresenter, treatSheetDismissAsAppearInPresenter)
