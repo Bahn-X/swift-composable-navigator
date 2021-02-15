@@ -65,6 +65,7 @@ public extension PathBuilders {
         if condition() {
           return builder.build(path: path)
         } else {
+          _ = builder.build(path: [])
           return nil
         }
       }
@@ -100,12 +101,12 @@ public extension PathBuilders {
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if condition(), let this = thenBuilder.build(path: path) {
-          return .a(this)
-        } else if let that = elseBuilder.build(path: path) {
-          return .b(that)
+        if condition() {
+          _ = elseBuilder.build(path: [])
+          return thenBuilder.build(path: path).map(EitherAB.a)
         } else {
-          return nil
+          _ = thenBuilder.build(path: [])
+          return elseBuilder.build(path: path).map(EitherAB.b)
         }
       }
     )
@@ -135,12 +136,18 @@ public extension PathBuilders {
     then: @escaping (LetContent) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    _PathBuilder<EitherAB<If.Content, Else.Content>>(
+    var previousIfBuilder: If?
+
+    return _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        guard let letContent = `let`() else {
-          return `else`.build(path: path).flatMap(EitherAB.b)
+        if let letContent = `let`() {
+          previousIfBuilder = then(letContent)
+          return previousIfBuilder?.build(path: path).map(EitherAB.a)
+        } else {
+          _ = previousIfBuilder?.build(path: [])
+          previousIfBuilder = nil
+          return `else`.build(path: path).map(EitherAB.b)
         }
-        return then(letContent).build(path: path).flatMap(EitherAB.a)
       }
     )
   }
@@ -165,13 +172,19 @@ public extension PathBuilders {
     screen pathBuilder: @escaping (S) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    _PathBuilder<EitherAB<If.Content, Else.Content>>(
-      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        guard let unwrappedScreen: S = path.first?.content.unwrap() else {
-          return `else`.build(path: path).flatMap(EitherAB.b)
-        }
+    var previousIfBuilder: If?
 
-        return pathBuilder(unwrappedScreen).build(path: path).flatMap(EitherAB.a)
+    return _PathBuilder<EitherAB<If.Content, Else.Content>>(
+      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
+        if let unwrappedScreen: S = path.first?.content.unwrap() {
+          previousIfBuilder = pathBuilder(unwrappedScreen)
+          _ = `else`.build(path: [])
+          return previousIfBuilder?.build(path: path).map(EitherAB.a)
+        } else {
+          _ = previousIfBuilder?.build(path: [])
+          previousIfBuilder = nil
+          return `else`.build(path: path).map(EitherAB.b)
+        }
       }
     )
   }

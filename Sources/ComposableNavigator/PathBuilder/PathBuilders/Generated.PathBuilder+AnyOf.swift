@@ -371,6 +371,7 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
@@ -447,9 +448,12 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
@@ -530,12 +534,18 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
@@ -620,15 +630,25 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
+          _ = f.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
+          _ = f.build(path: [])
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
@@ -717,18 +737,33 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
+          _ = f.build(path: [])
+          _ = g.build(path: [])
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
+          _ = g.build(path: [])
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
@@ -821,21 +856,42 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
+          _ = g.build(path: [])
+          _ = h.build(path: [])
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
+          _ = h.build(path: [])
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
@@ -932,24 +988,52 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
+          _ = h.build(path: [])
+          _ = i.build(path: [])
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
+          _ = i.build(path: [])
           return .h(hContent)
         }
         else if let iContent = i.build(path: path) {
@@ -1050,27 +1134,63 @@ public extension PathBuilders {
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
+          _ = c.build(path: [])
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
+          _ = d.build(path: [])
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
+          _ = e.build(path: [])
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
+          _ = f.build(path: [])
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
+          _ = g.build(path: [])
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
+          _ = h.build(path: [])
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
+          _ = i.build(path: [])
+          _ = j.build(path: [])
           return .h(hContent)
         }
         else if let iContent = i.build(path: path) {
+          _ = j.build(path: [])
           return .i(iContent)
         }
         else if let jContent = j.build(path: path) {

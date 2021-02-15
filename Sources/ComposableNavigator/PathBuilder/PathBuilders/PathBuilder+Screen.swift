@@ -37,6 +37,7 @@ public extension PathBuilders {
     _PathBuilder<Routed<Content, Successor>>(
       buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor>? in
         guard let head = path.first, let unwrapped: S = head.content.unwrap() else {
+          _ = nesting.build(path: [])
           return nil
         }
 
@@ -48,7 +49,6 @@ public extension PathBuilders {
       }
     )
   }
-
 
   ///  PathBuilder responsible for a single screen.
   ///
@@ -121,6 +121,7 @@ public extension PathBuilders {
     _PathBuilder<Routed<Content, Successor>>(
       buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor>? in
         guard let head = path.first, head.content.is(S.self) else {
+          _ = nesting.build(path: [])
           return nil
         }
 
