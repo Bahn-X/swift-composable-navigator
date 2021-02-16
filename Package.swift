@@ -30,7 +30,7 @@ let package = Package(
       name: "swift-composable-architecture",
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       from: "0.7.0"
-    ),
+    )
   ],
   targets: [
     .target(
@@ -59,14 +59,14 @@ let package = Package(
     .testTarget(
       name: "ComposableNavigatorTests",
       dependencies: [
-        "ComposableNavigator",
+        "ComposableNavigator"
       ]
     ),
     .testTarget(
       name: "ComposableDeeplinkingTests",
       dependencies: [
-        "ComposableDeeplinking",
+        "ComposableDeeplinking"
       ]
-    )
+    ),
   ]
 )
