@@ -31,9 +31,9 @@ public extension PathBuilders {
     basedOn condition: @escaping () -> Bool
   ) -> some PathBuilder {
     PathBuilders.if(
-        condition,
-        then: either,
-        else: or
+      condition,
+      then: either,
+      else: or
     )
   }
 
@@ -65,7 +65,6 @@ public extension PathBuilders {
         if condition() {
           return builder.build(path: path)
         } else {
-          _ = builder.build(path: [])
           return nil
         }
       }
@@ -136,16 +135,12 @@ public extension PathBuilders {
     then: @escaping (LetContent) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    var previousIfBuilder: If?
-
-    return _PathBuilder<EitherAB<If.Content, Else.Content>>(
+    _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if let letContent = `let`() {
-          previousIfBuilder = then(letContent)
-          return previousIfBuilder?.build(path: path).map(EitherAB.a)
+          _ = `else`.build(path: [])
+          return then(letContent).build(path: path).map(EitherAB.a)
         } else {
-          _ = previousIfBuilder?.build(path: [])
-          previousIfBuilder = nil
           return `else`.build(path: path).map(EitherAB.b)
         }
       }
@@ -172,17 +167,12 @@ public extension PathBuilders {
     screen pathBuilder: @escaping (S) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    var previousIfBuilder: If?
-
-    return _PathBuilder<EitherAB<If.Content, Else.Content>>(
+    _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if let unwrappedScreen: S = path.first?.content.unwrap() {
-          previousIfBuilder = pathBuilder(unwrappedScreen)
           _ = `else`.build(path: [])
-          return previousIfBuilder?.build(path: path).map(EitherAB.a)
+          return pathBuilder(unwrappedScreen).build(path: path).map(EitherAB.a)
         } else {
-          _ = previousIfBuilder?.build(path: [])
-          previousIfBuilder = nil
           return `else`.build(path: path).map(EitherAB.b)
         }
       }
