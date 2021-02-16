@@ -13,9 +13,10 @@ extension PathBuilder {
   ///   DetailScreen.builder,
   ///   SettingsScreen.builder
   /// )
-  /// .onDismiss { (screen: AnyScreen) in
-  ///   print("Dismissed \(screen)")
-  /// }
+  /// .onDismiss(
+  ///   send: MainAction.dismissedScreen,
+  ///   into: mainStore
+  /// )
   /// ```
   ///
   /// - Parameters:
@@ -58,9 +59,10 @@ extension PathBuilder {
   ///      }
   ///    }
   ///  )
-  ///  .onDismiss { (screen: DetailScreen) in
-  ///    mainStore.selectedDetail = nil
-  ///  }
+  ///  .onDismiss(
+  ///    send: MainAction.dismissDetail,
+  ///    into: mainStore
+  ///  )
   /// ```
   ///
   /// - Parameters:
@@ -103,9 +105,11 @@ extension PathBuilder {
   ///      }
   ///    }
   ///  )
-  ///  .onDismiss(of: DetailScreen.self) {
-  ///    mainStore.selectedDetail = nil
-  ///  }
+  ///  .onDismiss(
+  ///    of: DetailScreen.self,
+  ///    send: MainAction.dismissDetail,
+  ///    into: mainStore
+  ///  )
   /// ```
   ///
   /// - Parameters:
