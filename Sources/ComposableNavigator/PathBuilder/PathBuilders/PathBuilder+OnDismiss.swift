@@ -4,7 +4,7 @@ public extension PathBuilder {
   /// `onDismiss` keeps track of the last built `AnyScreen` and performs the defined action whenever a screen is no longer built.
   ///  If your `PathBuilder` is wrapped in a conditional path builder, make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`.
   ///
-  /// # Example:
+  /// # Example
   /// ```swift
   /// PathBuilders.anyOf(
   ///   DetailScreen.builder,
@@ -41,9 +41,11 @@ public extension PathBuilder {
   /// `onDismiss` allows to perform an action whenever a`Screen` is dismissed
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
-  ///  If your `PathBuilder` is wrapped in a conditional path builder, make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`.
   ///
-  /// # Example:
+  ///  # ⚠️ Warning ⚠️
+  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer used / captured by a view, inner .onDismiss closures will not be called.
+  ///
+  /// # Example
   /// ```swift
   ///  PathBuilders.if(
   ///    screen: { (screen: DetailScreen) in
@@ -51,6 +53,10 @@ public extension PathBuilder {
   ///        DetailScreen.self,
   ///        content: {
   ///          DetailView(mainStore.detailStore)
+  ///        },
+  ///        nesting: SettingsScreen.builder.onDismiss(of: SettingsScreen.self) {
+  ///          // only called if DetailScreen is contained in the current routing path
+  ///          print("Dismissed settings screen")
   ///        }
   ///      )
   ///      .beforeBuild {
@@ -79,9 +85,11 @@ public extension PathBuilder {
   /// `onDismiss` allows to perform an action whenever a`Screen` is dismissed
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
-  ///  If your `PathBuilder` is wrapped in a conditional path builder, make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`.
   ///
-  /// # Example:
+  ///  # ⚠️ Warning ⚠️
+  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer captured by a view, inner .onDismiss closures will not be called.
+  ///
+  /// # Example
   /// ```swift
   ///  PathBuilders.if(
   ///    screen: { (screen: DetailScreen) in
@@ -89,6 +97,10 @@ public extension PathBuilder {
   ///        DetailScreen.self,
   ///        content: {
   ///          DetailView(mainStore.detailStore)
+  ///        },
+  ///        nesting: SettingsScreen.builder.onDismiss(of: SettingsScreen.self) {
+  ///          // only called if DetailScreen is contained in the current routing path
+  ///          print("Dismissed settings screen")
   ///        }
   ///      )
   ///      .beforeBuild {

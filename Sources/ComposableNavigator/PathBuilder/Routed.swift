@@ -8,9 +8,12 @@ public struct Routed<Content: View, Successor: View>: View {
   @Environment(\.treatSheetDismissAsAppearInPresenter) var treatSheetDismissAsAppearInPresenter
   @EnvironmentObject var dataSource: Navigator.Datasource
 
-  private struct Successors: Identifiable {
+  private struct Successors: Identifiable, View {
     let first: IdentifiedScreen
-    let content: Successor
+    let body: Successor
+
+    var id: ScreenID { first.id }
+    var presentationStyle: ScreenPresentationStyle { first.content.presentationStyle }
 
     init?(path: [IdentifiedScreen], content: Successor) {
       guard let first = path.first else {
@@ -18,11 +21,8 @@ public struct Routed<Content: View, Successor: View>: View {
       }
 
       self.first = first
-      self.content = content
+      self.body = content
     }
-
-    var id: ScreenID { first.id }
-    var presentationStyle: ScreenPresentationStyle { first.content.presentationStyle }
   }
 
   private let content: Content
@@ -71,7 +71,6 @@ public struct Routed<Content: View, Successor: View>: View {
 
   private var successors: Successors? {
     guard let screen = self.screen, let index = dataSource.path.firstIndex(of: screen) else {
-      _ = next([])
       return nil
     }
 
@@ -134,7 +133,7 @@ public struct Routed<Content: View, Successor: View>: View {
   }
 
   @ViewBuilder private func build(successors: Successors) -> some View {
-    let content = successors.content
+    let content = successors
       .environment(\.parentScreenID, screenID)
       .environment(\.parentScreen, currentScreen)
       .environment(\.currentScreenID, successors.first.id)

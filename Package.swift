@@ -35,7 +35,10 @@ let package = Package(
   targets: [
     .target(
       name: "ComposableNavigator",
-      dependencies: []
+      dependencies: [],
+      exclude: [
+        "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb"
+      ]
     ),
     .target(
       name: "ComposableNavigatorTCA",
