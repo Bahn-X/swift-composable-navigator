@@ -1,9 +1,9 @@
 name: Format
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - "*"
 
 jobs:
   swift_format:
@@ -15,9 +15,10 @@ jobs:
         run: brew install st3ffwo3/formulae/swift-format
       - name: Format
         run: make format
+      - uses: nelonoel/branch-name@v1.0.1
       - uses: stefanzweifel/git-auto-commit-action@v4
         with:
           commit_message: Run swift-format
-          branch: "main"
+          branch: ${BRANCH_NAME}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
