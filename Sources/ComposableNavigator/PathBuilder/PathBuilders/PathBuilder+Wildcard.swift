@@ -66,7 +66,10 @@ public extension PathBuilders {
                     hasAppeared: $0.hasAppeared
                   )
                 })
-        else { return nil }
+        else {
+            _ = pathBuilder.build(path: [])
+            return nil
+        }
 
         return pathBuilder.build(path: [identifiedWildcard] + path[1...])
           .flatMap { content in

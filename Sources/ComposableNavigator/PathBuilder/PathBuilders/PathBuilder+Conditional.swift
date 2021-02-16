@@ -31,9 +31,9 @@ public extension PathBuilders {
     basedOn condition: @escaping () -> Bool
   ) -> some PathBuilder {
     PathBuilders.if(
-        condition,
-        then: either,
-        else: or
+      condition,
+      then: either,
+      else: or
     )
   }
 
@@ -100,12 +100,12 @@ public extension PathBuilders {
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if condition(), let this = thenBuilder.build(path: path) {
-          return .a(this)
-        } else if let that = elseBuilder.build(path: path) {
-          return .b(that)
+        if condition() {
+          _ = elseBuilder.build(path: [])
+          return thenBuilder.build(path: path).map(EitherAB.a)
         } else {
-          return nil
+          _ = thenBuilder.build(path: [])
+          return elseBuilder.build(path: path).map(EitherAB.b)
         }
       }
     )
@@ -137,10 +137,12 @@ public extension PathBuilders {
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        guard let letContent = `let`() else {
-          return `else`.build(path: path).flatMap(EitherAB.b)
+        if let letContent = `let`() {
+          _ = `else`.build(path: [])
+          return then(letContent).build(path: path).map(EitherAB.a)
+        } else {
+          return `else`.build(path: path).map(EitherAB.b)
         }
-        return then(letContent).build(path: path).flatMap(EitherAB.a)
       }
     )
   }
@@ -167,11 +169,12 @@ public extension PathBuilders {
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        guard let unwrappedScreen: S = path.first?.content.unwrap() else {
-          return `else`.build(path: path).flatMap(EitherAB.b)
+        if let unwrappedScreen: S = path.first?.content.unwrap() {
+          _ = `else`.build(path: [])
+          return pathBuilder(unwrappedScreen).build(path: path).map(EitherAB.a)
+        } else {
+          return `else`.build(path: path).map(EitherAB.b)
         }
-
-        return pathBuilder(unwrappedScreen).build(path: path).flatMap(EitherAB.a)
       }
     )
   }

@@ -4,6 +4,8 @@ import SwiftUI
 
 struct HomeState: Equatable {
   var elements: [String]
+
+  var selectedDetail: DetailState?
 }
 
 enum HomeAction: Equatable {
@@ -11,10 +13,18 @@ enum HomeAction: Equatable {
   case selected(element: String, on: ScreenID)
   case openSettings(for: String, on: ScreenID)
   case settingsButtonTapped
+
+  case detail(DetailAction)
+
+  case binding(BindingAction<HomeState>)
 }
 
 struct HomeEnvironment {
   let navigator: Navigator
+
+  var detail: DetailEnvironment {
+    DetailEnvironment(navigator: navigator)
+  }
 }
 
 struct HomeView: View {
@@ -87,18 +97,22 @@ struct HomeScreen: Screen {
   static func builder(
     appStore: Store<AppState, AppAction>
   ) -> some PathBuilder {
+    let homeStore = appStore.scope(
+      state: \.home,
+      action: AppAction.home
+    )
+
     let settingsStore = appStore.scope(
       state: \.settings,
       action: AppAction.settings
     )
 
     let buildDetailStore = { (detailID: String) -> Store<DetailState?, DetailAction> in
-      appStore.scope(
+      homeStore.scope(
         state: { state in
-          state.details.first(
-            where: { $0.id == detailID })
+          state.selectedDetail?.id == detailID ? state.selectedDetail: nil
         },
-        action: { action in AppAction.detail(id: detailID, action) }
+        action: HomeAction.detail
       )
     }
 
@@ -106,10 +120,7 @@ struct HomeScreen: Screen {
       onAppear: { _ in print("HomeView appeared") },
       content: { (_: HomeScreen) in
         HomeView(
-          store: appStore.scope(
-            state: \.home,
-            action: AppAction.home
-          )
+          store: homeStore
         )
       },
       nesting: PathBuilders.anyOf(
@@ -124,10 +135,29 @@ struct HomeScreen: Screen {
                 )
               }
             )
+            .beforeBuild {
+              let viewStore = ViewStore(homeStore)
+              // we do not navigate to invalid routing paths (i.e. example://detail?id=123)
+              if viewStore.elements.contains(screen.detailID),
+                 viewStore.state.selectedDetail?.id != screen.detailID {
+                viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
+              }
+            }
           }
         ),
         SettingsScreen.builder(store: settingsStore)
       )
+      .onDismiss { (screen: DetailScreen) in
+        print("Dismissed \(screen)")
+        let viewStore = ViewStore(homeStore)
+        // Only if the current detail state represents the dismissed screen, set the state to nil.
+        if viewStore.state.selectedDetail?.id == screen.detailID {
+          ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+        }
+      }
+      .onDismiss(of: SettingsScreen.self) {
+        print("Dismissed settings")
+      }
     )
   }
 }
@@ -167,8 +197,19 @@ let homeReducer = Reducer<
           on: screenID
         )
     }
+
+  case .binding, .detail:
+    return .none
   }
 }
+.combined(
+  with: detailReducer.optional().pullback(
+    state: \.selectedDetail,
+    action: /HomeAction.detail,
+    environment: \.detail
+  )
+)
+.binding(action: /HomeAction.binding)
 
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {

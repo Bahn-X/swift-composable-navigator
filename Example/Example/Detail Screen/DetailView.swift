@@ -44,7 +44,10 @@ struct DetailScreen: Screen {
       nesting: PathBuilders.anyOf(
         SettingsScreen.builder(
           store: settingsStore
-        ),
+        )
+        .onDismiss(of: SettingsScreen.self) {
+          print("Detail settings dismissed")
+        },
         NavigationShortcutsScreen.builder(
           store: store.scope(
             state: \.navigationShortcuts,

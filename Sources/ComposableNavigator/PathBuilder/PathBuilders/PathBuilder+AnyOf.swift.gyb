@@ -115,6 +115,9 @@ ${parameters}
         }
 % for c in allButFirstLower:
         else if let ${c}Content = ${c}.build(path: path) {
+% for inner in filter(lambda inner: inner > c, allButFirstLower):
+          _ = ${inner}.build(path: [])
+% end
           return .${c}(${c}Content)
         }
 % end

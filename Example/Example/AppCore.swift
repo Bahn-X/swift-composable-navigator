@@ -5,29 +5,21 @@ import ComposableNavigatorTCA
 import SwiftUI
 
 struct AppState: Equatable {
-  var elements: [String]
+  var home: HomeState
+  var settings: SettingsState
 
-  var home: HomeState {
-    get { HomeState(elements: elements) }
-    set { elements = newValue.elements }
+  init(elements: [String]) {
+    home = HomeState(elements: elements, selectedDetail: nil)
+    settings = SettingsState()
   }
-
-  var details: IdentifiedArray<String, DetailState> {
-    get {
-      IdentifiedArray(
-        elements.map { DetailState(id: $0) },
-        id: \.id
-      )
-    }
-    set {}
-  }
-  var settings = SettingsState()
 }
 
 enum AppAction: Equatable {
   case home(HomeAction)
-  case detail(id: String, DetailAction)
+  case detail(DetailAction)
   case settings(SettingsAction)
+
+  case binding(BindingAction<AppState>)
 }
 
 struct AppEnvironment {
@@ -55,11 +47,6 @@ let appReducer = Reducer<
     state: \.home,
     action: /AppAction.home,
     environment: \.home
-  ),
-  detailReducer.forEach(
-    state: \.details,
-    action: /AppAction.detail,
-    environment: \.detail
   ),
   settingsReducer.pullback(
     state: \.settings,
