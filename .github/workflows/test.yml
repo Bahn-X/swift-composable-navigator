@@ -13,6 +13,6 @@ jobs:
       - name: Run tests
         run: make test
       - name: Danger
-        uses: danger/swift@2.0.3
+        uses: danger/swift@3.7.2
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
