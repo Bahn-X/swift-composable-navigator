@@ -21,11 +21,6 @@ jobs:
           gem --version
           bundler --version
 
-      - name: bundle install
-        run: |
-          bundle config path vendor/bundle
-          bundle install --without=documentation --jobs 4 --retry 3
-
       - name: Run tests
         run: make test
 
