@@ -1,5 +1,6 @@
 xcov.report(
    scheme: 'ComposableNavigator',
    workspace: 'ComposableNavigator.xcworkspace',
-   exclude_targets: ['Example.app', 'ComposableNavigatorTests.xctest', 'ComposableDeeplinkingTests.xctest']
+   derived_data_path: '.Build/',
+   exclude_targets: 'Example.app, ComposableNavigatorTests.xctest, ComposableDeeplinkingTests.xctest'
 )
