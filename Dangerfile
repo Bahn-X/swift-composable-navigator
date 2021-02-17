@@ -1,7 +1,6 @@
 xcov.report(
-   workspace: 'ComposableNavigator.xcworkspace',
-   scheme: 'Example',
+   scheme: 'swift-composable-navigator-Package',
    derived_data_path: './Build',
    html_report: false,
-   include_targets: 'ComposableNavigator, ComposableDeeplinking'
+   include_targets: 'ComposableNavigator.framework, ComposableNavigatorTCA.framework, ComposableDeeplinking.framework'
 )

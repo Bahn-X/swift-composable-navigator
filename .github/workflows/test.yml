@@ -28,3 +28,6 @@ jobs:
         env:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bundle exec danger
+
+      - name: Clean up
+        run: make cleanup

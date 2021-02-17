@@ -3,6 +3,14 @@ PLATFORM_IOS = iOS Simulator,name=iPhone 8
 default: test
 
 test:
-	xcodebuild test -scheme Example -derivedDataPath ./Build -enableCodeCoverage YES -destination platform="$(PLATFORM_IOS)"
+	swift package generate-xcodeproj
+	xcodebuild test -scheme swift-composable-navigator-Package \
+	 	-derivedDataPath ./Build -enableCodeCoverage YES \
+	 	-destination platform="$(PLATFORM_IOS)"
 
-.PHONY: test
+cleanup:
+	rm -rf ./Build
+	rm -rf ./swift-composable-navigator.xcodeproj
+	rm -rf ./xcov_report
+
+.PHONY: test cleanup

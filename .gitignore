@@ -91,3 +91,5 @@ iOSInjectionProject/
 .DS_Store
 Package.resolved
 Build/
+swift-composable-navigator.xcodeproj
+xcov_report
