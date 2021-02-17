@@ -1,11 +1,11 @@
 import Foundation
 
+/// First class representation of a deeplink based on URLs
 public struct Deeplink: Hashable {
   public let components: [DeeplinkComponent]
 }
 
-/// First class representation of a deeplink based on URLs
-public extension Deeplink {
+extension Deeplink {
   /// Initialise a deeplink from a URL, matching the passed Scheme
   ///
   /// Typically used to parse deeplinks from URL scheme triggers
@@ -30,7 +30,7 @@ public extension Deeplink {
   ///   )
   /// ] // True
   /// ```
-  init?(url: URL, matching scheme: String) {
+  public init?(url: URL, matching scheme: String) {
     guard url.scheme == scheme else {
       return nil
     }
