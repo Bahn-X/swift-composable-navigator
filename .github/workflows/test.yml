@@ -11,19 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
       - name: ruby versions
         run: |
           ruby --version
           gem --version
           bundler --version
-
-      - name: cache gems
-        uses: actions/cache@v1
-        with:
-          path: vendor/bundle
-          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gem-
 
       - name: bundle install
         run: |
