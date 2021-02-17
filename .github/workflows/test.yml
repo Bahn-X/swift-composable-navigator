@@ -10,9 +10,30 @@ jobs:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v2
+
+      - name: ruby versions
+        run: |
+          ruby --version
+          gem --version
+          bundler --version
+
+      - name: cache gems
+        uses: actions/cache@v1
+        with:
+          path: vendor/bundle
+          key: ${{ runner.os }}-gem-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-gem-
+
+      - name: bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle install --without=documentation --jobs 4 --retry 3
+
       - name: Run tests
         run: make test
-      - name: Danger
-        uses: danger/swift@3.7.2
+
+      - name: danger
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: bundle exec danger
