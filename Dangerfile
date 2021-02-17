@@ -1,4 +1,5 @@
 xcov.report(
+   workspace: 'ComposableNavigator.xcworkspace',
    scheme: 'Example',
    derived_data_path: './Build',
    html_report: false,
