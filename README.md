@@ -1,7 +1,7 @@
 <p align="center">
-  <img src="./Documentation/logo.png" width="20%" align-content: center/>
-  <h2 align="center">Composable Navigator</h2>
+  <img src="./Documentation/logo.png" width="15%" align-content: center/>
 </p>
+<h2 align="center">Composable Navigator</h2>
 <h3 align="center">
   An open source library for building deep-linkable SwiftUI applications with composition, testing and ergonomics in mind
 </h3>
