@@ -10,7 +10,7 @@
 ## Vanilla SwiftUI navigation
 A typical, vanilla SwiftUI application performing navigation manages its navigation state (i.e. is a sheet or a push active) either directly in its views or in ObservableObjects. 
 
-Let's look at an simplified example in which we keep all navigation state locally in the view:
+Let's look at a simplified example in which we keep all navigation state locally in the view:
 
 ```swift
 struct HomeView: View {
@@ -43,7 +43,7 @@ struct HomeView: View {
 
 ## Challenges
 ### How do we test that when the user taps the navigation link, we move to the DetailView and not the SettingsView?
-As `isSheetActive` and `isDetailShown` are kept locally in the View and their values is directly mutated by a binding, we cannot test any navigation logic unless we write UI tests or implement custom bindings that call functions in an ObservableObject mutating the navigation state.
+As `isSheetActive` and `isDetailShown` are kept locally in the View and their values are directly mutated by a binding, we cannot test any navigation logic unless we write UI tests or implement custom bindings that call functions in an ObservableObject mutating the navigation state.
 
 ### What if I want to show a second sheet with different content?
 We can either introduce an additional `isOtherSheetActive` variable or a hashable enum `HomeSheet: Hashable` and keep track of the active sheet in a `activeSheet: HomeSheet?` variable.
@@ -75,14 +75,14 @@ Vanilla SwiftUI only supports shallow deeplinking, meaning that we can navigate 
 The routing path describes the order of visible screens in the  application. It is a first-class representation of the `<url-path>` defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A routing path consists of identified screens.
 
 #### Screen
-Screens are first-class representation of the information needed to build a particular view. Screens objects identify the routing path element and can contain arguments like IDs, initial values, and flags. 
+A Screen is a first-class representation of the information needed to build a particular view. Screen objects identify the routing path element and can contain arguments like IDs, initial values, and flags. 
 
 Screens define how they are presented. Currently, sheet and push presentation styles are supported. This decouples presentation logic from business logic, as showing a sheet and pushing a view are performed by invoking the same `go(to:, on:)` function. Changing a screen's (default) presentation style is a single line change.
 
 ### Navigator
 The navigator manages the application's current routing path and allows mutations on it. The navigator acts as an interface to the underlying data source. The navigator object is accessible via the view environment.
 
-Navigators allow programatic navigation and can be injected where needed, even into ViewModels. 
+Navigators allow programmatic navigation and can be injected where needed, even into ViewModels. 
 
 ### Path builder
 A `PathBuilder` defines how a path element and its successors are built into a view hierarchy.
