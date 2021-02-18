@@ -2,6 +2,37 @@
 import XCTest
 
 final class DeeplinkComponentTests: XCTestCase {
+  func test_init_fails_if_URL_has_no_host() {
+    var components = URLComponents()
+    components.scheme = "app"
+    components.path = "somePathWithoutHost"
+
+    let url = components.url!
+
+    XCTAssertNil(DeeplinkComponent(url: url))
+  }
+
+  func test_array_extension_init_from_url() {
+    let expectedComponents = [
+      DeeplinkComponent(
+        name: "first",
+        arguments: nil
+      ),
+      DeeplinkComponent(
+        name: "second",
+        arguments: nil
+      )
+    ]
+
+    var components = URLComponents()
+    components.host = "first"
+    components.path = "/second"
+
+    let url = components.url!
+
+    XCTAssertEqual(expectedComponents, [DeeplinkComponent](url: url))
+  }
+
   func test_init_DeeplinkComponent_fromURL() {
     let expectedPathElement = DeeplinkComponent(
       name: "test",
