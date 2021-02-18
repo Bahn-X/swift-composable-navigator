@@ -8,7 +8,7 @@
 <hr class="rounded">
 
 ## Vanilla SwiftUI navigation
-A typical, vanilla SwiftUI applications performing navigation manages its navigation state (i.e. is a sheet or a push active) either directly in its views or in ObservableObjects. 
+A typical, vanilla SwiftUI application performing navigation manages its navigation state (i.e. is a sheet or a push active) either directly in its views or in ObservableObjects. 
 
 Let's look at an simplified example in which we keep all navigation state locally in the view:
 
