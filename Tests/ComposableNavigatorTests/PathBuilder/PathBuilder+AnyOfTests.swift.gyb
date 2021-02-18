@@ -1,0 +1,90 @@
+// AUTO-GENERATED: Do not edit
+% import string
+%{
+letters = string.ascii_uppercase
+combineCount = 10
+}%
+import ComposableNavigator
+import SwiftUI
+import XCTest
+
+final class PathBuilder_AnyOfTests: XCTestCase {
+  struct NonMatching: Screen {
+    let presentationStyle: ScreenPresentationStyle = .push
+  }
+
+%{
+  genericCharacters = letters[0:combineCount]
+}%
+% for character in genericCharacters:
+  struct ${character}Screen: Screen {
+    let presentationStyle: ScreenPresentationStyle = .push
+  }
+
+% end
+% for i in range(2, combineCount+1):
+%{
+  # ABCD...
+  genericCharacters = letters[0:i]
+  genericCharactersLower = map(string.lower, genericCharacters)
+}%
+  func test_${i}_buildsPath() {
+    var path = [IdentifiedScreen]()
+
+    let sut = PathBuilders.anyOf(
+% for inner in range(0, i):
+%{
+  innerChar = genericCharacters[inner]
+}%
+      PathBuilders.screen(
+        ${innerChar}Screen.self,
+        content: { Text("${innerChar}") }
+      % if inner < i-1:
+      ),
+      % else:
+      )
+      %end
+  % end
+    )
+
+% for inner in range(0, i):
+%{
+  innerChar = genericCharacters[inner]
+  innerCharLower = genericCharactersLower[inner]
+}%
+    // MARK: ${innerCharLower}Screen
+    let ${innerCharLower}Screen = ${innerChar}Screen()
+    path = [
+      IdentifiedScreen(
+        id: .root,
+        content: ${innerCharLower}Screen,
+        hasAppeared: false
+      )
+    ]
+
+    let ${innerCharLower}BuiltView = sut.build(path: path)
+
+    guard case .${innerCharLower} = ${innerCharLower}BuiltView else {
+      XCTFail("Expected \(${innerChar}Screen.self) to build Either.${innerCharLower}. Got \(${innerCharLower}BuiltView.debugDescription).")
+      return 
+    }
+
+% end
+    let nonMatchingBuilt = sut.build(
+      path: [
+        IdentifiedScreen(
+          id: .root,
+          content: NonMatching(),
+          hasAppeared: false
+        )
+      ]
+    )
+
+    XCTAssertNil(nonMatchingBuilt)
+  }
+% if i != combineCount:
+
+% else:
+% end
+% end
+}

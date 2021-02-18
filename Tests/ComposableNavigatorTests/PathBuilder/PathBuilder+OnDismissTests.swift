@@ -2,7 +2,7 @@ import ComposableNavigator
 import SwiftUI
 import XCTest
 
-final class PathBuilders_OnDismissTest: XCTestCase {
+final class PathBuilder_OnDismissTest: XCTestCase {
   func testScreen(with id: String) -> IdentifiedScreen {
     IdentifiedScreen(
       id: .root,
@@ -55,8 +55,6 @@ final class PathBuilders_OnDismissTest: XCTestCase {
   }
 
   func test_onDismiss_calls_perform_with_screen_when_path_changes() {
-
-
     var dismissCalled = false
 
     let sut = testBuilder

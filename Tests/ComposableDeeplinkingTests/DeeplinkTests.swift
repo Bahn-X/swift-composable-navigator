@@ -4,16 +4,16 @@ import XCTest
 final class DeeplinkTests: XCTestCase {
   func test_init_Deeplink_fromURL_matching_scheme() {
     let expectedDeeplink = Deeplink(
-        components: [
-            DeeplinkComponent(
-                name: "test",
-                arguments: [
-                    "id": .value("1"),
-                    "message": .value("Hello World"),
-                    "flag": .flag
-                ]
-            )
-        ]
+      components: [
+        DeeplinkComponent(
+          name: "test",
+          arguments: [
+            "id": .value("1"),
+            "message": .value("Hello World"),
+            "flag": .flag
+          ]
+        )
+      ]
     )
 
     let url = URL(string: "app://test?id=1&message=Hello%20World&flag")!

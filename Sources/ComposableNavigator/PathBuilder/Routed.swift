@@ -25,9 +25,9 @@ public struct Routed<Content: View, Successor: View>: View {
     }
   }
 
-  private let content: Content
-  private let onAppear: (Bool) -> Void
-  private let next: ([IdentifiedScreen]) -> Successor?
+  let content: Content
+  let onAppear: (Bool) -> Void
+  let next: ([IdentifiedScreen]) -> Successor?
 
   public init(
     content: Content,

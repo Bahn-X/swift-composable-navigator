@@ -60,6 +60,9 @@ let package = Package(
       name: "ComposableNavigatorTests",
       dependencies: [
         "ComposableNavigator"
+      ],
+      exclude: [
+        "PathBuilder/PathBuilder+AnyOfTests.swift.gyb"
       ]
     ),
     .testTarget(
