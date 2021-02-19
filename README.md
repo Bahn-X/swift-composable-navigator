@@ -8,7 +8,7 @@
 <hr class="rounded">
 
 ## Vanilla SwiftUI navigation
-A typical, vanilla SwiftUI application performing navigation manages its navigation state (i.e. is a sheet or a push active) either directly in its views or in ObservableObjects. 
+A typical, vanilla SwiftUI application manages its navigation state (i.e. is a sheet or a push active) either directly in its `View`s or in `ObservableObject`s. 
 
 Let's look at a simplified example in which we keep all navigation state locally in the view:
 
@@ -122,7 +122,6 @@ import ComposableNavigator
 
 struct HomeView: View {
   @Environment(\.navigator) var navigator
-  @Environment(\.currentScreen) var currentScreen
   @Environment(\.currentScreenID) var currentScreenID
 
   var body: some View {
@@ -149,13 +148,13 @@ struct HomeView: View {
   func goToSettings() {
     navigator.go(
       to: SettingsScreen(),
-      on: currentScreen // ExampleScreen()
+      on: HomeScreen()
     )
   }
 }
 ```
 
-We can now inject the `Navigator` and `currentScreen(ID)` in our tests and cover calls to goToDetail / goToSettings on a ExampleView instance with tests.
+We can now inject the `Navigator` and `currentScreenID` in our tests and cover calls to goToDetail / goToSettings on a ExampleView instance with tests.
 
 ## Integrating ComposableNavigator
 ```swift
