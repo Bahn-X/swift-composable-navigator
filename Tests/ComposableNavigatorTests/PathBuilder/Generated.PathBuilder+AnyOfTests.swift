@@ -1,5 +1,6 @@
 // AUTO-GENERATED: Do not edit
 import ComposableNavigator
+import SnapshotTesting
 import SwiftUI
 import XCTest
 
@@ -79,6 +80,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -95,6 +103,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -144,6 +159,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -161,6 +183,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: cScreen
     let cScreen = CScreen()
     path = [
@@ -177,6 +206,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -230,6 +266,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -246,6 +289,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -264,6 +314,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -280,6 +337,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -337,6 +401,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -353,6 +424,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -371,6 +449,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -388,6 +473,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: eScreen
     let eScreen = EScreen()
     path = [
@@ -404,6 +496,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -465,6 +564,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -481,6 +587,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -499,6 +612,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -515,6 +635,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: eScreen
     let eScreen = EScreen()
@@ -533,6 +660,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: fScreen
     let fScreen = FScreen()
     path = [
@@ -549,6 +683,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: fBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -614,6 +755,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -630,6 +778,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -648,6 +803,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -664,6 +826,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: eScreen
     let eScreen = EScreen()
@@ -682,6 +851,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: fScreen
     let fScreen = FScreen()
     path = [
@@ -699,6 +875,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: fBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: gScreen
     let gScreen = GScreen()
     path = [
@@ -715,6 +898,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(GScreen.self) to build Either.g. Got \(gBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: gBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -784,6 +974,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -800,6 +997,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -818,6 +1022,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -834,6 +1045,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: eScreen
     let eScreen = EScreen()
@@ -852,6 +1070,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: fScreen
     let fScreen = FScreen()
     path = [
@@ -868,6 +1093,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: fBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: gScreen
     let gScreen = GScreen()
@@ -886,6 +1118,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: gBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: hScreen
     let hScreen = HScreen()
     path = [
@@ -902,6 +1141,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(HScreen.self) to build Either.h. Got \(hBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: hBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -975,6 +1221,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -991,6 +1244,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -1009,6 +1269,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -1025,6 +1292,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: eScreen
     let eScreen = EScreen()
@@ -1043,6 +1317,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: fScreen
     let fScreen = FScreen()
     path = [
@@ -1059,6 +1340,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: fBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: gScreen
     let gScreen = GScreen()
@@ -1077,6 +1365,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: gBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: hScreen
     let hScreen = HScreen()
     path = [
@@ -1094,6 +1389,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: hBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: iScreen
     let iScreen = IScreen()
     path = [
@@ -1110,6 +1412,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(IScreen.self) to build Either.i. Got \(iBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: iBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [
@@ -1187,6 +1496,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: aBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: bScreen
     let bScreen = BScreen()
     path = [
@@ -1203,6 +1519,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: bBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: cScreen
     let cScreen = CScreen()
@@ -1221,6 +1544,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: cBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: dScreen
     let dScreen = DScreen()
     path = [
@@ -1237,6 +1567,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: dBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: eScreen
     let eScreen = EScreen()
@@ -1255,6 +1592,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: eBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: fScreen
     let fScreen = FScreen()
     path = [
@@ -1271,6 +1615,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: fBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: gScreen
     let gScreen = GScreen()
@@ -1289,6 +1640,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: gBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: hScreen
     let hScreen = HScreen()
     path = [
@@ -1305,6 +1663,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(HScreen.self) to build Either.h. Got \(hBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: hBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     // MARK: iScreen
     let iScreen = IScreen()
@@ -1323,6 +1688,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       return 
     }
 
+    assertSnapshot(
+      matching: iBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
+
     // MARK: jScreen
     let jScreen = JScreen()
     path = [
@@ -1339,6 +1711,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(JScreen.self) to build Either.j. Got \(jBuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: jBuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
     let nonMatchingBuilt = sut.build(
       path: [

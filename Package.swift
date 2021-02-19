@@ -3,6 +3,15 @@
 
 import PackageDescription
 
+let snapshotFolders = [
+    "PathBuilder/__Snapshots__",
+    "Screen/__Snapshots__"
+]
+
+let testGybFiles = [
+    "PathBuilder/PathBuilder+AnyOfTests.swift.gyb"
+]
+
 let package = Package(
   name: "swift-composable-navigator",
   platforms: [
@@ -30,7 +39,8 @@ let package = Package(
       name: "swift-composable-architecture",
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       from: "0.7.0"
-    )
+    ),
+    .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.2") // dev
   ],
   targets: [
     .target(
@@ -56,26 +66,8 @@ let package = Package(
         .target(name: "ComposableNavigator")
       ]
     ),
-    .testTarget(
-      name: "ComposableNavigatorTests",
-      dependencies: [
-        "ComposableNavigator"
-      ],
-      exclude: [
-        "PathBuilder/PathBuilder+AnyOfTests.swift.gyb"
-      ]
-    ),
-    .testTarget(
-      name: "ComposableDeeplinkingTests",
-      dependencies: [
-        "ComposableDeeplinking"
-      ]
-    ),
-    .testTarget(
-      name: "ComposableNavigatorTCATests",
-      dependencies: [
-        "ComposableNavigatorTCA"
-      ]
-    ),
+    .testTarget(name: "ComposableNavigatorTests", dependencies: ["ComposableNavigator", "SnapshotTesting"], exclude: testGybFiles + snapshotFolders), // dev
+    .testTarget(name: "ComposableDeeplinkingTests", dependencies: ["ComposableDeeplinking"]), // dev
+    .testTarget(name: "ComposableNavigatorTCATests", dependencies: ["ComposableNavigatorTCA"]), // dev
   ]
 )

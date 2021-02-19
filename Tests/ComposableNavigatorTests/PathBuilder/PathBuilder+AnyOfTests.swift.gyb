@@ -5,6 +5,7 @@ letters = string.ascii_uppercase
 combineCount = 10
 }%
 import ComposableNavigator
+import SnapshotTesting
 import SwiftUI
 import XCTest
 
@@ -68,6 +69,13 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       XCTFail("Expected \(${innerChar}Screen.self) to build Either.${innerCharLower}. Got \(${innerCharLower}BuiltView.debugDescription).")
       return 
     }
+
+    assertSnapshot(
+      matching: ${innerCharLower}BuiltView
+        .frame(width: 20, height: 20)
+        .environmentObject(Navigator.Datasource(path: [])),
+      as: .image
+    )
 
 % end
     let nonMatchingBuilt = sut.build(
