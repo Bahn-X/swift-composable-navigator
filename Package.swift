@@ -71,5 +71,11 @@ let package = Package(
         "ComposableDeeplinking"
       ]
     ),
+    .testTarget(
+      name: "ComposableNavigatorTCATests",
+      dependencies: [
+        "ComposableNavigatorTCA"
+      ]
+    ),
   ]
 )
