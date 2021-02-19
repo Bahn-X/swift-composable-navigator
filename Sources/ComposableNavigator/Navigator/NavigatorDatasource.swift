@@ -127,7 +127,7 @@ public extension Navigator {
       path = Array(path.prefix(upTo: index))
     }
 
-    func dismissSuccessor(of id: ScreenID) -> Void {
+    func dismissSuccessor(of id: ScreenID) {
       guard let index = path.firstIndex(where: { $0.id == id }) else {
         return
       }
@@ -135,7 +135,7 @@ public extension Navigator {
       path = Array(path.prefix(through: index))
     }
 
-    func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> Void {
+    func replaceContent(of id: ScreenID, with newContent: AnyScreen) {
       guard let index = path.firstIndex(where: { screen in screen.id == id }),
             path[index].content != newContent else {
         return
@@ -148,7 +148,7 @@ public extension Navigator {
       )
     }
 
-    func replace(screen: AnyScreen, with newContent: AnyScreen) -> Void {
+    func replace(screen: AnyScreen, with newContent: AnyScreen) {
       guard let id = identifiedScreen(for: screen)?.id else {
         return
       }
