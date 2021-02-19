@@ -87,7 +87,7 @@ let config = PackageConfiguration(
         "make cleanup",
         "hide_dev_dependencies",
         ["git_add": ["paths": ["."]]],
-        ["commit": ["message": "Releasing version $VERSION"]],
+        ["commit": ["message": "Release version $VERSION"]],
         "tag",
         "unhide_dev_dependencies",
         ["git_add": ["paths": ["."]]],
