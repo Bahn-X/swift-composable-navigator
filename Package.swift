@@ -4,12 +4,12 @@
 import PackageDescription
 
 let snapshotFolders = [
-    "PathBuilder/__Snapshots__",
-    "Screen/__Snapshots__"
+  "PathBuilder/__Snapshots__",
+  "Screen/__Snapshots__",
 ]
 
 let testGybFiles = [
-    "PathBuilder/PathBuilder+AnyOfTests.swift.gyb"
+  "PathBuilder/PathBuilder+AnyOfTests.swift.gyb",
 ]
 
 let package = Package(
@@ -40,14 +40,15 @@ let package = Package(
       url: "https://github.com/pointfreeco/swift-composable-architecture",
       from: "0.7.0"
     ),
-    .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.2") // dev
+    .package(url: "https://github.com/shibapm/Rocket", from: "1.1.0"), // dev
+    .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.2"), // dev
   ],
   targets: [
     .target(
       name: "ComposableNavigator",
       dependencies: [],
       exclude: [
-        "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb"
+        "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb",
       ]
     ),
     .target(
@@ -63,7 +64,7 @@ let package = Package(
     .target(
       name: "ComposableDeeplinking",
       dependencies: [
-        .target(name: "ComposableNavigator")
+        .target(name: "ComposableNavigator"),
       ]
     ),
     .testTarget(name: "ComposableNavigatorTests", dependencies: ["ComposableNavigator", "SnapshotTesting"], exclude: testGybFiles + snapshotFolders), // dev
@@ -71,3 +72,25 @@ let package = Package(
     .testTarget(name: "ComposableNavigatorTCATests", dependencies: ["ComposableNavigatorTCA"]), // dev
   ]
 )
+
+#if canImport(PackageConfig)
+import PackageConfig
+
+let config = PackageConfiguration(
+  [
+    "rocket": [
+      "pre_release_checks": [
+        "clean_git"
+      ],
+      "before": [
+        "echo \"Testing Release for $VERSION\"",
+        "make test",
+        "make cleanup"
+      ],
+      "after": [
+        "echo \"released $VERSION\""
+      ]
+    ]
+  ]
+).write()
+#endif

@@ -13,4 +13,7 @@ cleanup:
 	rm -rf ./swift-composable-navigator.xcodeproj
 	rm -rf ./xcov_report
 
-.PHONY: test cleanup
+release:
+	swift run rocket ${version}
+
+.PHONY: test cleanup release
