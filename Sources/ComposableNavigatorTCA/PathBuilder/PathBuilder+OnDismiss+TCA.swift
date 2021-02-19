@@ -22,7 +22,7 @@ extension PathBuilder {
   /// - Parameters:
   ///     - action: Action sent on dismiss.
   ///     - store: Store the action is sent into.
-  func onDismiss<State: Equatable, Action: Equatable>(
+  public func onDismiss<State: Equatable, Action: Equatable>(
     send action: @escaping (AnyScreen) -> Action,
     into store: Store<State, Action>
   ) -> _PathBuilder<Content> {
@@ -68,9 +68,9 @@ extension PathBuilder {
   /// - Parameters:
   ///     - action: Action sent on dismiss.
   ///     - store: Store the action is sent into.
-  func onDismiss<Dismissed: Screen, State: Equatable, Action: Equatable>(
+  public func onDismiss<Dismissed: Screen, State: Equatable, Action: Equatable>(
     send action: @escaping (Dismissed) -> Action,
-    store: Store<State, Action>
+    into store: Store<State, Action>
   ) -> _PathBuilder<Content> {
     onDismiss(
       perform: { (screen: Dismissed) in
@@ -116,7 +116,7 @@ extension PathBuilder {
   ///     - of: defines the `Dismissed: Screen` type.
   ///     - action: Action sent on dismiss.
   ///     - store: Store the action is sent into.
-  func onDismiss<Dismissed: Screen, State: Equatable, Action: Equatable>(
+  public func onDismiss<Dismissed: Screen, State: Equatable, Action: Equatable>(
     of screen: Dismissed.Type,
     send action: Action,
     into store: Store<State, Action>

@@ -34,6 +34,7 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If, Else>>(
       buildPath: { path -> EitherAB<If, Else>? in
         if let state = ViewStore(store).state {
+          _ = `else`.build(path: [])
           return then(store.scope(state: { $0 ?? state })).build(path: path).flatMap(EitherAB.a)
         } else {
           return `else`.build(path: path).flatMap(EitherAB.b)
@@ -64,15 +65,7 @@ public extension PathBuilders {
   >(
     store: Store<State?, Action>,
     then: @escaping (Store<State, Action>) -> IfBuilder
-  ) -> _PathBuilder<If> where IfBuilder.Content == If {
-    _PathBuilder<If>(
-      buildPath: { path -> If? in
-        if let state = ViewStore(store).state {
-          return then(store.scope(state: { $0 ?? state })).build(path: path)
-        } else {
-          return nil
-        }
-      }
-    )
+  ) -> _PathBuilder<EitherAB<If, Never>> where IfBuilder.Content == If {
+    ifLetStore(store: store, then: then, else: PathBuilders.empty)
   }
 }
