@@ -17,6 +17,16 @@ final class NavigatorDatasourceTests: XCTestCase {
     presentationStyle: .push
   ).eraseToAnyScreen()
 
+  // MARK: - Path
+  func test_navigator_path_exposes_current_path() {
+    let sut = Navigator.Datasource(
+      root: root,
+      screenID: { fatalError() }
+    )
+
+    XCTAssertEqual(sut.path, sut.wrappedInNavigator().path())
+  }
+
   // MARK: - go(to screen:, on:)
   func test_go_to() {
     let expectedNextID = ScreenID()
@@ -26,7 +36,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { expectedNextID }
     )
 
-    sut.go(to: next, on: .root)
+    sut.wrappedInNavigator().go(to: next, on: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -45,7 +55,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { expectedNextID }
     )
 
-    sut.go(to: next, on: self.root.eraseToAnyScreen())
+    sut.wrappedInNavigator().go(to: next, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -78,7 +88,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       second.eraseToAnyScreen()
     ]
 
-    sut.go(to: appendedPath, on: .root)
+    sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -123,7 +133,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       second.eraseToAnyScreen()
     ]
 
-    sut.go(to: appendedPath, on: self.root.eraseToAnyScreen())
+    sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -166,7 +176,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
     ]
 
-    sut.go(to: appendedPath, on: .root)
+    sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -209,7 +219,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
     ]
 
-    sut.go(to: appendedPath, on: self.root.eraseToAnyScreen())
+    sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -250,7 +260,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen()
     ]
 
-    sut.go(to: appendedPath, on: .root)
+    sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -286,7 +296,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen()
     ]
 
-    sut.go(to: appendedPath, on: self.root.eraseToAnyScreen())
+    sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -317,7 +327,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.goBack(to: root.eraseToAnyScreen())
+    sut.wrappedInNavigator().goBack(to: root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -338,7 +348,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.goBack(to: .root)
+    sut.wrappedInNavigator().goBack(to: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -361,7 +371,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     let nonExistent = TestScreen(identifier: "non-existent", presentationStyle: .push)
 
-    sut.goBack(to: nonExistent.eraseToAnyScreen())
+    sut.wrappedInNavigator().goBack(to: nonExistent.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -383,7 +393,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.goBack(to: ScreenID())
+    sut.wrappedInNavigator().goBack(to: ScreenID())
 
     XCTAssertEqual(
       sut.path,
@@ -413,7 +423,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
     ]
 
-    sut.replace(path: newPath)
+    sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
       sut.path,
@@ -445,14 +455,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { expectedNextID }
     )
 
-
-    let newPath = [
-      next,
-      next,
-      next
-    ]
-
-    sut.replace(path: newPath)
+    sut.wrappedInNavigator().replace(path: next, next, next)
 
     XCTAssertEqual(
       sut.path,
@@ -489,7 +492,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       path: path,
       screenID: { expectedNextID }
     )
-    sut.replace(path: [])
+    sut.wrappedInNavigator().replace(path: [])
 
     XCTAssertEqual(sut.path, path)
   }
@@ -514,7 +517,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       next
     ]
 
-    sut.replace(path: newPath)
+    sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
       sut.path,
@@ -559,7 +562,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       next
     ]
 
-    sut.replace(path: newPath)
+    sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
       sut.path,
@@ -597,7 +600,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(id: .root)
+    sut.wrappedInNavigator().dismiss(id: .root)
 
     XCTAssertEqual(
       sut.path,
@@ -615,7 +618,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(screen: root.eraseToAnyScreen())
+    sut.wrappedInNavigator().dismiss(screen: root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -638,7 +641,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(id: second)
+    sut.wrappedInNavigator().dismiss(id: second)
 
     XCTAssertEqual(
       sut.path,
@@ -662,7 +665,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(screen: root.eraseToAnyScreen())
+    sut.wrappedInNavigator().dismiss(screen: root.eraseToAnyScreen())
 
     XCTAssertEqual(
       sut.path,
@@ -687,7 +690,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(id: third)
+    sut.wrappedInNavigator().dismiss(id: third)
 
     XCTAssertEqual(
       sut.path,
@@ -712,7 +715,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismiss(
+    sut.wrappedInNavigator().dismiss(
       screen: TestScreen(identifier: "non-existent", presentationStyle: .push).eraseToAnyScreen()
     )
 
@@ -740,7 +743,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismissSuccessor(of: first)
+    sut.wrappedInNavigator().dismissSuccessor(of: first)
 
     XCTAssertEqual(
       sut.path,
@@ -764,7 +767,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismissSuccessor(of: next)
+    sut.wrappedInNavigator().dismissSuccessor(of: next)
 
     XCTAssertEqual(
       sut.path,
@@ -789,7 +792,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismissSuccessor(of: third)
+    sut.wrappedInNavigator().dismissSuccessor(of: third)
 
     XCTAssertEqual(
       sut.path, [
@@ -813,7 +816,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismissSuccessor(
+    sut.wrappedInNavigator().dismissSuccessor(
       of: TestScreen(identifier: "non-existent", presentationStyle: .push).eraseToAnyScreen()
     )
 
@@ -839,7 +842,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.dismissSuccessor(of: second)
+    sut.wrappedInNavigator().dismissSuccessor(of: second)
 
     XCTAssertEqual(
       sut.path,
@@ -876,7 +879,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.replaceContent(of: .root, with: expectedContent)
+    sut.wrappedInNavigator().replaceContent(of: .root, with: expectedContent)
 
     XCTAssertEqual(
       sut.path,
@@ -905,7 +908,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.replaceContent(of: third, with: expectedContent)
+    sut.wrappedInNavigator().replaceContent(of: third, with: expectedContent)
 
     XCTAssertEqual(
       sut.path,
@@ -938,7 +941,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.replace(screen: root.eraseToAnyScreen(), with: expectedContent)
+    sut.wrappedInNavigator().replace(screen: root.eraseToAnyScreen(), with: expectedContent)
 
     XCTAssertEqual(
       sut.path,
@@ -970,7 +973,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.replace(screen: nonExistent, with: expectedContent)
+    sut.wrappedInNavigator().replace(screen: nonExistent, with: expectedContent)
     
     XCTAssertEqual(
       sut.path,
@@ -992,7 +995,7 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { fatalError("unimplemented") }
     )
 
-    sut.didAppear(id: second)
+    sut.wrappedInNavigator().didAppear(id: second)
 
     XCTAssertEqual(
       sut.path,
@@ -1003,4 +1006,10 @@ final class NavigatorDatasourceTests: XCTestCase {
       ]
     )
   }
+}
+
+private extension Navigator.Datasource {
+    func wrappedInNavigator() -> Navigator {
+        Navigator(dataSource: self)
+    }
 }
