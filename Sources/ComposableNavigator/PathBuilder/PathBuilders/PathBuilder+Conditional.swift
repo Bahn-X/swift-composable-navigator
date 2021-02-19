@@ -59,16 +59,8 @@ public extension PathBuilders {
   static func `if`<If: PathBuilder>(
     _ condition: @escaping () -> Bool,
     then builder: If
-  ) -> some PathBuilder {
-    _PathBuilder<If.Content>(
-      buildPath: { path -> If.Content? in
-        if condition() {
-          return builder.build(path: path)
-        } else {
-          return nil
-        }
-      }
-    )
+  ) -> _PathBuilder<EitherAB<If.Content, Never>> {
+    `if`(condition, then: builder, else: PathBuilders.empty)
   }
 
   ///  The if `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
@@ -130,7 +122,7 @@ public extension PathBuilders {
   ///     Closure defining the `PathBuilder` based on the unwrapped screen object.
   ///   - else:
   ///     Fallback pathbuilder used if the screen cannot be unwrapped.
-  static func `if`<LetContent, If: PathBuilder, Else: PathBuilder>(
+  static func  `if`<LetContent, If: PathBuilder, Else: PathBuilder>(
     `let`: @escaping () -> LetContent?,
     then: @escaping (LetContent) -> If,
     else: Else
@@ -145,6 +137,30 @@ public extension PathBuilders {
         }
       }
     )
+  }
+
+  /// The ifLet `PathBuilder` unwraps an optional value and provides it to the `PathBuilder` defining closure.
+  ///
+  ///  # Example
+  ///  ```swift
+  ///  .if(
+  ///     let: { store.detailStore },
+  ///     then: { detailStore in
+  ///       DetailScreen.builder(store: detailStore)
+  ///     },
+  ///      else: // fallback if the value is not set.
+  ///  )
+  ///  ```
+  /// - Parameters:
+  ///   - let:
+  ///     Closure unwrapping a value.
+  ///   - then:
+  ///     Closure defining the `PathBuilder` based on the unwrapped screen object.
+  static func `if`<LetContent, If: PathBuilder>(
+    `let`: @escaping () -> LetContent?,
+    then: @escaping (LetContent) -> If
+  ) -> _PathBuilder<EitherAB<If.Content, Never>> {
+    `if`(let: `let`, then: then, else: PathBuilders.empty)
   }
 
   ///  The if screen `PathBuilder` unwraps a screen, if the path element matches the screen type, and provides it to the `PathBuilder` defining closure.
