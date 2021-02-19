@@ -362,7 +362,7 @@ final class PathBuilder_ConditionalTests: XCTestCase {
 
     let expectedScreens = [AnyScreen]()
     let expectedPaths = [[IdentifiedScreen]]()
-    var expectedElsePaths = [path]
+    let expectedElsePaths = [path]
 
     let sut = PathBuilders.if(
       screen: { (screen: TestScreen) in
