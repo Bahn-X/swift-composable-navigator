@@ -8,7 +8,7 @@
 <hr class="rounded">
 
 ## Vanilla SwiftUI navigation
-A typical, vanilla SwiftUI application performing navigation manages its navigation state (i.e. is a sheet or a push active) either directly in its views or in ObservableObjects. 
+A typical, vanilla SwiftUI application manages its navigation state (i.e. is a sheet or a push active) either directly in its Views or in ObservableObjects. 
 
 Let's look at a simplified example in which we keep all navigation state locally in the view:
 
@@ -66,7 +66,7 @@ So, at which point in the view hierarchy do we wrap our content in a NavigationV
 Vanilla SwiftUI only supports shallow deeplinking, meaning that we can navigate from the ExampleView to the DetailView by setting the initial value of `isDetailShown` to true. However, we cannot navigate further down into our application as SwiftUI seems to ignore initial values in pushed/presented views.
 
 ## Why should I use ComposableNavigator?
-**ComposableNavigator** lifts the burden of manually managing navigation state off your shoulders and allows to navigate through applications along routing paths. **ComposableNavigator** takes care of embedding your views in NavigationViews, where needed, and always builds a valid view hierarchy. On top of that, **ComposableNavigator** unlocks advanced navigation patterns like Wildcards and conditional routes.
+**ComposableNavigator** lifts the burden of manually managing navigation state off your shoulders and allows to navigate through applications along routing paths. **ComposableNavigator** takes care of embedding your views in NavigationViews, where needed, and always builds a valid view hierarchy. On top of that, **ComposableNavigator** unlocks advanced navigation patterns like wildcards and conditional routes.
 
 ## Core components
 **ComposableNavigator** is built on three core components: the routing path, composable **PathBuilder**s, and the navigator. 
@@ -122,7 +122,6 @@ import ComposableNavigator
 
 struct HomeView: View {
   @Environment(\.navigator) var navigator
-  @Environment(\.currentScreen) var currentScreen
   @Environment(\.currentScreenID) var currentScreenID
 
   var body: some View {
@@ -149,13 +148,13 @@ struct HomeView: View {
   func goToSettings() {
     navigator.go(
       to: SettingsScreen(),
-      on: currentScreen // ExampleScreen()
+      on: HomeScreen()
     )
   }
 }
 ```
 
-We can now inject the `Navigator` and `currentScreen(ID)` in our tests and cover calls to goToDetail / goToSettings on a ExampleView instance with tests.
+We can now inject the `Navigator` and `currentScreenID` in our tests and cover calls to goToDetail / goToSettings on a ExampleView instance with tests.
 
 ## Integrating ComposableNavigator
 ```swift
