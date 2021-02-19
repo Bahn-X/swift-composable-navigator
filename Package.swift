@@ -82,15 +82,19 @@ let config = PackageConfiguration(
       "pre_release_checks": [
         "clean_git"
       ],
-      "before": [
-        "echo \"Testing Release for $VERSION\"",
+      "steps": [
         "make test",
-        "make cleanup"
-      ],
-      "after": [
-        "echo \"released $VERSION\""
+        "make cleanup",
+        "hide_dev_dependencies",
+        ["git_add": ["paths": ["."]]],
+        ["commit": ["message": "Releasing version $VERSION"]],
+        "tag",
+        "unhide_dev_dependencies",
+        ["git_add": ["paths": ["."]]],
+        ["commit": ["message": "Unhide dependencies ($VERSION)"]]
       ]
     ]
   ]
-).write()
+)
+.write()
 #endif
