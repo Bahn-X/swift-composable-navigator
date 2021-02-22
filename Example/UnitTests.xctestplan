@@ -1,0 +1,42 @@
+{
+  "configurations" : [
+    {
+      "id" : "D51A2EF0-51DA-4376-BB14-7B3B72809E3E",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Example.xcodeproj",
+      "identifier" : "236E657B2559498C00C19B46",
+      "name" : "Example"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableNavigatorTests",
+        "name" : "ComposableNavigatorTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableDeeplinkingTests",
+        "name" : "ComposableDeeplinkingTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableNavigatorTCATests",
+        "name" : "ComposableNavigatorTCATests"
+      }
+    }
+  ],
+  "version" : 1
+}

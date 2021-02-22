@@ -1,0 +1,67 @@
+{
+  "configurations" : [
+    {
+      "id" : "D9600B5A-8B2E-4493-A051-F002D5B4D3C7",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : {
+      "targets" : [
+        {
+          "containerPath" : "container:..",
+          "identifier" : "ComposableDeeplinking",
+          "name" : "ComposableDeeplinking"
+        },
+        {
+          "containerPath" : "container:..",
+          "identifier" : "ComposableNavigator",
+          "name" : "ComposableNavigator"
+        },
+        {
+          "containerPath" : "container:..",
+          "identifier" : "ComposableNavigatorTCA",
+          "name" : "ComposableNavigatorTCA"
+        }
+      ]
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Example.xcodeproj",
+        "identifier" : "23C9A49625E3A140005942F8",
+        "name" : "ExampleUITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableDeeplinkingTests",
+        "name" : "ComposableDeeplinkingTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableNavigatorTCATests",
+        "name" : "ComposableNavigatorTCATests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComposableNavigatorTests",
+        "name" : "ComposableNavigatorTests"
+      }
+    }
+  ],
+  "version" : 1
+}

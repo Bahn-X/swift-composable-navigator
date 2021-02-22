@@ -63,6 +63,8 @@
 		23A5B5B4255982A300B319DA /* HomeView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BA2559846B00B319DA /* DetailView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BF2559866000B319DA /* SettingsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23BECD9925E3D31400A45D19 /* FullTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FullTests.xctestplan; sourceTree = "<group>"; };
+		23C90D7F25E3C6320076FA48 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		23C9A49725E3A140005942F8 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23C9A49925E3A140005942F8 /* ExampleUITests.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A49B25E3A140005942F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -75,6 +77,7 @@
 		23C9A4C525E3A748005942F8 /* XCUIElement+ExistsAfterTimeout.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = "XCUIElement+ExistsAfterTimeout.swift"; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A4CB25E3A945005942F8 /* Base.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Base.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A4D625E3AFA9005942F8 /* XCUIApplication+BackButton.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = "XCUIApplication+BackButton.swift"; sourceTree = "<group>"; tabWidth = 2; };
+		23D8C9E825E3C8E200D367D2 /* UITests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UITests.xctestplan; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -121,6 +124,9 @@
 		236E65732559498C00C19B46 = {
 			isa = PBXGroup;
 			children = (
+				23D8C9E825E3C8E200D367D2 /* UITests.xctestplan */,
+				23BECD9925E3D31400A45D19 /* FullTests.xctestplan */,
+				23C90D7F25E3C6320076FA48 /* UnitTests.xctestplan */,
 				236E6590255949C500C19B46 /* swift-composable-coordinator */,
 				236E657E2559498C00C19B46 /* Example */,
 				23C9A49825E3A140005942F8 /* ExampleUITests */,

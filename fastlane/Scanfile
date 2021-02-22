@@ -1,0 +1,3 @@
+code_coverage(true)
+output_types("")
+output_directory("./TestOutput")

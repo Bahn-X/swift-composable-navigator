@@ -1,41 +1,13 @@
 import Example
 import XCTest
 
-class ComposableNavigatorUITests: XCTestCase {
+final class ComposableNavigatorSheetUITests: XCTestCase {
   var app: XCUIApplication!
   
   override func setUp() {
     app = XCUIApplication()
     app.launch()
     continueAfterFailure = false
-  }
-  
-  func test_push() {
-    Home(app: app)
-      .goToDetail(for: "0")
-      .assertVisible()
-      .goToBackToHome()
-      .assertVisible()
-  }
-
-  func test_push_push() {
-    Home(app: app)
-      .goToDetail(for: "0")
-      .assertVisible()
-      .goToShortcuts()
-      .assertVisible()
-      .goToBackToHome()
-      .assertVisible()
-  }
-
-  func test_push_sheet() {
-    Home(app: app)
-      .goToDetail(for: "0")
-      .assertVisible()
-      .goToSettings()
-      .assertVisible()
-      .goBackToHome()
-      .assertVisible()
   }
   
   func test_sheet() {
@@ -64,6 +36,54 @@ class ComposableNavigatorUITests: XCTestCase {
       .assertVisible()
       .goToBackToHome()
       .assertVisible()
+  }
+}
+
+final class ComposableNavigatorPushTests: XCTestCase {
+  var app: XCUIApplication!
+
+  override func setUp() {
+    app = XCUIApplication()
+    app.launch()
+    continueAfterFailure = false
+  }
+
+  func test_push() {
+    Home(app: app)
+      .goToDetail(for: "0")
+      .assertVisible()
+      .goToBackToHome()
+      .assertVisible()
+  }
+
+  func test_push_push() {
+    Home(app: app)
+      .goToDetail(for: "0")
+      .assertVisible()
+      .goToShortcuts()
+      .assertVisible()
+      .goToBackToHome()
+      .assertVisible()
+  }
+
+  func test_push_sheet() {
+    Home(app: app)
+      .goToDetail(for: "0")
+      .assertVisible()
+      .goToSettings()
+      .assertVisible()
+      .goBackToHome()
+      .assertVisible()
+  }
+}
+
+final class ComposableNavigatorPathTransitionTests: XCTestCase {
+  var app: XCUIApplication!
+
+  override func setUp() {
+    app = XCUIApplication()
+    app.launch()
+    continueAfterFailure = false
   }
 
   func test_sheet_push_to_push_sheet_sheet() {
