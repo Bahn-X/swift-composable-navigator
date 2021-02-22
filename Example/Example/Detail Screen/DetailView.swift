@@ -34,27 +34,32 @@ struct DetailScreen: Screen {
     store: Store<DetailState, DetailAction>,
     settingsStore: Store<SettingsState, SettingsAction>
   ) -> some PathBuilder {
-    PathBuilders.screen(
-      DetailScreen.self,
-      content: {
-            DetailView(
-              store: store
+    PathBuilders.if(
+      screen: { (screen: DetailScreen) in
+        PathBuilders.screen(
+          DetailScreen.self,
+          content: {
+                DetailView(
+                  store: store
+                )
+          },
+          nesting: PathBuilders.anyOf(
+            SettingsScreen.builder(
+              store: settingsStore,
+              entrypoint: "detail.\(screen.detailID)"
             )
-      },
-      nesting: PathBuilders.anyOf(
-        SettingsScreen.builder(
-          store: settingsStore
-        )
-        .onDismiss(of: SettingsScreen.self) {
-          print("Detail settings dismissed")
-        },
-        NavigationShortcutsScreen.builder(
-          store: store.scope(
-            state: \.navigationShortcuts,
-            action: DetailAction.navigationShortcuts
+            .onDismiss(of: SettingsScreen.self) {
+              print("Detail settings dismissed")
+            },
+            NavigationShortcutsScreen.builder(
+              store: store.scope(
+                state: \.navigationShortcuts,
+                action: DetailAction.navigationShortcuts
+              )
+            )
           )
         )
-      )
+      }
     )
   }
 }
@@ -79,8 +84,13 @@ struct DetailView: View {
             },
             label: { Text("Go to [home/detail?id=\(viewStore.id)/shortcuts]") }
           )
+          .accessibility(
+            identifier: AccessibilityIdentifier.DetailScreen(id: viewStore.id).shortcuts
+          )
 
-          NavigationShortcuts()
+          NavigationShortcuts(
+            accessibilityIdentifiers: AccessibilityIdentifier.NavigationShortcuts(prefix: "detail.\(viewStore.id).shortcuts")
+          )
           Spacer()
         }
         Spacer()
@@ -90,6 +100,9 @@ struct DetailView: View {
         trailing: Button(
           action: { viewStore.send(.settingsButtonTapped(currentID))},
           label: { Image(systemName: "gear") }
+        )
+        .accessibility(
+          identifier: AccessibilityIdentifier.DetailScreen(id: viewStore.id).settings
         )
       )
       .navigationBarTitle("Detail for \(viewStore.id)")

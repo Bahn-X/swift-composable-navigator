@@ -19,11 +19,7 @@ struct ExampleApp: App {
 
   init() {
     dataSource = Navigator.Datasource(
-      path: [
-        HomeScreen().eraseToAnyScreen(),
-        DetailScreen(detailID: "0").eraseToAnyScreen(),
-        SettingsScreen().eraseToAnyScreen()
-      ]
+      root: HomeScreen()
     )
 
     navigator = Navigator(dataSource: dataSource).debug()
