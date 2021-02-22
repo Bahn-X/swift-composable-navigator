@@ -21,9 +21,9 @@
 		23A5B5B5255982A300B319DA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5B4255982A300B319DA /* HomeView.swift */; };
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
+		23B1557E25E3F12700E3B9F7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B1557D25E3F12700E3B9F7 /* Home.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
 		23C9A49A25E3A140005942F8 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A49925E3A140005942F8 /* ExampleUITests.swift */; };
-		23C9A4A525E3A1A9005942F8 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4A425E3A1A9005942F8 /* Home.swift */; };
 		23C9A4AB25E3A1B1005942F8 /* Settings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4AA25E3A1B1005942F8 /* Settings.swift */; };
 		23C9A4AF25E3A1CC005942F8 /* Detail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4AE25E3A1CC005942F8 /* Detail.swift */; };
 		23C9A4B325E3A1DA005942F8 /* NavigationShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4B225E3A1DA005942F8 /* NavigationShortcuts.swift */; };
@@ -63,12 +63,12 @@
 		23A5B5B4255982A300B319DA /* HomeView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BA2559846B00B319DA /* DetailView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BF2559866000B319DA /* SettingsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23B1557D25E3F12700E3B9F7 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		23BECD9925E3D31400A45D19 /* FullTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FullTests.xctestplan; sourceTree = "<group>"; };
 		23C90D7F25E3C6320076FA48 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
 		23C9A49725E3A140005942F8 /* ExampleUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ExampleUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23C9A49925E3A140005942F8 /* ExampleUITests.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = ExampleUITests.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A49B25E3A140005942F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		23C9A4A425E3A1A9005942F8 /* Home.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; name = Home.swift; path = ../../../../../../Downloads/Home.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A4AA25E3A1B1005942F8 /* Settings.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Settings.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A4AE25E3A1CC005942F8 /* Detail.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = Detail.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23C9A4B225E3A1DA005942F8 /* NavigationShortcuts.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavigationShortcuts.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -214,8 +214,8 @@
 		23C9A4A325E3A1A1005942F8 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				23B1557D25E3F12700E3B9F7 /* Home.swift */,
 				23C9A4CB25E3A945005942F8 /* Base.swift */,
-				23C9A4A425E3A1A9005942F8 /* Home.swift */,
 				23C9A4AA25E3A1B1005942F8 /* Settings.swift */,
 				23C9A4AE25E3A1CC005942F8 /* Detail.swift */,
 				23C9A4B225E3A1DA005942F8 /* NavigationShortcuts.swift */,
@@ -361,9 +361,9 @@
 			files = (
 				23C9A4D725E3AFA9005942F8 /* XCUIApplication+BackButton.swift in Sources */,
 				23C9A4CC25E3A945005942F8 /* Base.swift in Sources */,
+				23B1557E25E3F12700E3B9F7 /* Home.swift in Sources */,
 				23C9A4B325E3A1DA005942F8 /* NavigationShortcuts.swift in Sources */,
 				23C9A4AB25E3A1B1005942F8 /* Settings.swift in Sources */,
-				23C9A4A525E3A1A9005942F8 /* Home.swift in Sources */,
 				23C9A4D125E3AA2F005942F8 /* AccessibilityIdentifier.swift in Sources */,
 				23C9A4C625E3A748005942F8 /* XCUIElement+ExistsAfterTimeout.swift in Sources */,
 				23C9A4BE25E3A4B5005942F8 /* XCUIElementQuery+AccessibiltyIdentifier.swift in Sources */,

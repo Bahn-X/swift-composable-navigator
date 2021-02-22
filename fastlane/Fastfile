@@ -5,6 +5,8 @@ platform :ios do
   lane :test do
     scan(
       project: "Example/Example.xcodeproj",
+      clean: true,
+      output_types: "",
       derived_data_path: "Build",
       code_coverage: true,
       devices: ["iPhone 8"],
