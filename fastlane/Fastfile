@@ -15,7 +15,7 @@ platform :ios do
 
     danger(
       dangerfile: "./Dangerfile",
-      github_api_token: ENV["GITHUB_TOKEN"],
+      github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
       verbose: true
     )
   end

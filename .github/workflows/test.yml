@@ -22,6 +22,8 @@ jobs:
           bundler --version
 
       - name: Run tests
+        env:
+          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: bundle exec fastlane test
 
       - name: Clean up
