@@ -3,8 +3,11 @@ default_platform(:ios)
 platform :ios do
   desc "Run tests"
   lane :test do
+    sh("swift package generate-xcodeproj")
+
     scan(
-      project: "Example/Example.xcodeproj",
+      workspace: "Example/Example.xcworkspace",
+      scheme: "Example",
       clean: true,
       output_types: "",
       derived_data_path: "Build",

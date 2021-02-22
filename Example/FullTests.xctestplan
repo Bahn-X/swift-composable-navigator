@@ -9,25 +9,7 @@
     }
   ],
   "defaultOptions" : {
-    "codeCoverage" : {
-      "targets" : [
-        {
-          "containerPath" : "container:..",
-          "identifier" : "ComposableDeeplinking",
-          "name" : "ComposableDeeplinking"
-        },
-        {
-          "containerPath" : "container:..",
-          "identifier" : "ComposableNavigator",
-          "name" : "ComposableNavigator"
-        },
-        {
-          "containerPath" : "container:..",
-          "identifier" : "ComposableNavigatorTCA",
-          "name" : "ComposableNavigatorTCA"
-        }
-      ]
-    }
+
   },
   "testTargets" : [
     {
@@ -39,22 +21,22 @@
     },
     {
       "target" : {
-        "containerPath" : "container:..",
-        "identifier" : "ComposableDeeplinkingTests",
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableDeeplinkingTests",
         "name" : "ComposableDeeplinkingTests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:..",
-        "identifier" : "ComposableNavigatorTCATests",
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableNavigatorTCATests",
         "name" : "ComposableNavigatorTCATests"
       }
     },
     {
       "target" : {
-        "containerPath" : "container:..",
-        "identifier" : "ComposableNavigatorTests",
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableNavigatorTests",
         "name" : "ComposableNavigatorTests"
       }
     }

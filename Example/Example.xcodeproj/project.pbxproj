@@ -3,16 +3,14 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		23258303256D2524001A191B /* ComposableNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = 23258302256D2524001A191B /* ComposableNavigator */; };
 		235F93F525D3D4600045E37D /* NavigationShortcutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */; };
 		235F93FA25D3D7770045E37D /* NavigationShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F93F925D3D7770045E37D /* NavigationShortcuts.swift */; };
 		236458A125D41D4A00190D4D /* AppDeeplinkParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458A025D41D4A00190D4D /* AppDeeplinkParser.swift */; };
 		236458A425D41D7A00190D4D /* HomeSettingsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458A325D41D7A00190D4D /* HomeSettingsDeeplink.swift */; };
-		236458A725D41E1B00190D4D /* ComposableDeeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = 236458A625D41E1B00190D4D /* ComposableDeeplinking */; };
 		236458AB25D41F1600190D4D /* DetailsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458AA25D41F1600190D4D /* DetailsDeeplink.swift */; };
 		236458AE25D41F8000190D4D /* DetailsSettingsDeeplink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236458AD25D41F8000190D4D /* DetailsSettingsDeeplink.swift */; };
 		236E65802559498C00C19B46 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E657F2559498C00C19B46 /* ExampleApp.swift */; };
@@ -21,6 +19,12 @@
 		23A5B5B5255982A300B319DA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5B4255982A300B319DA /* HomeView.swift */; };
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
+		23A9623F25E4098400AF0676 /* ComposableDeeplinking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */; };
+		23A9624025E4098400AF0676 /* ComposableDeeplinking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23A9624125E4098400AF0676 /* ComposableNavigator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623D25E4098400AF0676 /* ComposableNavigator.framework */; };
+		23A9624225E4098400AF0676 /* ComposableNavigator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623D25E4098400AF0676 /* ComposableNavigator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		23A9624325E4098400AF0676 /* ComposableNavigatorTCA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */; };
+		23A9624425E4098400AF0676 /* ComposableNavigatorTCA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23B1557E25E3F12700E3B9F7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B1557D25E3F12700E3B9F7 /* Home.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
 		23C9A49A25E3A140005942F8 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A49925E3A140005942F8 /* ExampleUITests.swift */; };
@@ -33,7 +37,6 @@
 		23C9A4CC25E3A945005942F8 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4CB25E3A945005942F8 /* Base.swift */; };
 		23C9A4D125E3AA2F005942F8 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4B925E3A2EB005942F8 /* AccessibilityIdentifier.swift */; };
 		23C9A4D725E3AFA9005942F8 /* XCUIApplication+BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4D625E3AFA9005942F8 /* XCUIApplication+BackButton.swift */; };
-		23D1112325875790008DF0AA /* ComposableNavigatorTCA in Frameworks */ = {isa = PBXBuildFile; productRef = 23D1112225875790008DF0AA /* ComposableNavigatorTCA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,6 +48,22 @@
 			remoteInfo = Example;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		23A9624525E4098400AF0676 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				23A9624025E4098400AF0676 /* ComposableDeeplinking.framework in Embed Frameworks */,
+				23A9624425E4098400AF0676 /* ComposableNavigatorTCA.framework in Embed Frameworks */,
+				23A9624225E4098400AF0676 /* ComposableNavigator.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavigationShortcutsView.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -58,11 +77,13 @@
 		236E65832559498D00C19B46 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		236E65862559498D00C19B46 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		236E65882559498D00C19B46 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		236E6590255949C500C19B46 /* swift-composable-coordinator */ = {isa = PBXFileReference; lastKnownFileType = folder; name = "swift-composable-coordinator"; path = ..; sourceTree = "<group>"; };
 		236E6592255949DA00C19B46 /* AppCore.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = AppCore.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5B4255982A300B319DA /* HomeView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BA2559846B00B319DA /* DetailView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = DetailView.swift; sourceTree = "<group>"; tabWidth = 2; };
 		23A5B5BF2559866000B319DA /* SettingsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; tabWidth = 2; };
+		23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ComposableDeeplinking.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		23A9623D25E4098400AF0676 /* ComposableNavigator.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ComposableNavigator.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ComposableNavigatorTCA.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		23B1557D25E3F12700E3B9F7 /* Home.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Home.swift; sourceTree = "<group>"; };
 		23BECD9925E3D31400A45D19 /* FullTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = FullTests.xctestplan; sourceTree = "<group>"; };
 		23C90D7F25E3C6320076FA48 /* UnitTests.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = UnitTests.xctestplan; sourceTree = "<group>"; };
@@ -85,9 +106,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23D1112325875790008DF0AA /* ComposableNavigatorTCA in Frameworks */,
-				23258303256D2524001A191B /* ComposableNavigator in Frameworks */,
-				236458A725D41E1B00190D4D /* ComposableDeeplinking in Frameworks */,
+				23A9623F25E4098400AF0676 /* ComposableDeeplinking.framework in Frameworks */,
+				23A9624325E4098400AF0676 /* ComposableNavigatorTCA.framework in Frameworks */,
+				23A9624125E4098400AF0676 /* ComposableNavigator.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -127,7 +148,6 @@
 				23D8C9E825E3C8E200D367D2 /* UITests.xctestplan */,
 				23BECD9925E3D31400A45D19 /* FullTests.xctestplan */,
 				23C90D7F25E3C6320076FA48 /* UnitTests.xctestplan */,
-				236E6590255949C500C19B46 /* swift-composable-coordinator */,
 				236E657E2559498C00C19B46 /* Example */,
 				23C9A49825E3A140005942F8 /* ExampleUITests */,
 				236E657D2559498C00C19B46 /* Products */,
@@ -197,6 +217,9 @@
 		23B758A025594A010073D19F /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */,
+				23A9623D25E4098400AF0676 /* ComposableNavigator.framework */,
+				23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -244,6 +267,7 @@
 				236E65782559498C00C19B46 /* Sources */,
 				236E65792559498C00C19B46 /* Frameworks */,
 				236E657A2559498C00C19B46 /* Resources */,
+				23A9624525E4098400AF0676 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -251,9 +275,6 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				23258302256D2524001A191B /* ComposableNavigator */,
-				23D1112225875790008DF0AA /* ComposableNavigatorTCA */,
-				236458A625D41E1B00190D4D /* ComposableDeeplinking */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -614,21 +635,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		23258302256D2524001A191B /* ComposableNavigator */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ComposableNavigator;
-		};
-		236458A625D41E1B00190D4D /* ComposableDeeplinking */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ComposableDeeplinking;
-		};
-		23D1112225875790008DF0AA /* ComposableNavigatorTCA */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = ComposableNavigatorTCA;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 236E65742559498C00C19B46 /* Project object */;
 }
