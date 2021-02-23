@@ -7,8 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		232390FD25E51CC9006C5526 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 232390FC25E51CC9006C5526 /* ComposableArchitecture */; };
-		2323910125E51CF7006C5526 /* ComposableNavigatorTCA in Frameworks */ = {isa = PBXBuildFile; productRef = 2323910025E51CF7006C5526 /* ComposableNavigatorTCA */; };
+		23196A5525E52E1E00286ECD /* ComposableNavigatorTCA in Frameworks */ = {isa = PBXBuildFile; productRef = 23196A5425E52E1E00286ECD /* ComposableNavigatorTCA */; };
 		2323910525E51DA8006C5526 /* ComposableDeeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = 2323910425E51DA8006C5526 /* ComposableDeeplinking */; };
 		2323910725E51DA8006C5526 /* ComposableNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = 2323910625E51DA8006C5526 /* ComposableNavigator */; };
 		235F93F525D3D4600045E37D /* NavigationShortcutsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */; };
@@ -20,6 +19,7 @@
 		236E65802559498C00C19B46 /* ExampleApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E657F2559498C00C19B46 /* ExampleApp.swift */; };
 		236E65842559498D00C19B46 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65832559498D00C19B46 /* Assets.xcassets */; };
 		236E65872559498D00C19B46 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 236E65862559498D00C19B46 /* Preview Assets.xcassets */; };
+		23A4C12825E52ECE0028294B /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 23A4C12725E52ECE0028294B /* ComposableArchitecture */; };
 		23A5B5B5255982A300B319DA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5B4255982A300B319DA /* HomeView.swift */; };
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
@@ -87,9 +87,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2323910125E51CF7006C5526 /* ComposableNavigatorTCA in Frameworks */,
-				232390FD25E51CC9006C5526 /* ComposableArchitecture in Frameworks */,
 				2323910525E51DA8006C5526 /* ComposableDeeplinking in Frameworks */,
+				23196A5525E52E1E00286ECD /* ComposableNavigatorTCA in Frameworks */,
+				23A4C12825E52ECE0028294B /* ComposableArchitecture in Frameworks */,
 				2323910725E51DA8006C5526 /* ComposableNavigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -255,10 +255,10 @@
 			);
 			name = Example;
 			packageProductDependencies = (
-				232390FC25E51CC9006C5526 /* ComposableArchitecture */,
-				2323910025E51CF7006C5526 /* ComposableNavigatorTCA */,
 				2323910425E51DA8006C5526 /* ComposableDeeplinking */,
 				2323910625E51DA8006C5526 /* ComposableNavigator */,
+				23196A5425E52E1E00286ECD /* ComposableNavigatorTCA */,
+				23A4C12725E52ECE0028294B /* ComposableArchitecture */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -311,7 +311,7 @@
 			mainGroup = 236E65732559498C00C19B46;
 			packageReferences = (
 				232390FB25E51CC9006C5526 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */,
-				232390FF25E51CF7006C5526 /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */,
+				23196A5325E52E1E00286ECD /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */,
 			);
 			productRefGroup = 236E657D2559498C00C19B46 /* Products */;
 			projectDirPath = "";
@@ -623,6 +623,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		23196A5325E52E1E00286ECD /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Bahn-X/swift-composable-navigator-tca.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 		232390FB25E51CC9006C5526 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture.git";
@@ -631,25 +639,12 @@
 				minimumVersion = 0.15.0;
 			};
 		};
-		232390FF25E51CF7006C5526 /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "git@github.com:Bahn-X/swift-composable-navigator-tca.git";
-			requirement = {
-				branch = main;
-				kind = branch;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		232390FC25E51CC9006C5526 /* ComposableArchitecture */ = {
+		23196A5425E52E1E00286ECD /* ComposableNavigatorTCA */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 232390FB25E51CC9006C5526 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
-		2323910025E51CF7006C5526 /* ComposableNavigatorTCA */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 232390FF25E51CF7006C5526 /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */;
+			package = 23196A5325E52E1E00286ECD /* XCRemoteSwiftPackageReference "swift-composable-navigator-tca" */;
 			productName = ComposableNavigatorTCA;
 		};
 		2323910425E51DA8006C5526 /* ComposableDeeplinking */ = {
@@ -659,6 +654,11 @@
 		2323910625E51DA8006C5526 /* ComposableNavigator */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = ComposableNavigator;
+		};
+		23A4C12725E52ECE0028294B /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 232390FB25E51CC9006C5526 /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
