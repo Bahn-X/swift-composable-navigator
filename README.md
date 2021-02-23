@@ -21,6 +21,8 @@
 - [Installation](#installation)
   - [Swift Package](#swift-package)
   - [Xcode](#xcode)
+- [Example application](#example-application)
+- [Documentation](#documentation)
 - [Contribution](#contribution)
 - [License](#license)
 
@@ -241,6 +243,16 @@ targets: [
 <p align="center"><img src="./Documentation/xc.png" width="70%"></img></p>
 
 You can also add **ComposableNavigator** to your project via Xcode. Open your project, click on **File → Swift Packages → Add Package Dependency…**, enter the repository url (https://github.com/Bahn-X/swift-composable-navigator.git) and add the package products to your app target.
+
+## Example application
+<p align="center"><img src="./Documentation/exampleapp.gif" width="40%"></img></p>
+
+The **ComposableNavigator** repository contains [an example application](./Example) showcasing a wide range of library features and path builder patterns that are also applicable in your application. The example app is based on **ComposableNavigator** + **TCA** but also shows how to navigate via the navigator contained in a view's environment as you could do it in a Vanilla SwiftUI application.
+
+The Example application contains a UI test suite that is run on every pull request. In that way, we can make sure that, even if SwiftUI changes under the hood, **ComposableNavigator** behaves as expected.
+
+## Documentation
+The latest ComposableNavigator documentation is available in the [wiki](https://github.com/Bahn-X/swift-composable-navigator/wiki).
 
 ## Contribution
 **ComposableNavigator** welcomes contribution. Check our [code of conduct](./Documentation/CODE_OF_CONDUCT.md) and feel free to [open issues](https://github.com/Bahn-X/swift-composable-navigator/issues) for ideas, questions and improvements.
