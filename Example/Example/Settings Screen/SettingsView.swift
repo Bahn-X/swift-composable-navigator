@@ -24,11 +24,15 @@ struct SettingsScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
 
   static func builder(
-    store: Store<SettingsState, SettingsAction>
+    store: Store<SettingsState, SettingsAction>,
+    entrypoint: String
   ) -> some PathBuilder {
     PathBuilders.screen( // settings
       content: { (screen: SettingsScreen) in
-        SettingsView(store: store)
+        SettingsView(
+          store: store,
+          accessibilityIdentifiers: AccessibilityIdentifier.SettingsScreen(prefix: entrypoint)
+        )
       },
       nesting: NavigationShortcutsScreen.builder(
         store: store.scope(
@@ -57,6 +61,7 @@ struct SettingsView: View {
   @Environment(\.navigator) var navigator
   @Environment(\.currentScreenID) var id
   let store: Store<SettingsState, SettingsAction>
+  let accessibilityIdentifiers: AccessibilityIdentifier.SettingsScreen
 
   var body: some View {
     HStack {
@@ -72,6 +77,7 @@ struct SettingsView: View {
           },
           label: { Text("Go to [./shortcuts?style=push]") }
         )
+        .accessibility(identifier: accessibilityIdentifiers.shortcutsPush)
 
         Button(
           action: {
@@ -84,8 +90,11 @@ struct SettingsView: View {
           },
           label: { Text("Go to [./shortcuts?style=sheet]") }
         )
+        .accessibility(identifier: accessibilityIdentifiers.shortcutsSheet)
 
-        NavigationShortcuts()
+        NavigationShortcuts(
+          accessibilityIdentifiers: AccessibilityIdentifier.NavigationShortcuts(prefix: "settings")
+        )
 
         Spacer()
       }
@@ -103,7 +112,8 @@ struct SettingsView_Previews: PreviewProvider {
         initialState: SettingsState(),
         reducer: .empty,
         environment: ()
-      )
+      ),
+      accessibilityIdentifiers: AccessibilityIdentifier.SettingsScreen(prefix: "settings")
     )
   }
 }

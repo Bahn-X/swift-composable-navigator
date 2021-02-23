@@ -39,7 +39,9 @@ struct NavigationShortcutsView: View {
   var body: some View {
     HStack {
       VStack(alignment: .leading, spacing: 16) {
-        NavigationShortcuts()
+        NavigationShortcuts(
+          accessibilityIdentifiers: AccessibilityIdentifier.NavigationShortcuts(prefix: "shortcuts")
+        )
         Spacer()
       }
       Spacer()

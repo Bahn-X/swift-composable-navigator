@@ -5,6 +5,8 @@ struct NavigationShortcuts: View {
   @Environment(\.navigator) var navigator
   @Environment(\.currentScreenID) var id
 
+  let accessibilityIdentifiers: AccessibilityIdentifier.NavigationShortcuts
+
   var body: some View {
     Divider()
     Button(
@@ -21,6 +23,7 @@ struct NavigationShortcuts: View {
         Text("Go to [home/detail?id=0/shortcuts]")
       }
     )
+    .accessibility(identifier: accessibilityIdentifiers.detailShortcuts)
 
     Divider()
     Button(
@@ -35,6 +38,7 @@ struct NavigationShortcuts: View {
       },
       label: { Text("Go to [home/detail?id=0/settings]") }
     )
+    .accessibility(identifier: accessibilityIdentifiers.detailSettings)
 
     Button(
       action: {
@@ -49,6 +53,7 @@ struct NavigationShortcuts: View {
       },
       label: { Text("Go to [home/detail?id=0/settings/shortcuts?style=push]") }
     )
+    .accessibility(identifier: accessibilityIdentifiers.detailSettingsShortcutsPush)
 
     Button(
       action: {
@@ -65,6 +70,7 @@ struct NavigationShortcuts: View {
       },
       label: { Text("Go to [home/detail?id=0/settings/shortcuts?style=sheet]") }
     )
+    .accessibility(identifier: accessibilityIdentifiers.detailSettingsShortcutsSheet)
 
     Divider()
     Button(
@@ -78,10 +84,12 @@ struct NavigationShortcuts: View {
       },
       label: { Text("Go to [home/settings]") }
     )
+    .accessibility(identifier: accessibilityIdentifiers.homeSettings)
 
     Button(
       action: { navigator.goBack(to: HomeScreen()) },
       label: { Text("Go back to [home]") }
     )
+    .accessibility(identifier: accessibilityIdentifiers.home)
   }
 }

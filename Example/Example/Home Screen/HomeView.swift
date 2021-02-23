@@ -65,6 +65,8 @@ struct HomeView: View {
                   Text("Element \(element)")
                 }
               )
+              .accessibility(identifier: AccessibilityIdentifier.HomeScreen.detail(for: element))
+
               Spacer()
               Image(systemName: "gear")
                 .foregroundColor(.gray)
@@ -73,6 +75,8 @@ struct HomeView: View {
                     .openSettings(for: element, on: currentScreenID)
                   )
                 }
+                .accessibility(addTraits: [.isButton])
+                .accessibility(identifier: AccessibilityIdentifier.HomeScreen.detailSettings(for: element))
             }
           }
         )
@@ -85,6 +89,7 @@ struct HomeView: View {
           action: { viewStore.send(.settingsButtonTapped) },
           label: { Image(systemName: "gear") }
         )
+        .accessibility(identifier: AccessibilityIdentifier.HomeScreen.settingsNavigationBarItem)
       )
       .navigationBarTitle("Example App")
     }
@@ -145,7 +150,10 @@ struct HomeScreen: Screen {
             }
           }
         ),
-        SettingsScreen.builder(store: settingsStore)
+        SettingsScreen.builder(
+          store: settingsStore,
+          entrypoint: "home"
+        )
       )
       .onDismiss { (screen: DetailScreen) in
         print("Dismissed \(screen)")

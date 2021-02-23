@@ -1,0 +1,49 @@
+{
+  "configurations" : [
+    {
+      "id" : "D9600B5A-8B2E-4493-A051-F002D5B4D3C7",
+      "name" : "Configuration 1",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:Example.xcodeproj",
+        "identifier" : "23C9A49625E3A140005942F8",
+        "name" : "ExampleUITests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableDeeplinkingTests",
+        "name" : "ComposableDeeplinkingTests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableNavigatorTCATests",
+        "name" : "ComposableNavigatorTCATests"
+      }
+    },
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
+        "identifier" : "swift-composable-navigator::ComposableNavigatorTests",
+        "name" : "ComposableNavigatorTests"
+      }
+    }
+  ],
+  "version" : 1
+}
