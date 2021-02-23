@@ -21,6 +21,7 @@
 - [Installation](#installation)
   - [Swift Package](#swift-package)
   - [Xcode](#xcode)
+- [Supplementary libraries](#supplementary-libraries)
 - [Contribution](#contribution)
 - [License](#license)
 
@@ -210,7 +211,7 @@ As **ComposableNavigator** builds the view hierarchy based on routing paths, it 
 More information on deeplinking and how to implement it in your own application can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/Deeplinking).
 
 ## Dependency injection 
-**ComposableNavigator** was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app path builder, ComposableNavigator gives you full control over dependency injection. Currently, the helper package **ComposableNavigatorTCA** is part of this repository and the main package therefore has a dependency on TCA. This will change in the future when **ComposableNavigatorTCA** gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
+**ComposableNavigator** was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app path builder, ComposableNavigator gives you full control over dependency injection.
 
 ## Installation
 **ComposableNavigator** supports Swift Package Manager and contains two products, *ComposableNavigator* and *ComposableDeeplinking*.  
@@ -241,6 +242,9 @@ targets: [
 <p align="center"><img src="./Documentation/xc.png" width="70%"></img></p>
 
 You can also add **ComposableNavigator** to your project via Xcode. Open your project, click on **File → Swift Packages → Add Package Dependency…**, enter the repository url (https://github.com/Bahn-X/swift-composable-navigator.git) and add the package products to your app target.
+
+## Supplementary libraries
+* [**ComposableNavigatorTCA**](https://github.com/Bahn-X/swift-composable-navigator-tca) - helper library containing PathBuilders tailored to applications built on top of [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and **ComposableNavigator**.  
 
 ## Contribution
 **ComposableNavigator** welcomes contribution. Check our [code of conduct](./Documentation/CODE_OF_CONDUCT.md) and feel free to [open issues](https://github.com/Bahn-X/swift-composable-navigator/issues) for ideas, questions and improvements.

@@ -93,3 +93,4 @@ Package.resolved
 Build/
 swift-composable-navigator.xcodeproj
 xcov_report
+fastlane/README.md

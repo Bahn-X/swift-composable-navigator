@@ -3,25 +3,43 @@ default_platform(:ios)
 platform :ios do
   desc "Run tests"
   lane :test do
+    unittests
+
+    uitests
+
+    danger(
+      dangerfile: "./Dangerfile",
+      github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
+      verbose: true
+    )
+  end
+
+  private_lane :unittests do
     sh("swift package generate-xcodeproj")
 
+    scan(
+      project: "swift-composable-navigator.xcodeproj",
+      scheme: "swift-composable-navigator-Package",
+      clean: true,
+      output_types: "",
+      derived_data_path: "Build",
+      code_coverage: true,
+      devices: ["iPhone 8"]
+    )
+  end 
+
+  private_lane :uitests do
     scan(
       workspace: "Example/Example.xcworkspace",
       scheme: "Example",
       clean: true,
       output_types: "",
       derived_data_path: "Build",
-      code_coverage: true,
+      code_coverage: false,
       devices: ["iPhone 8"],
-      testplan: "FullTests",
-      xcargs: "-parallel-testing-enabled YES -parallel-testing-worker-count 4 -quiet",
+      testplan: "UITests",
+      xcargs: "CODE_SIGN_IDENTITY="" CODE_SIGNING_REQUIRED=NO -parallel-testing-enabled YES -parallel-testing-worker-count 4 -quiet",
       disable_xcpretty: true
-    )
-
-    danger(
-      dangerfile: "./Dangerfile",
-      github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-      verbose: true
     )
   end
 end

@@ -30,9 +30,6 @@
       codeCoverageEnabled = "YES">
       <TestPlans>
          <TestPlanReference
-            reference = "container:UnitTests.xctestplan">
-         </TestPlanReference>
-         <TestPlanReference
             reference = "container:UITests.xctestplan">
          </TestPlanReference>
          <TestPlanReference
@@ -58,16 +55,6 @@
                BlueprintIdentifier = "ComposableDeeplinkingTests"
                BuildableName = "ComposableDeeplinkingTests"
                BlueprintName = "ComposableDeeplinkingTests"
-               ReferencedContainer = "container:..">
-            </BuildableReference>
-         </TestableReference>
-         <TestableReference
-            skipped = "NO">
-            <BuildableReference
-               BuildableIdentifier = "primary"
-               BlueprintIdentifier = "ComposableNavigatorTCATests"
-               BuildableName = "ComposableNavigatorTCATests"
-               BlueprintName = "ComposableNavigatorTCATests"
                ReferencedContainer = "container:..">
             </BuildableReference>
          </TestableReference>
