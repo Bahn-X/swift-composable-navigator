@@ -13,6 +13,7 @@
   },
   "testTargets" : [
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:Example.xcodeproj",
         "identifier" : "23C9A49625E3A140005942F8",
@@ -20,6 +21,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
         "identifier" : "swift-composable-navigator::ComposableDeeplinkingTests",
@@ -27,6 +29,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
         "identifier" : "swift-composable-navigator::ComposableNavigatorTCATests",
@@ -34,6 +37,7 @@
       }
     },
     {
+      "parallelizable" : true,
       "target" : {
         "containerPath" : "container:..\/swift-composable-navigator.xcodeproj",
         "identifier" : "swift-composable-navigator::ComposableNavigatorTests",

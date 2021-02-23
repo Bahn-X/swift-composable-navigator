@@ -13,7 +13,9 @@ platform :ios do
       derived_data_path: "Build",
       code_coverage: true,
       devices: ["iPhone 8"],
-      testplan: "FullTests"
+      testplan: "FullTests",
+      xcargs: "-parallel-testing-enabled YES -parallel-testing-worker-count 4 -quiet",
+      disable_xcpretty: true
     )
 
     danger(
