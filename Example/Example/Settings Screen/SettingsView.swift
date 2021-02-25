@@ -23,24 +23,29 @@ struct SettingsEnvironment {
 struct SettingsScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
 
-  static func builder(
-    store: Store<SettingsState, SettingsAction>,
-    entrypoint: String
-  ) -> some PathBuilder {
-    PathBuilders.screen( // settings
-      content: { (screen: SettingsScreen) in
-        SettingsView(
-          store: store,
-          accessibilityIdentifiers: AccessibilityIdentifier.SettingsScreen(prefix: entrypoint)
-        )
-      },
-      nesting: NavigationShortcutsScreen.builder(
-        store: store.scope(
-          state: \.navigationShortcuts,
-          action: SettingsAction.navigationShortcuts
-        )
+  struct Builder: NavigationTree {
+    let store: Store<SettingsState, SettingsAction>
+    let entrypoint: String
+
+    var builder: some PathBuilder {
+      Screen( // settings
+        SettingsScreen.self,
+        content: {
+          SettingsView(
+            store: store,
+            accessibilityIdentifiers: AccessibilityIdentifier.SettingsScreen(prefix: entrypoint)
+          )
+        },
+        nesting: {
+          NavigationShortcutsScreen.Builder(
+            store: store.scope(
+              state: \.navigationShortcuts,
+              action: SettingsAction.navigationShortcuts
+            )
+          )
+        }
       )
-    )
+    }
   }
 }
 

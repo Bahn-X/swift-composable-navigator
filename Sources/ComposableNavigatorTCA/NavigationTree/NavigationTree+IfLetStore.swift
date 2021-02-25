@@ -3,7 +3,7 @@ import ComposableNavigator
 
 extension NavigationTree {
   /// Convenience wrapper around PathBuilders.ifLetStore
-  func IfLetStore<
+  public func IfLetStore<
     State: Equatable,
     Action,
     If,
@@ -19,7 +19,7 @@ extension NavigationTree {
   }
 
   /// Convenience wrapper around PathBuilders.ifLetStore
-  func IfLetStore<
+  public func IfLetStore<
     State: Equatable,
     Action,
     If,

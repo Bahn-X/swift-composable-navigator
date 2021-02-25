@@ -1,4 +1,4 @@
-public extension NavigationTree {
+extension NavigationTree {
   /// Convenience wrapper around PathBuilders.empty
-  func Empty() -> EmptyBuilder { PathBuilders.empty }
+  public func Empty() -> EmptyBuilder { PathBuilders.empty }
 }

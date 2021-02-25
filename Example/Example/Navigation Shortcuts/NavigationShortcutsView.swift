@@ -15,14 +15,17 @@ struct NavigationShortcutsEnvironment {
 struct NavigationShortcutsScreen: Screen {
   let presentationStyle: ScreenPresentationStyle
 
-  static func builder(
-    store: Store<NavigationShortcutsState, NavigationShortcutsAction>
-  ) -> some PathBuilder {
-    PathBuilders.screen( // settings
-      content: { (screen: Self) in
-        NavigationShortcutsView(store: store)
-      }
-    )
+  struct Builder: NavigationTree {
+    let store: Store<NavigationShortcutsState, NavigationShortcutsAction>
+
+    var builder: some PathBuilder {
+      Screen(
+        NavigationShortcutsScreen.self,
+        content: {
+          NavigationShortcutsView(store: store)
+        }
+      )
+    }
   }
 }
 

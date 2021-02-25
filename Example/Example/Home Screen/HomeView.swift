@@ -99,20 +99,24 @@ struct HomeView: View {
 struct HomeScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
 
-  static func builder(
-    appStore: Store<AppState, AppAction>
-  ) -> some PathBuilder {
-    let homeStore = appStore.scope(
-      state: \.home,
-      action: AppAction.home
-    )
+  struct Builder: NavigationTree {
+    let appStore: Store<AppState, AppAction>
 
-    let settingsStore = appStore.scope(
-      state: \.settings,
-      action: AppAction.settings
-    )
+    var homeStore: Store<HomeState, HomeAction> {
+      appStore.scope(
+        state: \.home,
+        action: AppAction.home
+      )
+    }
 
-    let buildDetailStore = { (detailID: String) -> Store<DetailState?, DetailAction> in
+    var settingsStore: Store<SettingsState, SettingsAction> {
+      appStore.scope(
+        state: \.settings,
+        action: AppAction.settings
+      )
+    }
+
+    func detailStore(for detailID: String) -> Store<DetailState?, DetailAction> {
       homeStore.scope(
         state: { state in
           state.selectedDetail?.id == detailID ? state.selectedDetail: nil
@@ -121,20 +125,17 @@ struct HomeScreen: Screen {
       )
     }
 
-    return PathBuilders.screen( // /home
-      onAppear: { _ in print("HomeView appeared") },
-      content: { (_: HomeScreen) in
-        HomeView(
-          store: homeStore
-        )
-      },
-      nesting: PathBuilders.anyOf(
-        PathBuilders.if(
-          screen: { (screen: DetailScreen) in
-            PathBuilders.ifLetStore(
-              store: buildDetailStore(screen.detailID),
+    var builder: some PathBuilder {
+      Screen( // /home
+        HomeScreen.self,
+        onAppear: { _ in print("HomeView appeared") },
+        content: { HomeView(store: homeStore) },
+        nesting: {
+          If { (screen: DetailScreen) in
+            IfLetStore(
+              store: detailStore(for: screen.detailID),
               then: { store in
-                DetailScreen.builder(
+                DetailScreen.Builder(
                   store: store,
                   settingsStore: settingsStore
                 )
@@ -149,11 +150,12 @@ struct HomeScreen: Screen {
               }
             }
           }
-        ),
-        SettingsScreen.builder(
-          store: settingsStore,
-          entrypoint: "home"
-        )
+
+          SettingsScreen.Builder(
+            store: settingsStore,
+            entrypoint: "home"
+          )
+        }
       )
       .onDismiss { (screen: DetailScreen) in
         print("Dismissed \(screen)")
@@ -166,7 +168,7 @@ struct HomeScreen: Screen {
       .onDismiss(of: SettingsScreen.self) {
         print("Dismissed settings")
       }
-    )
+    }
   }
 }
 
