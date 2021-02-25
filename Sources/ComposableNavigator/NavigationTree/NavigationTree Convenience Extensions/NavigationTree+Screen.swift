@@ -10,7 +10,7 @@ extension NavigationTree {
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content,
     @NavigationTreeBuilder nesting: () -> Successor
-  ) -> _PathBuilder<Routed<Content, Successor.Content>>{
+  ) -> _PathBuilder<NavigationNode<Content, Successor.Content>>{
     PathBuilders.screen(
       onAppear: onAppear,
       content: build,
@@ -22,7 +22,7 @@ extension NavigationTree {
   public func Screen<S: Screen, Content: View>(
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content
-  ) -> _PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<NavigationNode<Content, Never>> {
     Screen(
       onAppear: onAppear,
       content: build,
@@ -40,7 +40,7 @@ extension NavigationTree {
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content,
     @NavigationTreeBuilder nesting: () -> Successor
-  ) -> _PathBuilder<Routed<Content, Successor.Content>> {
+  ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
     PathBuilders.screen(
       type,
       onAppear: onAppear,
@@ -54,7 +54,7 @@ extension NavigationTree {
     _ type: S.Type,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content
-  ) -> _PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<NavigationNode<Content, Never>> {
     Screen(
       type,
       onAppear: onAppear,

@@ -32,15 +32,15 @@ public extension PathBuilders {
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content,
     nesting: Successor
-  ) -> _PathBuilder<Routed<Content, Successor.Content>> {
-    _PathBuilder<Routed<Content, Successor.Content>>(
-      buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor.Content>? in
+  ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
+    _PathBuilder<NavigationNode<Content, Successor.Content>>(
+      buildPath: { (path: [IdentifiedScreen]) -> NavigationNode<Content, Successor.Content>? in
         guard let head = path.first, let unwrapped: S = head.content.unwrap() else {
           _ = nesting.build(path: [])
           return nil
         }
 
-        return Routed(
+        return NavigationNode(
           content: build(unwrapped),
           onAppear: onAppear,
           next: nesting.build(path:)
@@ -72,7 +72,7 @@ public extension PathBuilders {
   static func screen<S: Screen, Content: View>(
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content
-  ) -> _PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<NavigationNode<Content, Never>> {
     screen(
       onAppear: onAppear,
       content: build,
@@ -115,15 +115,15 @@ public extension PathBuilders {
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content,
     nesting: Successor
-  ) -> _PathBuilder<Routed<Content, Successor.Content>> {
-    _PathBuilder<Routed<Content, Successor.Content>>(
-      buildPath: { (path: [IdentifiedScreen]) -> Routed<Content, Successor.Content>? in
+  ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
+    _PathBuilder<NavigationNode<Content, Successor.Content>>(
+      buildPath: { (path: [IdentifiedScreen]) -> NavigationNode<Content, Successor.Content>? in
         guard let head = path.first, head.content.is(S.self) else {
           _ = nesting.build(path: [])
           return nil
         }
 
-        return Routed(
+        return NavigationNode(
           content: build(),
           onAppear: onAppear,
           next: nesting.build(path:)
@@ -160,7 +160,7 @@ public extension PathBuilders {
     _ type: S.Type,
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping () -> Content
-  ) -> _PathBuilder<Routed<Content, Never>> {
+  ) -> _PathBuilder<NavigationNode<Content, Never>> {
     screen(
       type,
       onAppear: onAppear,
