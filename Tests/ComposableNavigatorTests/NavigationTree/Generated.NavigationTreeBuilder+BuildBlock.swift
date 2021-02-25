@@ -52,7 +52,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_2_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -127,7 +127,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_3_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -230,7 +230,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_4_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -361,7 +361,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_5_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -520,7 +520,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_6_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -707,7 +707,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_7_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -922,7 +922,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_8_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -1165,7 +1165,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_9_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
@@ -1436,7 +1436,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_10_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }

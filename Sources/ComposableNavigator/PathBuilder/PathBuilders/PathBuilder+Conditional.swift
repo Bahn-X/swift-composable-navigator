@@ -1,42 +1,6 @@
 import SwiftUI
 
 public extension PathBuilders {
-  /// The conditional `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
-  /// In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional `PathBuilder`s.
-  ///
-  /// # Example
-  /// ```swift
-  ///   .conditional(
-  ///     either: HomeScreen.builder(store: homeStore),
-  ///     or: LoginScreen.builder(store: loginStore),
-  ///     basedOn: { user.isLoggedIn }
-  ///   )
-  /// ```
-  ///
-  /// The example here would never built routing paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the routing path.
-  ///
-  /// - Parameters:
-  ///   - either:
-  ///     PathBuilder used to build the routing path, if the condition is true.
-  ///   - or:
-  ///     PathBuilder used to build the routing path, if the condition is false.
-  ///   - basedOn:
-  ///     Condition evaluated every time the routing path is built.
-  static func conditional<
-    If: PathBuilder,
-    Else: PathBuilder
-  >(
-    either: If,
-    or: Else,
-    basedOn condition: @escaping () -> Bool
-  ) -> some PathBuilder {
-    PathBuilders.if(
-      condition,
-      then: either,
-      else: or
-    )
-  }
-
   ///  The if `PathBuilder` controls which `PathBuilder` is reponsible for building the routing path based on condition.
   ///
   ///  In some cases, you want to make sure that the user will never be able to reach certain parts of your application. For example, you might want to show a login screen as long the user hasn't logged in. For these cases, you can use a conditional `PathBuilder`s.

@@ -2,7 +2,7 @@ import ComposableNavigator
 import SwiftUI
 import XCTest
 
-final class PathBuilder_WildcardTest: XCTestCase {
+final class NavigationTree_WildcardTest: XCTestCase {
   let testScreen = TestScreen(identifier: "0", presentationStyle: .push)
 
   lazy var identifiedTestScreen = IdentifiedScreen(
@@ -14,7 +14,7 @@ final class PathBuilder_WildcardTest: XCTestCase {
   func test_emptyPath_calls_through_to_underlying_pathbuilder_with_empty_path() {
     var underlyingPathBuilderCalled = false
 
-    let sut = PathBuilders.wildcard(
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
@@ -33,7 +33,7 @@ final class PathBuilder_WildcardTest: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    let sut = PathBuilders.wildcard(
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
@@ -57,7 +57,7 @@ final class PathBuilder_WildcardTest: XCTestCase {
   }
 
   func test_buildsWildcardView_for_matching_screen() {
-    let sut = PathBuilders.wildcard(
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in

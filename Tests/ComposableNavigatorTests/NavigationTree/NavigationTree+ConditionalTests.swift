@@ -2,7 +2,7 @@ import ComposableNavigator
 import SwiftUI
 import XCTest
 
-final class PathBuilder_ConditionalTests: XCTestCase {
+final class NavigationTree_ConditionalTests: XCTestCase {
   let path = [
     IdentifiedScreen(
       id: .root,
@@ -10,73 +10,6 @@ final class PathBuilder_ConditionalTests: XCTestCase {
       hasAppeared: false
     )
   ]
-
-  // MARK: - Conditional
-  func test_conditional_builds_either_builder_if_condition_is_true() {
-    var eitherBuilderInvocations = [[IdentifiedScreen]]()
-    var orBuilderInvocations = [[IdentifiedScreen]]()
-
-    let expectedEitherBuilderInvocations = [
-      path
-    ]
-
-    let expectedOrBuilderInvocations = [
-      [IdentifiedScreen]()
-    ]
-
-    let sut = PathBuilders.conditional(
-      either: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          eitherBuilderInvocations.append(path)
-          return nil
-        }
-      ),
-      or: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          orBuilderInvocations.append(path)
-          return nil
-        }
-      ),
-      basedOn: { true }
-    )
-
-    XCTAssertNil(sut.build(path: path))
-    XCTAssertEqual(expectedEitherBuilderInvocations, eitherBuilderInvocations)
-    XCTAssertEqual(expectedOrBuilderInvocations, orBuilderInvocations)
-  }
-
-  func test_conditional_builds_or_builder_if_condition_is_false() {
-    var eitherBuilderInvocations = [[IdentifiedScreen]]()
-    var orBuilderInvocations = [[IdentifiedScreen]]()
-
-    let expectedEitherBuilderInvocations = [
-      [IdentifiedScreen]()
-    ]
-
-    let expectedOrBuilderInvocations = [
-      path
-    ]
-
-    let sut = PathBuilders.conditional(
-      either: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          eitherBuilderInvocations.append(path)
-          return nil
-        }
-      ),
-      or: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          orBuilderInvocations.append(path)
-          return nil
-        }
-      ),
-      basedOn: { false }
-    )
-
-    XCTAssertNil(sut.build(path: path))
-    XCTAssertEqual(expectedEitherBuilderInvocations, eitherBuilderInvocations)
-    XCTAssertEqual(expectedOrBuilderInvocations, orBuilderInvocations)
-  }
 
   // MARK: - If
   func test_if_builds_then_builder_if_condition_is_true() {
@@ -94,15 +27,16 @@ final class PathBuilder_ConditionalTests: XCTestCase {
       path
     ]
 
-    let sut = PathBuilders.if(
-      { true },
-      then: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          thenBuilderInvocations.append(path)
-          return nil
+    let sut = EmptyNavigationTree()
+      .If { true }
+        then: {
+          _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              thenBuilderInvocations.append(path)
+              return nil
+            }
+          )
         }
-      )
-    )
 
     XCTAssertNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -120,21 +54,25 @@ final class PathBuilder_ConditionalTests: XCTestCase {
       [IdentifiedScreen]()
     ]
 
-    let sut = PathBuilders.if(
-      { true },
-      then: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          thenBuilderInvocations.append(path)
-          return nil
+    let sut = EmptyNavigationTree()
+      .If { true }
+        then: {
+          _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              thenBuilderInvocations.append(path)
+              return nil
+            }
+          )
+
         }
-      ),
-      else: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          elseBuilderInvocations.append(path)
-          return nil
+        else: {
+          _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              elseBuilderInvocations.append(path)
+              return nil
+            }
+          )
         }
-      )
-    )
 
     XCTAssertNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -153,21 +91,23 @@ final class PathBuilder_ConditionalTests: XCTestCase {
       path
     ]
 
-    let sut = PathBuilders.if(
-      { false },
-      then: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          thenBuilderInvocations.append(path)
-          return nil
-        }
-      ),
-      else: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          elseBuilderInvocations.append(path)
-          return nil
-        }
-      )
-    )
+    let sut = EmptyNavigationTree().If { false }
+      then: {
+        _PathBuilder(
+          buildPath: { path -> EmptyView? in
+            thenBuilderInvocations.append(path)
+            return nil
+          }
+        )
+      }
+      else: {
+        _PathBuilder(
+          buildPath: { path -> EmptyView? in
+            elseBuilderInvocations.append(path)
+            return nil
+          }
+        )
+      }
 
     XCTAssertNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -185,19 +125,18 @@ final class PathBuilder_ConditionalTests: XCTestCase {
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [1]
 
-    let sut = PathBuilders.if(
-      let: { letContent },
-      then: { unwrapped -> _PathBuilder<EmptyView> in
-        unwrappedContents.append(unwrapped)
+    let sut = EmptyNavigationTree()
+      .IfLet { letContent }
+        then: { unwrapped -> _PathBuilder<EmptyView> in
+          unwrappedContents.append(unwrapped)
 
-        return _PathBuilder(
-          buildPath: { path -> EmptyView? in
-            thenBuilderInvocations.append(path)
-            return EmptyView()
-          }
-        )
-      }
-    )
+          return _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              thenBuilderInvocations.append(path)
+              return EmptyView()
+            }
+          )
+        }
 
     XCTAssertNotNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -220,25 +159,26 @@ final class PathBuilder_ConditionalTests: XCTestCase {
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [1]
 
-    let sut = PathBuilders.if(
-      let: { letContent },
-      then: { unwrapped -> _PathBuilder<EmptyView> in
-        unwrappedContents.append(unwrapped)
+    let sut = EmptyNavigationTree()
+      .IfLet { letContent }
+        then: { unwrapped -> _PathBuilder<EmptyView> in
+          unwrappedContents.append(unwrapped)
 
-        return _PathBuilder(
-          buildPath: { path -> EmptyView? in
-            thenBuilderInvocations.append(path)
-            return EmptyView()
-          }
-        )
-      },
-      else: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          elseBuilderInvocations.append(path)
-          return nil
+          return _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              thenBuilderInvocations.append(path)
+              return EmptyView()
+            }
+          )
         }
-      )
-    )
+        else: {
+          _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              elseBuilderInvocations.append(path)
+              return nil
+            }
+          )
+        }
 
     XCTAssertNotNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -257,25 +197,26 @@ final class PathBuilder_ConditionalTests: XCTestCase {
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [Int]()
 
-    let sut = PathBuilders.if(
-      let: { Optional<Int>.none },
-      then: { unwrapped -> _PathBuilder<EmptyView> in
-        unwrappedContents.append(unwrapped)
+    let sut = EmptyNavigationTree()
+      .IfLet { Optional<Int>.none }
+        then: { unwrapped -> _PathBuilder<EmptyView> in
+          unwrappedContents.append(unwrapped)
 
-        return _PathBuilder(
-          buildPath: { path -> EmptyView? in
-            thenBuilderInvocations.append(path)
-            return nil
-          }
-        )
-      },
-      else: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          elseBuilderInvocations.append(path)
-          return EmptyView()
+          return _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              thenBuilderInvocations.append(path)
+              return nil
+            }
+          )
         }
-      )
-    )
+        else: {
+          _PathBuilder(
+            buildPath: { path -> EmptyView? in
+              elseBuilderInvocations.append(path)
+              return EmptyView()
+            }
+          )
+        }
 
     XCTAssertNotNil(sut.build(path: path))
     XCTAssertEqual(expectedThenBuilderInvocations, thenBuilderInvocations)
@@ -298,9 +239,9 @@ final class PathBuilder_ConditionalTests: XCTestCase {
       path
     ]
 
-    let sut = PathBuilders.if(
-      screen: { (screen: TestScreen) in
-        return _PathBuilder(
+    let sut = EmptyNavigationTree()
+      .If { (screen: TestScreen) in
+        _PathBuilder(
           buildPath: { path -> EmptyView? in
             builtScreens.append(screen.eraseToAnyScreen())
             builtPaths.append(path)
@@ -308,7 +249,6 @@ final class PathBuilder_ConditionalTests: XCTestCase {
           }
         )
       }
-    )
 
     XCTAssertNotNil(sut.build(path: path))
     XCTAssertEqual(expectedPaths, builtPaths)
@@ -330,9 +270,9 @@ final class PathBuilder_ConditionalTests: XCTestCase {
     let expectedScreens = [AnyScreen]()
     let expectedPaths = [[IdentifiedScreen]]()
 
-    let sut = PathBuilders.if(
-      screen: { (screen: TestScreen) in
-        return _PathBuilder(
+    let sut = EmptyNavigationTree()
+      .If { (screen: TestScreen) in
+        _PathBuilder(
           buildPath: { path -> EmptyView? in
             builtScreens.append(screen.eraseToAnyScreen())
             builtPaths.append(path)
@@ -340,7 +280,6 @@ final class PathBuilder_ConditionalTests: XCTestCase {
           }
         )
       }
-    )
 
     XCTAssertNil(sut.build(path: path))
     XCTAssertEqual(expectedPaths, builtPaths)
@@ -364,8 +303,8 @@ final class PathBuilder_ConditionalTests: XCTestCase {
     let expectedPaths = [[IdentifiedScreen]]()
     let expectedElsePaths = [path]
 
-    let sut = PathBuilders.if(
-      screen: { (screen: TestScreen) in
+    let sut = EmptyNavigationTree()
+      .If { (screen: TestScreen) in
         return _PathBuilder(
           buildPath: { path -> EmptyView? in
             builtScreens.append(screen.eraseToAnyScreen())
@@ -373,14 +312,15 @@ final class PathBuilder_ConditionalTests: XCTestCase {
             return nil
           }
         )
-      },
-      else: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          builtElsePaths.append(path)
-          return EmptyView()
-        }
-      )
-    )
+      }
+      else: {
+        _PathBuilder(
+          buildPath: { path -> EmptyView? in
+            builtElsePaths.append(path)
+            return EmptyView()
+          }
+        )
+      }
 
     XCTAssertNotNil(sut.build(path: path))
     XCTAssertEqual(expectedPaths, builtPaths)

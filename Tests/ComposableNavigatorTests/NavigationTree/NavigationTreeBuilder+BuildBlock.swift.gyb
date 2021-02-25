@@ -32,7 +32,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_${i}_buildsPath() {
     var path = [IdentifiedScreen]()
 
-    let sut = PathBuilders.anyOf(
+    let sut = NavigationTreeBuilder.buildBlock(
 % for inner in range(0, i):
 %{
   innerChar = genericCharacters[inner]

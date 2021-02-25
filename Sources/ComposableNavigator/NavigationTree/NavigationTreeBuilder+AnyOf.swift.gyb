@@ -1,0 +1,40 @@
+// AUTO-GENERATED: Do not edit
+% import string
+%{
+  letters = string.ascii_uppercase
+  combineCount = 10
+}%
+extension NavigationTreeBuilder {
+% for i in range(2, combineCount+1):
+%{
+    # ABCD...
+    genericCharacters = letters[0:i]
+    genericCharactersLower = map(string.lower, genericCharacters)
+
+    # ABuilder: PathBuilder, BBuilder: PathBuilder, ...
+    builderRequirements = ", ".join(map(lambda x: "{0}Builder: PathBuilder".format(x), genericCharacters))
+
+    # Combined<A, B, C, D>
+    contents = ", ".join(map(lambda x: "{0}Builder.Content".format(x), genericCharacters))
+    enumName = "Either{0}<{1}>".format(genericCharacters, contents)
+
+    # _ a: PathBuilder<A>,\n ...
+    parameters = ", ".join(map(lambda x: "_ {0}: {1}Builder".format(x.lower(), x), genericCharacters))
+
+    # .anyOf(a, b, c...)
+    anyOfParameters = ", ".join(genericCharactersLower)
+
+    # PathBuilder<Either<A, B, C, D>>
+    combinedPathBuilderType = "_PathBuilder<{0}>".format(enumName)
+}%
+  public static func buildBlock<${builderRequirements}>(
+    ${parameters}
+  ) -> ${combinedPathBuilderType} {
+    PathBuilders.anyOf(${anyOfParameters})
+  }
+% if i != combineCount:
+
+% else:
+% end 
+% end
+}

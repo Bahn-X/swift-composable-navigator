@@ -5,11 +5,12 @@ import PackageDescription
 
 let snapshotFolders = [
   "PathBuilder/__Snapshots__",
+  "NavigationTree/__Snapshots__",
   "Screen/__Snapshots__",
 ]
 
 let testGybFiles = [
-  "PathBuilder/PathBuilder+AnyOfTests.swift.gyb",
+  "NavigationTree/NavigationTreeBuilder+BuildBlock.swift.gyb"
 ]
 
 let package = Package(
@@ -48,6 +49,7 @@ let package = Package(
       name: "ComposableNavigator",
       dependencies: [],
       exclude: [
+        "NavigationTree/NavigationTreeBuilder+AnyOf.swift.gyb",
         "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb",
       ]
     ),
