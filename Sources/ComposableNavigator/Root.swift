@@ -48,15 +48,15 @@ public struct Root<Builder: PathBuilder>: View {
 
   public var body: some View {
     NavigationView {
-      pathBuilder.build(path: dataSource.path)
+      pathBuilder.build(path: dataSource.path.current)
     }
     .environment(
       \.currentScreenID,
-      dataSource.path.first?.id ?? .root
+      dataSource.path.current.first?.id ?? .root
     )
     .environment(
       \.currentScreen,
-      dataSource.path.first?.content ?? CurrentScreenKey.defaultValue
+      dataSource.path.current.first?.content ?? CurrentScreenKey.defaultValue
     )
     .environment(
       \.navigator,

@@ -4,7 +4,7 @@ import XCTest
 final class Navigator_DebugTests: XCTestCase {
   func test_path_returns_underlying_path() {
     let underlyingNavigator = Navigator.mock(
-      path: { [] }
+      path: { PathUpdate(previous: [], current: []) }
     )
 
     let sut = underlyingNavigator.debug()
@@ -23,12 +23,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoToInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goToInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent go(to: \(expectedScreen), on: \(expectedID)).\nNew path:"
@@ -56,12 +56,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoToInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goToInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent go(to: \(expectedScreen), on: \(expectedScreen)).\nNew path:"
@@ -91,12 +91,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoToPathInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goToPathInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent go(to path: \([expectedScreen]), on: \(expectedID)).\nNew path:"
@@ -124,12 +124,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoToPathInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goToPathInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent go(to path: \([expectedScreen]), on: \(expectedScreen)).\nNew path:"
@@ -158,12 +158,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoBackToInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goBackToInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent goBack(to: \(expectedID)).\nNew path:"
@@ -191,12 +191,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.GoBackToInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       goBackToInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent goBack(to: \(expectedScreen)).\nNew path:"
@@ -225,12 +225,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.ReplacePathInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       replacePathInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent replace(path: \([expectedScreen])).\nNew path:"
@@ -259,12 +259,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.DismissInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       dismissInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent dismiss(id: \(expectedID)).\nNew path:"
@@ -292,12 +292,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.DismissInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       dismissInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent dismiss(screen: \(expectedScreen)).\nNew path:"
@@ -326,12 +326,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.DismissSuccessorInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       dismissSuccessorInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent dismissSuccessor(of: \(expectedID)).\nNew path:"
@@ -359,12 +359,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.DismissSuccessorInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       dismissSuccessorInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent dismissSuccessor(of: \(expectedScreen)).\nNew path:"
@@ -394,12 +394,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.ReplaceContentInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       replaceContentInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent replaceContent(of: \(expectedID), with: \(expectedScreen)).\nNew path:"
@@ -427,12 +427,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.ReplaceScreenInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       replaceScreenInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent replace(screen: \(expectedScreen), with: \(expectedScreen)).\nNew path:"
@@ -461,12 +461,12 @@ final class Navigator_DebugTests: XCTestCase {
     var invocations = [Navigator.DidAppearInvocation]()
 
     let underlyingNavigator = Navigator.mock(
-      path: { [] },
+      path: { PathUpdate(previous: [], current: []) },
       didAppearInvoked: { invocation in invocations.append(invocation) }
     )
 
     var loggedMessages = [String]()
-    var dumpedPaths = [[IdentifiedScreen]]()
+    var dumpedPaths = [PathUpdate]()
 
     let expectedLoggedMessages = [
       "Sent didAppear(id: \(expectedID)).\nNew path:"

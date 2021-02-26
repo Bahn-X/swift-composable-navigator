@@ -66,15 +66,15 @@ public struct NavigationNode<Content: View, Successor: View>: View {
   }
 
   private var screen: IdentifiedScreen? {
-    dataSource.path.first(where: { $0.id == screenID })
+    dataSource.path.current.first(where: { $0.id == screenID })
   }
 
   private var successors: Successors? {
-    guard let screen = self.screen, let index = dataSource.path.firstIndex(of: screen) else {
+    guard let screen = self.screen, let index = dataSource.path.current.firstIndex(of: screen) else {
       return nil
     }
 
-    let suffix = Array(dataSource.path.suffix(from: index + 1))
+    let suffix = Array(dataSource.path.current.suffix(from: index + 1))
     return next(suffix).flatMap { content in
       Successors(path: suffix, content: content)
     }

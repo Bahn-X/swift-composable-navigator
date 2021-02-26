@@ -2,7 +2,7 @@ import Foundation
 
 /// Facade type erasing the type of the underlying datasource
 public struct Navigator {
-  private let _path: () -> [IdentifiedScreen]
+  private let _path: () -> PathUpdate
   private let _go: (AnyScreen, ScreenID) -> Void
   private let _goToOnScreen: (AnyScreen, AnyScreen) -> Void
   private let _goToPath: ([AnyScreen], ScreenID) -> Void
@@ -22,7 +22,7 @@ public struct Navigator {
   /// Retrieve the current value of the routing path
   /// - Returns: The current routing path
   /// - SeeAlso: `Navigator.debug()`
-  func path() -> [IdentifiedScreen] {
+  func path() -> PathUpdate {
     _path()
   }
 
@@ -346,7 +346,7 @@ public struct Navigator {
   }
 
   public init(
-    path: @escaping () -> [IdentifiedScreen],
+    path: @escaping () -> PathUpdate,
     go: @escaping (AnyScreen, ScreenID) -> Void,
     goToOnScreen: @escaping (AnyScreen, AnyScreen) -> Void,
     goToPath: @escaping ([AnyScreen], ScreenID) -> Void,
