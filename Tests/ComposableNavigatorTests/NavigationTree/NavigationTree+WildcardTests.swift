@@ -18,13 +18,13 @@ final class NavigationTree_WildcardTest: XCTestCase {
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          underlyingPathBuilderCalled = path.isEmpty
+          underlyingPathBuilderCalled = path == .empty
           return nil
         }
       )
     )
 
-    XCTAssertNil(sut.build(path: []))
+    XCTAssertNil(sut.build(path: .empty))
     XCTAssertTrue(underlyingPathBuilderCalled)
   }
 
@@ -33,42 +33,59 @@ final class NavigationTree_WildcardTest: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
+    let pathUpdate = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          XCTAssertEqual([self.identifiedTestScreen], path)
+          let expected = PathComponentUpdate(
+            previous: nil,
+            current: IdentifiedScreen(
+              id: .root,
+              content: self.testScreen,
+              hasAppeared: false
+            )
+          )
+
+          XCTAssertEqual(expected, path)
           return EmptyView()
         }
       )
     )
 
     let builtScreen = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: pathUpdate
     )
 
     XCTAssertNotNil(builtScreen)
   }
 
   func test_buildsWildcardView_for_matching_screen() {
+    let pathUpdate = PathComponentUpdate(
+      previous: nil,
+      current: identifiedTestScreen
+    )
+
     let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          XCTAssertEqual([self.identifiedTestScreen], path)
+          XCTAssertEqual(pathUpdate, path)
           return EmptyView()
         }
       )
     )
 
     let builtScreen = sut.build(
-      path: [identifiedTestScreen]
+      path: pathUpdate
     )
 
     XCTAssertNotNil(builtScreen)

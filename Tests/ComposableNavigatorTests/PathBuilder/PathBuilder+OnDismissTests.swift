@@ -11,26 +11,21 @@ final class PathBuilder_OnDismissTest: XCTestCase {
     )
   }
 
-  lazy var path = [
-    testScreen(with: "0")
-  ]
+  lazy var path = PathComponentUpdate(
+      previous: testScreen(with: "0"),
+      current: nil
+  )
 
   let expectedView = TestView(id: 0)
 
   let testBuilder = _PathBuilder<TestView>(
-    buildPath: { path in
-      guard !path.isEmpty else {
-        return nil
-      }
-
-      return TestView(id: 0)
+    buildPath: { _ in
+      TestView(id: 0)
     }
   )
 
   func test_onDismiss_calls_perform_with_any_screen_when_path_changes() {
-    let path = [
-      testScreen(with: "0")
-    ]
+
     var dismissCalled = false
 
     let sut = testBuilder
@@ -44,14 +39,8 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
-
-    builtView = sut.build(path: [])
-
+    XCTAssertEqual(expectedView, sut.build(path: path))
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 
   func test_onDismiss_calls_perform_with_screen_when_path_changes() {
@@ -68,14 +57,8 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
-
-    builtView = sut.build(path: [])
-
+    XCTAssertEqual(expectedView, sut.build(path: path))
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 
   func test_onDismiss_of_calls_perform_when_path_changes() {
@@ -89,13 +72,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
-
-    builtView = sut.build(path: [])
-
+    XCTAssertEqual(expectedView, sut.build(path: path))
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 }

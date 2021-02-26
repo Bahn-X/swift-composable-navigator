@@ -34,9 +34,9 @@ public extension PathBuilders {
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
     _PathBuilder<NavigationNode<Content, Successor.Content>>(
-      buildPath: { (path: [IdentifiedScreen]) -> NavigationNode<Content, Successor.Content>? in
-        guard let head = path.first, let unwrapped: S = head.content.unwrap() else {
-          _ = nesting.build(path: [])
+      buildPath: { path -> NavigationNode<Content, Successor.Content>? in
+        guard let head = path.current, let unwrapped: S = head.content.unwrap() else {
+          _ = nesting.build(path: .empty)
           return nil
         }
 
@@ -117,9 +117,9 @@ public extension PathBuilders {
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
     _PathBuilder<NavigationNode<Content, Successor.Content>>(
-      buildPath: { (path: [IdentifiedScreen]) -> NavigationNode<Content, Successor.Content>? in
-        guard let head = path.first, head.content.is(S.self) else {
-          _ = nesting.build(path: [])
+      buildPath: { path -> NavigationNode<Content, Successor.Content>? in
+        guard let head = path.current, head.content.is(S.self) else {
+          _ = nesting.build(path: .empty)
           return nil
         }
 

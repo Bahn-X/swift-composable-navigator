@@ -6,7 +6,7 @@ public protocol NavigationTree: PathBuilder {
 }
 
 extension NavigationTree {
-  public func build(path: [IdentifiedScreen]) -> Builder.Content? {
+  public func build(path: PathComponentUpdate) -> Builder.Content? {
     builder.build(path: path)
   }
 }

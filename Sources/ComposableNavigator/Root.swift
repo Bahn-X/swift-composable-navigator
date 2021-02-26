@@ -36,6 +36,14 @@ public struct Root<Builder: PathBuilder>: View {
   private let navigator: Navigator
   private let pathBuilder: Builder
 
+  private var rootID: ScreenID {
+    return dataSource.path.current.first?.id ?? .root
+  }
+
+  private var rootScreen: AnyScreen {
+    return dataSource.path.current.first?.content ?? CurrentScreenKey.defaultValue
+  }
+
   public init(
     dataSource: Navigator.Datasource,
     navigator: Navigator,
@@ -48,15 +56,17 @@ public struct Root<Builder: PathBuilder>: View {
 
   public var body: some View {
     NavigationView {
-      pathBuilder.build(path: dataSource.path.current)
+      pathBuilder.build(
+        path: dataSource.path.component(for: rootID)
+      )
     }
     .environment(
       \.currentScreenID,
-      dataSource.path.current.first?.id ?? .root
+      rootID
     )
     .environment(
       \.currentScreen,
-      dataSource.path.current.first?.content ?? CurrentScreenKey.defaultValue
+      rootScreen
     )
     .environment(
       \.navigator,

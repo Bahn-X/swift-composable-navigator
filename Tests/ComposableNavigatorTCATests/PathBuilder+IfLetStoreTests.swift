@@ -15,13 +15,14 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    let expectedPath = [
-      IdentifiedScreen(
+    let expectedPath = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(),
         hasAppeared: false
       )
-    ]
+    )
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -50,13 +51,14 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    let expectedPath = [
-      IdentifiedScreen(
+    let expectedPath = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(),
         hasAppeared: false
       )
-    ]
+    )
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -82,22 +84,25 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
-    let expectedPath = [
-      IdentifiedScreen(
+    let expectedPath = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(),
         hasAppeared: false
       )
-    ]
+    )
 
     let expectedThenBuilderInvocations = [
       expectedPath
     ]
 
-    let expectedElseBuilderInvocations = [[IdentifiedScreen]()]
+    let expectedElseBuilderInvocations = [
+      expectedPath.ignoringCurrent
+    ]
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -132,18 +137,19 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
-    let expectedPath = [
-      IdentifiedScreen(
+    let expectedPath = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(),
         hasAppeared: false
       )
-    ]
+    )
 
-    let expectedThenBuilderInvocations = [[IdentifiedScreen]]()
+    let expectedThenBuilderInvocations = [PathComponentUpdate]()
 
     let expectedElseBuilderInvocations = [
       expectedPath

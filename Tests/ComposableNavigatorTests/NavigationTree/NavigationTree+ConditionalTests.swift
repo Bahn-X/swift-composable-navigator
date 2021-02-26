@@ -3,25 +3,18 @@ import SwiftUI
 import XCTest
 
 final class NavigationTree_ConditionalTests: XCTestCase {
-  let path = [
-    IdentifiedScreen(
+  let path = PathComponentUpdate(
+    previous: nil,
+    current: IdentifiedScreen(
       id: .root,
       content: TestScreen(identifier: "", presentationStyle: .push),
       hasAppeared: false
     )
-  ]
+  )
 
   // MARK: - If
   func test_if_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-
-    let path = [
-      IdentifiedScreen(
-        id: .root,
-        content: TestScreen(identifier: "", presentationStyle: .push),
-        hasAppeared: false
-      )
-    ]
+    var thenBuilderInvocations = [PathComponentUpdate]()
 
     let expectedThenBuilderInvocations = [
       path
@@ -43,15 +36,15 @@ final class NavigationTree_ConditionalTests: XCTestCase {
   }
 
   func test_ifElse_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
     let expectedThenBuilderInvocations = [
       path
     ]
 
     let expectedElseBuilderInvocations = [
-      [IdentifiedScreen]()
+      path.ignoringCurrent
     ]
 
     let sut = EmptyNavigationTree()
@@ -80,11 +73,11 @@ final class NavigationTree_ConditionalTests: XCTestCase {
   }
 
   func test_ifElse_builds_else_builder_if_condition_is_false() {
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
     let expectedThenBuilderInvocations = [
-      [IdentifiedScreen]()
+      path.ignoringCurrent
     ]
 
     let expectedElseBuilderInvocations = [
@@ -117,7 +110,7 @@ final class NavigationTree_ConditionalTests: XCTestCase {
   // MARK: - ifLet
   func test_ifLet_without_elseBuilder_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
     let expectedThenBuilderInvocations = [
       path
     ]
@@ -145,15 +138,15 @@ final class NavigationTree_ConditionalTests: XCTestCase {
 
   func test_ifLet_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
     let expectedThenBuilderInvocations = [
       path
     ]
 
     let expectedElseBuilderInvocations = [
-      [IdentifiedScreen]()
+      path.ignoringCurrent
     ]
 
     var unwrappedContents = [Int]()
@@ -187,10 +180,10 @@ final class NavigationTree_ConditionalTests: XCTestCase {
   }
 
   func test_ifLet_builds_elseBuilder_ifLetContent_is_nil() {
-    var thenBuilderInvocations = [[IdentifiedScreen]]()
-    var elseBuilderInvocations = [[IdentifiedScreen]]()
+    var thenBuilderInvocations = [PathComponentUpdate]()
+    var elseBuilderInvocations = [PathComponentUpdate]()
 
-    let expectedThenBuilderInvocations = [[IdentifiedScreen]]()
+    let expectedThenBuilderInvocations = [PathComponentUpdate]()
 
     let expectedElseBuilderInvocations = [path]
 
@@ -229,7 +222,7 @@ final class NavigationTree_ConditionalTests: XCTestCase {
     let screen = TestScreen(identifier: "", presentationStyle: .push).eraseToAnyScreen()
 
     var builtScreens = [AnyScreen]()
-    var builtPaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
 
     let expectedScreens = [
       screen.eraseToAnyScreen()
@@ -260,15 +253,16 @@ final class NavigationTree_ConditionalTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    let path = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
     var builtScreens = [AnyScreen]()
-    var builtPaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [[IdentifiedScreen]]()
+    let expectedPaths = [PathComponentUpdate]()
 
     let sut = EmptyNavigationTree()
       .If { (screen: TestScreen) in
@@ -291,16 +285,17 @@ final class NavigationTree_ConditionalTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    let path = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
     var builtScreens = [AnyScreen]()
-    var builtPaths = [[IdentifiedScreen]]()
-    var builtElsePaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
+    var builtElsePaths = [PathComponentUpdate]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [[IdentifiedScreen]]()
+    let expectedPaths = [PathComponentUpdate]()
     let expectedElsePaths = [path]
 
     let sut = EmptyNavigationTree()

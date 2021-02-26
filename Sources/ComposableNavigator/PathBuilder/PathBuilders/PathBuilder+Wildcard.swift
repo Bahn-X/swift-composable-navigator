@@ -58,7 +58,7 @@ public extension PathBuilders {
   ) -> _PathBuilder<WildcardView<Content,S>> where ContentBuilder.Content == Content {
     _PathBuilder<WildcardView<Content, S>>(
       buildPath: { path in
-        guard let identifiedWildcard = path.first
+        guard let identifiedWildcard = path.current
                 .map({
                   IdentifiedScreen(
                     id: $0.id,
@@ -67,11 +67,16 @@ public extension PathBuilders {
                   )
                 })
         else {
-            _ = pathBuilder.build(path: [])
+            _ = pathBuilder.build(path: path.ignoringCurrent)
             return nil
         }
 
-        return pathBuilder.build(path: [identifiedWildcard] + path[1...])
+        let update = PathComponentUpdate(
+            previous: path.previous,
+            current: identifiedWildcard
+        )
+
+        return pathBuilder.build(path: update)
           .flatMap { content in
             WildcardView(
               wildcard: screen,

@@ -23,18 +23,14 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       Action<TestScreen>.anyScreen(TestScreen().eraseToAnyScreen())
     ]
 
-    let firstPath = [
-      IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false)
-    ]
+    let expectedPath = PathComponentUpdate(
+        previous: IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false),
+        current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
-    let secondPath = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
-
-    var builtPaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
     let expectedBuildPaths = [
-      firstPath,
-      secondPath
+        expectedPath
     ]
 
     let reducer = Reducer<State, Action<TestScreen>, Void> { _, action, _ in
@@ -58,8 +54,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       into: store
     )
 
-    XCTAssertNotNil(sut.build(path: firstPath))
-    XCTAssertNotNil(sut.build(path: secondPath))
+    XCTAssertNotNil(sut.build(path: expectedPath))
     XCTAssertEqual(expectedBuildPaths, builtPaths)
     XCTAssertEqual(expectedActions, receivedActions)
   }
@@ -70,18 +65,14 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       Action<TestScreen>.action
     ]
 
-    let firstPath = [
-      IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false)
-    ]
+    let expectedPath = PathComponentUpdate(
+        previous: IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false),
+        current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
-    let secondPath = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
-
-    var builtPaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
     let expectedBuildPaths = [
-      firstPath,
-      secondPath
+      expectedPath
     ]
 
     let reducer = Reducer<State, Action<TestScreen>, Void> { _, action, _ in
@@ -106,8 +97,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       into: store
     )
 
-    XCTAssertNotNil(sut.build(path: firstPath))
-    XCTAssertNotNil(sut.build(path: secondPath))
+    XCTAssertNotNil(sut.build(path: expectedPath))
     XCTAssertEqual(expectedBuildPaths, builtPaths)
     XCTAssertEqual(expectedActions, receivedActions)
   }
@@ -118,18 +108,14 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       Action<TestScreen>.screen(TestScreen())
     ]
 
-    let firstPath = [
-      IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false)
-    ]
+    let expectedPath = PathComponentUpdate(
+        previous: IdentifiedScreen(id: .root, content: TestScreen(), hasAppeared: false),
+        current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
-    let secondPath = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
-
-    var builtPaths = [[IdentifiedScreen]]()
+    var builtPaths = [PathComponentUpdate]()
     let expectedBuildPaths = [
-      firstPath,
-      secondPath
+      expectedPath
     ]
 
     let reducer = Reducer<State, Action<TestScreen>, Void> { _, action, _ in
@@ -153,8 +139,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       into: store
     )
 
-    XCTAssertNotNil(sut.build(path: firstPath))
-    XCTAssertNotNil(sut.build(path: secondPath))
+    XCTAssertNotNil(sut.build(path: expectedPath))
     XCTAssertEqual(expectedBuildPaths, builtPaths)
     XCTAssertEqual(expectedActions, receivedActions)
   }

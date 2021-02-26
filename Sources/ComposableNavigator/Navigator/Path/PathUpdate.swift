@@ -2,31 +2,37 @@ public struct PathUpdate: Equatable {
   public let previous: [IdentifiedScreen]
   public let current: [IdentifiedScreen]
 
-  public func update(for id: ScreenID) -> PathComponentUpdate {
+  public func component(for id: ScreenID) -> PathComponentUpdate {
     PathComponentUpdate(
       previous: extractPathComponent(for: id, from: previous),
       current: extractPathComponent(for: id, from: current)
     )
   }
 
+  public func successor(of id: ScreenID) -> PathComponentUpdate {
+    PathComponentUpdate(
+      previous: extractSuccessor(of: id, from: previous),
+      current: extractSuccessor(of: id, from: current)
+    )
+  }
+
   private func extractPathComponent(
     for id: ScreenID,
     from path: [IdentifiedScreen]
-  ) -> PathComponent? {
-    guard let index = path.firstIndex(where: { $0.id == id }) else {
+  ) -> IdentifiedScreen? {
+    return path.first(where: { $0.id == id })
+  }
+
+  private func extractSuccessor(
+    of id: ScreenID,
+    from path: [IdentifiedScreen]
+  ) -> IdentifiedScreen? {
+    guard let successorIndex = path.firstIndex(where: { $0.id == id })?.advanced(by: 1),
+          path.indices.contains(successorIndex)
+    else {
       return nil
     }
 
-    let content = path[index].content
-    let successorIndex = index.advanced(by: 1)
-
-    guard path.indices.contains(successorIndex) else {
-      return PathComponent(content: content, successor: nil)
-    }
-
-    return PathComponent(
-      content: content,
-      successor: path[successorIndex].content
-    )
+    return path[successorIndex]
   }
 }

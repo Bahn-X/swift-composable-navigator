@@ -11,15 +11,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [[IdentifiedScreen]]()
+    var nestingPathBuilderInvocations = [PathComponentUpdate]()
 
-    let path = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
-    let expectedNestingPathBuilderInvocations = [
-      [IdentifiedScreen]()
-    ]
+    let expectedNestingPathBuilderInvocations = [path.ignoringCurrent]
     
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() },
@@ -38,13 +37,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_matching_screen_buildsPath() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() }
@@ -54,13 +54,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_onAppear_in_built_view_calls_passed_action() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
     var onAppearInvocations = [Bool]()
     let expectedOnAppearInvocations = [
@@ -83,15 +84,16 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_next_in_built_view_calls_nesting_path_builder() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
-    var nextInvocations = [[IdentifiedScreen]]()
+    var nextInvocations = [PathComponentUpdate]()
     let expectedNextInvocations = [
       path
     ]
@@ -121,15 +123,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [[IdentifiedScreen]]()
+    var nestingPathBuilderInvocations = [PathComponentUpdate]()
 
-    let path = [
-      IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
-    ]
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
+    )
 
-    let expectedNestingPathBuilderInvocations = [
-      [IdentifiedScreen]()
-    ]
+    let expectedNestingPathBuilderInvocations = [path.ignoringCurrent]
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
@@ -149,13 +150,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_matching_screen_buildsPath() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
@@ -168,13 +170,14 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_onAppear_in_built_view_calls_passed_action() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
     var onAppearInvocations = [Bool]()
     let expectedOnAppearInvocations = [
@@ -198,15 +201,16 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_next_in_built_view_calls_nesting_path_builder() {
-    let path = [
-      IdentifiedScreen(
+    let path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: TestScreen(identifier: "0", presentationStyle: .push),
         hasAppeared: false
       )
-    ]
+    )
 
-    var nextInvocations = [[IdentifiedScreen]]()
+    var nextInvocations = [PathComponentUpdate]()
     let expectedNextInvocations = [
       path
     ]

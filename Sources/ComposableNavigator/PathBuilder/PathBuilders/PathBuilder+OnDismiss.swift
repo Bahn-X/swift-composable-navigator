@@ -20,18 +20,15 @@ public extension PathBuilder {
   func onDismiss(
     perform: @escaping (AnyScreen) -> Void
   ) -> _PathBuilder<Content> {
-    var lastBuiltScreen: AnyScreen?
-
-    return _PathBuilder<Content>(
+    _PathBuilder<Content>(
       buildPath: { path in
         let built = self.build(path: path)
-        let builtScreen = built != nil ? path.first?.content: nil
+        let previouslyBuiltScreen = path.previous?.content
+        let builtScreen = built != nil ? path.current?.content: nil
 
-        if (builtScreen != lastBuiltScreen || built == nil), let last = lastBuiltScreen {
+        if (builtScreen != previouslyBuiltScreen || built == nil), let last = previouslyBuiltScreen {
           perform(last)
         }
-
-        lastBuiltScreen = builtScreen
 
         return built
       }

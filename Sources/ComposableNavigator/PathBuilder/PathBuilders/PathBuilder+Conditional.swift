@@ -57,10 +57,10 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if condition() {
-          _ = elseBuilder.build(path: [])
+          _ = elseBuilder.build(path: path.ignoringCurrent)
           return thenBuilder.build(path: path).map(EitherAB.a)
         } else {
-          _ = thenBuilder.build(path: [])
+          _ = thenBuilder.build(path: path.ignoringCurrent)
           return elseBuilder.build(path: path).map(EitherAB.b)
         }
       }
@@ -94,7 +94,7 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if let letContent = `let`() {
-          _ = `else`.build(path: [])
+          _ = `else`.build(path: path.ignoringCurrent)
           return then(letContent).build(path: path).map(EitherAB.a)
         } else {
           return `else`.build(path: path).map(EitherAB.b)
@@ -149,8 +149,8 @@ public extension PathBuilders {
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if let unwrappedScreen: S = path.first?.content.unwrap() {
-          _ = `else`.build(path: [])
+        if let unwrappedScreen: S = path.current?.content.unwrap() {
+          _ = `else`.build(path: path.ignoringCurrent)
           return pathBuilder(unwrappedScreen).build(path: path).map(EitherAB.a)
         } else {
           return `else`.build(path: path).map(EitherAB.b)
