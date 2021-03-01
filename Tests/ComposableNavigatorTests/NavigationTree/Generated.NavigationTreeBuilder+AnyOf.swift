@@ -52,16 +52,16 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_2_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -132,20 +132,20 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_3_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -241,24 +241,24 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_4_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -379,28 +379,28 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_5_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -546,32 +546,32 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_6_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -742,36 +742,36 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_7_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -967,40 +967,40 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_8_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -1221,44 +1221,44 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_9_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
-      ),
+      )
       PathBuilders.screen(
         IScreen.self,
         content: { Text("I") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
@@ -1504,48 +1504,48 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_10_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
-      ),
+      )
       PathBuilders.screen(
         IScreen.self,
         content: { Text("I") }
-      ),
+      )
       PathBuilders.screen(
         JScreen.self,
         content: { Text("J") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()

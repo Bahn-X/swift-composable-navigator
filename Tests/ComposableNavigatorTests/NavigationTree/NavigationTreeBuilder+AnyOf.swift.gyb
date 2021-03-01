@@ -32,7 +32,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   func test_${i}_buildsPath() {
     var path = PathComponentUpdate.empty
 
-    let sut = NavigationTreeBuilder.buildBlock(
+    let sut = EmptyNavigationTree().AnyOf {
 % for inner in range(0, i):
 %{
   innerChar = genericCharacters[inner]
@@ -40,13 +40,9 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       PathBuilders.screen(
         ${innerChar}Screen.self,
         content: { Text("${innerChar}") }
-      % if inner < i-1:
-      ),
-      % else:
       )
-      %end
   % end
-    )
+    }
 
 % for inner in range(0, i):
 %{
