@@ -26,5 +26,11 @@ jobs:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make test
 
+      - name: Upload Test Result Bundles
+        uses: actions/upload-artifact@v2
+        with:
+          name: result_bundle
+          path: /Users/runner/work/swift-composable-navigator/swift-composable-navigator/Build/Logs/Test/
+
       - name: Clean up
         run: make cleanup
