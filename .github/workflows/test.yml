@@ -27,10 +27,12 @@ jobs:
         run: make test
 
       - uses: actions/upload-artifact@v2
-        if: ${{ failure() }}
+        if: ${{ always() }}
         with:
           name: ResultBundle
-          path: /Users/**/work/swift-composable-navigator/swift-composable-navigator/Build/Logs/Test/*.xcresult
+          path: ./Build/Logs/Test/*.xcresult
+          if-no-files-found: warn
+          retention-days: 5
 
       - name: Clean up
         if: ${{ always() }}
