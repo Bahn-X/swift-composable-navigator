@@ -4,6 +4,6 @@ import Foundation
 public typealias ScreenID = UUID
 
 public extension ScreenID {
-  /// The ID of the root of any routing path
+  /// The ID of the root of any navigation path
   static let root = UUID(uuidString: "00000000-0000-0000-0000-000000000000")!
 }

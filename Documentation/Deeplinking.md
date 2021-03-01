@@ -1,5 +1,5 @@
 # ComposableDeeplinking
-ComposableDeeplinking is part of the ComposableNavigator package and enables you to parse url scheme like `Deeplink`s to `RoutingPath`s. 
+ComposableDeeplinking is part of the ComposableNavigator package and enables you to parse url scheme like `Deeplink`s to navigation paths. 
 
 # Setting up an URL scheme
 1. Open the project file<br/>
@@ -103,7 +103,7 @@ struct ExampleApp: App {
 ```
 
 # Deeplink parsers
-Deeplink parsers parse `RoutingPath`s from `Deeplink`s. `DeeplinkParser`s are wrapper structs around a pure `(Deeplink) -> [AnyScreen]?` function and support composition. If a deeplink parser handles the input `Deeplink`, it returns a `RoutingPath` in the form of an `AnyScreen` array. If the deeplink parser is not responsible for parsing the deeplink, it returns nil.
+Deeplink parsers parse navigation paths from `Deeplink`s. `DeeplinkParser`s are wrapper structs around a pure `(Deeplink) -> [AnyScreen]?` function and support composition. If a deeplink parser handles the input `Deeplink`, it returns a navigation path in the form of an `AnyScreen` array. If the deeplink parser is not responsible for parsing the deeplink, it returns nil.
 
 Typically, applications using `ComposableDeeplinking` define one central `applicationDeeplinkParser`, composing all supported deeplinks. 
 
@@ -152,7 +152,7 @@ extension DeeplinkParser {
 }
 ```
 
-The url scheme representation are not tightly coupled to in-app `RoutingPaths` and only need to contain the information required to build up a valid routing path. This mean, that even if the application's navigation tree changes, your deeplinks can stay the same and we only need to adjust the application's deeplink parsing on the client-side. 
+The url scheme representation are not tightly coupled to in-app navigation path and only need to contain the information required to build up a valid navigation path. This mean, that even if the application's navigation tree changes, your deeplinks can stay the same and we only need to adjust the application's deeplink parsing on the client-side. 
 
 In order to support this newly added `DeeplinkParser`, we need to add it to our `exampleApp` `DeeplinkParser`. And that's it.
 
@@ -174,4 +174,4 @@ extension DeeplinkParser {
 ```
 
 # Push notifications & Deeplinks
-Deeplinks can also be part of a push notifications payload. We can hook into [`userNotificationCenter(_ center:, didReceive response:, withCompletionHandler completionHandler:)`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter) in [`UNUserNotificationCenterDelegate`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate), extract the deeplink url from the userInfo and pass it to our `DeeplinkHandler`, which replaces the routing path with the new routing path, if parsing succeeds.
+Deeplinks can also be part of a push notifications payload. We can hook into [`userNotificationCenter(_ center:, didReceive response:, withCompletionHandler completionHandler:)`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate/1649501-usernotificationcenter) in [`UNUserNotificationCenterDelegate`](https://developer.apple.com/documentation/usernotifications/unusernotificationcenterdelegate), extract the deeplink url from the userInfo and pass it to our `DeeplinkHandler`, which replaces the current navigation path with the new navigation path, if parsing succeeds.

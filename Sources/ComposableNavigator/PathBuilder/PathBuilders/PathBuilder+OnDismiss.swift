@@ -7,8 +7,8 @@ public extension PathBuilder {
   /// # Example
   /// ```swift
   /// PathBuilders.anyOf(
-  ///   DetailScreen.builder,
-  ///   SettingsScreen.builder
+  ///   DetailScreen.Builder(),
+  ///   SettingsScreen.Builder()
   /// )
   /// .onDismiss { (screen: AnyScreen) in
   ///   print("Dismissed \(screen)")
@@ -24,9 +24,9 @@ public extension PathBuilder {
       buildPath: { path in
         let built = self.build(path: path)
         let previouslyBuiltScreen = path.previous?.content
-        let builtScreen = built != nil ? path.current?.content: nil
+        let builtScreen = built != nil ? path.current?.content : nil
 
-        if (builtScreen != previouslyBuiltScreen || built == nil), let last = previouslyBuiltScreen {
+        if builtScreen != previouslyBuiltScreen || built == nil, let last = previouslyBuiltScreen {
           perform(last)
         }
 
@@ -51,8 +51,8 @@ public extension PathBuilder {
   ///        content: {
   ///          DetailView(mainStore.detailStore)
   ///        },
-  ///        nesting: SettingsScreen.builder.onDismiss(of: SettingsScreen.self) {
-  ///          // only called if DetailScreen is contained in the current routing path
+  ///        nesting: SettingsScreen.Builder().onDismiss(of: SettingsScreen.self) {
+  ///          // only called if DetailScreen is contained in the current navigation path
   ///          print("Dismissed settings screen")
   ///        }
   ///      )
@@ -95,8 +95,8 @@ public extension PathBuilder {
   ///        content: {
   ///          DetailView(mainStore.detailStore)
   ///        },
-  ///        nesting: SettingsScreen.builder.onDismiss(of: SettingsScreen.self) {
-  ///          // only called if DetailScreen is contained in the current routing path
+  ///        nesting: SettingsScreen.Builder.onDismiss(of: SettingsScreen.self) {
+  ///          // only called if DetailScreen is contained in the current navigation path
   ///          print("Dismissed settings screen")
   ///        }
   ///      )

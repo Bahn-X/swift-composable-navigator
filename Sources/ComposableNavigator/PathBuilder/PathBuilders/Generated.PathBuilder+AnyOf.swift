@@ -245,21 +245,20 @@ public enum EitherABCDEFGHIJ<A: View, B: View, C: View, D: View, E: View, F: Vie
 }
 
 public extension PathBuilders {
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -311,21 +310,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -386,21 +384,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -471,21 +468,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -567,21 +563,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -675,21 +670,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -796,21 +790,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -931,21 +924,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings
@@ -1081,21 +1073,20 @@ public extension PathBuilders {
       }
     )
   }
-
   /// ```swift
   /// .screen(
   /// //  ...
   ///   nesting: PathBuilders.anyOf(
-  ///     SettingsScreen.builder(store: settingsStore),
-  ///     DetailScreen.builder(store: detailStore)
+  ///     SettingsScreen.Builder(store: settingsStore),
+  ///     DetailScreen.Builder(store: detailStore)
   ///   )
   /// )
   /// ...
   /// ```
   ///
-  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible routing paths by passing an anyOf `PathBuilder` as a `nesting` argument.
+  /// If a screen can have more than one possible successor, the AnyOf `PathBuilder` allows to branch out. In the example, the Home Screen can either route to the Settings or the Detail screen. We express these two possible navigation paths by passing an anyOf `PathBuilder` as a `nesting` argument.
   ///
-  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app routing tree would be:
+  /// Read AnyOf `PathBuilder`s as "any of the listed `PathBuilder` builds the path". Given our example, the settings and the detail screen can follow after the home screen. AnyOf allows us to branch out in this case. The resulting app navigation tree would be:
   ///
   /// ```
   ///           -- Settings

@@ -20,7 +20,7 @@ public extension PathBuilders {
 
   ///  Wildcard `PathBuilder`s replace any screen with a predefined one.
   ///
-  ///  Based on the example for the conditional `PathBuilder`, you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate.
+  ///  Based on the example for the conditional `PathBuilder`, you might run into a situation in which your deeplink parser parses a navigation path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate.
   ///
   ///  To mitigate this problem, you can combine a conditional `PathBuilder` with a wildcard `PathBuilder`:
   ///
@@ -28,7 +28,7 @@ public extension PathBuilders {
   ///  .conditional(
   ///      either: .wildcard(
   ///          screen: HomeScreen(),
-  ///          pathBuilder: HomeScreen.builder(store: homeStore)
+  ///          pathBuilder: HomeScreen.Builder(store: homeStore)
   ///      ),
   ///      or: wildcard(
   ///          screen: LoginScreen(),
@@ -55,7 +55,7 @@ public extension PathBuilders {
   >(
     screen: S,
     pathBuilder: ContentBuilder
-  ) -> _PathBuilder<WildcardView<Content,S>> where ContentBuilder.Content == Content {
+  ) -> _PathBuilder<WildcardView<Content, S>> where ContentBuilder.Content == Content {
     _PathBuilder<WildcardView<Content, S>>(
       buildPath: { path in
         guard let identifiedWildcard = path.current
@@ -67,13 +67,13 @@ public extension PathBuilders {
                   )
                 })
         else {
-            _ = pathBuilder.build(path: path.ignoringCurrent)
-            return nil
+          _ = pathBuilder.build(path: path.ignoringCurrent)
+          return nil
         }
 
         let update = PathComponentUpdate(
-            previous: path.previous,
-            current: identifiedWildcard
+          previous: path.previous,
+          current: identifiedWildcard
         )
 
         return pathBuilder.build(path: update)

@@ -119,7 +119,7 @@ struct HomeScreen: Screen {
     func detailStore(for detailID: String) -> Store<DetailState?, DetailAction> {
       homeStore.scope(
         state: { state in
-          state.selectedDetail?.id == detailID ? state.selectedDetail: nil
+          state.selectedDetail?.id == detailID ? state.selectedDetail : nil
         },
         action: HomeAction.detail
       )
@@ -143,7 +143,7 @@ struct HomeScreen: Screen {
             )
             .beforeBuild {
               let viewStore = ViewStore(homeStore)
-              // we do not navigate to invalid routing paths (i.e. example://detail?id=123)
+              // we do not navigate to invalid navigation paths (i.e. example://detail?id=123)
               if viewStore.elements.contains(screen.detailID),
                  viewStore.state.selectedDetail?.id != screen.detailID {
                 viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
@@ -175,7 +175,7 @@ let homeReducer = Reducer<
   HomeState,
   HomeAction,
   HomeEnvironment
-> { state, action, environment in
+> { _, action, environment in
   switch action {
   case .viewAppeared:
     return .none
@@ -201,7 +201,7 @@ let homeReducer = Reducer<
         .go(
           to: [
             DetailScreen(detailID: element).eraseToAnyScreen(),
-            SettingsScreen().eraseToAnyScreen()
+            SettingsScreen().eraseToAnyScreen(),
           ],
           on: screenID
         )

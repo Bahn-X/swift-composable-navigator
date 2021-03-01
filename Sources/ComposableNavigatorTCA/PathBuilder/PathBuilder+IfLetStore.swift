@@ -6,12 +6,12 @@ public extension PathBuilders {
   /// A `PathBuilder` that safely unwraps a store of optional state in order to show one of two views.
   ///
   /// When the underlying state is non-`nil`, the `then` closure will be performed with a `Store` that
-  /// holds onto non-optional state to build the routing path, and otherwise the `else` PathBuilder will be used.
+  /// holds onto non-optional state to build the navigation path, and otherwise the `else` PathBuilder will be used.
   /// ```swift
-  /// PathBuilder.ifLetStore(
+  /// PathBuilders.ifLetStore(
   ///   store: store.scope(state: \SearchState.results, action: SearchAction.results),
-  ///   then: { store in DetailScreen.builder(store: store) },
-  ///   else: NotFoundScreen.builder()
+  ///   then: { store in DetailScreen.Builder(store: store) },
+  ///   else: NotFoundScreen.Builder()
   /// )
   /// ```
   ///
@@ -46,11 +46,11 @@ public extension PathBuilders {
   /// A `PathBuilder` that safely unwraps a store of optional state in order to show one of two views.
   ///
   /// When the underlying state is non-`nil`, the `then` closure will be performed with a `Store` that
-  /// holds onto non-optional state to build the routing path.
+  /// holds onto non-optional state to build the navigation path.
   /// ```swift
-  /// PathBuilder.ifLetStore(
+  /// PathBuilders.ifLetStore(
   ///   store: store.scope(state: \SearchState.results, action: SearchAction.results),
-  ///   then: { store in DetailScreen.builder(store: store) }
+  ///   then: { store in DetailScreen.Builder(store: store) }
   /// )
   /// ```
   ///

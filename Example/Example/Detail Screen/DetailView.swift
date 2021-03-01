@@ -25,7 +25,6 @@ struct DetailEnvironment {
   }
 }
 
-
 struct DetailScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
   let detailID: String
@@ -99,7 +98,7 @@ struct DetailView: View {
       .padding(16)
       .navigationBarItems(
         trailing: Button(
-          action: { viewStore.send(.settingsButtonTapped(currentID))},
+          action: { viewStore.send(.settingsButtonTapped(currentID)) },
           label: { Image(systemName: "gear") }
         )
         .accessibility(
@@ -116,7 +115,7 @@ let detailReducer = Reducer<
   DetailAction,
   DetailEnvironment
 >.combine(
-  Reducer { state, action, environment in
+  Reducer { _, action, environment in
     switch action {
     case .viewAppeared:
       return .none

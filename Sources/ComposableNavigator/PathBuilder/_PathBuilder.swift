@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// PathBuilders define how to build a routing path
+/// PathBuilders define how a navigation path is built
 public protocol PathBuilder {
   associatedtype Content: View
   func build(path: PathComponentUpdate) -> Content?

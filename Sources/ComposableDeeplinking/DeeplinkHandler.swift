@@ -1,6 +1,6 @@
 import ComposableNavigator
 
-/// Handles deeplinks by building the routing path based on a deeplink and replacing the current routing path
+/// Handles deeplinks by building the navigation path based on a deeplink and replacing the current navigation path
 public struct DeeplinkHandler {
   private let navigator: Navigator
   private let parser: DeeplinkParser

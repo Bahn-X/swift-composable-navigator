@@ -1,7 +1,7 @@
-extension NavigationTree {
+public extension NavigationTree {
   /// Convenience wrapper around PathBuilders.wildcard. Replaces any screen with a predefined one.
   ///
-  ///  Based on the example for the conditional `PathBuilder`, you might run into a situation in which your deeplink parser parses a routing path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate.
+  ///  Based on the example for the conditional `PathBuilder`, you might run into a situation in which your deeplink parser parses a navigation path that can only be handled by the homeScreenBuilder. This would lead to an empty application, which is unfortunate.
   ///
   ///  To mitigate this problem, you can combine a conditional `PathBuilder` with a wildcard `PathBuilder`:
   ///
@@ -9,7 +9,7 @@ extension NavigationTree {
   ///  .conditional(
   ///      either: .wildcard(
   ///          screen: HomeScreen(),
-  ///          pathBuilder: HomeScreen.builder(store: homeStore)
+  ///          pathBuilder: HomeScreen.Builder(store: homeStore)
   ///      ),
   ///      or: wildcard(
   ///          screen: LoginScreen(),
@@ -29,14 +29,14 @@ extension NavigationTree {
   ///       The screen that replaces the current path element.
   ///     - pathBuilder:
   ///       The `PathBuilder` used to build the altered path.
-  public func Wildcard<
+  func Wildcard<
     S: Screen,
     ContentBuilder: PathBuilder,
     Content
   >(
     screen: S,
     pathBuilder: ContentBuilder
-  ) -> _PathBuilder<PathBuilders.WildcardView<Content,S>> where ContentBuilder.Content == Content {
+  ) -> _PathBuilder<PathBuilders.WildcardView<Content, S>> where ContentBuilder.Content == Content {
     PathBuilders.wildcard(screen: screen, pathBuilder: pathBuilder)
   }
 }

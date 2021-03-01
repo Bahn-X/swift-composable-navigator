@@ -7,7 +7,7 @@ public extension PathBuilders {
   ///
   ///  # Example
   ///  ```swift
-  ///   PathBuilder.screen(
+  ///   PathBuilders.screen(
   ///    content: { (screen: HomeScreen) in
   ///      HomeView(...)
   ///    },
@@ -15,7 +15,7 @@ public extension PathBuilders {
   ///  )
   ///  ```
   ///
-  ///  The Home screen builder extracts `HomeScreen` instances from the routing path and uses it's nesting `PathBuilder` to build the remaining path.
+  ///  The Home screen builder extracts `HomeScreen` instances from the navigation path and uses it's nesting `PathBuilder` to build the remaining path.
   ///
   ///  - Parameters:
   ///    - onAppear:
@@ -55,14 +55,14 @@ public extension PathBuilders {
   ///
   ///  # Example
   ///  ```swift
-  ///   PathBuilder.screen(
+  ///   PathBuilders.screen(
   ///    content: { (screen: HomeScreen) in
   ///      HomeView(...)
   ///    }
   ///   )
   ///  ```
   ///
-  ///  The Home screen builder extracts `HomeScreen` instances from the routing path and uses it's nesting `PathBuilder` to build the remaining path.
+  ///  The Home screen builder extracts `HomeScreen` instances from the navigation path and uses it's nesting `PathBuilder` to build the remaining path.
   ///
   ///  - Parameters:
   ///    - onAppear:
@@ -86,7 +86,7 @@ public extension PathBuilders {
   ///
   ///  # Example
   ///  ```swift
-  ///  PathBuilder.screen(
+  ///  PathBuilders.screen(
   ///    HomeScreen.self,
   ///    content: {
   ///      HomeView(...)
@@ -95,7 +95,7 @@ public extension PathBuilders {
   ///  )
   ///  ```
   ///
-  ///  The Home screen builder extracts `HomeScreen` instances from the routing path and uses it's nesting `PathBuilder` to build the remaining path.
+  ///  The Home screen builder extracts `HomeScreen` instances from the navigation path and uses it's nesting `PathBuilder` to build the remaining path.
   ///
   ///  - Parameters:
   ///     - type:
@@ -132,14 +132,13 @@ public extension PathBuilders {
     )
   }
 
-
   /// PathBuilder responsible for a single screen.
   ///
   ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
   ///
   ///  # Example
   ///  ```swift
-  ///  PathBuilder.screen(
+  ///  PathBuilders.screen(
   ///    HomeScreen.self,
   ///    content: {
   ///      HomeView(...)
@@ -147,7 +146,7 @@ public extension PathBuilders {
   ///  )
   ///   ```
   ///
-  ///  The Home screen builder extracts `HomeScreen` instances from the routing path and uses it's nesting `PathBuilder` to build the remaining path.
+  ///  The Home screen builder extracts `HomeScreen` instances from the navigation path and uses it's nesting `PathBuilder` to build the remaining path.
   ///
   ///  - Parameters:
   ///     - type:
