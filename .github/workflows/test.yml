@@ -28,6 +28,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
+          name: ResultBundle
           path: /Users/**/work/swift-composable-navigator/swift-composable-navigator/Build/Logs/Test/*.xcresult
 
       - name: Clean up
