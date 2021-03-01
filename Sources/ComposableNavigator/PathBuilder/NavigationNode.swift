@@ -2,48 +2,49 @@ import SwiftUI
 
 /// Screen container view, taking care of push and sheet bindings.
 public struct NavigationNode<Content: View, Successor: View>: View {
-  @Environment(\.currentScreenID) var screenID
-  @Environment(\.currentScreen) var currentScreen
-  @Environment(\.navigator) var navigator
-  @Environment(\.treatSheetDismissAsAppearInPresenter) var treatSheetDismissAsAppearInPresenter
-  @EnvironmentObject var dataSource: Navigator.Datasource
-
-  private struct Successors: Identifiable, View {
-    let successor: IdentifiedScreen
+  private struct SuccessorView: Identifiable, View {
+    let screen: IdentifiedScreen
     let body: Successor
 
-    var id: ScreenID { successor.id }
-    var presentationStyle: ScreenPresentationStyle { successor.content.presentationStyle }
+    var id: ScreenID { screen.id }
+    var presentationStyle: ScreenPresentationStyle { screen.content.presentationStyle }
 
     init(successor: IdentifiedScreen, content: Successor) {
-      self.successor = successor
+      self.screen = successor
       self.body = content
     }
   }
 
+  @Environment(\.currentScreenID) private var screenID
+  @Environment(\.currentScreen) private var currentScreen
+  @Environment(\.navigator) private var navigator
+  @Environment(\.treatSheetDismissAsAppearInPresenter) private var treatSheetDismissAsAppearInPresenter
+  @EnvironmentObject private var dataSource: Navigator.Datasource
+  @State private var successorView: SuccessorView?
+
   let content: Content
   let onAppear: (Bool) -> Void
-  let next: (PathComponentUpdate) -> Successor?
+  let buildSuccessor: (PathComponentUpdate) -> Successor?
 
   public init(
     content: Content,
     onAppear: @escaping (Bool) -> Void,
-    next: @escaping (PathComponentUpdate) -> Successor?
+    buildSuccessor: @escaping (PathComponentUpdate) -> Successor?
   ) {
     self.content = content
     self.onAppear = onAppear
-    self.next = next
+    self.buildSuccessor = buildSuccessor
   }
 
   public var body: some View {
     content
       .sheet(
         item: sheetBinding,
-        content: build(successors:)
+        content: build(successor:)
       )
       .overlay(
         NavigationLink(
-          destination: push.flatMap(build(successors:)),
+          destination: push.flatMap(build(successor:)),
           isActive: pushIsActive,
           label: { EmptyView() }
         )
@@ -59,32 +60,36 @@ public struct NavigationNode<Content: View, Successor: View>: View {
           }
         }
       }
+      .onReceive(
+        dataSource.$path,
+        perform: { update in
+          let successorUpdate = update.successor(of: screenID)
+          successorView = buildSuccessor(successorUpdate).flatMap { content in
+            successorUpdate.current.flatMap { successor in
+              SuccessorView(successor: successor, content: content)
+            }
+          }
+        }
+      )
   }
 
   private var screen: IdentifiedScreen? {
     dataSource.path.current.first(where: { $0.id == screenID })
   }
 
-  private var successors: Successors? {
-    let successorUpdate = dataSource.path.successor(of: screenID)
-    return next(successorUpdate).flatMap { content in
-      successorUpdate.current.flatMap { successor in
-        Successors(successor: successor, content: content)
-      }
-    }
-  }
-
   private var pushIsActive: Binding<Bool> {
     Binding(
       get: {
-        guard screen?.hasAppeared ?? false, case .push = successors?.presentationStyle else {
+        guard case .push = successorView?.presentationStyle,
+              screen?.hasAppeared ?? false
+        else {
           return false
         }
 
         return true
       },
       set: { isActive in
-        guard !isActive, let successor = successors?.successor, successor.hasAppeared else {
+        guard !isActive, let successor = successorView?.screen, successor.hasAppeared else {
           return
         }
         navigator.dismiss(id: successor.id)
@@ -92,22 +97,24 @@ public struct NavigationNode<Content: View, Successor: View>: View {
     )
   }
 
-  private var push: Successors? {
-    guard case .push = successors?.presentationStyle else {
+  private var push: SuccessorView? {
+    guard case .push = successorView?.presentationStyle else {
       return nil
     }
 
-    return successors
+    return successorView
   }
 
-  private var sheetBinding: Binding<Successors?> {
+  private var sheetBinding: Binding<SuccessorView?> {
     Binding(
-      get: { () -> Successors? in
-        guard screen?.hasAppeared ?? false, case .some(.sheet) = successors?.presentationStyle else {
+      get: { () -> SuccessorView? in
+        guard case .some(.sheet) = successorView?.presentationStyle,
+              screen?.hasAppeared ?? false
+        else {
           return nil
         }
 
-        return successors
+        return successorView
       },
       set: { value in
         if let screen = screen, !screen.hasAppeared {
@@ -116,7 +123,7 @@ public struct NavigationNode<Content: View, Successor: View>: View {
           }
         }
 
-        guard value == nil, let successor = successors?.successor, successor.hasAppeared else {
+        guard value == nil, let successor = successorView?.screen, successor.hasAppeared else {
           return
         }
 
@@ -126,17 +133,17 @@ public struct NavigationNode<Content: View, Successor: View>: View {
     )
   }
 
-  @ViewBuilder private func build(successors: Successors) -> some View {
-    let content = successors
+  @ViewBuilder private func build(successor: SuccessorView) -> some View {
+    let content = successor
       .environment(\.parentScreenID, screenID)
       .environment(\.parentScreen, currentScreen)
-      .environment(\.currentScreenID, successors.successor.id)
-      .environment(\.currentScreen, successors.successor.content)
+      .environment(\.currentScreenID, successor.screen.id)
+      .environment(\.currentScreen, successor.screen.content)
       .environment(\.navigator, navigator)
       .environment(\.treatSheetDismissAsAppearInPresenter, treatSheetDismissAsAppearInPresenter)
       .environmentObject(dataSource)
 
-    switch successors.successor.content.presentationStyle {
+    switch successor.screen.content.presentationStyle {
     case .push, .sheet(allowsPush: false):
       content
     case .sheet(allowsPush: true):

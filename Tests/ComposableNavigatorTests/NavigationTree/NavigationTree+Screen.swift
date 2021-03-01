@@ -112,7 +112,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
     )
 
     let builtView = sut.build(path: path)
-    _ = builtView?.next(path)
+    _ = builtView?.buildSuccessor(path)
 
     XCTAssertEqual(expectedNextInvocations, nextInvocations)
   }
@@ -229,7 +229,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
     )
 
     let builtView = sut.build(path: path)
-    _ = builtView?.next(path)
+    _ = builtView?.buildSuccessor(path)
 
     XCTAssertEqual(expectedNextInvocations, nextInvocations)
   }

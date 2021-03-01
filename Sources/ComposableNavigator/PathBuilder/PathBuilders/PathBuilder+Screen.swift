@@ -43,7 +43,7 @@ public extension PathBuilders {
         return NavigationNode(
           content: build(unwrapped),
           onAppear: onAppear,
-          next: nesting.build(path:)
+          buildSuccessor: nesting.build(path:)
         )
       }
     )
@@ -126,7 +126,7 @@ public extension PathBuilders {
         return NavigationNode(
           content: build(),
           onAppear: onAppear,
-          next: nesting.build(path:)
+          buildSuccessor: nesting.build(path:)
         )
       }
     )

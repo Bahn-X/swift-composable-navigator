@@ -1,5 +1,3 @@
-import SwiftUI
-
 #if swift(>=5.4)
 @resultBuilder
 public enum NavigationTreeBuilder {

@@ -21,7 +21,7 @@ final class NavigationNodeTests: XCTestCase {
     let routed = NavigationNode(
       content: Text("A"),
       onAppear: { initialAppear in onAppearClosureInvocations.append(initialAppear) },
-      next: { _ -> EmptyView? in nil }
+      buildSuccessor: { _ -> EmptyView? in nil }
     )
     .frame(width: 20, height: 20)
     .environmentObject(dataSource)
@@ -50,7 +50,7 @@ final class NavigationNodeTests: XCTestCase {
     let routed = NavigationNode(
       content: Text("A"),
       onAppear: { initialAppear in onAppearClosureInvocations.append(initialAppear) },
-      next: { _ -> EmptyView? in nil }
+      buildSuccessor: { _ -> EmptyView? in nil }
     )
     .frame(width: 20, height: 20)
     .environmentObject(dataSource)
