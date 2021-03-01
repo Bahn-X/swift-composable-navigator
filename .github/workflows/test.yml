@@ -27,9 +27,11 @@ jobs:
         run: make test
 
       - uses: actions/upload-artifact@v2
+        if: ${{ failure() }}
         with:
           name: ResultBundle
           path: /Users/**/work/swift-composable-navigator/swift-composable-navigator/Build/Logs/Test/*.xcresult
 
       - name: Clean up
+        if: ${{ always() }}
         run: make cleanup
