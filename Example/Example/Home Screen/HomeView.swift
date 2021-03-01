@@ -150,24 +150,23 @@ struct HomeScreen: Screen {
               }
             }
           }
+          .onDismiss { (screen: DetailScreen) in
+            print("Dismissed \(screen)")
+            let viewStore = ViewStore(homeStore)
+            // Only if the current detail state represents the dismissed screen, set the state to nil.
+            if viewStore.state.selectedDetail?.id == screen.detailID {
+              ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+            }
+          }
 
           SettingsScreen.Builder(
             store: settingsStore,
             entrypoint: "home"
-          )
+          ).onDismiss(of: SettingsScreen.self) {
+            print("Dismissed settings")
+          }
         }
       )
-      .onDismiss { (screen: DetailScreen) in
-        print("Dismissed \(screen)")
-        let viewStore = ViewStore(homeStore)
-        // Only if the current detail state represents the dismissed screen, set the state to nil.
-        if viewStore.state.selectedDetail?.id == screen.detailID {
-          ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
-        }
-      }
-      .onDismiss(of: SettingsScreen.self) {
-        print("Dismissed settings")
-      }
     }
   }
 }

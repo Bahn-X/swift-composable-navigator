@@ -67,12 +67,10 @@ public struct NavigationNode<Content: View, Successor: View>: View {
 
   private var successors: Successors? {
     let successorUpdate = dataSource.path.successor(of: screenID)
-    guard let successor = successorUpdate.current else {
-      return nil
-    }
-
     return next(successorUpdate).flatMap { content in
-      Successors(successor: successor, content: content)
+      successorUpdate.current.flatMap { successor in
+        Successors(successor: successor, content: content)
+      }
     }
   }
 
