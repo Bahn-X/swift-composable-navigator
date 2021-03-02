@@ -11,23 +11,6 @@ final class NavigationTree_WildcardTest: XCTestCase {
     hasAppeared: false
   )
 
-  func test_emptyPath_calls_through_to_underlying_pathbuilder_with_empty_path() {
-    var underlyingPathBuilderCalled = false
-
-    let sut = EmptyNavigationTree().Wildcard(
-      screen: testScreen,
-      pathBuilder: _PathBuilder(
-        buildPath: { path -> EmptyView? in
-          underlyingPathBuilderCalled = path == .empty
-          return nil
-        }
-      )
-    )
-
-    XCTAssertNil(sut.build(path: .empty))
-    XCTAssertTrue(underlyingPathBuilderCalled)
-  }
-
   func test_buildsWildcardView_for_non_matching_screen() {
     struct NonMatching: Screen {
       let presentationStyle: ScreenPresentationStyle = .push

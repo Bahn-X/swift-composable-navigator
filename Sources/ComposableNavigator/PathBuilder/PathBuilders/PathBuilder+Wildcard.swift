@@ -67,7 +67,6 @@ public extension PathBuilders {
                   )
                 })
         else {
-          _ = pathBuilder.build(path: path.ignoringCurrent)
           return nil
         }
 

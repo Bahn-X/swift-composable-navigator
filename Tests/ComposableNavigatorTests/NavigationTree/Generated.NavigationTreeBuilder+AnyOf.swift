@@ -50,7 +50,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_2_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -130,7 +130,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_3_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -239,7 +239,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_4_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -377,7 +377,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_5_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -544,7 +544,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_6_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -740,7 +740,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_7_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -965,7 +965,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_8_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -1219,7 +1219,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_9_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
@@ -1502,7 +1502,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_10_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(

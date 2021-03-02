@@ -298,7 +298,6 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<A, B>>(
       buildPath: { path -> EitherAB<A, B>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
@@ -367,12 +366,9 @@ public extension PathBuilders {
     _PathBuilder<EitherABC<A, B, C>>(
       buildPath: { path -> EitherABC<A, B, C>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
@@ -445,18 +441,12 @@ public extension PathBuilders {
     _PathBuilder<EitherABCD<A, B, C, D>>(
       buildPath: { path -> EitherABCD<A, B, C, D>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
@@ -533,25 +523,15 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDE<A, B, C, D, E>>(
       buildPath: { path -> EitherABCDE<A, B, C, D, E>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
@@ -632,33 +612,18 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDEF<A, B, C, D, E, F>>(
       buildPath: { path -> EitherABCDEF<A, B, C, D, E, F>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
-          _ = f.build(path: path.ignoringCurrent)
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
@@ -743,42 +708,21 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDEFG<A, B, C, D, E, F, G>>(
       buildPath: { path -> EitherABCDEFG<A, B, C, D, E, F, G>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
-          _ = g.build(path: path.ignoringCurrent)
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
@@ -867,52 +811,24 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDEFGH<A, B, C, D, E, F, G, H>>(
       buildPath: { path -> EitherABCDEFGH<A, B, C, D, E, F, G, H>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
-          _ = h.build(path: path.ignoringCurrent)
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
@@ -1005,63 +921,27 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDEFGHI<A, B, C, D, E, F, G, H, I>>(
       buildPath: { path -> EitherABCDEFGHI<A, B, C, D, E, F, G, H, I>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
-          _ = i.build(path: path.ignoringCurrent)
           return .h(hContent)
         }
         else if let iContent = i.build(path: path) {
@@ -1158,75 +1038,30 @@ public extension PathBuilders {
     _PathBuilder<EitherABCDEFGHIJ<A, B, C, D, E, F, G, H, I, J>>(
       buildPath: { path -> EitherABCDEFGHIJ<A, B, C, D, E, F, G, H, I, J>? in 
         if let aContent = a.build(path: path) {
-          _ = b.build(path: path.ignoringCurrent)
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .a(aContent)
         }
         else if let bContent = b.build(path: path) {
-          _ = c.build(path: path.ignoringCurrent)
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .b(bContent)
         }
         else if let cContent = c.build(path: path) {
-          _ = d.build(path: path.ignoringCurrent)
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .c(cContent)
         }
         else if let dContent = d.build(path: path) {
-          _ = e.build(path: path.ignoringCurrent)
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .d(dContent)
         }
         else if let eContent = e.build(path: path) {
-          _ = f.build(path: path.ignoringCurrent)
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .e(eContent)
         }
         else if let fContent = f.build(path: path) {
-          _ = g.build(path: path.ignoringCurrent)
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .f(fContent)
         }
         else if let gContent = g.build(path: path) {
-          _ = h.build(path: path.ignoringCurrent)
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .g(gContent)
         }
         else if let hContent = h.build(path: path) {
-          _ = i.build(path: path.ignoringCurrent)
-          _ = j.build(path: path.ignoringCurrent)
           return .h(hContent)
         }
         else if let iContent = i.build(path: path) {
-          _ = j.build(path: path.ignoringCurrent)
           return .i(iContent)
         }
         else if let jContent = j.build(path: path) {

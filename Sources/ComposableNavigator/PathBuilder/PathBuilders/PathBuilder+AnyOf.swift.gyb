@@ -110,16 +110,10 @@ ${parameters}
     ${combinedPathBuilderType}(
       buildPath: { path -> ${enumName}? in 
         if let aContent = a.build(path: path) {
-% for c in allButFirstLower:
-          _ = ${c}.build(path: path.ignoringCurrent)
-% end
           return .a(aContent)
         }
 % for c in allButFirstLower:
         else if let ${c}Content = ${c}.build(path: path) {
-% for inner in filter(lambda inner: inner > c, allButFirstLower):
-          _ = ${inner}.build(path: path.ignoringCurrent)
-% end
           return .${c}(${c}Content)
         }
 % end

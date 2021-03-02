@@ -12,7 +12,7 @@ final class PathBuilder_BeforeBuildTests: XCTestCase {
       performClosureCalled = true
     }
 
-    XCTAssertNil(sut.build(path: .empty))
+    XCTAssertNil(sut.build(path: PathComponentUpdate(previous: nil, current: nil)))
     XCTAssertTrue(performClosureCalled)
   }
 }

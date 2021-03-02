@@ -34,7 +34,6 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If, Else>>(
       buildPath: { path -> EitherAB<If, Else>? in
         if let state = ViewStore(store).state {
-          _ = `else`.build(path: path.ignoringCurrent)
           return then(store.scope(state: { $0 ?? state })).build(path: path).flatMap(EitherAB.a)
         } else {
           return `else`.build(path: path).flatMap(EitherAB.b)

@@ -100,9 +100,7 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       expectedPath
     ]
 
-    let expectedElseBuilderInvocations = [
-      expectedPath.ignoringCurrent
-    ]
+    let expectedElseBuilderInvocations = [PathComponentUpdate]()
 
     let sut = PathBuilders.ifLetStore(
       store: store,

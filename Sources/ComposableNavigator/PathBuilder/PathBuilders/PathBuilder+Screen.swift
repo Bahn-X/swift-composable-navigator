@@ -36,7 +36,6 @@ public extension PathBuilders {
     _PathBuilder<NavigationNode<Content, Successor.Content>>(
       buildPath: { path -> NavigationNode<Content, Successor.Content>? in
         guard let head = path.current, let unwrapped: S = head.content.unwrap() else {
-          _ = nesting.build(path: .empty)
           return nil
         }
 
@@ -119,7 +118,6 @@ public extension PathBuilders {
     _PathBuilder<NavigationNode<Content, Successor.Content>>(
       buildPath: { path -> NavigationNode<Content, Successor.Content>? in
         guard let head = path.current, head.content.is(S.self) else {
-          _ = nesting.build(path: .empty)
           return nil
         }
 

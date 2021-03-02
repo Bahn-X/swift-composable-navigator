@@ -30,7 +30,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   genericCharactersLower = map(string.lower, genericCharacters)
 }%
   func test_${i}_buildsPath() {
-    var path = PathComponentUpdate.empty
+    var path = PathComponentUpdate(previous: nil, current: nil)
 
     let sut = EmptyNavigationTree().AnyOf {
 % for inner in range(0, i):

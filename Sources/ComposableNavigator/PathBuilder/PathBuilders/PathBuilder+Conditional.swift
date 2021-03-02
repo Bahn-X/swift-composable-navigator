@@ -13,7 +13,7 @@ public extension PathBuilders {
   ///  )
   ///  ```
   ///
-  ///  The example here would never built navigation paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the navigation path.
+  ///  The example here would never built navigation paths using the HomeScreen.Builder if the user isn't logged in. The condition is checked on each change of the navigation path.
   ///
   ///  - Parameters:
   ///     - condition:
@@ -40,7 +40,7 @@ public extension PathBuilders {
   ///  )
   ///  ```
   ///
-  ///  The example here would never built navigation paths using the HomeScreen.nuilder if the user isn't logged in. The condition is checked on each change of the navigation path.
+  ///  The example here would never built navigation paths using the HomeScreen.Builder if the user isn't logged in. The condition is checked on each change of the navigation path.
   ///
   ///  - Parameters:
   ///     - condition:
@@ -57,10 +57,8 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if condition() {
-          _ = elseBuilder.build(path: path.ignoringCurrent)
           return thenBuilder.build(path: path).map(EitherAB.a)
         } else {
-          _ = thenBuilder.build(path: path.ignoringCurrent)
           return elseBuilder.build(path: path).map(EitherAB.b)
         }
       }
@@ -94,7 +92,6 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if let letContent = `let`() {
-          _ = `else`.build(path: path.ignoringCurrent)
           return then(letContent).build(path: path).map(EitherAB.a)
         } else {
           return `else`.build(path: path).map(EitherAB.b)
@@ -150,7 +147,6 @@ public extension PathBuilders {
     _PathBuilder<EitherAB<If.Content, Else.Content>>(
       buildPath: { path -> EitherAB<If.Content, Else.Content>? in
         if let unwrappedScreen: S = path.current?.content.unwrap() {
-          _ = `else`.build(path: path.ignoringCurrent)
           return pathBuilder(unwrappedScreen).build(path: path).map(EitherAB.a)
         } else {
           return `else`.build(path: path).map(EitherAB.b)

@@ -18,7 +18,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
       current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
     )
 
-    let expectedNestingPathBuilderInvocations = [path.ignoringCurrent]
+    let expectedNestingPathBuilderInvocations = [PathComponentUpdate]()
     
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() },
@@ -130,7 +130,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
       current: IdentifiedScreen(id: .root, content: NonMatching(), hasAppeared: false)
     )
 
-    let expectedNestingPathBuilderInvocations = [path.ignoringCurrent]
+    let expectedNestingPathBuilderInvocations = [PathComponentUpdate]()
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
