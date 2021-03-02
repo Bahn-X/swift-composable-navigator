@@ -25,7 +25,7 @@ extension PathBuilder {
   public func onDismiss<State: Equatable, Action: Equatable>(
     send action: @escaping (AnyScreen) -> Action,
     into store: Store<State, Action>
-  ) -> _PathBuilder<Content> {
+  ) -> _PathBuilder<OnDismissView<Content>> {
     onDismiss(
       perform: { (screen: AnyScreen) in
         ViewStore(store).send(action(screen))
@@ -71,7 +71,7 @@ extension PathBuilder {
   public func onDismiss<Dismissed: Screen, State: Equatable, Action: Equatable>(
     send action: @escaping (Dismissed) -> Action,
     into store: Store<State, Action>
-  ) -> _PathBuilder<Content> {
+  ) -> _PathBuilder<OnDismissView<Content>> {
     onDismiss(
       perform: { (screen: Dismissed) in
         ViewStore(store).send(action(screen))
@@ -120,7 +120,7 @@ extension PathBuilder {
     of screen: Dismissed.Type,
     send action: Action,
     into store: Store<State, Action>
-  ) -> _PathBuilder<Content> {
+  ) -> _PathBuilder<OnDismissView<Content>> {
     onDismiss(
       of: screen,
       perform: {

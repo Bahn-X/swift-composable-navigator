@@ -20,7 +20,7 @@ public struct NavigationNode<Content: View, Successor: View>: View {
   @Environment(\.navigator) private var navigator
   @Environment(\.treatSheetDismissAsAppearInPresenter) private var treatSheetDismissAsAppearInPresenter
   @EnvironmentObject private var dataSource: Navigator.Datasource
-  @State private var successorView: SuccessorView?
+
 
   let content: Content
   let onAppear: (Bool) -> Void
@@ -60,21 +60,19 @@ public struct NavigationNode<Content: View, Successor: View>: View {
           }
         }
       }
-      .onReceive(
-        dataSource.$path,
-        perform: { update in
-          let successorUpdate = update.successor(of: screenID)
-          successorView = buildSuccessor(successorUpdate).flatMap { content in
-            successorUpdate.current.flatMap { successor in
-              SuccessorView(successor: successor, content: content)
-            }
-          }
-        }
-      )
   }
 
   private var screen: IdentifiedScreen? {
     dataSource.path.current.first(where: { $0.id == screenID })
+  }
+
+  private var successorView: SuccessorView? {
+    let successorUpdate = dataSource.path.successor(of: screenID)
+    return buildSuccessor(successorUpdate).flatMap { content in
+      successorUpdate.current.flatMap { successor in
+        SuccessorView(successor: successor, content: content)
+      }
+    }
   }
 
   private var pushIsActive: Binding<Bool> {

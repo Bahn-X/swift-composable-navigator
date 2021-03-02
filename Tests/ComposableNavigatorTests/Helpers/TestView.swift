@@ -4,7 +4,7 @@ struct TestView: View, Equatable {
   let id: Int
   
   var body: some View {
-    EmptyView()
+    Color.red
   }
 
   static func ==(lhs: Self, rhs: Self) -> Bool {
