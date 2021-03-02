@@ -40,10 +40,15 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+        ],
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
@@ -59,10 +64,15 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+        ],
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
@@ -71,11 +81,13 @@ final class NavigatorDatasourceTests: XCTestCase {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
 
@@ -92,23 +104,26 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: first.eraseToAnyScreen(),
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: second.eraseToAnyScreen(),
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: first.eraseToAnyScreen(),
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: second.eraseToAnyScreen(),
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
@@ -116,11 +131,13 @@ final class NavigatorDatasourceTests: XCTestCase {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
 
@@ -137,23 +154,26 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: first.eraseToAnyScreen(),
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: second.eraseToAnyScreen(),
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: first.eraseToAnyScreen(),
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: second.eraseToAnyScreen(),
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
@@ -161,15 +181,16 @@ final class NavigatorDatasourceTests: XCTestCase {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
-
 
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen(),
@@ -180,23 +201,26 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: TestScreen(identifier: "newDetail", presentationStyle: .push),
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: next,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: TestScreen(identifier: "newDetail", presentationStyle: .push),
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
@@ -204,15 +228,16 @@ final class NavigatorDatasourceTests: XCTestCase {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
-
 
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen(),
@@ -223,35 +248,38 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: TestScreen(identifier: "newDetail", presentationStyle: .push),
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: next,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: TestScreen(identifier: "newDetail", presentationStyle: .push),
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
   func test_goTo_path_appending_current_path_elements() {
-    let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
 
@@ -264,33 +292,35 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: true
-        )
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: next,
+            hasAppeared: false
+          )
+        ]
+      )
     )
   }
 
   func test_goTo_path_appending_current_path_elements_on_screen() {
-    let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
-
 
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen()
@@ -300,18 +330,21 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: true
-        )
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: next,
+            hasAppeared: false
+          )
+        ]
+      )
     )
   }
 
@@ -319,11 +352,13 @@ final class NavigatorDatasourceTests: XCTestCase {
   func test_goBack_to_existing_id() {
     let expectedNextID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -331,20 +366,25 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+        ]
+      )
     )
   }
 
   func test_goBack_to_existing_screen() {
     let expectedNextID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -352,20 +392,25 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+        ]
+      )
     )
   }
 
   func test_goBack_to_non_existing_id() {
     let expectedNextID = ScreenID()
 
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -375,21 +420,23 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
   func test_goBack_to_non_existing_screen() {
     let expectedNextID = ScreenID()
 
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -397,10 +444,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
@@ -409,11 +456,13 @@ final class NavigatorDatasourceTests: XCTestCase {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: expectedNextID, content: next, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { newID }
     )
 
@@ -427,31 +476,35 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: TestScreen(identifier: "newRoot", presentationStyle: .push),
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: newID,
-          content: TestScreen(identifier: "newDetail", presentationStyle: .push),
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: TestScreen(identifier: "newRoot", presentationStyle: .push),
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: newID,
+            content: TestScreen(identifier: "newDetail", presentationStyle: .push),
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
   func test_replace_path_with_new_path() {
     let pathElementID = ScreenID()
     let expectedNextID = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { expectedNextID }
     )
 
@@ -459,23 +512,26 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: next,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: false
-        ),
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: next,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: next,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: next,
+            hasAppeared: false
+          ),
+        ]
+      )
     )
   }
 
@@ -494,22 +550,25 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
     sut.wrappedInNavigator().replace(path: [])
 
-    XCTAssertEqual(sut.path, path)
+    XCTAssertEqual(
+      sut.path,
+      PathUpdate(previous: [], current: path)
+    )
   }
 
   func test_replace_path_with_exact_same_path() {
     let pathElementID = ScreenID()
     let expectedNextID = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { expectedNextID }
     )
-
 
     let newPath = [
       root.eraseToAnyScreen(),
@@ -521,23 +580,26 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: pathElementID,
-          content: next,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: pathElementID,
-          content: next,
-          hasAppeared: true
-        )
-      ]
+      PathUpdate(
+        previous: [],
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: pathElementID,
+            content: next,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: pathElementID,
+            content: next,
+            hasAppeared: true
+          )
+        ]
+      )
     )
   }
 
@@ -545,15 +607,16 @@ final class NavigatorDatasourceTests: XCTestCase {
     let pathElementID = ScreenID()
     let expectedNextID = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
+      IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true),
-        IdentifiedScreen(id: pathElementID, content: next, hasAppeared: true)
-      ],
+      path: previousPath,
       screenID: { expectedNextID }
     )
-
 
     let newPath = [
       root.eraseToAnyScreen(),
@@ -566,37 +629,42 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(
-          id: .root,
-          content: root,
-          hasAppeared: true
-        ),
-        IdentifiedScreen(
-          id: pathElementID,
-          content: next,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: other,
-          hasAppeared: false
-        ),
-        IdentifiedScreen(
-          id: expectedNextID,
-          content: next,
-          hasAppeared: false
-        )
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(
+            id: .root,
+            content: root,
+            hasAppeared: true
+          ),
+          IdentifiedScreen(
+            id: pathElementID,
+            content: next,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: other,
+            hasAppeared: false
+          ),
+          IdentifiedScreen(
+            id: expectedNextID,
+            content: next,
+            hasAppeared: false
+          )
+        ]
+      )
     )
   }
 
   // MARK: - dismiss(id:)
   func test_dismiss_root_id_doesNothing() {
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -604,17 +672,20 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
   func test_dismiss_root_screen_doesNothing() {
+    let path =  [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -622,9 +693,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
@@ -632,12 +704,14 @@ final class NavigatorDatasourceTests: XCTestCase {
     let first = ScreenID()
     let second = ScreenID()
 
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
+
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -645,23 +719,27 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
   func test_dismiss_existing_screen() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -669,10 +747,13 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
@@ -680,13 +761,14 @@ final class NavigatorDatasourceTests: XCTestCase {
     let first = ScreenID()
     let second = ScreenID()
     let third = ScreenID()
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -694,24 +776,24 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
   func test_dismiss_non_existing_screen() {
     let first = ScreenID()
     let second = ScreenID()
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -721,11 +803,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
@@ -733,13 +814,14 @@ final class NavigatorDatasourceTests: XCTestCase {
   func test_dismissSuccessor_of_id() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -747,23 +829,27 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
   func test_dismissSuccessor_of_screen() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -771,10 +857,13 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: self.next, hasAppeared: false)
+        ]
+      )
     )
   }
 
@@ -782,37 +871,39 @@ final class NavigatorDatasourceTests: XCTestCase {
     let first = ScreenID()
     let second = ScreenID()
     let third = ScreenID()
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
     sut.wrappedInNavigator().dismissSuccessor(of: third)
 
     XCTAssertEqual(
-      sut.path, [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ]
+      sut.path,
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
   func test_dismissSuccessor_of_non_existing_screen() {
     let first = ScreenID()
     let second = ScreenID()
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -821,24 +912,25 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
 
     XCTAssertEqual(
-      sut.path, [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ]
+      sut.path,
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
   func test_dismissSuccessor_of_last() {
     let first = ScreenID()
     let second = ScreenID()
+    let path = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: path,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -846,11 +938,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ]
+      PathUpdate(
+        previous: [],
+        current: path
+      )
     )
   }
 
@@ -858,6 +949,11 @@ final class NavigatorDatasourceTests: XCTestCase {
   func test_replaceContent_of_existent_id_with_newContent() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let expectedContent = TestScreen(
       identifier: "newContent",
@@ -871,11 +967,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -883,7 +975,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      expectedPath
+      PathUpdate(
+        previous: previousPath,
+        current: expectedPath
+      )
     )
   }
 
@@ -912,7 +1007,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      expectedPath
+      PathUpdate(
+        previous: [],
+        current: expectedPath
+      )
     )
   }
 
@@ -920,6 +1018,11 @@ final class NavigatorDatasourceTests: XCTestCase {
   func test_replace_existent_screen_with_newContent() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let expectedContent = TestScreen(
       identifier: "newContent",
@@ -933,11 +1036,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
 
@@ -945,7 +1044,10 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      expectedPath
+      PathUpdate(
+        previous: previousPath,
+        current: expectedPath
+      )
     )
   }
 
@@ -977,7 +1079,10 @@ final class NavigatorDatasourceTests: XCTestCase {
     
     XCTAssertEqual(
       sut.path,
-      expectedPath
+      PathUpdate(
+        previous: [],
+        current: expectedPath
+      )
     )
   }
   
@@ -985,31 +1090,35 @@ final class NavigatorDatasourceTests: XCTestCase {
   func test_didAppear() {
     let first = ScreenID()
     let second = ScreenID()
+    let previousPath = [
+      IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+      IdentifiedScreen(id: first, content: next, hasAppeared: false),
+      IdentifiedScreen(id: second, content: root, hasAppeared: false)
+    ]
 
     let sut = Navigator.Datasource(
-      path: [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: false)
-      ],
+      path: previousPath,
       screenID: { fatalError("unimplemented") }
     )
-
+    
     sut.wrappedInNavigator().didAppear(id: second)
 
     XCTAssertEqual(
       sut.path,
-      [
-        IdentifiedScreen(id: .root, content: root, hasAppeared: false),
-        IdentifiedScreen(id: first, content: next, hasAppeared: false),
-        IdentifiedScreen(id: second, content: root, hasAppeared: true)
-      ]
+      PathUpdate(
+        previous: previousPath,
+        current: [
+          IdentifiedScreen(id: .root, content: root, hasAppeared: false),
+          IdentifiedScreen(id: first, content: next, hasAppeared: false),
+          IdentifiedScreen(id: second, content: root, hasAppeared: true)
+        ]
+      )
     )
   }
 }
 
 private extension Navigator.Datasource {
-    func wrappedInNavigator() -> Navigator {
-        Navigator(dataSource: self)
-    }
+  func wrappedInNavigator() -> Navigator {
+    Navigator(dataSource: self)
+  }
 }

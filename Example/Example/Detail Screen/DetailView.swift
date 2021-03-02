@@ -25,42 +25,42 @@ struct DetailEnvironment {
   }
 }
 
-
 struct DetailScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
   let detailID: String
 
-  static func builder(
-    store: Store<DetailState, DetailAction>,
-    settingsStore: Store<SettingsState, SettingsAction>
-  ) -> some PathBuilder {
-    PathBuilders.if(
-      screen: { (screen: DetailScreen) in
-        PathBuilders.screen(
+  struct Builder: NavigationTree {
+    let store: Store<DetailState, DetailAction>
+    let settingsStore: Store<SettingsState, SettingsAction>
+
+    var builder: some PathBuilder {
+      If { (screen: DetailScreen) in
+        Screen(
           DetailScreen.self,
           content: {
-                DetailView(
-                  store: store
-                )
+            DetailView(
+              store: store
+            )
           },
-          nesting: PathBuilders.anyOf(
-            SettingsScreen.builder(
+          nesting: {
+            SettingsScreen.Builder(
               store: settingsStore,
               entrypoint: "detail.\(screen.detailID)"
             )
             .onDismiss(of: SettingsScreen.self) {
               print("Detail settings dismissed")
-            },
-            NavigationShortcutsScreen.builder(
+            }
+
+            NavigationShortcutsScreen.Builder(
               store: store.scope(
                 state: \.navigationShortcuts,
                 action: DetailAction.navigationShortcuts
               )
             )
-          )
+          }
         )
       }
-    )
+    }
   }
 }
 
@@ -98,7 +98,7 @@ struct DetailView: View {
       .padding(16)
       .navigationBarItems(
         trailing: Button(
-          action: { viewStore.send(.settingsButtonTapped(currentID))},
+          action: { viewStore.send(.settingsButtonTapped(currentID)) },
           label: { Image(systemName: "gear") }
         )
         .accessibility(
@@ -115,7 +115,7 @@ let detailReducer = Reducer<
   DetailAction,
   DetailEnvironment
 >.combine(
-  Reducer { state, action, environment in
+  Reducer { _, action, environment in
     switch action {
     case .viewAppeared:
       return .none

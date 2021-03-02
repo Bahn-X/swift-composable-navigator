@@ -50,28 +50,29 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   }
 
   func test_2_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -89,13 +90,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -111,46 +113,50 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_3_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -168,13 +174,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -192,13 +199,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -214,50 +222,54 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_4_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -275,13 +287,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -299,13 +312,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -323,13 +337,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -345,54 +360,58 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_5_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -410,13 +429,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -434,13 +454,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -458,13 +479,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -482,13 +504,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -504,58 +527,62 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_6_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -573,13 +600,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -597,13 +625,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -621,13 +650,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -645,13 +675,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -669,13 +700,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: fScreen
     let fScreen = FScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: fScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let fBuiltView = sut.build(path: path)
 
@@ -691,62 +723,66 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_7_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -764,13 +800,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -788,13 +825,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -812,13 +850,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -836,13 +875,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -860,13 +900,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: fScreen
     let fScreen = FScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: fScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let fBuiltView = sut.build(path: path)
 
@@ -884,13 +925,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: gScreen
     let gScreen = GScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: gScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let gBuiltView = sut.build(path: path)
 
@@ -906,66 +948,70 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_8_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -983,13 +1029,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -1007,13 +1054,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -1031,13 +1079,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -1055,13 +1104,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -1079,13 +1129,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: fScreen
     let fScreen = FScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: fScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let fBuiltView = sut.build(path: path)
 
@@ -1103,13 +1154,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: gScreen
     let gScreen = GScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: gScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let gBuiltView = sut.build(path: path)
 
@@ -1127,13 +1179,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: hScreen
     let hScreen = HScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: hScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let hBuiltView = sut.build(path: path)
 
@@ -1149,70 +1202,74 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_9_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
-      ),
+      )
       PathBuilders.screen(
         IScreen.self,
         content: { Text("I") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -1230,13 +1287,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -1254,13 +1312,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -1278,13 +1337,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -1302,13 +1362,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -1326,13 +1387,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: fScreen
     let fScreen = FScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: fScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let fBuiltView = sut.build(path: path)
 
@@ -1350,13 +1412,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: gScreen
     let gScreen = GScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: gScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let gBuiltView = sut.build(path: path)
 
@@ -1374,13 +1437,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: hScreen
     let hScreen = HScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: hScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let hBuiltView = sut.build(path: path)
 
@@ -1398,13 +1462,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: iScreen
     let iScreen = IScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: iScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let iBuiltView = sut.build(path: path)
 
@@ -1420,74 +1485,78 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)
   }
 
   func test_10_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
       PathBuilders.screen(
         AScreen.self,
         content: { Text("A") }
-      ),
+      )
       PathBuilders.screen(
         BScreen.self,
         content: { Text("B") }
-      ),
+      )
       PathBuilders.screen(
         CScreen.self,
         content: { Text("C") }
-      ),
+      )
       PathBuilders.screen(
         DScreen.self,
         content: { Text("D") }
-      ),
+      )
       PathBuilders.screen(
         EScreen.self,
         content: { Text("E") }
-      ),
+      )
       PathBuilders.screen(
         FScreen.self,
         content: { Text("F") }
-      ),
+      )
       PathBuilders.screen(
         GScreen.self,
         content: { Text("G") }
-      ),
+      )
       PathBuilders.screen(
         HScreen.self,
         content: { Text("H") }
-      ),
+      )
       PathBuilders.screen(
         IScreen.self,
         content: { Text("I") }
-      ),
+      )
       PathBuilders.screen(
         JScreen.self,
         content: { Text("J") }
       )
-    )
+    }
 
     // MARK: aScreen
     let aScreen = AScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: aScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let aBuiltView = sut.build(path: path)
 
@@ -1505,13 +1574,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: bScreen
     let bScreen = BScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: bScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let bBuiltView = sut.build(path: path)
 
@@ -1529,13 +1599,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: cScreen
     let cScreen = CScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: cScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let cBuiltView = sut.build(path: path)
 
@@ -1553,13 +1624,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: dScreen
     let dScreen = DScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: dScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let dBuiltView = sut.build(path: path)
 
@@ -1577,13 +1649,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: eScreen
     let eScreen = EScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: eScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let eBuiltView = sut.build(path: path)
 
@@ -1601,13 +1674,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: fScreen
     let fScreen = FScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: fScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let fBuiltView = sut.build(path: path)
 
@@ -1625,13 +1699,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: gScreen
     let gScreen = GScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: gScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let gBuiltView = sut.build(path: path)
 
@@ -1649,13 +1724,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: hScreen
     let hScreen = HScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: hScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let hBuiltView = sut.build(path: path)
 
@@ -1673,13 +1749,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: iScreen
     let iScreen = IScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: iScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let iBuiltView = sut.build(path: path)
 
@@ -1697,13 +1774,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 
     // MARK: jScreen
     let jScreen = JScreen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: jScreen,
         hasAppeared: false
       )
-    ]
+    )
 
     let jBuiltView = sut.build(path: path)
 
@@ -1719,14 +1797,17 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)

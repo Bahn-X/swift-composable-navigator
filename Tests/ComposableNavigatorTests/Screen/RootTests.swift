@@ -5,19 +5,21 @@ import XCTest
 
 final class RootTests: XCTestCase {
   func test_root_wraps_content_in_navigation_view() {
-    let expectedPath = [
-      IdentifiedScreen(
-        id: .root,
-        content: TestScreen(identifier: "0", presentationStyle: .push),
-        hasAppeared: false
-      )
-    ]
+    let rootScreen = IdentifiedScreen(
+      id: .root,
+      content: TestScreen(identifier: "0", presentationStyle: .push),
+      hasAppeared: false
+    )
 
+    let expectedPath = PathComponentUpdate(
+      previous: nil,
+      current: rootScreen
+    )
     var onAppearCalled = false
 
     let root = Root(
       dataSource: Navigator.Datasource(
-        path: expectedPath
+        path: [rootScreen]
       ),
       pathBuilder: _PathBuilder(
         buildPath: { path in

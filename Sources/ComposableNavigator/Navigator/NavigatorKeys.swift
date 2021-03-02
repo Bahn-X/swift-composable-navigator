@@ -1,6 +1,6 @@
 import SwiftUI
 
-/// EnvironmentKey identifying the `Navigator` allowing routing path mutations
+/// EnvironmentKey identifying the `Navigator` allowing navigation path mutations
 public enum NavigatorKey: EnvironmentKey {
   public static let defaultValue: Navigator = .stub
 }
@@ -11,7 +11,7 @@ public enum TreatSheetDismissAsAppearInPresenterKey: EnvironmentKey {
 }
 
 public extension EnvironmentValues {
-  /// The `Navigator` allowing routing path mutations
+  /// The `Navigator` allowing navigation path mutations
   ///
   ///  Can be used to directly navigate from a Vanilla SwiftUI.
   ///

@@ -1,36 +1,47 @@
-import ComposableNavigator
+@testable import ComposableNavigator
+import SnapshotTesting
 import SwiftUI
 import XCTest
 
 final class PathBuilder_OnDismissTest: XCTestCase {
+  let testScreenID = ScreenID()
+
+  struct RootScreen: Screen {
+    let presentationStyle: ScreenPresentationStyle = .push
+  }
+
   func testScreen(with id: String) -> IdentifiedScreen {
     IdentifiedScreen(
-      id: .root,
+      id: testScreenID,
       content: TestScreen(identifier: id, presentationStyle: .push),
       hasAppeared: false
     )
   }
 
-  lazy var path = [
-    testScreen(with: "0")
-  ]
+  lazy var path = PathComponentUpdate(
+    previous: nil,
+    current: testScreen(with: "0")
+  )
+
+  func dataSource() -> Navigator.Datasource {
+    Navigator.Datasource(
+      path: [
+        IdentifiedScreen(id: .root, content: RootScreen(), hasAppeared: true),
+        testScreen(with: "0")
+      ]
+    )
+  }
 
   let expectedView = TestView(id: 0)
 
   let testBuilder = _PathBuilder<TestView>(
-    buildPath: { path in
-      guard !path.isEmpty else {
-        return nil
-      }
-
-      return TestView(id: 0)
+    buildPath: { _ in
+      TestView(id: 0)
     }
   )
 
   func test_onDismiss_calls_perform_with_any_screen_when_path_changes() {
-    let path = [
-      testScreen(with: "0")
-    ]
+    let dataSource = self.dataSource()
     var dismissCalled = false
 
     let sut = testBuilder
@@ -44,17 +55,25 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
+    let content = sut.build(path: path)?
+      .environment(\.parentScreenID, .root)
+      .environmentObject(dataSource)
+      .frame(width: 20, height: 20)
 
-    builtView = sut.build(path: [])
+    // Force view building by asserting snapshots
+    assertSnapshot(
+      matching: content,
+      as: .image
+    )
 
+    dataSource.dismiss(id: testScreenID)
+
+    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 
   func test_onDismiss_calls_perform_with_screen_when_path_changes() {
+    let dataSource = self.dataSource()
     var dismissCalled = false
 
     let sut = testBuilder
@@ -68,17 +87,25 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
+    let content = sut.build(path: path)?
+      .environment(\.parentScreenID, .root)
+      .environmentObject(dataSource)
+      .frame(width: 20, height: 20)
 
-    builtView = sut.build(path: [])
+    // Force view building by asserting snapshots
+    assertSnapshot(
+      matching: content,
+      as: .image
+    )
 
+    dataSource.dismiss(id: testScreenID)
+
+    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 
   func test_onDismiss_of_calls_perform_when_path_changes() {
+    let dataSource = self.dataSource()
     var dismissCalled = false
 
     let sut = testBuilder
@@ -89,13 +116,20 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    var builtView = sut.build(path: path)
-    XCTAssertFalse(dismissCalled)
-    XCTAssertEqual(expectedView, builtView)
+    let content = sut.build(path: path)?
+      .environment(\.parentScreenID, .root)
+      .environmentObject(dataSource)
+      .frame(width: 20, height: 20)
 
-    builtView = sut.build(path: [])
+    // Force view building by asserting snapshots
+    assertSnapshot(
+      matching: content,
+      as: .image
+    )
 
+    dataSource.dismiss(id: testScreenID)
+
+    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
     XCTAssertTrue(dismissCalled)
-    XCTAssertNil(builtView)
   }
 }

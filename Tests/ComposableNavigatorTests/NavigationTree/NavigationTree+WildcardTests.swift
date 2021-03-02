@@ -2,7 +2,7 @@ import ComposableNavigator
 import SwiftUI
 import XCTest
 
-final class PathBuilder_WildcardTest: XCTestCase {
+final class NavigationTree_WildcardTest: XCTestCase {
   let testScreen = TestScreen(identifier: "0", presentationStyle: .push)
 
   lazy var identifiedTestScreen = IdentifiedScreen(
@@ -14,17 +14,17 @@ final class PathBuilder_WildcardTest: XCTestCase {
   func test_emptyPath_calls_through_to_underlying_pathbuilder_with_empty_path() {
     var underlyingPathBuilderCalled = false
 
-    let sut = PathBuilders.wildcard(
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          underlyingPathBuilderCalled = path.isEmpty
+          underlyingPathBuilderCalled = path == .empty
           return nil
         }
       )
     )
 
-    XCTAssertNil(sut.build(path: []))
+    XCTAssertNil(sut.build(path: .empty))
     XCTAssertTrue(underlyingPathBuilderCalled)
   }
 
@@ -33,42 +33,59 @@ final class PathBuilder_WildcardTest: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    let sut = PathBuilders.wildcard(
+    let pathUpdate = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          XCTAssertEqual([self.identifiedTestScreen], path)
+          let expected = PathComponentUpdate(
+            previous: nil,
+            current: IdentifiedScreen(
+              id: .root,
+              content: self.testScreen,
+              hasAppeared: false
+            )
+          )
+
+          XCTAssertEqual(expected, path)
           return EmptyView()
         }
       )
     )
 
     let builtScreen = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: pathUpdate
     )
 
     XCTAssertNotNil(builtScreen)
   }
 
   func test_buildsWildcardView_for_matching_screen() {
-    let sut = PathBuilders.wildcard(
+    let pathUpdate = PathComponentUpdate(
+      previous: nil,
+      current: identifiedTestScreen
+    )
+
+    let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder(
         buildPath: { path -> EmptyView? in
-          XCTAssertEqual([self.identifiedTestScreen], path)
+          XCTAssertEqual(pathUpdate, path)
           return EmptyView()
         }
       )
     )
 
     let builtScreen = sut.build(
-      path: [identifiedTestScreen]
+      path: pathUpdate
     )
 
     XCTAssertNotNil(builtScreen)

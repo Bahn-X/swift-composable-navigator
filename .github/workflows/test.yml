@@ -26,5 +26,14 @@ jobs:
           DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: make test
 
+      - uses: actions/upload-artifact@v2
+        if: ${{ always() }}
+        with:
+          name: ResultBundle
+          path: ./Build/Logs/Test/*.xcresult
+          if-no-files-found: warn
+          retention-days: 5
+
       - name: Clean up
+        if: ${{ always() }}
         run: make cleanup

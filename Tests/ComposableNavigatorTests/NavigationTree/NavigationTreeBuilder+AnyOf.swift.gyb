@@ -30,9 +30,9 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   genericCharactersLower = map(string.lower, genericCharacters)
 }%
   func test_${i}_buildsPath() {
-    var path = [IdentifiedScreen]()
+    var path = PathComponentUpdate.empty
 
-    let sut = PathBuilders.anyOf(
+    let sut = EmptyNavigationTree().AnyOf {
 % for inner in range(0, i):
 %{
   innerChar = genericCharacters[inner]
@@ -40,13 +40,9 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       PathBuilders.screen(
         ${innerChar}Screen.self,
         content: { Text("${innerChar}") }
-      % if inner < i-1:
-      ),
-      % else:
       )
-      %end
   % end
-    )
+    }
 
 % for inner in range(0, i):
 %{
@@ -55,13 +51,14 @@ final class PathBuilder_AnyOfTests: XCTestCase {
 }%
     // MARK: ${innerCharLower}Screen
     let ${innerCharLower}Screen = ${innerChar}Screen()
-    path = [
-      IdentifiedScreen(
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
         id: .root,
         content: ${innerCharLower}Screen,
         hasAppeared: false
       )
-    ]
+    )
 
     let ${innerCharLower}BuiltView = sut.build(path: path)
 
@@ -78,14 +75,17 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
 % end
+    path = PathComponentUpdate(
+      previous: nil,
+      current: IdentifiedScreen(
+        id: .root,
+        content: NonMatching(),
+        hasAppeared: false
+      )
+    )
+
     let nonMatchingBuilt = sut.build(
-      path: [
-        IdentifiedScreen(
-          id: .root,
-          content: NonMatching(),
-          hasAppeared: false
-        )
-      ]
+      path: path
     )
 
     XCTAssertNil(nonMatchingBuilt)

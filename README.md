@@ -11,9 +11,9 @@
 - [Challenges](#challenges)
 - [Why should I use ComposableNavigator?](#why-should-i-use-composablenavigator)
 - [Core components](#core-components)
-  - [Routing Path](#routing-path)
+  - [Navigation Path](#navigation-path)
   - [Navigator](#navigator)
-  - [Path builder](#path-builder)
+  - [NavigationTree](#navigationtree)
 - [Vanilla SwiftUI + ComposableNavigator](#vanilla-swiftui--composablenavigator)
 - [Integrating ComposableNavigator](#integrating-composablenavigator)
 - [Deeplinking](#deeplinking)
@@ -31,7 +31,7 @@
 ## Vanilla SwiftUI navigation
 A typical, vanilla SwiftUI application manages its navigation state (i.e. is a sheet or a push active) either directly in its Views or in ObservableObjects. 
 
-Let's look at a simplified example in which we keep all navigation state locally in the view:
+Let's take a look at a simplified example in which we keep all navigation state locally in the view:
 
 ```swift
 struct HomeView: View {
@@ -87,53 +87,58 @@ So, at which point in the view hierarchy do we wrap our content in a NavigationV
 Vanilla SwiftUI only supports shallow deeplinking, meaning that we can navigate from the ExampleView to the DetailView by setting the initial value of `isDetailShown` to true. However, we cannot navigate further down into our application as SwiftUI seems to ignore initial values in pushed/presented views.
 
 ## Why should I use ComposableNavigator?
-**ComposableNavigator** lifts the burden of manually managing navigation state off your shoulders and allows to navigate through applications along routing paths. **ComposableNavigator** takes care of embedding your views in NavigationViews, where needed, and always builds a valid view hierarchy. On top of that, **ComposableNavigator** unlocks advanced navigation patterns like wildcards and conditional routes.
+**ComposableNavigator** lifts the burden of manually managing navigation state off your shoulders and allows to navigate through applications along navigation paths. **ComposableNavigator** takes care of embedding your views in NavigationViews, where needed, and always builds a valid view hierarchy. On top of that, **ComposableNavigator** unlocks advanced navigation patterns like wildcards and conditional navigation paths.
 
 ## Core components
-**ComposableNavigator** is built on three core components: the routing path, composable **PathBuilder**s, and the navigator. 
+**ComposableNavigator** is built on three core components: the navigation tree, the current navigation path, and the navigator. 
 
-### Routing Path
-The routing path describes the order of visible screens in the  application. It is a first-class representation of the `<url-path>` defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A routing path consists of identified screens.
+### Navigation Path
+The navigation path describes the order of visible screens in the  application. It is a first-class representation of the `<url-path>` defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A navigation path consists of identified screens.
 
 #### Screen<!-- omit in toc -->
-A Screen is a first-class representation of the information needed to build a particular view. Screen objects identify the routing path element and can contain arguments like IDs, initial values, and flags. 
+A Screen is a first-class representation of the information needed to build a particular view. Screen objects identify the navigation path element and can contain arguments like IDs, initial values, and flags. `detail?id=0` directly translates to `DetailScreen(id: 0)`.
 
-Screens define how they are presented. Currently, sheet and push presentation styles are supported. This decouples presentation logic from business logic, as showing a sheet and pushing a view are performed by invoking the same `go(to:, on:)` function. Changing a screen's (default) presentation style is a single line change.
+Screens define how they are presented. This decouples presentation logic from business logic, as showing a sheet and pushing a view are performed by invoking the same `go(to:, on:)` function. Changing a screen's (default) presentation style is a single line change. Currently, sheet and push presentation styles are supported. 
 
 ### Navigator
-The navigator manages the application's current routing path and allows mutations on it. The navigator acts as an interface to the underlying data source. The navigator object is accessible via the view environment.
+The navigator manages the application's current navigation path and allows mutations on it. The navigator acts as an interface to the underlying data source. The navigator object is accessible via the view environment.
 
 Navigators allow programmatic navigation and can be injected where needed, even into ViewModels. 
 
-### Path builder
-A `PathBuilder` defines how a path element and its successors are built into a view hierarchy.
+### NavigationTree
+The **ComposableNavigator** is based on the concept of `PathBuilder` composition in form of a `NavigationTree`. A `NavigationTree`  consists of `PathBuilder`s describing all possible navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
 
-#### Path builder composition<!-- omit in toc -->
-The **ComposableNavigator** is based on the concept of `PathBuilder` composition. We compose `PathBuilder`s to describe all possible routing paths in an application. That also means that all screens in our application are accessible via a pre-defined routing path.
-
-Let's look at an example `PathBuilder`:
+Let's look at an example `NavigationTree`:
 
 ```swift
-let appBuilder: PathBuilder = PathBuilders.screen(
-  HomeScreen.self,
-  content: {
-    HomeView(viewModel: homeViewModel)
-  },
-  nesting: PathBuilders.anyOf(
-    DetailScreen.builder(viewModel: detailViewModel),
-    SettingsScreen.builder(viewModel: settingsViewModel)
-  )
-)
+struct AppNavigationTree: NavigationTree {
+  let homeViewModel: HomeViewModel
+  let detailViewModel: DetailViewModel
+  let settingsViewModel: SettingsViewModel
+
+  var builder: some PathBuilder {
+    Screen(
+      HomeScreen.self,
+      content: {
+        HomeView(viewModel: homeViewModel)
+      },
+      nesting: {
+        DetailScreen.Builder(viewModel: detailViewModel),
+        SettingsScreen.Builder(viewModel: settingsViewModel)
+      }
+    )
+  }
+}
 ```
 
-Based on `appBuilder`, the following routing paths are valid:
+Based on `AppNavigationTree`, the following navigation paths are valid:
 ```
   /home
   /home/detail?id=0
   /home/settings
 ```
 
-All available `PathBuilder`s are documented [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/PathBuilders).
+The `NavigationTree` and available `PathBuilder`s are documented [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
 
 ## Vanilla SwiftUI + ComposableNavigator
 Let's go back to our initial home view and enhance it with the ComposableNavigator.
@@ -182,14 +187,24 @@ We can now inject the `Navigator` and `currentScreenID` in our tests and cover c
 import ComposableNavigator
 import SwiftUI
 
-let appBuilder: PathBuilder = PathBuilders.screen(
-  HomeScreen.self,
-  content: { HomeView(...) },
-  nesting: .anyOf(
-    DetailScreen.builder(...),
-    SettingsScreen.builder(...)
-  )
-)
+struct AppNavigationTree: NavigationTree {
+  let homeViewModel: HomeViewModel
+  let detailViewModel: DetailViewModel
+  let settingsViewModel: SettingsViewModel
+
+  var builder: some PathBuilder {
+    Screen(
+      HomeScreen.self,
+      content: {
+        HomeView(viewModel: homeViewModel)
+      },
+      nesting: {
+        DetailScreen.Builder(viewModel: detailViewModel),
+        SettingsScreen.Builder(viewModel: settingsViewModel)
+      }
+    )
+  }
+}
 
 @main
 struct ExampleApp: App {
@@ -199,7 +214,7 @@ struct ExampleApp: App {
     WindowGroup {
       Root(
         dataSource: dataSource,
-        pathBuilder: appBuilder
+        pathBuilder: AppNavigationTree(...)
       )
     }
   }
@@ -207,12 +222,12 @@ struct ExampleApp: App {
 ```
 
 ## Deeplinking
-As **ComposableNavigator** builds the view hierarchy based on routing paths, it is the ideal companion to implement deeplinking. Deeplinks come in different forms and shapes, however **ComposableNavigator** abstracts it into a first-class representation in form of the `Deeplink` type. The **ComposableDeeplinking** library that is part of the **ComposableNavigator** contains a couple of helper types that allow easily replace the current routing path with a new routing path based on a `Deeplink` by defining a `DeeplinkHandler` and a composable `DeeplinkParser`.
+As **ComposableNavigator** builds the view hierarchy based on navigation paths, it is the ideal companion to implement deeplinking. Deeplinks come in different forms and shapes, however **ComposableNavigator** abstracts it into a first-class representation in form of the `Deeplink` type. The **ComposableDeeplinking** library that is part of the **ComposableNavigator** contains a couple of helper types that allow easily replace the current navigation path with a new navigation path based on a `Deeplink` by defining a `DeeplinkHandler` and a composable `DeeplinkParser`.
 
 More information on deeplinking and how to implement it in your own application can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/Deeplinking).
 
 ## Dependency injection 
-**ComposableNavigator** was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures are defined in one central place, the app path builder, ComposableNavigator gives you full control over dependency injection. Currently, the helper package **ComposableNavigatorTCA** is part of this repository and the main package therefore has a dependency on TCA. This will change in the future when **ComposableNavigatorTCA** gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
+**ComposableNavigator** was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures flow together in one central place, the app navigation tree, ComposableNavigator gives you full control over dependency injection. Currently, the helper package **ComposableNavigatorTCA** is part of this repository and the main package therefore has a dependency on TCA. This will change in the future when **ComposableNavigatorTCA** gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
 
 ## Installation
 **ComposableNavigator** supports Swift Package Manager and contains two products, *ComposableNavigator* and *ComposableDeeplinking*.  

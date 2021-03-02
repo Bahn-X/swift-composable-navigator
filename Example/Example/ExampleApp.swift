@@ -38,7 +38,7 @@ struct ExampleApp: App {
       Root(
         dataSource: dataSource,
         navigator: navigator,
-        pathBuilder: HomeScreen.builder(appStore: appStore)
+        pathBuilder: HomeScreen.Builder(appStore: appStore)
       )
       .onOpenURL(
         perform: { url in

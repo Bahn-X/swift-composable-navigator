@@ -5,11 +5,16 @@ import PackageDescription
 
 let snapshotFolders = [
   "PathBuilder/__Snapshots__",
+  "NavigationTree/__Snapshots__",
   "Screen/__Snapshots__",
 ]
 
+let tcaSnapshotFolders = [
+  "__Snapshots__"
+]
+
 let testGybFiles = [
-  "PathBuilder/PathBuilder+AnyOfTests.swift.gyb",
+  "NavigationTree/NavigationTreeBuilder+AnyOf.swift.gyb"
 ]
 
 let package = Package(
@@ -48,6 +53,7 @@ let package = Package(
       name: "ComposableNavigator",
       dependencies: [],
       exclude: [
+        "NavigationTree/NavigationTreeBuilder+AnyOf.swift.gyb",
         "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb",
       ]
     ),
@@ -69,7 +75,7 @@ let package = Package(
     ),
     .testTarget(name: "ComposableNavigatorTests", dependencies: ["ComposableNavigator", "SnapshotTesting"], exclude: testGybFiles + snapshotFolders), // dev
     .testTarget(name: "ComposableDeeplinkingTests", dependencies: ["ComposableDeeplinking"]), // dev
-    .testTarget(name: "ComposableNavigatorTCATests", dependencies: ["ComposableNavigatorTCA"]), // dev
+    .testTarget(name: "ComposableNavigatorTCATests", dependencies: ["ComposableNavigatorTCA", "SnapshotTesting"], exclude: tcaSnapshotFolders), // dev
   ]
 )
 

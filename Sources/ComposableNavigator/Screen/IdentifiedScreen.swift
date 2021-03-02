@@ -1,4 +1,4 @@
-/// An identified representation of a `Screen` in a routing path
+/// An identified representation of a `Screen` in a navigation path
 public struct IdentifiedScreen: Hashable, Identifiable {
   public let id: ScreenID
   public let content: AnyScreen

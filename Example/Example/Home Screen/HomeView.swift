@@ -99,42 +99,43 @@ struct HomeView: View {
 struct HomeScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
 
-  static func builder(
-    appStore: Store<AppState, AppAction>
-  ) -> some PathBuilder {
-    let homeStore = appStore.scope(
-      state: \.home,
-      action: AppAction.home
-    )
+  struct Builder: NavigationTree {
+    let appStore: Store<AppState, AppAction>
 
-    let settingsStore = appStore.scope(
-      state: \.settings,
-      action: AppAction.settings
-    )
+    var homeStore: Store<HomeState, HomeAction> {
+      appStore.scope(
+        state: \.home,
+        action: AppAction.home
+      )
+    }
 
-    let buildDetailStore = { (detailID: String) -> Store<DetailState?, DetailAction> in
+    var settingsStore: Store<SettingsState, SettingsAction> {
+      appStore.scope(
+        state: \.settings,
+        action: AppAction.settings
+      )
+    }
+
+    func detailStore(for detailID: String) -> Store<DetailState?, DetailAction> {
       homeStore.scope(
         state: { state in
-          state.selectedDetail?.id == detailID ? state.selectedDetail: nil
+          state.selectedDetail?.id == detailID ? state.selectedDetail : nil
         },
         action: HomeAction.detail
       )
     }
 
-    return PathBuilders.screen( // /home
-      onAppear: { _ in print("HomeView appeared") },
-      content: { (_: HomeScreen) in
-        HomeView(
-          store: homeStore
-        )
-      },
-      nesting: PathBuilders.anyOf(
-        PathBuilders.if(
-          screen: { (screen: DetailScreen) in
-            PathBuilders.ifLetStore(
-              store: buildDetailStore(screen.detailID),
+    var builder: some PathBuilder {
+      Screen( // /home
+        HomeScreen.self,
+        onAppear: { _ in print("HomeView appeared") },
+        content: { HomeView(store: homeStore) },
+        nesting: {
+          If { (screen: DetailScreen) in
+            IfLetStore(
+              store: detailStore(for: screen.detailID),
               then: { store in
-                DetailScreen.builder(
+                DetailScreen.Builder(
                   store: store,
                   settingsStore: settingsStore
                 )
@@ -142,31 +143,31 @@ struct HomeScreen: Screen {
             )
             .beforeBuild {
               let viewStore = ViewStore(homeStore)
-              // we do not navigate to invalid routing paths (i.e. example://detail?id=123)
+              // we do not navigate to invalid navigation paths (i.e. example://detail?id=123)
               if viewStore.elements.contains(screen.detailID),
                  viewStore.state.selectedDetail?.id != screen.detailID {
                 viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
               }
             }
           }
-        ),
-        SettingsScreen.builder(
-          store: settingsStore,
-          entrypoint: "home"
-        )
-      )
-      .onDismiss { (screen: DetailScreen) in
-        print("Dismissed \(screen)")
-        let viewStore = ViewStore(homeStore)
-        // Only if the current detail state represents the dismissed screen, set the state to nil.
-        if viewStore.state.selectedDetail?.id == screen.detailID {
-          ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+          .onDismiss { (screen: DetailScreen) in
+            print("Dismissed \(screen)")
+            let viewStore = ViewStore(homeStore)
+            // Only if the current detail state represents the dismissed screen, set the state to nil.
+            if viewStore.state.selectedDetail?.id == screen.detailID {
+              ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+            }
+          }
+
+          SettingsScreen.Builder(
+            store: settingsStore,
+            entrypoint: "home"
+          ).onDismiss(of: SettingsScreen.self) {
+            print("Dismissed settings")
+          }
         }
-      }
-      .onDismiss(of: SettingsScreen.self) {
-        print("Dismissed settings")
-      }
-    )
+      )
+    }
   }
 }
 
@@ -174,7 +175,7 @@ let homeReducer = Reducer<
   HomeState,
   HomeAction,
   HomeEnvironment
-> { state, action, environment in
+> { _, action, environment in
   switch action {
   case .viewAppeared:
     return .none
@@ -200,7 +201,7 @@ let homeReducer = Reducer<
         .go(
           to: [
             DetailScreen(detailID: element).eraseToAnyScreen(),
-            SettingsScreen().eraseToAnyScreen()
+            SettingsScreen().eraseToAnyScreen(),
           ],
           on: screenID
         )
