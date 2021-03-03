@@ -131,6 +131,8 @@ struct AppNavigationTree: NavigationTree {
 }
 ```
 
+![Example Tree](./Documentation/readmeExample.svg)
+
 Based on `AppNavigationTree`, the following navigation paths are valid:
 ```
   /home
@@ -138,7 +140,7 @@ Based on `AppNavigationTree`, the following navigation paths are valid:
   /home/settings
 ```
 
-The `NavigationTree` and available `PathBuilder`s are documented [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
+More information on the `NavigationTree` and how to compose `PathBuilder`s can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTreeComposition).
 
 ## Vanilla SwiftUI + ComposableNavigator
 Let's go back to our initial home view and enhance it with the ComposableNavigator.
