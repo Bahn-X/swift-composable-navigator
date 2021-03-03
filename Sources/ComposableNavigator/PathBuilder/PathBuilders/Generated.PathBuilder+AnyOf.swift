@@ -284,30 +284,27 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder
   >(
     _ a: ABuilder,
     _ b: BBuilder
-  ) -> _PathBuilder<EitherAB<A, B>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B
+  ) -> _PathBuilder<
+      EitherAB<
+        ABuilder.Content,
+        BBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherAB<A, B>>(
-      buildPath: { path -> EitherAB<A, B>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -348,9 +345,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder
@@ -358,27 +352,25 @@ public extension PathBuilders {
     _ a: ABuilder,
     _ b: BBuilder,
     _ c: CBuilder
-  ) -> _PathBuilder<EitherABC<A, B, C>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C
+  ) -> _PathBuilder<
+      EitherABC<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABC<A, B, C>>(
-      buildPath: { path -> EitherABC<A, B, C>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -419,10 +411,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -432,31 +420,28 @@ public extension PathBuilders {
     _ b: BBuilder,
     _ c: CBuilder,
     _ d: DBuilder
-  ) -> _PathBuilder<EitherABCD<A, B, C, D>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D
+  ) -> _PathBuilder<
+      EitherABCD<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCD<A, B, C, D>>(
-      buildPath: { path -> EitherABCD<A, B, C, D>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -497,11 +482,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -513,35 +493,31 @@ public extension PathBuilders {
     _ c: CBuilder,
     _ d: DBuilder,
     _ e: EBuilder
-  ) -> _PathBuilder<EitherABCDE<A, B, C, D, E>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E
+  ) -> _PathBuilder<
+      EitherABCDE<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDE<A, B, C, D, E>>(
-      buildPath: { path -> EitherABCDE<A, B, C, D, E>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -582,12 +558,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -601,39 +571,34 @@ public extension PathBuilders {
     _ d: DBuilder,
     _ e: EBuilder,
     _ f: FBuilder
-  ) -> _PathBuilder<EitherABCDEF<A, B, C, D, E, F>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E,
-        FBuilder.Content == F
+  ) -> _PathBuilder<
+      EitherABCDEF<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content,
+        FBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDEF<A, B, C, D, E, F>>(
-      buildPath: { path -> EitherABCDEF<A, B, C, D, E, F>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
-        }
-        else if let fContent = f.build(path: path) {
+        } else if let fContent = f.build(pathElement: pathElement) {
           return .f(fContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -674,13 +639,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -696,43 +654,37 @@ public extension PathBuilders {
     _ e: EBuilder,
     _ f: FBuilder,
     _ g: GBuilder
-  ) -> _PathBuilder<EitherABCDEFG<A, B, C, D, E, F, G>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E,
-        FBuilder.Content == F,
-        GBuilder.Content == G
+  ) -> _PathBuilder<
+      EitherABCDEFG<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content,
+        FBuilder.Content,
+        GBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDEFG<A, B, C, D, E, F, G>>(
-      buildPath: { path -> EitherABCDEFG<A, B, C, D, E, F, G>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
-        }
-        else if let fContent = f.build(path: path) {
+        } else if let fContent = f.build(pathElement: pathElement) {
           return .f(fContent)
-        }
-        else if let gContent = g.build(path: path) {
+        } else if let gContent = g.build(pathElement: pathElement) {
           return .g(gContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -773,14 +725,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -798,47 +742,40 @@ public extension PathBuilders {
     _ f: FBuilder,
     _ g: GBuilder,
     _ h: HBuilder
-  ) -> _PathBuilder<EitherABCDEFGH<A, B, C, D, E, F, G, H>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E,
-        FBuilder.Content == F,
-        GBuilder.Content == G,
-        HBuilder.Content == H
+  ) -> _PathBuilder<
+      EitherABCDEFGH<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content,
+        FBuilder.Content,
+        GBuilder.Content,
+        HBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDEFGH<A, B, C, D, E, F, G, H>>(
-      buildPath: { path -> EitherABCDEFGH<A, B, C, D, E, F, G, H>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
-        }
-        else if let fContent = f.build(path: path) {
+        } else if let fContent = f.build(pathElement: pathElement) {
           return .f(fContent)
-        }
-        else if let gContent = g.build(path: path) {
+        } else if let gContent = g.build(pathElement: pathElement) {
           return .g(gContent)
-        }
-        else if let hContent = h.build(path: path) {
+        } else if let hContent = h.build(pathElement: pathElement) {
           return .h(hContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -879,15 +816,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -907,51 +835,43 @@ public extension PathBuilders {
     _ g: GBuilder,
     _ h: HBuilder,
     _ i: IBuilder
-  ) -> _PathBuilder<EitherABCDEFGHI<A, B, C, D, E, F, G, H, I>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E,
-        FBuilder.Content == F,
-        GBuilder.Content == G,
-        HBuilder.Content == H,
-        IBuilder.Content == I
+  ) -> _PathBuilder<
+      EitherABCDEFGHI<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content,
+        FBuilder.Content,
+        GBuilder.Content,
+        HBuilder.Content,
+        IBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDEFGHI<A, B, C, D, E, F, G, H, I>>(
-      buildPath: { path -> EitherABCDEFGHI<A, B, C, D, E, F, G, H, I>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
-        }
-        else if let fContent = f.build(path: path) {
+        } else if let fContent = f.build(pathElement: pathElement) {
           return .f(fContent)
-        }
-        else if let gContent = g.build(path: path) {
+        } else if let gContent = g.build(pathElement: pathElement) {
           return .g(gContent)
-        }
-        else if let hContent = h.build(path: path) {
+        } else if let hContent = h.build(pathElement: pathElement) {
           return .h(hContent)
-        }
-        else if let iContent = i.build(path: path) {
+        } else if let iContent = i.build(pathElement: pathElement) {
           return .i(iContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
   /// ```swift
   /// .screen(
@@ -992,16 +912,6 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-    A,
-    B,
-    C,
-    D,
-    E,
-    F,
-    G,
-    H,
-    I,
-    J,
     ABuilder: PathBuilder,
     BBuilder: PathBuilder,
     CBuilder: PathBuilder,
@@ -1023,54 +933,45 @@ public extension PathBuilders {
     _ h: HBuilder,
     _ i: IBuilder,
     _ j: JBuilder
-  ) -> _PathBuilder<EitherABCDEFGHIJ<A, B, C, D, E, F, G, H, I, J>>
-  where ABuilder.Content == A,
-        BBuilder.Content == B,
-        CBuilder.Content == C,
-        DBuilder.Content == D,
-        EBuilder.Content == E,
-        FBuilder.Content == F,
-        GBuilder.Content == G,
-        HBuilder.Content == H,
-        IBuilder.Content == I,
-        JBuilder.Content == J
+  ) -> _PathBuilder<
+      EitherABCDEFGHIJ<
+        ABuilder.Content,
+        BBuilder.Content,
+        CBuilder.Content,
+        DBuilder.Content,
+        EBuilder.Content,
+        FBuilder.Content,
+        GBuilder.Content,
+        HBuilder.Content,
+        IBuilder.Content,
+        JBuilder.Content
+      >
+    >
   {
-    _PathBuilder<EitherABCDEFGHIJ<A, B, C, D, E, F, G, H, I, J>>(
-      buildPath: { path -> EitherABCDEFGHIJ<A, B, C, D, E, F, G, H, I, J>? in 
-        if let aContent = a.build(path: path) {
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
-        else if let bContent = b.build(path: path) {
+        } else if let bContent = b.build(pathElement: pathElement) {
           return .b(bContent)
-        }
-        else if let cContent = c.build(path: path) {
+        } else if let cContent = c.build(pathElement: pathElement) {
           return .c(cContent)
-        }
-        else if let dContent = d.build(path: path) {
+        } else if let dContent = d.build(pathElement: pathElement) {
           return .d(dContent)
-        }
-        else if let eContent = e.build(path: path) {
+        } else if let eContent = e.build(pathElement: pathElement) {
           return .e(eContent)
-        }
-        else if let fContent = f.build(path: path) {
+        } else if let fContent = f.build(pathElement: pathElement) {
           return .f(fContent)
-        }
-        else if let gContent = g.build(path: path) {
+        } else if let gContent = g.build(pathElement: pathElement) {
           return .g(gContent)
-        }
-        else if let hContent = h.build(path: path) {
+        } else if let hContent = h.build(pathElement: pathElement) {
           return .h(hContent)
-        }
-        else if let iContent = i.build(path: path) {
+        } else if let iContent = i.build(pathElement: pathElement) {
           return .i(iContent)
-        }
-        else if let jContent = j.build(path: path) {
+        } else if let jContent = j.build(pathElement: pathElement) {
           return .j(jContent)
         }
-        else {
-          return nil
-        }
-      }
-    )
+        
+        return nil
+    }
   }
 }

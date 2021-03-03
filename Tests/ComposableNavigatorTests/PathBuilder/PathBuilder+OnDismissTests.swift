@@ -18,10 +18,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
     )
   }
 
-  lazy var path = PathComponentUpdate(
-    previous: nil,
-    current: testScreen(with: "0")
-  )
+  lazy var pathElement = testScreen(with: "0").content
 
   func dataSource() -> Navigator.Datasource {
     Navigator.Datasource(
@@ -34,11 +31,9 @@ final class PathBuilder_OnDismissTest: XCTestCase {
 
   let expectedView = TestView(id: 0)
 
-  let testBuilder = _PathBuilder<TestView>(
-    buildPath: { _ in
-      TestView(id: 0)
-    }
-  )
+  let testBuilder = _PathBuilder<TestView> { _ in
+    TestView(id: 0)
+  }
 
   func test_onDismiss_calls_perform_with_any_screen_when_path_changes() {
     let dataSource = self.dataSource()
@@ -55,7 +50,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    let content = sut.build(path: path)?
+    let content = sut.build(pathElement: pathElement)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -68,7 +63,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
 
     dataSource.dismiss(id: testScreenID)
 
-    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
+    XCTAssertEqual(expectedView, sut.build(pathElement: pathElement)?.content)
     XCTAssertTrue(dismissCalled)
   }
 
@@ -87,7 +82,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    let content = sut.build(path: path)?
+    let content = sut.build(pathElement: pathElement)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -100,7 +95,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
 
     dataSource.dismiss(id: testScreenID)
 
-    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
+    XCTAssertEqual(expectedView, sut.build(pathElement: pathElement)?.content)
     XCTAssertTrue(dismissCalled)
   }
 
@@ -116,7 +111,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
         }
       )
 
-    let content = sut.build(path: path)?
+    let content = sut.build(pathElement: pathElement)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -129,7 +124,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
 
     dataSource.dismiss(id: testScreenID)
 
-    XCTAssertEqual(expectedView, sut.build(path: path)?.content)
+    XCTAssertEqual(expectedView, sut.build(pathElement: pathElement)?.content)
     XCTAssertTrue(dismissCalled)
   }
 }

@@ -54,15 +54,13 @@ public extension PathBuilders {
     then thenBuilder: If,
     else elseBuilder: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    _PathBuilder<EitherAB<If.Content, Else.Content>>(
-      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if condition() {
-          return thenBuilder.build(path: path).map(EitherAB.a)
-        } else {
-          return elseBuilder.build(path: path).map(EitherAB.b)
-        }
+    _PathBuilder { pathElement in
+      if condition() {
+        return thenBuilder.build(pathElement: pathElement).map(EitherAB.a)
+      } else {
+        return elseBuilder.build(pathElement: pathElement).map(EitherAB.b)
       }
-    )
+    }
   }
 
   /// The ifLet `PathBuilder` unwraps an optional value and provides it to the `PathBuilder` defining closure.
@@ -89,15 +87,13 @@ public extension PathBuilders {
     then: @escaping (LetContent) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    _PathBuilder<EitherAB<If.Content, Else.Content>>(
-      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if let letContent = `let`() {
-          return then(letContent).build(path: path).map(EitherAB.a)
-        } else {
-          return `else`.build(path: path).map(EitherAB.b)
-        }
+    _PathBuilder { pathElement in
+      if let letContent = `let`() {
+        return then(letContent).build(pathElement: pathElement).map(EitherAB.a)
+      } else {
+        return `else`.build(pathElement: pathElement).map(EitherAB.b)
       }
-    )
+    }
   }
 
   /// The ifLet `PathBuilder` unwraps an optional value and provides it to the `PathBuilder` defining closure.
@@ -144,15 +140,13 @@ public extension PathBuilders {
     screen pathBuilder: @escaping (S) -> If,
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
-    _PathBuilder<EitherAB<If.Content, Else.Content>>(
-      buildPath: { path -> EitherAB<If.Content, Else.Content>? in
-        if let unwrappedScreen: S = path.current?.content.unwrap() {
-          return pathBuilder(unwrappedScreen).build(path: path).map(EitherAB.a)
-        } else {
-          return `else`.build(path: path).map(EitherAB.b)
-        }
+    _PathBuilder { pathElement in
+      if let unwrappedScreen: S = pathElement.unwrap() {
+        return pathBuilder(unwrappedScreen).build(pathElement: pathElement).map(EitherAB.a)
+      } else {
+        return `else`.build(pathElement: pathElement).map(EitherAB.b)
       }
-    )
+    }
   }
 
   ///  The if screen `PathBuilder` unwraps a screen, if the path element matches the screen type, and provides it to the `PathBuilder` defining closure.
