@@ -31,12 +31,11 @@ public extension NavigationTree {
   ///       The `PathBuilder` used to build the altered path.
   func Wildcard<
     S: Screen,
-    ContentBuilder: PathBuilder,
-    Content
+    ContentBuilder: PathBuilder
   >(
     screen: S,
     pathBuilder: ContentBuilder
-  ) -> _PathBuilder<PathBuilders.WildcardView<Content, S>> where ContentBuilder.Content == Content {
+  ) -> _PathBuilder<PathBuilders.WildcardView<ContentBuilder.Content, S>> {
     PathBuilders.wildcard(screen: screen, pathBuilder: pathBuilder)
   }
 }
