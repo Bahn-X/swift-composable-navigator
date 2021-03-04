@@ -40,6 +40,9 @@ public extension PathBuilders {
   ///
   ///  This is example basically states: Whatever path I get, the first element should be a defined screen.
   ///
+  ///  # ⚠️ Warning ⚠️
+  ///  If you use a wildcard `PathBuilder` in as part of an anyOf `PathBuilder`, make sure it is the last one in the list. If it isn't, it will swallow all screens and the `PathBuilder`s listed after the wildcard will be unreachable.
+  ///
   ///  - Parameters:
   ///     - screen:
   ///       The screen that replaces the current path element.
