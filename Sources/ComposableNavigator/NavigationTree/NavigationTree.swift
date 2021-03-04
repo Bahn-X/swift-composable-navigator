@@ -1,9 +1,9 @@
 import SwiftUI
 
-/// NavigationTrees define all valid navigation paths in an application
+/// `NavigationTree`s define all valid navigation paths in an application
 ///
-/// NavigationTrees compose PathBuilders into a NavigationTree.
-/// As NavigationTrees are PathBuilders themselves, you can compose NavigationTrees just like PathBuilders.
+/// `NavigationTree`s compose `PathBuilder`s into a `NavigationTree`.
+/// As `NavigationTree`s are `PathBuilder`s themselves, you can compose multiple `NavigationTree`s into a bigger `NavigationTree`.
 ///
 /// # Example
 /// ```swift
@@ -54,11 +54,11 @@ import SwiftUI
 /// ```
 ///
 /// # Control flow
-/// NavigationTree use a NavigationTreeBuilder result builder to compose path builders.
+/// `NavigationTree` use a `NavigationTreeBuilder` result builder to compose path builders.
 ///
-/// NavigationTreeBuilder implements the necessary methods to enable Swift's built-in control flow methods, including if, if let and switch.
+/// `NavigationTreeBuilder` implements the necessary methods to enable Swift's built-in control flow methods, including if, if let and switch.
 ///
-/// This means, that you can in- and exclude parts of a navigation tree based on a condition.
+/// This means, that you can in/exclude parts of a navigation tree based on a condition.
 ///
 ///  ```swift
 ///  struct Tree: NavigationTree {
@@ -101,9 +101,9 @@ public protocol NavigationTree: PathBuilder {
   func Empty() -> PathBuilders.EmptyBuilder
 
   // MARK: Screen
-  ///  PathBuilder responsible for a single screen. Adds a node to the navigation tree.
+  /// `PathBuilder` responsible of building a single screen. Adds a node to the navigation tree.
   ///
-  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
+  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element is of type HomeScreen.
   ///
   ///  # Example
   ///  ```swift
@@ -139,9 +139,9 @@ public protocol NavigationTree: PathBuilder {
     @NavigationTreeBuilder nesting: () -> Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>>
 
-  ///  PathBuilder responsible for a single screen. Adds a node to the navigation tree.
+  /// `PathBuilder` responsible of building a single screen. Adds a node to the navigation tree.
   ///
-  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
+  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element is of type `HomeScreen`.
   ///
   ///  # Example
   ///  ```swift
@@ -169,9 +169,9 @@ public protocol NavigationTree: PathBuilder {
     @ViewBuilder content build: @escaping (S) -> Content
   ) -> _PathBuilder<NavigationNode<Content, Never>>
 
-  /// Creates a `PathBuilder` responsible for a single screen.  Adds a node to the navigation tree.
+  /// `PathBuilder` responsible of building a single screen. Adds a node to the navigation tree.
   ///
-  /// The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
+  /// The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element is of type `HomeScreen`.
   ///
   ///  # Example
   ///  ```swift
@@ -209,9 +209,9 @@ public protocol NavigationTree: PathBuilder {
     @NavigationTreeBuilder nesting: () -> Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>>
 
-  /// PathBuilder responsible for a single screen. Adds a node to the navigation tree.
+  /// `PathBuilder` responsible of building a single screen. Adds a node to the navigation tree.
   ///
-  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element's content of type HomeScreen.
+  ///  The screen `PathBuilder` describes how a single screen is built.  The content closure is only called if the path element is of type `HomeScreen`.
   ///
   ///  # Example
   ///  ```swift
@@ -329,9 +329,9 @@ public protocol NavigationTree: PathBuilder {
   ) -> _PathBuilder<PathBuilders.WildcardView<ContentBuilder.Content, S>>
 
   // MARK: AnyOf
-  /// Convenience wrapper around a NavigationTreeBuilder. Similar to SwiftUI's `Group: View`.
+  /// Convenience wrapper around a `NavigationTreeBuilder`. Similar to SwiftUI's `Group: View`.
   ///
-  /// If you ever run into the situation, that your NavigationTree has more than 10 entrypoints, you can use AnyOf to circumvent the fact that NavigationTreeBuilder cannot combine more than 10 PathBuilders.
+  /// If you ever run into the situation, that your `NavigationTree` has more than 10 entrypoints, you can use AnyOf to circumvent the fact that `NavigationTreeBuilder` cannot combine more than 10 PathBuilders.
   ///
   /// # Example
   ///  ```swift
@@ -350,7 +350,7 @@ public protocol NavigationTree: PathBuilder {
   ///  ```
   ///
   /// - Parameters:
-  ///     - builder: NavigationTreeBuilder composing multiple path builders into one.
+  ///     - builder: `NavigationTreeBuilder` composing multiple path builders into one.
   func AnyOf<P: PathBuilder>(@NavigationTreeBuilder _ builder: () -> P) -> P
 }
 
