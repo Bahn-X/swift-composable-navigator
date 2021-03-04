@@ -94,8 +94,6 @@ final class ComposableNavigatorPathTransitionTests: XCTestCase {
       .assertVisible()
       .goToDetailSettingsShortcutsSheet()
       .assertVisible()
-      .goToBackToHome()
-      .assertVisible()
   }
 
   func test_detail_one_settings_to_detail_zero_settings() {
