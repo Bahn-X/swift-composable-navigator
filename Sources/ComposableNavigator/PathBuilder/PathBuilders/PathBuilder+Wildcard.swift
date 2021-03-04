@@ -41,7 +41,7 @@ public extension PathBuilders {
   ///  This is example basically states: Whatever path I get, the first element should be a defined screen.
   ///
   ///  # ⚠️ Warning ⚠️
-  ///  If you use a wildcard `PathBuilder` in as part of an anyOf `PathBuilder`, make sure it is the last one in the list. If it isn't, it will swallow all screens and the `PathBuilder`s listed after the wildcard will be ignored.
+  ///  If you use a wildcard `PathBuilder` in as part of an anyOf `PathBuilder`, make sure it is the last one in the list. If it isn't, it will swallow all screens and the `PathBuilder`s listed after the wildcard will be unreachable.
   ///
   ///  - Parameters:
   ///     - screen:
@@ -56,34 +56,14 @@ public extension PathBuilders {
     screen: S,
     pathBuilder: ContentBuilder
   ) -> _PathBuilder<WildcardView<Content, S>> where ContentBuilder.Content == Content {
-    _PathBuilder<WildcardView<Content, S>>(
-      buildPath: { path in
-        guard let identifiedWildcard = path.current
-                .map({
-                  IdentifiedScreen(
-                    id: $0.id,
-                    content: screen.eraseToAnyScreen(),
-                    hasAppeared: $0.hasAppeared
-                  )
-                })
-        else {
-          _ = pathBuilder.build(path: path.ignoringCurrent)
-          return nil
+    _PathBuilder { pathElement in
+      pathBuilder.build(pathElement: screen.eraseToAnyScreen())
+        .flatMap { content in
+          WildcardView(
+            wildcard: screen,
+            content: content
+          )
         }
-
-        let update = PathComponentUpdate(
-          previous: path.previous,
-          current: identifiedWildcard
-        )
-
-        return pathBuilder.build(path: update)
-          .flatMap { content in
-            WildcardView(
-              wildcard: screen,
-              content: content
-            )
-          }
-      }
-    )
+    }
   }
 }

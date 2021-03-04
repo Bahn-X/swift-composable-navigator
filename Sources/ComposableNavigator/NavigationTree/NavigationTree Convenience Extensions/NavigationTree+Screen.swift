@@ -1,7 +1,6 @@
 import SwiftUI
 
 extension NavigationTree {
-  /// Convenience wrapper around PathBuilders.screen
   public func Screen<
     S: Screen,
     Content: View,
@@ -18,7 +17,6 @@ extension NavigationTree {
     )
   }
 
-  /// Convenience wrapper around PathBuilders.screen
   public func Screen<S: Screen, Content: View>(
     onAppear: @escaping (Bool) -> Void = { _ in },
     @ViewBuilder content build: @escaping (S) -> Content
@@ -30,7 +28,6 @@ extension NavigationTree {
     )
   }
 
-  /// Convenience wrapper around PathBuilders.screen
   public func Screen<
     S: Screen,
     Content: View,
@@ -49,7 +46,6 @@ extension NavigationTree {
     )
   }
 
-  /// Convenience wrapper around PathBuilders.screen
   public func Screen<S: Screen, Content: View>(
     _ type: S.Type,
     onAppear: @escaping (Bool) -> Void = { _ in },

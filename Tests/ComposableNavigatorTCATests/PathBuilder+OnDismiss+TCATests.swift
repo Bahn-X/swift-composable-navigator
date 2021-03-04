@@ -48,16 +48,14 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder(
-      buildPath: { path -> Color? in .red }
-    )
-    .onDismiss(
-      send: { (screen: AnyScreen) in .anyScreen(screen)},
-      into: store
-    )
+    let sut = _PathBuilder { path -> Color? in .red }
+      .onDismiss(
+        send: { (screen: AnyScreen) in .anyScreen(screen)},
+        into: store
+      )
 
     let content = sut
-      .build(path: dataSource.path.component(for: nextID))?
+      .build(pathElement: dataSource.path.component(for: nextID).current!.content)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -89,17 +87,15 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder(
-      buildPath: { path -> Color? in .red }
-    )
-    .onDismiss(
-      of: TestScreen.self,
-      send: .action,
-      into: store
-    )
+    let sut = _PathBuilder { path -> Color? in .red }
+      .onDismiss(
+        of: TestScreen.self,
+        send: .action,
+        into: store
+      )
 
     let content = sut
-      .build(path: dataSource.path.component(for: nextID))?
+      .build(pathElement: dataSource.path.component(for: nextID).current!.content)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -131,16 +127,14 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder(
-      buildPath: { path -> Color? in .red }
-    )
-    .onDismiss(
-      send: { (screen: TestScreen) in Action.screen(screen) },
-      into: store
-    )
-
+    let sut = _PathBuilder { path -> Color? in .red }
+      .onDismiss(
+        send: { (screen: TestScreen) in Action.screen(screen) },
+        into: store
+      )
+    
     let content = sut
-      .build(path: dataSource.path.component(for: nextID))?
+      .build(pathElement: dataSource.path.component(for: nextID).current!.content)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)

@@ -7,11 +7,3 @@ public struct PathComponentUpdate: Hashable {
     self.current = current
   }
 }
-
-extension PathComponentUpdate {
-  public static let empty = PathComponentUpdate(previous: nil, current: nil)
-
-  public var ignoringCurrent: PathComponentUpdate {
-    PathComponentUpdate(previous: previous, current: nil)
-  }
-}

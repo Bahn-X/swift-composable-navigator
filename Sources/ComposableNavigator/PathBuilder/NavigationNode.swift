@@ -24,12 +24,12 @@ public struct NavigationNode<Content: View, Successor: View>: View {
 
   let content: Content
   let onAppear: (Bool) -> Void
-  let buildSuccessor: (PathComponentUpdate) -> Successor?
+  let buildSuccessor: (AnyScreen) -> Successor?
 
   public init(
     content: Content,
     onAppear: @escaping (Bool) -> Void,
-    buildSuccessor: @escaping (PathComponentUpdate) -> Successor?
+    buildSuccessor: @escaping (AnyScreen) -> Successor?
   ) {
     self.content = content
     self.onAppear = onAppear
@@ -68,8 +68,8 @@ public struct NavigationNode<Content: View, Successor: View>: View {
 
   private var successorView: SuccessorView? {
     let successorUpdate = dataSource.path.successor(of: screenID)
-    return buildSuccessor(successorUpdate).flatMap { content in
-      successorUpdate.current.flatMap { successor in
+    return successorUpdate.current.flatMap { successor in
+      buildSuccessor(successor.content).flatMap { content in
         SuccessorView(successor: successor, content: content)
       }
     }
@@ -130,7 +130,7 @@ public struct NavigationNode<Content: View, Successor: View>: View {
       }
     )
   }
-
+  
   @ViewBuilder private func build(successor: SuccessorView) -> some View {
     let content = successor
       .environment(\.parentScreenID, screenID)

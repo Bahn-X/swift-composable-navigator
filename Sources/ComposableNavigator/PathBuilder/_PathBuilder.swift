@@ -1,21 +1,27 @@
 import SwiftUI
 
-/// PathBuilders define how a navigation path is built
+/// PathBuilders define how a navigation path is built into a view hierarchy
 public protocol PathBuilder {
   associatedtype Content: View
-  func build(path: PathComponentUpdate) -> Content?
+  func build(pathElement: AnyScreen) -> Content?
+}
+
+extension PathBuilder {
+  public func build<S: Screen>(pathElement: S) -> Content? {
+    self.build(pathElement: pathElement.eraseToAnyScreen())
+  }
 }
 
 /// Convenience type to define PathBuilders based on a build closure
 public struct _PathBuilder<Content: View>: PathBuilder {
-  private let _buildPath: (PathComponentUpdate) -> Content?
+  private let _buildPathElement: (AnyScreen) -> Content?
 
-  public init(buildPath: @escaping (PathComponentUpdate) -> Content?) {
-    self._buildPath = buildPath
+  public init(_ buildPathElement: @escaping (AnyScreen) -> Content?) {
+    self._buildPathElement = buildPathElement
   }
 
-  public func build(path: PathComponentUpdate) -> Content? {
-    return _buildPath(path)
+  public func build(pathElement: AnyScreen) -> Content? {
+    return _buildPathElement(pathElement)
   }
 }
 

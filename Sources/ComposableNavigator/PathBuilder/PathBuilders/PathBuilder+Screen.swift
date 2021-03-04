@@ -33,20 +33,17 @@ public extension PathBuilders {
     @ViewBuilder content build: @escaping (S) -> Content,
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
-    _PathBuilder<NavigationNode<Content, Successor.Content>>(
-      buildPath: { path -> NavigationNode<Content, Successor.Content>? in
-        guard let head = path.current, let unwrapped: S = head.content.unwrap() else {
-          _ = nesting.build(path: .empty)
-          return nil
-        }
-
-        return NavigationNode(
-          content: build(unwrapped),
-          onAppear: onAppear,
-          buildSuccessor: nesting.build(path:)
-        )
+    _PathBuilder { pathElement in
+      guard let unwrapped: S = pathElement.unwrap() else {
+        return nil
       }
-    )
+
+      return NavigationNode(
+        content: build(unwrapped),
+        onAppear: onAppear,
+        buildSuccessor: nesting.build(pathElement:)
+      )
+    }
   }
 
   ///  PathBuilder responsible for a single screen.
@@ -116,20 +113,17 @@ public extension PathBuilders {
     @ViewBuilder content build: @escaping () -> Content,
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
-    _PathBuilder<NavigationNode<Content, Successor.Content>>(
-      buildPath: { path -> NavigationNode<Content, Successor.Content>? in
-        guard let head = path.current, head.content.is(S.self) else {
-          _ = nesting.build(path: .empty)
-          return nil
-        }
-
-        return NavigationNode(
-          content: build(),
-          onAppear: onAppear,
-          buildSuccessor: nesting.build(path:)
-        )
+    _PathBuilder { pathElement in
+      guard pathElement.is(S.self) else {
+        return nil
       }
-    )
+
+      return NavigationNode(
+        content: build(),
+        onAppear: onAppear,
+        buildSuccessor: nesting.build(pathElement:)
+      )
+    }
   }
 
   /// PathBuilder responsible for a single screen.

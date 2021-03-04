@@ -4,7 +4,7 @@ public struct OnDismissView<Content: View>: View {
   @EnvironmentObject var datasource: Navigator.Datasource
   @Environment(\.parentScreenID) var parentScreenID
 
-  let build: (PathComponentUpdate) -> Content?
+  let build: (AnyScreen) -> Content?
   let content: Content
   let perform: (AnyScreen) -> Void
 
@@ -13,12 +13,12 @@ public struct OnDismissView<Content: View>: View {
       .onReceive(
         datasource.$path,
         perform: { path in
-          guard let parentScreenID = parentScreenID, path.component(for: parentScreenID).current != nil else {
-            return
-          }
+          guard let parentScreenID = parentScreenID,
+                path.component(for: parentScreenID).current != nil
+          else { return }
 
           let update = path.successor(of: parentScreenID)
-          let built = build(update)
+          let built = update.current.flatMap { current in build(current.content) }
           let previouslyBuiltScreen = update.previous?.content
           let builtScreen = built != nil ? update.current?.content : nil
 
@@ -52,21 +52,16 @@ public extension PathBuilder {
   func onDismiss(
     perform: @escaping (AnyScreen) -> Void
   ) -> _PathBuilder<OnDismissView<Content>> {
-    _PathBuilder<OnDismissView<Content>>(
-      buildPath: { path in
-        self.build(path: path).flatMap { content in
-          OnDismissView(build: self.build(path:), content: content, perform: perform)
-        }
+    _PathBuilder { pathElement in
+      build(pathElement: pathElement).flatMap { content in
+        OnDismissView(build: self.build(pathElement:), content: content, perform: perform)
       }
-    )
+    }
   }
 
   /// `onDismiss` allows to perform an action whenever a`Screen` is dismissed
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
-  ///
-  ///  # ⚠️ Warning ⚠️
-  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer used / captured by a view, inner .onDismiss closures will not be called.
   ///
   /// # Example
   /// ```swift
@@ -108,9 +103,6 @@ public extension PathBuilder {
   /// `onDismiss` allows to perform an action whenever a`Screen` is dismissed
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
-  ///
-  ///  # ⚠️ Warning ⚠️
-  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer captured by a view, inner .onDismiss closures will not be called.
   ///
   /// # Example
   /// ```swift

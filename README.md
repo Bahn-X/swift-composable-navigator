@@ -106,7 +106,7 @@ The navigator manages the application's current navigation path and allows mutat
 Navigators allow programmatic navigation and can be injected where needed, even into ViewModels. 
 
 ### NavigationTree
-The **ComposableNavigator** is based on the concept of `PathBuilder` composition in form of a `NavigationTree`. A `NavigationTree`  consists of `PathBuilder`s describing all possible navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
+The **ComposableNavigator** is based on the concept of `PathBuilder` composition in form of a `NavigationTree`. A `NavigationTree`  composes `PathBuilder`s to describe all valid navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
 
 Let's look at an example `NavigationTree`:
 
@@ -131,6 +131,8 @@ struct AppNavigationTree: NavigationTree {
 }
 ```
 
+![Example Tree](./Documentation/readmeExample.svg)
+
 Based on `AppNavigationTree`, the following navigation paths are valid:
 ```
   /home
@@ -138,10 +140,10 @@ Based on `AppNavigationTree`, the following navigation paths are valid:
   /home/settings
 ```
 
-The `NavigationTree` and available `PathBuilder`s are documented [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
+More information on the `NavigationTree` and how to compose `PathBuilder`s can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
 
 ## Vanilla SwiftUI + ComposableNavigator
-Let's go back to our initial home view and enhance it with the ComposableNavigator.
+Let's go back to our vanille SwiftUI home view and enhance it using the ComposableNavigator.
 
 ```swift
 import ComposableNavigator
@@ -180,7 +182,7 @@ struct HomeView: View {
 }
 ```
 
-We can now inject the `Navigator` and `currentScreenID` in our tests and cover calls to goToDetail / goToSettings on a ExampleView instance with tests.
+We can now inject the `Navigator` and `currentScreenID` in our tests and cover calls to goToDetail / goToSettings on an ExampleView instance in unit tests.
 
 ## Integrating ComposableNavigator
 ```swift
@@ -257,7 +259,7 @@ targets: [
 ### Xcode
 <p align="center"><img src="./Documentation/xc.png" width="70%"></img></p>
 
-You can also add **ComposableNavigator** to your project via Xcode. Open your project, click on **File → Swift Packages → Add Package Dependency…**, enter the repository url (https://github.com/Bahn-X/swift-composable-navigator.git) and add the package products to your app target.
+You can add **ComposableNavigator** to your project via Xcode. Open your project, click on **File → Swift Packages → Add Package Dependency…**, enter the repository url (https://github.com/Bahn-X/swift-composable-navigator.git) and add the package products to your app target.
 
 ## Example application
 <p align="center"><img src="./Documentation/exampleapp.gif" width="40%"></img></p>

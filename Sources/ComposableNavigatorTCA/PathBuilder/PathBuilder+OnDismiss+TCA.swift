@@ -37,9 +37,6 @@ extension PathBuilder {
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
   ///
-  ///  # ⚠️ Warning ⚠️
-  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer used / captured by a view, inner .onDismiss closures will not be called.
-  ///
   /// # Example
   /// ```swift
   ///  PathBuilders.if(
@@ -82,9 +79,6 @@ extension PathBuilder {
   /// `onDismiss` allows to perform an action whenever a`Screen` is dismissed
   ///
   /// `onDismiss` keeps track of the last built `Screen` and performs the defined action whenever a screen is no longer built.
-  ///
-  ///  # ⚠️ Warning ⚠️
-  ///  If your `PathBuilder` is wrapped in a lazy conditional path builder (such as ifLet, ifLetStore or ifScreen), make sure to attach `onDismiss` to the outer-most conditional `PathBuilder`. If you replace the path and the lazy path builder is no longer captured by a view, inner .onDismiss closures will not be called.
   ///
   /// # Example
   /// ```swift

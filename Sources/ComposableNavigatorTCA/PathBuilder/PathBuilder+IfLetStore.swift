@@ -31,16 +31,15 @@ public extension PathBuilders {
     then: @escaping (Store<State, Action>) -> IfBuilder,
     else: ElseBuilder
   ) -> _PathBuilder<EitherAB<If, Else>> where IfBuilder.Content == If, ElseBuilder.Content == Else {
-    _PathBuilder<EitherAB<If, Else>>(
-      buildPath: { path -> EitherAB<If, Else>? in
-        if let state = ViewStore(store).state {
-          _ = `else`.build(path: path.ignoringCurrent)
-          return then(store.scope(state: { $0 ?? state })).build(path: path).flatMap(EitherAB.a)
-        } else {
-          return `else`.build(path: path).flatMap(EitherAB.b)
-        }
+    _PathBuilder { pathElement in
+      if let state = ViewStore(store).state {
+        return then(store.scope(state: { $0 ?? state }))
+          .build(pathElement: pathElement)
+          .flatMap(EitherAB.a)
+      } else {
+        return `else`.build(pathElement: pathElement).flatMap(EitherAB.b)
       }
-    )
+    }
   }
 
   /// A `PathBuilder` that safely unwraps a store of optional state in order to show one of two views.

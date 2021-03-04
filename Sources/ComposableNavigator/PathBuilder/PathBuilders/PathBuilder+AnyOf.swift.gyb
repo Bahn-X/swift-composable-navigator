@@ -34,32 +34,24 @@ public extension PathBuilders {
 %{
     # ABCD...
     genericCharacters = letters[0:i]
-    genericCharactersLower = map(string.lower, genericCharacters)
 
     # BCD...
     allButFirst = genericCharacters[1:]
     allButFirstLower = map(string.lower, allButFirst)
 
-    # A, B, C, D...
-    genericTypeList = ", ".join(genericCharacters)
-
-    # A,\n B\n, ...
-    requirements = ",\n".join(map(lambda x: "    {0}".format(x), genericCharacters))
-
     # ABuilder: PathBuilder, BBuilder: PathBuilder, ...
     builderRequirements = ",\n".join(map(lambda x: "    {0}Builder: PathBuilder".format(x), genericCharacters))
-
-    # Combined<A, B, C, D>
-    enumName = "Either{0}<{1}>".format(genericCharacters, genericTypeList)
 
     # _ a: PathBuilder<A>,\n ...
     parameters = ",\n".join(map(lambda x: "    _ {0}: {1}Builder".format(x.lower(), x), genericCharacters))
 
-    # ABuilder.Content == A
-    whereCondition = "where " + ",\n        ".join(map(lambda x: "{0}Builder.Content == {0}".format(x), genericCharacters))
+    eitherContents = ",\n        ".join(map(lambda x: "{0}Builder.Content".format(x), genericCharacters))
+
+    # Either<ABuilder.Content, BBuilder.Content, CBuilder.Content, DBuilder.Content>
+    enumName = "\n      Either{0}<\n        {1}\n      >".format(genericCharacters, eitherContents)
 
     # PathBuilder<Either<A, B, C, D>>
-    combinedPathBuilderType = "_PathBuilder<{0}>".format(enumName)
+    combinedPathBuilderType = "_PathBuilder<{0}\n    >".format(enumName)
 }%
   /// ```swift
   /// .screen(
@@ -100,34 +92,22 @@ public extension PathBuilders {
   /// ...
   /// ```
   static func anyOf<
-${requirements},
 ${builderRequirements}
   >(
 ${parameters}
   ) -> ${combinedPathBuilderType}
-  ${whereCondition}
   {
-    ${combinedPathBuilderType}(
-      buildPath: { path -> ${enumName}? in 
-        if let aContent = a.build(path: path) {
-% for c in allButFirstLower:
-          _ = ${c}.build(path: path.ignoringCurrent)
-% end
+    _PathBuilder { pathElement in
+        if let aContent = a.build(pathElement: pathElement) {
           return .a(aContent)
-        }
 % for c in allButFirstLower:
-        else if let ${c}Content = ${c}.build(path: path) {
-% for inner in filter(lambda inner: inner > c, allButFirstLower):
-          _ = ${inner}.build(path: path.ignoringCurrent)
-% end
+        } else if let ${c}Content = ${c}.build(pathElement: pathElement) {
           return .${c}(${c}Content)
-        }
 % end
-        else {
-          return nil
         }
-      }
-    )
+        
+        return nil
+    }
   }
 % end
 }
