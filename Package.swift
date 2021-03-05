@@ -89,8 +89,8 @@ let config = PackageConfiguration(
         "clean_git"
       ],
       "before": [
-        "make test",
-        "make cleanup",
+        // "make test",
+        // "make cleanup",
       ]
     ]
   ]
