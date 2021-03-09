@@ -17,7 +17,7 @@ extension Deeplink {
   ///
   /// let deeplink = Deeplink(
   ///   url: url,
-  ///   scheme: "scheme"
+  ///   matching: "scheme"
   /// )
   ///
   /// deeplink.components == [

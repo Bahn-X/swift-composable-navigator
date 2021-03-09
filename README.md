@@ -32,7 +32,7 @@
 <hr class="rounded">
 
 ## Vanilla SwiftUI navigation
-A typical, vanilla SwiftUI application manages its navigation state (i.e. is a sheet or a push active) either directly in its Views or in ObservableObjects. 
+A typical, vanilla SwiftUI application manages its navigation state (i.e. is a sheet or a push active) either directly in its Views or in ObservableObjects.
 
 Let's take a look at a simplified example in which we keep all navigation state locally in the view:
 
@@ -82,7 +82,7 @@ To programmatically navigate, we need to keep our navigation state in an Observa
 The answer to this one is simple: SwiftUI will not navigate. Imagine, we have a list of hundreds of entries that the user can scroll through. If we want to programmatically navigate to an entry detail view, the 'cell' containing the NavigationLink needs to be in memory or else the navigation will not be performed.
 
 ### NavigationLinks do not navigate when I click them<!-- omit in toc -->
-In order to make NavigationLinks work in our view, we need to wrap our view in a NavigationView. 
+In order to make NavigationLinks work in our view, we need to wrap our view in a NavigationView.
 
 So, at which point in the view hierarchy do we wrap our content in a NavigationView? As wrapping content in a NavigationView twice will lead to two navigation bars, we probably want to avoid having to multiple nested NavigationViews.
 
@@ -93,7 +93,7 @@ Vanilla SwiftUI only supports shallow deeplinking, meaning that we can navigate 
 **ComposableNavigator** lifts the burden of manually managing navigation state off your shoulders and allows to navigate through applications along navigation paths. **ComposableNavigator** takes care of embedding your views in NavigationViews, where needed, and always builds a valid view hierarchy. On top of that, **ComposableNavigator** unlocks advanced navigation patterns like wildcards and conditional navigation paths.
 
 ## Core components
-**ComposableNavigator** is built on three core components: the navigation tree, the current navigation path, and the navigator. 
+**ComposableNavigator** is built on three core components: the navigation tree, the current navigation path, and the navigator.
 
 ### Navigation Path
 The navigation path describes the order of visible screens in the  application. It is a first-class representation of the `<url-path>` defined in [RFC1738](https://tools.ietf.org/html/rfc1738#section-3.1). A navigation path consists of identified screens.
@@ -101,12 +101,12 @@ The navigation path describes the order of visible screens in the  application. 
 #### Screen<!-- omit in toc -->
 A Screen is a first-class representation of the information needed to build a particular view. Screen objects identify the navigation path element and can contain arguments like IDs, initial values, and flags. `detail?id=0` directly translates to `DetailScreen(id: 0)`.
 
-Screens define how they are presented. This decouples presentation logic from business logic, as showing a sheet and pushing a view are performed by invoking the same `go(to:, on:)` function. Changing a screen's (default) presentation style is a single line change. Currently, sheet and push presentation styles are supported. 
+Screens define how they are presented. This decouples presentation logic from business logic, as showing a sheet and pushing a view are performed by invoking the same `go(to:, on:)` function. Changing a screen's (default) presentation style is a single line change. Currently, sheet and push presentation styles are supported.
 
 ### Navigator
 The navigator manages the application's current navigation path and allows mutations on it. The navigator acts as an interface to the underlying data source. The navigator object is accessible via the view environment.
 
-Navigators allow programmatic navigation and can be injected where needed, even into ViewModels. 
+Navigators allow programmatic navigation and can be injected where needed, even into ViewModels.
 
 ### NavigationTree
 The **ComposableNavigator** is based on the concept of `PathBuilder` composition in form of a `NavigationTree`. A `NavigationTree`  composes `PathBuilder`s to describe all valid navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
@@ -146,7 +146,7 @@ Based on `AppNavigationTree`, the following navigation paths are valid:
 More information on the `NavigationTree` and how to compose `PathBuilder`s can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
 
 ## Vanilla SwiftUI + ComposableNavigator
-Let's go back to our vanille SwiftUI home view and enhance it using the ComposableNavigator.
+Let's go back to our vanilla SwiftUI home view and enhance it using the ComposableNavigator.
 
 ```swift
 import ComposableNavigator
@@ -231,11 +231,11 @@ As **ComposableNavigator** builds the view hierarchy based on navigation paths, 
 
 More information on deeplinking and how to implement it in your own application can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/Deeplinking).
 
-## Dependency injection 
+## Dependency injection
 **ComposableNavigator** was inspired by [The Composable Architecture (TCA)](https://github.com/pointfreeco/swift-composable-architecture) and its approach to Reducer composition, dependency injection and state management. As all view building closures flow together in one central place, the app navigation tree, ComposableNavigator gives you full control over dependency injection. Currently, the helper package **ComposableNavigatorTCA** is part of this repository and the main package therefore has a dependency on TCA. This will change in the future when **ComposableNavigatorTCA** gets [extracted into its own repository](https://github.com/Bahn-X/swift-composable-navigator/issues/12).
 
 ## Installation
-**ComposableNavigator** supports Swift Package Manager and contains two products, *ComposableNavigator* and *ComposableDeeplinking*.  
+**ComposableNavigator** supports Swift Package Manager and contains two products, *ComposableNavigator* and *ComposableDeeplinking*.
 
 ### Swift Package
 If you want to add **ComposableNavigator** to your Swift packages, add it as a dependency to your `Package.swift`.
