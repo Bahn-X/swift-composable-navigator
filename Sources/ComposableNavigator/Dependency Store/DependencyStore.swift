@@ -5,14 +5,14 @@ public class DependencyStore {
 
   private enum Key: Hashable {
     case global(String)
-    case screen(id: ScreenID, type: String)
+    case scoped(scope: String, type: String)
 
     static func global<T>(_ type: T.Type) -> Key {
       .global(String(describing: T.self))
     }
 
-    static func screen<T>(id: ScreenID, type: T.Type) -> Key {
-      .screen(id: id, type: String(describing: T.self))
+    static func scoped<T>(scope: String, type: T.Type) -> Key {
+      .scoped(scope: scope, type: String(describing: T.self))
     }
   }
 
@@ -26,23 +26,31 @@ public class DependencyStore {
     store[.global(Dependency.self)] = dependency
   }
 
+  public func register<Dependency>(dependency: Dependency, in scope: String) {
+    lock.lock(); defer { lock.unlock() }
+    store[.scoped(scope: scope, type: Dependency.self)] = dependency
+  }
+
+  // MARK: - Register Lazy
+  private func registerLazy<Dependency>(dependency: @escaping () -> Dependency, for key: Key) {
+    lock.lock(); defer { lock.unlock() }
+    guard !store.keys.contains(key) else {
+      return
+    }
+
+    lazyInits[key] = dependency
+  }
+
   public func registerLazyGlobal<Dependency>(dependency: @escaping () -> Dependency) {
-    lock.lock(); defer { lock.unlock() }
-    lazyInits[.global(Dependency.self)] = dependency
+    registerLazy(dependency: dependency, for: .global(Dependency.self))
   }
 
-  func register<Dependency>(dependency: Dependency, for screen: ScreenID) {
-    lock.lock(); defer { lock.unlock() }
-    store[.screen(id: screen, type: Dependency.self)] = dependency
-  }
-
-  func registerLazy<Dependency>(dependency: @escaping () -> Dependency, for screen: ScreenID) {
-    lock.lock(); defer { lock.unlock() }
-    lazyInits[.screen(id: screen, type: Dependency.self)] = dependency
+  public func registerLazy<Dependency>(dependency: @escaping () -> Dependency, in scope: String) {
+    registerLazy(dependency: dependency, for: .scoped(scope: scope, type: Dependency.self))
   }
 
   // MARK: - Get
-  private func get<Dependency>(of type: Dependency.Type, for key: Key) -> Dependency? {
+  private func get<Dependency>(dependency type: Dependency.Type, for key: Key) -> Dependency? {
     if store[key] == nil, let lazyInit = lazyInits[key] as? () -> Dependency {
       lazyInits[key] = nil
       let initialised = lazyInit()
@@ -53,18 +61,18 @@ public class DependencyStore {
     }
   }
 
-  public func get<Dependency>(of type: Dependency.Type) -> Dependency? {
+  public func get<Dependency>(dependency type: Dependency.Type) -> Dependency? {
     lock.lock(); defer { lock.unlock() }
-    return get(of: type, for: .global(type))
+    return get(dependency: type, for: .global(type))
   }
 
-  public func get<Dependency>(of type: Dependency.Type, for screen: ScreenID) -> Dependency? {
+  public func get<Dependency>(dependency type: Dependency.Type, in scope: String) -> Dependency? {
     lock.lock(); defer { lock.unlock() }
-    return get(of: type, for: .screen(id: screen, type: type))
+    return get(dependency: type, for: .scoped(scope: scope, type: type))
   }
 
   // MARK: - Unregister
-  public func unregisterGlobal<Dependency>(of type: Dependency.Type) {
+  public func unregisterGlobal<Dependency>(dependency type: Dependency.Type) {
     lock.lock(); defer { lock.unlock() }
     let key = Key.global(Dependency.self)
 
@@ -72,9 +80,9 @@ public class DependencyStore {
     lazyInits[key] = nil
   }
 
-  public func unregister<Dependency>(dependency: Dependency.Type, of screen: ScreenID) {
+  public func unregister<Dependency>(dependency: Dependency.Type, in scope: String) {
     lock.lock(); defer { lock.unlock() }
-    let key = Key.screen(id: screen, type: Dependency.self)
+    let key = Key.scoped(scope: scope, type: Dependency.self)
 
     store[key] = nil
     lazyInits[key] = nil

@@ -4,7 +4,7 @@ import XCTest
 final class DependencyStoreTests: XCTestCase {
   private let sut = DependencyStore.shared
   private let dependency = 0
-  private let screenID = ScreenID()
+  private let scope = "screenScope"
 
   private lazy var dependencyType = type(of: dependency)
 
@@ -16,51 +16,51 @@ final class DependencyStoreTests: XCTestCase {
   // MARK: - Register / Get
   func test_register_global_dependency() {
     sut.registerGlobal(dependency: dependency)
-    XCTAssertEqual(sut.get(of: dependencyType), dependency)
+    XCTAssertEqual(sut.get(dependency: dependencyType), dependency)
   }
 
   func test_register_lazy_global_dependency() {
     sut.registerLazyGlobal(dependency: { self.dependency })
-    XCTAssertEqual(sut.get(of: dependencyType), dependency)
+    XCTAssertEqual(sut.get(dependency: dependencyType), dependency)
   }
 
   func test_register_screen_dependency() {
-    sut.register(dependency: dependency, for: screenID)
-    XCTAssertEqual(sut.get(of: dependencyType, for: screenID), dependency)
+    sut.register(dependency: dependency, in: scope)
+    XCTAssertEqual(sut.get(dependency: dependencyType, in: scope), dependency)
   }
 
   func test_register_lazy_screen_dependency() {
-    sut.registerLazy(dependency: { self.dependency }, for: screenID)
-    XCTAssertEqual(sut.get(of: dependencyType, for: screenID), dependency)
+    sut.registerLazy(dependency: { self.dependency }, in: scope)
+    XCTAssertEqual(sut.get(dependency: dependencyType, in: scope), dependency)
   }
 
   // MARK: - Unregister / Get
   func test_unregister_global_dependency() {
     sut.registerGlobal(dependency: dependency)
 
-    sut.unregisterGlobal(of: dependencyType)
-    XCTAssertNil(sut.get(of: dependencyType))
+    sut.unregisterGlobal(dependency: dependencyType)
+    XCTAssertNil(sut.get(dependency: dependencyType))
   }
 
   func test_unregister_lazy_global_dependency() {
     sut.registerLazyGlobal(dependency: { self.dependency })
 
-    sut.unregisterGlobal(of: dependencyType)
-    XCTAssertNil(sut.get(of: dependencyType))
+    sut.unregisterGlobal(dependency: dependencyType)
+    XCTAssertNil(sut.get(dependency: dependencyType))
   }
 
   func test_unregister_screen_dependency() {
-    sut.register(dependency: dependency, for: screenID)
+    sut.register(dependency: dependency, in: scope)
 
-    sut.unregister(dependency: dependencyType, of: screenID)
-    XCTAssertNil(sut.get(of: dependencyType))
+    sut.unregister(dependency: dependencyType, in: scope)
+    XCTAssertNil(sut.get(dependency: dependencyType))
   }
 
   func test_unregister_lazy_screen_dependency() {
-    sut.registerLazy(dependency: { self.dependency }, for: screenID)
+    sut.registerLazy(dependency: { self.dependency }, in: scope)
 
-    sut.unregister(dependency: dependencyType, of: screenID)
-    XCTAssertNil(sut.get(of: dependencyType))
+    sut.unregister(dependency: dependencyType, in: scope)
+    XCTAssertNil(sut.get(dependency: dependencyType))
   }
 
   // MARK: - Reset
@@ -69,19 +69,19 @@ final class DependencyStoreTests: XCTestCase {
     let lazyDependencyType = type(of: lazyDependency)
 
     sut.registerGlobal(dependency: dependency)
-    sut.registerLazy(dependency: { lazyDependency }, for: screenID)
+    sut.registerLazy(dependency: { lazyDependency }, in: scope)
 
-    sut.register(dependency: dependency, for: screenID)
-    sut.registerLazy(dependency: { lazyDependency }, for: screenID)
+    sut.register(dependency: dependency, in: scope)
+    sut.registerLazy(dependency: { lazyDependency }, in: scope)
 
     sut.reset()
 
     // Global dependencies reset
-    XCTAssertNil(sut.get(of: dependencyType))
-    XCTAssertNil(sut.get(of: lazyDependencyType))
+    XCTAssertNil(sut.get(dependency: dependencyType))
+    XCTAssertNil(sut.get(dependency: lazyDependencyType))
 
     // Screen-scoped dependencies reset
-    XCTAssertNil(sut.get(of: dependencyType, for: screenID))
-    XCTAssertNil(sut.get(of: lazyDependencyType, for: screenID))
+    XCTAssertNil(sut.get(dependency: dependencyType, in: scope))
+    XCTAssertNil(sut.get(dependency: lazyDependencyType, in: scope))
   }
 }
