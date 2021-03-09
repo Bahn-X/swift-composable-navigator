@@ -33,7 +33,7 @@ final class ProviderTests: XCTestCase {
   func test_provider_exposes_dependency_value() {
     let sut = UIHostingController(
       rootView: Provider(
-        initialize: { "Content" },
+        initialize: { _, _ in "Content" },
         dependencyStore: dependencyStore,
         content: { content in
           Text(content)
@@ -52,7 +52,7 @@ final class ProviderTests: XCTestCase {
 
     let sut = UIHostingController(
       rootView: Provider(
-        observing: { store },
+        observing: { _, _ in store },
         dependencyStore: dependencyStore,
         content: { store in
           Text(store.content)
@@ -75,7 +75,7 @@ final class ProviderTests: XCTestCase {
 
     let sut = UIHostingController(
       rootView: Provider(
-        observing: { store },
+        observing: { _, _ in store },
         dependencyStore: dependencyStore,
         content: { store in
           Text(store.content)

@@ -1,15 +1,18 @@
 import SwiftUI
 
 public struct Provider<Dependency, Content: View>: View {
+  public typealias DependencyInitialiser = (Navigator, ScreenID) -> Dependency
+
+  @Environment(\.navigator) private var navigator
   @Environment(\.currentScreenID) private var currentScreenID
   @EnvironmentObject private var dataSource: Navigator.Datasource
 
-  private let initialize: () -> Dependency
+  private let initialize: DependencyInitialiser
   private let dependencyStore: DependencyStore
   private let content: (Dependency) -> Content
 
   public init(
-    initialize: @escaping () -> Dependency,
+    initialize: @escaping DependencyInitialiser,
     dependencyStore: DependencyStore = DependencyStore.shared,
     @ViewBuilder content: @escaping (Dependency) -> Content
   ) {
@@ -26,7 +29,7 @@ public struct Provider<Dependency, Content: View>: View {
     if let initializedDependency = dependencyStore.get(dependency: Dependency.self, in: screenScope) {
       return initializedDependency
     } else {
-      let initializedDependency = initialize()
+      let initializedDependency = initialize(navigator, currentScreenID)
       dependencyStore.register(dependency: initializedDependency, in: screenScope)
       return initializedDependency
     }
@@ -57,7 +60,7 @@ public struct ObservationWrapper<Dependency: ObservableObject, Content: View>: V
 
 extension Provider {
   public init<WrappedContent: View>(
-    observing: @escaping () -> Dependency,
+    observing: @escaping DependencyInitialiser,
     dependencyStore: DependencyStore = DependencyStore.shared,
     @ViewBuilder content: @escaping (Dependency) -> WrappedContent
   ) where Dependency: ObservableObject, Content == ObservationWrapper<Dependency, WrappedContent> {
