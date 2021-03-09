@@ -5,6 +5,9 @@
 <h3 align="center">
   An open source library for building deep-linkable SwiftUI applications with composition, testing and ergonomics in mind
 </h3>
+<p align="center"><a title="GitHub Actions" target="_blank" href="https://github.com/Bahn-X/swift-composable-navigator/workflows/test/badge.svg">
+		<img src="https://github.com/Bahn-X/swift-composable-navigator/workflows/test/badge.svg"
+					alt="test status"></p>
 <hr class="rounded">
 
 - [Vanilla SwiftUI navigation](#vanilla-swiftui-navigation)
