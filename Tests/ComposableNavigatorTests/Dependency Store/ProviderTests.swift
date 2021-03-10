@@ -88,10 +88,20 @@ final class ProviderTests: XCTestCase {
 
     assertSnapshot(matching: sut, as: .image)
 
-    XCTAssertNotNil(dependencyStore.get(dependency: Store.self, in: screenID.uuidString))
+    XCTAssertNotNil(
+      dependencyStore.get(
+        dependency: Store.self,
+        in: DependencyStore.Scope(screenID.uuidString)
+      )
+    )
 
     dataSource.dismiss(id: screenID)
 
-    XCTAssertNil(dependencyStore.get(dependency: Store.self, in: screenID.uuidString))
+    XCTAssertNil(
+      dependencyStore.get(
+        dependency: Store.self,
+        in: DependencyStore.Scope(screenID.uuidString)
+      )
+    )
   }
 }

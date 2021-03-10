@@ -1,6 +1,8 @@
 import SwiftUI
 
+/// A view providing a dependency to its content
 public struct Provider<Dependency, Content: View>: View {
+  /// A function initialising the dependency given the `Navigator` and the current `ScreenID`
   public typealias DependencyInitialiser = (Navigator, ScreenID) -> Dependency
 
   @Environment(\.navigator) private var navigator
@@ -11,6 +13,12 @@ public struct Provider<Dependency, Content: View>: View {
   private let dependencyStore: DependencyStore
   private let content: (Dependency) -> Content
 
+  /// Provider initialises and retains a dependency as long as the view is 'alive', i.e. part of the navigation path.
+  ///
+  /// - Parameters:
+  ///   - initialize: Closure used to initialize the dependency **once**
+  ///   - dependencyStore: The dependency store in which the dependency is retained
+  ///   - content: Closure building the view's content based on the initialized dependency
   public init(
     initialize: @escaping DependencyInitialiser,
     dependencyStore: DependencyStore = DependencyStore.shared,
@@ -21,8 +29,8 @@ public struct Provider<Dependency, Content: View>: View {
     self.content = content
   }
 
-  private var screenScope: String {
-    currentScreenID.uuidString
+  private var screenScope: DependencyStore.Scope {
+    DependencyStore.Scope(currentScreenID.uuidString)
   }
 
   private var dependency: Dependency {
@@ -30,7 +38,11 @@ public struct Provider<Dependency, Content: View>: View {
       return initializedDependency
     } else {
       let initializedDependency = initialize(navigator, currentScreenID)
-      dependencyStore.register(dependency: initializedDependency, in: screenScope)
+      dependencyStore.register(
+        dependency: initializedDependency,
+        representing: Dependency.self,
+        in: screenScope
+      )
       return initializedDependency
     }
   }
@@ -40,7 +52,9 @@ public struct Provider<Dependency, Content: View>: View {
       .onReceive(
         dataSource.$path,
         perform: { path in
-          if path.component(for: currentScreenID).current == nil {
+          let component = path.component(for: currentScreenID)
+
+          if let previous = component.previous?.content, previous != component.current?.content {
             dependencyStore.unregister(dependency: Dependency.self, in: screenScope)
           }
         }
@@ -49,6 +63,7 @@ public struct Provider<Dependency, Content: View>: View {
 }
 
 // MARK: - ObservableObject support
+/// A view that observes an observable dependency and updates its `Content` whenever the dependency emits a change
 public struct ObservationWrapper<Dependency: ObservableObject, Content: View>: View {
   @ObservedObject var dependency: Dependency
   let content: (Dependency) -> Content
@@ -59,18 +74,26 @@ public struct ObservationWrapper<Dependency: ObservableObject, Content: View>: V
 }
 
 extension Provider {
+  /// Convenience initialiser allowing to automatically update the content whenever the observable dependency emits a change
+  ///
+  /// - Parameters:
+  ///   - observing: Closure used to initialize the dependency **once**
+  ///   - dependencyStore: The dependency store in which the dependency is retained
+  ///   - content: Closure building the view's content based on the initialized dependency
   public init<WrappedContent: View>(
     observing: @escaping DependencyInitialiser,
     dependencyStore: DependencyStore = DependencyStore.shared,
     @ViewBuilder content: @escaping (Dependency) -> WrappedContent
   ) where Dependency: ObservableObject, Content == ObservationWrapper<Dependency, WrappedContent> {
-    self.initialize = observing
-    self.dependencyStore = dependencyStore
-    self.content = { dependency in
-      ObservationWrapper(
-        dependency: dependency,
-        content: content
-      )
-    }
+    self.init(
+      initialize: observing,
+      dependencyStore: dependencyStore,
+      content: { dependency in
+        ObservationWrapper(
+          dependency: dependency,
+          content: content
+        )
+      }
+    )
   }
 }
