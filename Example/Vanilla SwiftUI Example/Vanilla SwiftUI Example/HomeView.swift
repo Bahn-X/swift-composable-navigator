@@ -11,7 +11,8 @@ struct HomeScreen: Screen {
         content: { HomeView() },
         nesting: {
           DetailScreen.Builder()
-        })
+        }
+      )
     }
   }
 }

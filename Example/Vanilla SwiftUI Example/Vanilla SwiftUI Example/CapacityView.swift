@@ -2,7 +2,7 @@ import ComposableNavigator
 import SwiftUI
 
 struct CapacityScreen: Screen {
-  let capacity: Int64
+  let capacity: Int
   var presentationStyle: ScreenPresentationStyle = .sheet(allowsPush: true)
   
   struct Builder: NavigationTree {
@@ -18,7 +18,7 @@ struct CapacityView: View {
   @Environment(\.navigator) private var navigator
   @Environment(\.currentScreen) private var currentScreen
   
-  let capacity: Int64
+  let capacity: Int
   
   var body: some View {
     VStack {
