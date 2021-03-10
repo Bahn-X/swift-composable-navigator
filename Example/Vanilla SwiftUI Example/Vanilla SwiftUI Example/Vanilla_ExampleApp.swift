@@ -2,11 +2,10 @@ import ComposableNavigator
 import SwiftUI
 
 let trains: [Train] = [
-  Train(name: "ICE", capacity: 64),
-  Train(name: "Regio", capacity: 23),
-  Train(name: "Regio", capacity: 13),
-  Train(name: "SBahn", capacity: 65),
-  Train(name: "IC", capacity: 90)
+  Train(name: "ICE", capacity: 403),
+  Train(name: "Regio", capacity: 380),
+  Train(name: "SBahn", capacity: 184),
+  Train(name: "IC", capacity: 468)
 ]
 
 @main
