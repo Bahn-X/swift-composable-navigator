@@ -275,7 +275,7 @@ The Example application contains a UI test suite that is run on every pull reque
 The latest ComposableNavigator documentation is available in the [wiki](https://github.com/Bahn-X/swift-composable-navigator/wiki).
 
 ## Contribution
-**ComposableNavigator** welcomes contribution. Check our [code of conduct](./Documentation/CODE_OF_CONDUCT.md) and feel free to [open issues](https://github.com/Bahn-X/swift-composable-navigator/issues) for ideas, questions and improvements.
+The contribution process for this repository is described in [CONTRIBUTING](./CONTRIBUTING.md). We welcome contribution and look forward to your ideas.
 
 ## License
 This library is released under the MIT license. See [LICENSE](LICENSE) for details.
