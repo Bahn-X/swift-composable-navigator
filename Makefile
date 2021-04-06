@@ -18,6 +18,7 @@ test:
 
 cleanup:
 	rm -rf ./Build
+	rm -rf ./xcov_report
 	rm -rf ./coverage
 
 release:

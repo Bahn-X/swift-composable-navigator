@@ -47,8 +47,6 @@ let package = Package(
     ),
     .package(url: "https://github.com/shibapm/Rocket", from: "1.1.0"), // dev
     .package(name: "SnapshotTesting", url: "https://github.com/pointfreeco/swift-snapshot-testing.git", from: "1.8.2"), // dev
-    .package(name: "danger-swift", url: "https://github.com/danger/swift.git", from: "3.0.0"), // dev
-    .package(name: "DangerSwiftCoverage", url: "https://github.com/f-meloni/danger-swift-coverage", from: "1.2.0"), // dev
   ],
   targets: [
     .target(
@@ -78,7 +76,6 @@ let package = Package(
     .testTarget(name: "ComposableNavigatorTests", dependencies: ["ComposableNavigator", "SnapshotTesting"], exclude: testGybFiles + snapshotFolders), // dev
     .testTarget(name: "ComposableDeeplinkingTests", dependencies: ["ComposableDeeplinking"]), // dev
     .testTarget(name: "ComposableNavigatorTCATests", dependencies: ["ComposableNavigatorTCA", "SnapshotTesting"], exclude: tcaSnapshotFolders), // dev
-    .target(name: "DangerDependencies", dependencies: [.product(name: "Danger", package: "danger-swift"), "DangerSwiftCoverage"]), // dev
   ]
 )
 
