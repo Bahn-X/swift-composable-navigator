@@ -11,6 +11,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "14"
+
+      - name: Install DangerJS
+        run: npm install -g danger
+
       - name: Run tests
         run: make test
 

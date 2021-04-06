@@ -3,14 +3,12 @@ PLATFORM_IOS = iOS Simulator,name=iPhone 8
 test:
 	xcodebuild -resolvePackageDependencies \
 		-workspace Example/Example.xcworkspace \
-		-scheme Example \
-		-derivedDataPath Build
+		-scheme Example
 
 	xcodebuild clean test \
 		-workspace Example/Example.xcworkspace \
 		-scheme Example \
 		-testPlan FullTests \
-		-derivedDataPath Build \
 		-destination platform="$(PLATFORM_IOS)" \
 		-enableCodeCoverage YES \
 		-parallel-testing-enabled YES \
