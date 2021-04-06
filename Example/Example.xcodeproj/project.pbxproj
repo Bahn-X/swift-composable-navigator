@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -19,12 +19,6 @@
 		23A5B5B5255982A300B319DA /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5B4255982A300B319DA /* HomeView.swift */; };
 		23A5B5BB2559846B00B319DA /* DetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BA2559846B00B319DA /* DetailView.swift */; };
 		23A5B5C02559866000B319DA /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23A5B5BF2559866000B319DA /* SettingsView.swift */; };
-		23A9623F25E4098400AF0676 /* ComposableDeeplinking.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */; };
-		23A9624025E4098400AF0676 /* ComposableDeeplinking.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623C25E4098400AF0676 /* ComposableDeeplinking.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		23A9624125E4098400AF0676 /* ComposableNavigator.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623D25E4098400AF0676 /* ComposableNavigator.framework */; };
-		23A9624225E4098400AF0676 /* ComposableNavigator.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623D25E4098400AF0676 /* ComposableNavigator.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		23A9624325E4098400AF0676 /* ComposableNavigatorTCA.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */; };
-		23A9624425E4098400AF0676 /* ComposableNavigatorTCA.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 23A9623E25E4098400AF0676 /* ComposableNavigatorTCA.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		23B1557E25E3F12700E3B9F7 /* Home.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B1557D25E3F12700E3B9F7 /* Home.swift */; };
 		23B7589E255949F60073D19F /* AppCore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 236E6592255949DA00C19B46 /* AppCore.swift */; };
 		23C9A49A25E3A140005942F8 /* ExampleUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A49925E3A140005942F8 /* ExampleUITests.swift */; };
@@ -37,6 +31,9 @@
 		23C9A4CC25E3A945005942F8 /* Base.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4CB25E3A945005942F8 /* Base.swift */; };
 		23C9A4D125E3AA2F005942F8 /* AccessibilityIdentifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4B925E3A2EB005942F8 /* AccessibilityIdentifier.swift */; };
 		23C9A4D725E3AFA9005942F8 /* XCUIApplication+BackButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C9A4D625E3AFA9005942F8 /* XCUIApplication+BackButton.swift */; };
+		23E50836261C570A0071B113 /* ComposableDeeplinking in Frameworks */ = {isa = PBXBuildFile; productRef = 23E50835261C570A0071B113 /* ComposableDeeplinking */; };
+		23E50838261C570A0071B113 /* ComposableNavigator in Frameworks */ = {isa = PBXBuildFile; productRef = 23E50837261C570A0071B113 /* ComposableNavigator */; };
+		23E5083A261C570A0071B113 /* ComposableNavigatorTCA in Frameworks */ = {isa = PBXBuildFile; productRef = 23E50839261C570A0071B113 /* ComposableNavigatorTCA */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -48,22 +45,6 @@
 			remoteInfo = Example;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		23A9624525E4098400AF0676 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				23A9624025E4098400AF0676 /* ComposableDeeplinking.framework in Embed Frameworks */,
-				23A9624425E4098400AF0676 /* ComposableNavigatorTCA.framework in Embed Frameworks */,
-				23A9624225E4098400AF0676 /* ComposableNavigator.framework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		235F93F425D3D4600045E37D /* NavigationShortcutsView.swift */ = {isa = PBXFileReference; indentWidth = 2; lastKnownFileType = sourcecode.swift; path = NavigationShortcutsView.swift; sourceTree = "<group>"; tabWidth = 2; };
@@ -106,9 +87,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23A9623F25E4098400AF0676 /* ComposableDeeplinking.framework in Frameworks */,
-				23A9624325E4098400AF0676 /* ComposableNavigatorTCA.framework in Frameworks */,
-				23A9624125E4098400AF0676 /* ComposableNavigator.framework in Frameworks */,
+				23E5083A261C570A0071B113 /* ComposableNavigatorTCA in Frameworks */,
+				23E50836261C570A0071B113 /* ComposableDeeplinking in Frameworks */,
+				23E50838261C570A0071B113 /* ComposableNavigator in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -267,7 +248,6 @@
 				236E65782559498C00C19B46 /* Sources */,
 				236E65792559498C00C19B46 /* Frameworks */,
 				236E657A2559498C00C19B46 /* Resources */,
-				23A9624525E4098400AF0676 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -275,6 +255,9 @@
 			);
 			name = Example;
 			packageProductDependencies = (
+				23E50835261C570A0071B113 /* ComposableDeeplinking */,
+				23E50837261C570A0071B113 /* ComposableNavigator */,
+				23E50839261C570A0071B113 /* ComposableNavigatorTCA */,
 			);
 			productName = Example;
 			productReference = 236E657C2559498C00C19B46 /* Example.app */;
@@ -635,6 +618,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		23E50835261C570A0071B113 /* ComposableDeeplinking */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableDeeplinking;
+		};
+		23E50837261C570A0071B113 /* ComposableNavigator */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableNavigator;
+		};
+		23E50839261C570A0071B113 /* ComposableNavigatorTCA */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = ComposableNavigatorTCA;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 236E65742559498C00C19B46 /* Project object */;
 }

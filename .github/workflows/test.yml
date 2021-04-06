@@ -11,32 +11,19 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: ruby/setup-ruby@v1
-        with:
-          bundler-cache: true
-
-      - name: ruby versions
-        run: |
-          ruby --version
-          gem --version
-          bundler --version
-
       - name: Run tests
         run: make test
 
-      - uses: MeilCli/danger-action@v5
-        with:
-          plugins_file: "Gemfile"
-          danger_file: "Dangerfile"
-          danger_id: "danger-pr"
+      - name: Danger
+        run: swift run danger-swift ci
         env:
-          DANGER_GITHUB_API_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - uses: actions/upload-artifact@v2
         if: ${{ always() }}
         with:
           name: ResultBundle
-          path: ./Build/Logs/Test/*.xcresult
+          path: ./coverage/*.xcresult
           if-no-files-found: warn
           retention-days: 5
 

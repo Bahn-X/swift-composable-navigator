@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:Vanilla SwiftUI Example/Vanilla SwiftUI Example.xcodeproj">
+      location = "group:..">
    </FileRef>
    <FileRef
-      location = "group:../swift-composable-navigator.xcodeproj">
+      location = "group:Vanilla SwiftUI Example/Vanilla SwiftUI Example.xcodeproj">
    </FileRef>
    <FileRef
       location = "container:Example.xcodeproj">
