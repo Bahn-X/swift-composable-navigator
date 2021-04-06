@@ -17,11 +17,5 @@ platform :ios do
       xcargs: "-parallel-testing-enabled YES -parallel-testing-worker-count 4 -quiet",
       disable_xcpretty: true
     )
-
-    danger(
-      dangerfile: "./Dangerfile",
-      github_api_token: ENV["DANGER_GITHUB_API_TOKEN"],
-      verbose: true
-    )
   end
 end
