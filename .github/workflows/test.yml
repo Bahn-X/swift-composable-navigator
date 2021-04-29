@@ -2,8 +2,12 @@ name: test
 
 on:
   pull_request_target:
-    branches:
-      - "*"
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
 
 jobs:
   tests:
