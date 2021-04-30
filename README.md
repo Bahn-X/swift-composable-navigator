@@ -109,7 +109,7 @@ The navigator manages the application's current navigation path and allows mutat
 Navigators allow programmatic navigation and can be injected where needed, even into ViewModels.
 
 ### NavigationTree
-The **ComposableNavigator** is based on the concept of `PathBuilder` composition in form of a `NavigationTree`. A `NavigationTree`  composes `PathBuilder`s to describe all valid navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
+The **ComposableNavigator** is based on the concept of `PathBuilder` composition in the form of a `NavigationTree`. A `NavigationTree`  composes `PathBuilder`s to describe all valid navigation paths in an application. That also means that all screens in our application are accessible via a pre-defined navigation path.
 
 Let's look at an example `NavigationTree`:
 
@@ -126,7 +126,7 @@ struct AppNavigationTree: NavigationTree {
         HomeView(viewModel: homeViewModel)
       },
       nesting: {
-        DetailScreen.Builder(viewModel: detailViewModel),
+        DetailScreen.Builder(viewModel: detailViewModel)
         SettingsScreen.Builder(viewModel: settingsViewModel)
       }
     )
@@ -138,9 +138,9 @@ struct AppNavigationTree: NavigationTree {
 
 Based on `AppNavigationTree`, the following navigation paths are valid:
 ```
-  /home
-  /home/detail?id=0
-  /home/settings
+/home
+/home/detail?id=0
+/home/settings
 ```
 
 More information on the `NavigationTree` and how to compose `PathBuilder`s can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/NavigationTree).
@@ -204,7 +204,7 @@ struct AppNavigationTree: NavigationTree {
         HomeView(viewModel: homeViewModel)
       },
       nesting: {
-        DetailScreen.Builder(viewModel: detailViewModel),
+        DetailScreen.Builder(viewModel: detailViewModel)
         SettingsScreen.Builder(viewModel: settingsViewModel)
       }
     )
@@ -227,7 +227,7 @@ struct ExampleApp: App {
 ```
 
 ## Deeplinking
-As **ComposableNavigator** builds the view hierarchy based on navigation paths, it is the ideal companion to implement deeplinking. Deeplinks come in different forms and shapes, however **ComposableNavigator** abstracts it into a first-class representation in form of the `Deeplink` type. The **ComposableDeeplinking** library that is part of the **ComposableNavigator** contains a couple of helper types that allow easily replace the current navigation path with a new navigation path based on a `Deeplink` by defining a `DeeplinkHandler` and a composable `DeeplinkParser`.
+As **ComposableNavigator** builds the view hierarchy based on navigation paths, it is the ideal companion to implement deeplinking. Deeplinks come in different forms and shapes, however **ComposableNavigator** abstracts it into a first-class representation in the form of the `Deeplink` type. The **ComposableDeeplinking** library that is part of the **ComposableNavigator** contains a couple of helper types that allow easily replace the current navigation path with a new navigation path based on a `Deeplink` by defining a `DeeplinkHandler` and a composable `DeeplinkParser`.
 
 More information on deeplinking and how to implement it in your own application can be found [here](https://github.com/Bahn-X/swift-composable-navigator/wiki/Deeplinking).
 
