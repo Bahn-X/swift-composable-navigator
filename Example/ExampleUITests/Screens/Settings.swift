@@ -12,13 +12,13 @@ class Settings<Predecessor: Base>: Base {
     AccessibilityIdentifier.SettingsScreen(prefix: prefix)
   }
 
-  lazy var shortscutsSheetButton = app
-    .buttons[accessibilityIdentifiers.shortcutsSheet]
-    .await()
+  var shortcutsSheetButton: XCUIElement {
+    app.buttons[accessibilityIdentifiers.shortcutsSheet].await()
+  }
 
-  lazy var shortscutsPushButton = app
-    .buttons[accessibilityIdentifiers.shortcutsPush]
-    .await()
+  var shortcutsPushButton: XCUIElement {
+    app.buttons[accessibilityIdentifiers.shortcutsPush].await()
+  }
 
   init(predecessor: Predecessor, prefix: String, app: XCUIApplication) {
     self.predecessor = predecessor
@@ -28,19 +28,19 @@ class Settings<Predecessor: Base>: Base {
 
   @discardableResult
   func assertVisible() -> Self {
-    XCTAssertTrue(shortscutsSheetButton.exists)
+    XCTAssertTrue(shortcutsSheetButton.exists)
     return self
   }
 
   @discardableResult
   func goToShortcutsPush() -> NavigationShortcuts {
-    shortscutsPushButton.tap()
+    shortcutsPushButton.tap()
     return NavigationShortcuts(accessibilityPrefix: "shortcuts", app: app)
   }
 
   @discardableResult
   func goToShortcutsSheet() -> NavigationShortcuts {
-    shortscutsSheetButton.tap()
+    shortcutsSheetButton.tap()
     return NavigationShortcuts(accessibilityPrefix: "shortcuts", app: app)
   }
 

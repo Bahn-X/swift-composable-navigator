@@ -2,18 +2,16 @@
 import XCTest
 
 class Home: Base {
-  lazy var settingsButton = app
-    .buttons[AccessibilityIdentifier.HomeScreen.settingsNavigationBarItem]
-    .await()
+  var settingsButton: XCUIElement {
+    app.buttons[AccessibilityIdentifier.HomeScreen.settingsNavigationBarItem].await()
+  }
 
   func detail(for id: String) -> XCUIElement {
-    app.buttons[AccessibilityIdentifier.HomeScreen.detail(for: id)]
-      .await()
+    app.buttons[AccessibilityIdentifier.HomeScreen.detail(for: id)].await()
   }
 
   func detailSettings(for id: String) -> XCUIElement {
-    app.buttons[AccessibilityIdentifier.HomeScreen.detailSettings(for: id)]
-      .await()
+    app.buttons[AccessibilityIdentifier.HomeScreen.detailSettings(for: id)].await()
   }
 
   @discardableResult
