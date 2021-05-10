@@ -3,14 +3,16 @@ import SwiftUI
 /// Screen container view, taking care of push and sheet bindings.
 public struct NavigationNode<Content: View, Successor: View>: View {
   private struct SuccessorView: Identifiable, View {
-    let screen: IdentifiedScreen
+    let pathElement: NavigationPathElement
     let body: Successor
 
-    var id: ScreenID { screen.id }
-    var presentationStyle: ScreenPresentationStyle { screen.content.presentationStyle }
+    var id: ScreenID { pathElement.id }
+    var presentationStyle: ScreenPresentationStyle {
+      pathElement.content.presentationStyle
+    }
 
-    init(successor: IdentifiedScreen, content: Successor) {
-      self.screen = successor
+    init(successor: NavigationPathElement, content: Successor) {
+      self.pathElement = successor
       self.body = content
     }
   }
@@ -24,12 +26,12 @@ public struct NavigationNode<Content: View, Successor: View>: View {
 
   let content: Content
   let onAppear: (Bool) -> Void
-  let buildSuccessor: (AnyScreen) -> Successor?
+  let buildSuccessor: (NavigationPathElement) -> Successor?
 
   public init(
     content: Content,
     onAppear: @escaping (Bool) -> Void,
-    buildSuccessor: @escaping (AnyScreen) -> Successor?
+    buildSuccessor: @escaping (NavigationPathElement) -> Successor?
   ) {
     self.content = content
     self.onAppear = onAppear
@@ -62,14 +64,14 @@ public struct NavigationNode<Content: View, Successor: View>: View {
       }
   }
 
-  private var screen: IdentifiedScreen? {
-    dataSource.path.current.first(where: { $0.id == screenID })
+  private var screen: NavigationPathElement? {
+    dataSource.path.component(for: screenID).current
   }
 
   private var successorView: SuccessorView? {
     let successorUpdate = dataSource.path.successor(of: screenID)
     return successorUpdate.current.flatMap { successor in
-      buildSuccessor(successor.content).flatMap { content in
+      buildSuccessor(successor).flatMap { content in
         SuccessorView(successor: successor, content: content)
       }
     }
@@ -87,7 +89,9 @@ public struct NavigationNode<Content: View, Successor: View>: View {
         return true
       },
       set: { isActive in
-        guard !isActive, let successor = successorView?.screen, successor.hasAppeared else {
+        guard !isActive,
+              let successor = successorView?.pathElement,
+              successor.hasAppeared else {
           return
         }
         navigator.dismiss(id: successor.id)
@@ -121,7 +125,9 @@ public struct NavigationNode<Content: View, Successor: View>: View {
           }
         }
 
-        guard value == nil, let successor = successorView?.screen, successor.hasAppeared else {
+        guard value == nil,
+              let successor = successorView?.pathElement,
+              successor.hasAppeared else {
           return
         }
 
@@ -135,13 +141,13 @@ public struct NavigationNode<Content: View, Successor: View>: View {
     let content = successor
       .environment(\.parentScreenID, screenID)
       .environment(\.parentScreen, currentScreen)
-      .environment(\.currentScreenID, successor.screen.id)
-      .environment(\.currentScreen, successor.screen.content)
+      .environment(\.currentScreenID, successor.pathElement.id)
+      .environment(\.currentScreen, successor.pathElement.content)
       .environment(\.navigator, navigator)
       .environment(\.treatSheetDismissAsAppearInPresenter, treatSheetDismissAsAppearInPresenter)
       .environmentObject(dataSource)
 
-    switch successor.screen.content.presentationStyle {
+    switch successor.pathElement.content.presentationStyle {
     case .push, .sheet(allowsPush: false):
       content
     case .sheet(allowsPush: true):

@@ -13,6 +13,6 @@ final class NavigationTree_EmptyTests: XCTestCase {
     
     let sut = TestNavigationTree()
     
-    XCTAssertNil(sut.build(pathElement: pathElement))
+    XCTAssertNil(sut.build(pathElement: pathElement.asPathElement()))
   }
 }

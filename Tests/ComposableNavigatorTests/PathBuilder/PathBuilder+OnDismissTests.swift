@@ -10,21 +10,21 @@ final class PathBuilder_OnDismissTest: XCTestCase {
     let presentationStyle: ScreenPresentationStyle = .push
   }
 
-  func testScreen(with id: String) -> IdentifiedScreen {
-    IdentifiedScreen(
-      id: testScreenID,
-      content: TestScreen(identifier: id, presentationStyle: .push),
-      hasAppeared: false
-    )
-  }
+  let testScreen = TestScreen(identifier: "0", presentationStyle: .push)
 
-  lazy var pathElement = testScreen(with: "0").content
+  lazy var identifiedTestScreen = IdentifiedScreen(
+    id: testScreenID,
+      content: testScreen,
+    hasAppeared: false
+  )
+
+  lazy var pathElement = testScreen.asPathElement()
 
   func dataSource() -> Navigator.Datasource {
     Navigator.Datasource(
       path: [
         IdentifiedScreen(id: .root, content: RootScreen(), hasAppeared: true),
-        testScreen(with: "0")
+        identifiedTestScreen
       ]
     )
   }
@@ -45,7 +45,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
           dismissCalled = true
           XCTAssertEqual(
             screen,
-            self.testScreen(with: "0").content
+            self.identifiedTestScreen.content
           )
         }
       )
@@ -77,7 +77,7 @@ final class PathBuilder_OnDismissTest: XCTestCase {
           dismissCalled = true
           XCTAssertEqual(
             screen,
-            self.testScreen(with: "0").content.unwrap()
+            self.identifiedTestScreen.content.unwrap()
           )
         }
       )

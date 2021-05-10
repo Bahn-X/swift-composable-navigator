@@ -10,12 +10,12 @@ final class NavigationTree_WildcardTest: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    let pathElement = NonMatching().eraseToAnyScreen()
+    let pathElement = NonMatching().asPathElement()
 
     let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder { path -> EmptyView? in
-        let expected = self.testScreen.eraseToAnyScreen()
+        let expected = self.testScreen.asPathElement()
 
         XCTAssertEqual(expected, path)
         return EmptyView()
@@ -31,13 +31,13 @@ final class NavigationTree_WildcardTest: XCTestCase {
     let sut = EmptyNavigationTree().Wildcard(
       screen: testScreen,
       pathBuilder: _PathBuilder { pathElement -> EmptyView? in
-        XCTAssertEqual(self.testScreen.eraseToAnyScreen(), pathElement)
+        XCTAssertEqual(self.testScreen.asPathElement(), pathElement)
         return EmptyView()
       }
     )
 
     let builtScreen = sut.build(
-      pathElement: testScreen
+      pathElement: testScreen.asPathElement()
     )
 
     XCTAssertNotNil(builtScreen)

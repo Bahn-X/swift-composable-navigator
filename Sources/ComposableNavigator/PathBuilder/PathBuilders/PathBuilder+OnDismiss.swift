@@ -4,7 +4,7 @@ public struct OnDismissView<Content: View>: View {
   @EnvironmentObject var datasource: Navigator.Datasource
   @Environment(\.parentScreenID) var parentScreenID
 
-  let build: (AnyScreen) -> Content?
+  let build: (NavigationPathElement) -> Content?
   let content: Content
   let perform: (AnyScreen) -> Void
 
@@ -18,7 +18,7 @@ public struct OnDismissView<Content: View>: View {
           else { return }
 
           let update = path.successor(of: parentScreenID)
-          let built = update.current.flatMap { current in build(current.content) }
+          let built = update.current.flatMap(build)
           let previouslyBuiltScreen = update.previous?.content
           let builtScreen = built != nil ? update.current?.content : nil
 
@@ -54,7 +54,11 @@ public extension PathBuilder {
   ) -> _PathBuilder<OnDismissView<Content>> {
     _PathBuilder { pathElement in
       build(pathElement: pathElement).flatMap { content in
-        OnDismissView(build: self.build(pathElement:), content: content, perform: perform)
+        OnDismissView(
+            build: self.build(pathElement:),
+            content: content,
+            perform: perform
+        )
       }
     }
   }

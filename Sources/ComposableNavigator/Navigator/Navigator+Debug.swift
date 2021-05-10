@@ -3,7 +3,7 @@ public extension Navigator {
   /// Enable  logging received function calls and path changes.
   func debug(
     log: @escaping (String) -> Void = { print($0) },
-    dumpPath: @escaping (PathUpdate) -> Void = { dump($0) }
+    dumpPath: @escaping (NavigationPathUpdate) -> Void = { dump($0) }
   ) -> Navigator {
     Navigator(
       path: path,

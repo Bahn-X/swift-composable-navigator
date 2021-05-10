@@ -3,7 +3,7 @@ import Foundation
 public extension Navigator {
   /// Observable Object exposing navigation path changes
   class Datasource: ObservableObject {
-    @Published public var path: PathUpdate
+    @Published public var path: NavigationPathUpdate
 
     private let screenID: () -> ScreenID
 
@@ -11,7 +11,10 @@ public extension Navigator {
       path: [IdentifiedScreen],
       screenID: @escaping () -> ScreenID = ScreenID.init
     ) {
-      self.path = PathUpdate(previous: [], current: path)
+      self.path = NavigationPathUpdate(
+        previous: [],
+        current: path.map(NavigationPathElement.screen)
+      )
       self.screenID = screenID
     }
 
@@ -22,10 +25,12 @@ public extension Navigator {
 
       update(
         path: path.current.prefix(through: index) + [
-          IdentifiedScreen(
-            id: screenID(),
-            content: successor,
-            hasAppeared: false
+          .screen(
+            IdentifiedScreen(
+              id: screenID(),
+              content: successor,
+              hasAppeared: false
+            )
           )
         ]
       )
@@ -54,8 +59,8 @@ public extension Navigator {
       let suffixRange = suffix.startIndex..<suffix.startIndex.advanced(by: newPath.count)
 
       let appendedPath = zip(suffixRange, newPath)
-        .map { index, element -> IdentifiedScreen in
-          let oldPathElement: IdentifiedScreen? = matchingContentRange.contains(index)
+        .map { index, element -> NavigationPathElement in
+          let oldPathElement: NavigationPathElement? = matchingContentRange.contains(index)
             ? suffix[index]
             : nil
 
@@ -63,10 +68,12 @@ public extension Navigator {
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
             && (index != matchingContentRange.last || index == path.current.endIndex.advanced(by: -1))
 
-          return IdentifiedScreen(
-            id: id,
-            content: element,
-            hasAppeared: hasAppeared
+          return .screen(
+            IdentifiedScreen(
+              id: id,
+              content: element,
+              hasAppeared: hasAppeared
+            )
           )
         }
 
@@ -106,8 +113,8 @@ public extension Navigator {
 
       let newPath = path
         .enumerated()
-        .map { (index, element) -> IdentifiedScreen in
-          let oldPathElement: IdentifiedScreen? = matchingContentRange.contains(index)
+        .map { (index, element) -> NavigationPathElement in
+          let oldPathElement: NavigationPathElement? = matchingContentRange.contains(index)
             ? self.path.current[index]
             : nil
 
@@ -116,10 +123,12 @@ public extension Navigator {
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
             && (index != matchingContentRange.last || index == self.path.current.endIndex.advanced(by: -1))
 
-          return IdentifiedScreen(
-            id: id,
-            content: element,
-            hasAppeared: hasAppeared
+          return .screen(
+            IdentifiedScreen(
+              id: id,
+              content: element,
+              hasAppeared: hasAppeared
+            )
           )
         }
 
@@ -149,10 +158,12 @@ public extension Navigator {
             return element
           }
 
-          return IdentifiedScreen(
-            id: element.id,
-            content: newContent,
-            hasAppeared: element.hasAppeared
+          return .screen(
+            IdentifiedScreen(
+              id: element.id,
+              content: newContent,
+              hasAppeared: element.hasAppeared
+            )
           )
         }
       )
@@ -173,19 +184,21 @@ public extension Navigator {
             return element
           }
 
-          return IdentifiedScreen(
-            id: element.id,
-            content: element.content,
-            hasAppeared: true
+          return .screen(
+            IdentifiedScreen(
+              id: element.id,
+              content: element.content,
+              hasAppeared: true
+            )
           )
         }
       )
     }
 
-    private func update(path newValue: [IdentifiedScreen]) {
+    private func update(path newValue: NavigationPath) {
       guard newValue != path.current else { return }
 
-      path = PathUpdate(
+      path = NavigationPathUpdate(
         previous: path.current,
         current: newValue
       )
@@ -195,7 +208,7 @@ public extension Navigator {
 
 // MARK: - Screen based navigation
 extension Navigator.Datasource {
-  private func identifiedScreen(for content: AnyScreen) -> IdentifiedScreen? {
+  private func identifiedScreen(for content: AnyScreen) -> NavigationPathElement? {
     path.current.last(where: { $0.content == content })
   }
 

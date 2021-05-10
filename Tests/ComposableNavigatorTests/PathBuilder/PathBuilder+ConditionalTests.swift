@@ -3,14 +3,14 @@ import SwiftUI
 import XCTest
 
 final class PathBuilder_Conditional_Tests: XCTestCase {
-  let pathElement = TestScreen(identifier: "", presentationStyle: .push)
+  let pathElement = TestScreen(identifier: "", presentationStyle: .push).asPathElement()
 
   // MARK: - If
   func test_if_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
 
     let expectedThenBuilderInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     let sut = PathBuilders
@@ -27,14 +27,14 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifElse_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
     let expectedThenBuilderInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
-    let expectedElseBuilderInvocations = [AnyScreen]()
+    let expectedElseBuilderInvocations = [NavigationPathElement]()
 
     let sut = PathBuilders
       .if (
@@ -56,13 +56,13 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifElse_builds_else_builder_if_condition_is_false() {
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
-    let expectedThenBuilderInvocations = [AnyScreen]()
+    let expectedThenBuilderInvocations = [NavigationPathElement]()
 
     let expectedElseBuilderInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     let sut = PathBuilders.if (
@@ -85,9 +85,9 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   // MARK: - ifLet
   func test_ifLet_without_elseBuilder_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
     let expectedThenBuilderInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     var unwrappedContents = [Int]()
@@ -112,14 +112,14 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
 
   func test_ifLet_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
     let expectedThenBuilderInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
-    let expectedElseBuilderInvocations = [AnyScreen]()
+    let expectedElseBuilderInvocations = [NavigationPathElement]()
 
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [1]
@@ -149,12 +149,12 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifLet_builds_elseBuilder_ifLetContent_is_nil() {
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
-    let expectedThenBuilderInvocations = [AnyScreen]()
+    let expectedThenBuilderInvocations = [NavigationPathElement]()
 
-    let expectedElseBuilderInvocations = [pathElement.eraseToAnyScreen()]
+    let expectedElseBuilderInvocations = [pathElement]
 
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [Int]()

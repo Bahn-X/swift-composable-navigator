@@ -1,7 +1,7 @@
 // MARK: - Stub
 public extension Navigator {
   static func mock(
-    path: @escaping () -> PathUpdate = {
+    path: @escaping () -> NavigationPathUpdate = {
       fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     go: @escaping (AnyScreen, ScreenID) -> Void = { _, _ in
@@ -67,7 +67,7 @@ public extension Navigator {
   }
 
   static func mock(
-    path: @escaping () -> PathUpdate = {
+    path: @escaping () -> NavigationPathUpdate = {
       fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     goToInvoked: @escaping (Navigator.GoToInvocation) -> Void = { _ in

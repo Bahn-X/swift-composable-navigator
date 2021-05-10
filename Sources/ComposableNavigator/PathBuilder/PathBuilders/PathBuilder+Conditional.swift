@@ -141,8 +141,10 @@ public extension PathBuilders {
     else: Else
   ) -> _PathBuilder<EitherAB<If.Content, Else.Content>> {
     _PathBuilder { pathElement in
-      if let unwrappedScreen: S = pathElement.unwrap() {
-        return pathBuilder(unwrappedScreen).build(pathElement: pathElement).map(EitherAB.a)
+      if let unwrappedScreen: S = pathElement.content.unwrap() {
+        return pathBuilder(unwrappedScreen)
+          .build(pathElement: pathElement)
+          .map(EitherAB.a)
       } else {
         return `else`.build(pathElement: pathElement).map(EitherAB.b)
       }

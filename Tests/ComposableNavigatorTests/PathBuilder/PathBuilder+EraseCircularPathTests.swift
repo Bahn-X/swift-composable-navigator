@@ -20,7 +20,7 @@ final class PathBuilder_EraseCircularPathTests: XCTestCase {
       pathElement: TestScreen(
         identifier: "",
         presentationStyle: .push
-      )
+      ).asPathElement()
     )
 
     XCTAssertNotNil(built)
@@ -34,7 +34,7 @@ final class PathBuilder_EraseCircularPathTests: XCTestCase {
       pathElement: TestScreen(
         identifier: "",
         presentationStyle: .push
-      )
+      ).asPathElement()
     )
 
     XCTAssertNil(built)

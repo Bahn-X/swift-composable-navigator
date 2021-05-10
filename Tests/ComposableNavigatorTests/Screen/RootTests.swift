@@ -7,7 +7,7 @@ final class RootTests: XCTestCase {
   func test_root_wraps_content_in_navigation_view() {
     let rootScreen = TestScreen(identifier: "0", presentationStyle: .push)
 
-    let expectedPath = rootScreen.eraseToAnyScreen()
+    let expectedPath = rootScreen.asPathElement()
     var onAppearCalled = false
 
     let root = Root(
