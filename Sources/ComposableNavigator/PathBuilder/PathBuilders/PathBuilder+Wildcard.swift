@@ -57,13 +57,32 @@ public extension PathBuilders {
     pathBuilder: ContentBuilder
   ) -> _PathBuilder<WildcardView<Content, S>> where ContentBuilder.Content == Content {
     _PathBuilder { pathElement in
-      pathBuilder.build(pathElement: screen.eraseToAnyScreen())
-        .flatMap { content in
-          WildcardView(
-            wildcard: screen,
-            content: content
-          )
-        }
+      pathBuilder.build(
+        pathElement: pathElement.wildcard(
+          screen: screen
+        )
+      )
+      .flatMap { content in
+        WildcardView(
+          wildcard: screen,
+          content: content
+        )
+      }
+    }
+  }
+}
+
+extension NavigationPathElement {
+  func wildcard<S: Screen>(screen: S) -> NavigationPathElement {
+    switch self {
+    case .screen:
+      return .screen(
+        IdentifiedScreen(
+          id: id,
+          content: screen,
+          hasAppeared: hasAppeared
+        )
+      )
     }
   }
 }

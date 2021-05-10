@@ -62,7 +62,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -77,7 +77,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -91,7 +91,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -113,7 +113,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -128,7 +128,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -143,7 +143,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -157,7 +157,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -183,7 +183,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -198,7 +198,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -213,7 +213,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -228,7 +228,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -242,7 +242,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -272,7 +272,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -287,7 +287,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -302,7 +302,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -317,7 +317,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -332,7 +332,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -346,7 +346,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -380,7 +380,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -395,7 +395,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -410,7 +410,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -425,7 +425,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -440,7 +440,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -455,7 +455,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: fScreen
-    let fBuiltView = sut.build(pathElement: FScreen())
+    let fBuiltView = sut.build(pathElement: FScreen().asPathElement())
 
     guard case .f = fBuiltView else {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
@@ -469,7 +469,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -507,7 +507,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -522,7 +522,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -537,7 +537,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -552,7 +552,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -567,7 +567,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -582,7 +582,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: fScreen
-    let fBuiltView = sut.build(pathElement: FScreen())
+    let fBuiltView = sut.build(pathElement: FScreen().asPathElement())
 
     guard case .f = fBuiltView else {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
@@ -597,7 +597,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: gScreen
-    let gBuiltView = sut.build(pathElement: GScreen())
+    let gBuiltView = sut.build(pathElement: GScreen().asPathElement())
 
     guard case .g = gBuiltView else {
       XCTFail("Expected \(GScreen.self) to build Either.g. Got \(gBuiltView.debugDescription).")
@@ -611,7 +611,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -653,7 +653,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -668,7 +668,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -683,7 +683,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -698,7 +698,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -713,7 +713,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -728,7 +728,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: fScreen
-    let fBuiltView = sut.build(pathElement: FScreen())
+    let fBuiltView = sut.build(pathElement: FScreen().asPathElement())
 
     guard case .f = fBuiltView else {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
@@ -743,7 +743,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: gScreen
-    let gBuiltView = sut.build(pathElement: GScreen())
+    let gBuiltView = sut.build(pathElement: GScreen().asPathElement())
 
     guard case .g = gBuiltView else {
       XCTFail("Expected \(GScreen.self) to build Either.g. Got \(gBuiltView.debugDescription).")
@@ -758,7 +758,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: hScreen
-    let hBuiltView = sut.build(pathElement: HScreen())
+    let hBuiltView = sut.build(pathElement: HScreen().asPathElement())
 
     guard case .h = hBuiltView else {
       XCTFail("Expected \(HScreen.self) to build Either.h. Got \(hBuiltView.debugDescription).")
@@ -772,7 +772,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -818,7 +818,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -833,7 +833,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -848,7 +848,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -863,7 +863,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -878,7 +878,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -893,7 +893,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: fScreen
-    let fBuiltView = sut.build(pathElement: FScreen())
+    let fBuiltView = sut.build(pathElement: FScreen().asPathElement())
 
     guard case .f = fBuiltView else {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
@@ -908,7 +908,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: gScreen
-    let gBuiltView = sut.build(pathElement: GScreen())
+    let gBuiltView = sut.build(pathElement: GScreen().asPathElement())
 
     guard case .g = gBuiltView else {
       XCTFail("Expected \(GScreen.self) to build Either.g. Got \(gBuiltView.debugDescription).")
@@ -923,7 +923,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: hScreen
-    let hBuiltView = sut.build(pathElement: HScreen())
+    let hBuiltView = sut.build(pathElement: HScreen().asPathElement())
 
     guard case .h = hBuiltView else {
       XCTFail("Expected \(HScreen.self) to build Either.h. Got \(hBuiltView.debugDescription).")
@@ -938,7 +938,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: iScreen
-    let iBuiltView = sut.build(pathElement: IScreen())
+    let iBuiltView = sut.build(pathElement: IScreen().asPathElement())
 
     guard case .i = iBuiltView else {
       XCTFail("Expected \(IScreen.self) to build Either.i. Got \(iBuiltView.debugDescription).")
@@ -952,7 +952,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
@@ -1002,7 +1002,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     }
 
     // MARK: aScreen
-    let aBuiltView = sut.build(pathElement: AScreen())
+    let aBuiltView = sut.build(pathElement: AScreen().asPathElement())
 
     guard case .a = aBuiltView else {
       XCTFail("Expected \(AScreen.self) to build Either.a. Got \(aBuiltView.debugDescription).")
@@ -1017,7 +1017,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: bScreen
-    let bBuiltView = sut.build(pathElement: BScreen())
+    let bBuiltView = sut.build(pathElement: BScreen().asPathElement())
 
     guard case .b = bBuiltView else {
       XCTFail("Expected \(BScreen.self) to build Either.b. Got \(bBuiltView.debugDescription).")
@@ -1032,7 +1032,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: cScreen
-    let cBuiltView = sut.build(pathElement: CScreen())
+    let cBuiltView = sut.build(pathElement: CScreen().asPathElement())
 
     guard case .c = cBuiltView else {
       XCTFail("Expected \(CScreen.self) to build Either.c. Got \(cBuiltView.debugDescription).")
@@ -1047,7 +1047,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: dScreen
-    let dBuiltView = sut.build(pathElement: DScreen())
+    let dBuiltView = sut.build(pathElement: DScreen().asPathElement())
 
     guard case .d = dBuiltView else {
       XCTFail("Expected \(DScreen.self) to build Either.d. Got \(dBuiltView.debugDescription).")
@@ -1062,7 +1062,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: eScreen
-    let eBuiltView = sut.build(pathElement: EScreen())
+    let eBuiltView = sut.build(pathElement: EScreen().asPathElement())
 
     guard case .e = eBuiltView else {
       XCTFail("Expected \(EScreen.self) to build Either.e. Got \(eBuiltView.debugDescription).")
@@ -1077,7 +1077,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: fScreen
-    let fBuiltView = sut.build(pathElement: FScreen())
+    let fBuiltView = sut.build(pathElement: FScreen().asPathElement())
 
     guard case .f = fBuiltView else {
       XCTFail("Expected \(FScreen.self) to build Either.f. Got \(fBuiltView.debugDescription).")
@@ -1092,7 +1092,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: gScreen
-    let gBuiltView = sut.build(pathElement: GScreen())
+    let gBuiltView = sut.build(pathElement: GScreen().asPathElement())
 
     guard case .g = gBuiltView else {
       XCTFail("Expected \(GScreen.self) to build Either.g. Got \(gBuiltView.debugDescription).")
@@ -1107,7 +1107,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: hScreen
-    let hBuiltView = sut.build(pathElement: HScreen())
+    let hBuiltView = sut.build(pathElement: HScreen().asPathElement())
 
     guard case .h = hBuiltView else {
       XCTFail("Expected \(HScreen.self) to build Either.h. Got \(hBuiltView.debugDescription).")
@@ -1122,7 +1122,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: iScreen
-    let iBuiltView = sut.build(pathElement: IScreen())
+    let iBuiltView = sut.build(pathElement: IScreen().asPathElement())
 
     guard case .i = iBuiltView else {
       XCTFail("Expected \(IScreen.self) to build Either.i. Got \(iBuiltView.debugDescription).")
@@ -1137,7 +1137,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
     // MARK: jScreen
-    let jBuiltView = sut.build(pathElement: JScreen())
+    let jBuiltView = sut.build(pathElement: JScreen().asPathElement())
 
     guard case .j = jBuiltView else {
       XCTFail("Expected \(JScreen.self) to build Either.j. Got \(jBuiltView.debugDescription).")
@@ -1151,7 +1151,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
       as: .image
     )
 
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }

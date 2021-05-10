@@ -40,7 +40,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
         ],
@@ -64,7 +64,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
         ],
@@ -104,7 +104,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -154,7 +154,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -201,7 +201,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -248,7 +248,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -292,7 +292,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -330,7 +330,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -366,7 +366,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
@@ -392,7 +392,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
@@ -420,7 +420,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -444,7 +444,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -476,7 +476,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -512,7 +512,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -552,7 +552,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(previous: [], current: path)
+      NavigationPathUpdate(previous: [], current: path)
     )
   }
 
@@ -580,7 +580,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: [
           IdentifiedScreen(
@@ -629,7 +629,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
@@ -672,7 +672,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -693,7 +693,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -719,7 +719,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
@@ -747,7 +747,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
@@ -776,7 +776,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -803,7 +803,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -829,7 +829,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
@@ -857,7 +857,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: self.root, hasAppeared: false),
@@ -886,7 +886,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -913,7 +913,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -938,7 +938,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: path
       )
@@ -975,7 +975,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: expectedPath
       )
@@ -1007,7 +1007,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: expectedPath
       )
@@ -1044,7 +1044,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: expectedPath
       )
@@ -1079,7 +1079,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: [],
         current: expectedPath
       )
@@ -1105,7 +1105,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     XCTAssertEqual(
       sut.path,
-      PathUpdate(
+      NavigationPathUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(id: .root, content: root, hasAppeared: false),

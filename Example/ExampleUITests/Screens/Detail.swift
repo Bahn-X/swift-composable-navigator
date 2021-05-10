@@ -4,13 +4,13 @@ class Detail: Base {
   let id: String
   lazy var accessibilityIdentifiers = AccessibilityIdentifier.DetailScreen(id: id)
 
-  lazy var shortcutsButton = app
-    .buttons[accessibilityIdentifiers.shortcuts]
-    .await()
+  var shortcutsButton: XCUIElement {
+    app.buttons[accessibilityIdentifiers.shortcuts].await()
+  }
 
-  lazy var settingsButton = app
-    .buttons[accessibilityIdentifiers.settings]
-    .await()
+  var settingsButton: XCUIElement {
+    app.buttons[accessibilityIdentifiers.settings].await()
+  }
 
   var shortcuts: NavigationShortcuts {
     NavigationShortcuts(accessibilityPrefix: "detail.\(id)", app: app)

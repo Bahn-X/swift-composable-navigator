@@ -7,6 +7,6 @@ final class PathBuilder_EmptyTests: XCTestCase {
     
     let sut = PathBuilders.empty
 
-    XCTAssertNil(sut.build(pathElement: pathElement))
+    XCTAssertNil(sut.build(pathElement: pathElement.asPathElement()))
   }
 }

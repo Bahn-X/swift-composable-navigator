@@ -60,7 +60,7 @@ public struct Root<Builder: PathBuilder>: View {
     if let rootPathComponent = dataSource.path.current.first {
       NavigationView {
         pathBuilder.build(
-          pathElement: rootPathComponent.content
+          pathElement: rootPathComponent
         )
       }
       .environment(

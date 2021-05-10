@@ -2,8 +2,8 @@ import XCTest
 
 extension XCUIElement {
   func await(_ timeout: TimeInterval = 6.0) -> XCUIElement {
-    _ = exists(after: timeout, pollInterval: 0.2)
-    return self
+    let exists = self.exists(after: timeout, pollInterval: 0.2)
+    return exists ? self: self
   }
   
   func exists(after timeout: TimeInterval, pollInterval: TimeInterval) -> Bool {

@@ -11,11 +11,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [AnyScreen]()
+    var nestingPathBuilderInvocations = [NavigationPathElement]()
 
-    let pathElement = NonMatching()
+    let pathElement = NonMatching().asPathElement()
 
-    let expectedNestingPathBuilderInvocations = [AnyScreen]()
+    let expectedNestingPathBuilderInvocations = [NavigationPathElement]()
     
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() },
@@ -32,7 +32,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_matching_screen_buildsPath() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() }
@@ -42,7 +42,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_onAppear_in_built_view_calls_passed_action() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
     var onAppearInvocations = [Bool]()
     let expectedOnAppearInvocations = [
@@ -65,11 +65,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_closure_based_next_in_built_view_calls_nesting_path_builder() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
-    var nextInvocations = [AnyScreen]()
+    var nextInvocations = [NavigationPathElement]()
     let expectedNextInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     let sut = EmptyNavigationTree().Screen(
@@ -83,7 +83,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
     )
 
     let builtView = sut.build(pathElement: pathElement)
-    _ = builtView?.buildSuccessor(pathElement.eraseToAnyScreen())
+    _ = builtView?.buildSuccessor(pathElement)
 
     XCTAssertEqual(expectedNextInvocations, nextInvocations)
   }
@@ -94,11 +94,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [AnyScreen]()
+    var nestingPathBuilderInvocations = [NavigationPathElement]()
 
-    let pathElement = NonMatching()
+    let pathElement = NonMatching().asPathElement()
 
-    let expectedNestingPathBuilderInvocations = [AnyScreen]()
+    let expectedNestingPathBuilderInvocations = [NavigationPathElement]()
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
@@ -116,7 +116,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_matching_screen_buildsPath() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
@@ -129,7 +129,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_onAppear_in_built_view_calls_passed_action() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
     var onAppearInvocations = [Bool]()
     let expectedOnAppearInvocations = [
@@ -153,11 +153,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
   }
 
   func test_type_based_next_in_built_view_calls_nesting_path_builder() {
-    let pathElement = TestScreen(identifier: "0", presentationStyle: .push)
+    let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
-    var nextInvocations = [AnyScreen]()
+    var nextInvocations = [NavigationPathElement]()
     let expectedNextInvocations = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     let sut = EmptyNavigationTree().Screen(
@@ -172,7 +172,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
     )
 
     let builtView = sut.build(pathElement: pathElement)
-    _ = builtView?.buildSuccessor(pathElement.eraseToAnyScreen())
+    _ = builtView?.buildSuccessor(pathElement)
 
     XCTAssertEqual(expectedNextInvocations, nextInvocations)
   }

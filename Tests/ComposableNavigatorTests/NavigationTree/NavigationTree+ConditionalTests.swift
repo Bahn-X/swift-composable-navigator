@@ -3,19 +3,23 @@ import SwiftUI
 import XCTest
 
 final class NavigationTree_ConditionalTests: XCTestCase {
-  let pathElement = TestScreen(identifier: "", presentationStyle: .push)
+  struct NonMatching: Screen {
+    let presentationStyle: ScreenPresentationStyle = .push
+  }
+
+  let pathElement = TestScreen(identifier: "", presentationStyle: .push).asPathElement()
 
   // MARK: - ifScreen
   func test_ifScreen_builds_path_if_screen_matches() {
     var builtScreens = [AnyScreen]()
-    var builtPaths = [AnyScreen]()
+    var builtPaths = [NavigationPathElement]()
 
     let expectedScreens = [
-      pathElement.eraseToAnyScreen()
+      pathElement.content
     ]
 
     let expectedPaths = [
-      pathElement.eraseToAnyScreen()
+      pathElement
     ]
 
     let sut = EmptyNavigationTree()
@@ -38,10 +42,10 @@ final class NavigationTree_ConditionalTests: XCTestCase {
     }
 
     var builtScreens = [AnyScreen]()
-    var builtPaths = [AnyScreen]()
+    var builtPaths = [NavigationPathElement]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [AnyScreen]()
+    let expectedPaths = [NavigationPathElement]()
 
     let sut = EmptyNavigationTree()
       .If { (screen: TestScreen) in
@@ -52,23 +56,19 @@ final class NavigationTree_ConditionalTests: XCTestCase {
         }
       }
 
-    XCTAssertNil(sut.build(pathElement: NonMatching()))
+    XCTAssertNil(sut.build(pathElement: NonMatching().asPathElement()))
     XCTAssertEqual(expectedPaths, builtPaths)
     XCTAssertEqual(expectedScreens, builtScreens)
   }
 
   func test_ifScreen_builds_else_builder_if_screen_does_not_match() {
-    struct NonMatching: Screen {
-      let presentationStyle: ScreenPresentationStyle = .push
-    }
-
     var builtScreens = [AnyScreen]()
-    var builtPaths = [AnyScreen]()
-    var builtElsePaths = [AnyScreen]()
+    var builtPaths = [NavigationPathElement]()
+    var builtElsePaths = [NavigationPathElement]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [AnyScreen]()
-    let expectedElsePaths = [NonMatching().eraseToAnyScreen()]
+    let expectedPaths = [NavigationPathElement]()
+    let expectedElsePaths = [NonMatching().asPathElement()]
 
     let sut = EmptyNavigationTree()
       .If { (screen: TestScreen) in
@@ -85,7 +85,7 @@ final class NavigationTree_ConditionalTests: XCTestCase {
         }
       }
 
-    XCTAssertNotNil(sut.build(pathElement: NonMatching()))
+    XCTAssertNotNil(sut.build(pathElement: NonMatching().asPathElement()))
     XCTAssertEqual(expectedPaths, builtPaths)
     XCTAssertEqual(expectedScreens, builtScreens)
     XCTAssertEqual(expectedElsePaths, builtElsePaths)

@@ -15,7 +15,7 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    let expectedPath = TestScreen().eraseToAnyScreen()
+    let expectedPath = TestScreen().asPathElement()
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -42,7 +42,7 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    let expectedPath = TestScreen().eraseToAnyScreen()
+    let expectedPath = TestScreen().asPathElement()
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -66,16 +66,16 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
-    let expectedPath =  TestScreen().eraseToAnyScreen()
+    let expectedPath =  TestScreen().asPathElement()
 
     let expectedThenBuilderInvocations = [
       expectedPath
     ]
 
-    let expectedElseBuilderInvocations = [AnyScreen]()
+    let expectedElseBuilderInvocations = [NavigationPathElement]()
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -106,12 +106,12 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [AnyScreen]()
-    var elseBuilderInvocations = [AnyScreen]()
+    var thenBuilderInvocations = [NavigationPathElement]()
+    var elseBuilderInvocations = [NavigationPathElement]()
 
-    let expectedPath = TestScreen().eraseToAnyScreen()
+    let expectedPath = TestScreen().asPathElement()
 
-    let expectedThenBuilderInvocations = [AnyScreen]()
+    let expectedThenBuilderInvocations = [NavigationPathElement]()
 
     let expectedElseBuilderInvocations = [
       expectedPath

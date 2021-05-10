@@ -1,6 +1,6 @@
 public extension PathBuilders {
   struct EmptyBuilder: PathBuilder {
-    public func build(pathElement: AnyScreen) -> Never? { nil }
+    public func build(pathElement: NavigationPathElement) -> Never? { nil }
   }
 
   /// The empty `PathBuilder` does not build any screen and just returns nil for all screens.

@@ -34,7 +34,8 @@ public extension PathBuilders {
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
     _PathBuilder { pathElement in
-      guard let unwrapped: S = pathElement.unwrap() else {
+      guard case let .screen(screen) = pathElement,
+            let unwrapped: S = screen.content.unwrap() else {
         return nil
       }
 
@@ -114,7 +115,7 @@ public extension PathBuilders {
     nesting: Successor
   ) -> _PathBuilder<NavigationNode<Content, Successor.Content>> {
     _PathBuilder { pathElement in
-      guard pathElement.is(S.self) else {
+      guard case .screen(let screen) = pathElement, screen.content.is(S.self) else {
         return nil
       }
 

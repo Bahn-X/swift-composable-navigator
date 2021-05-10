@@ -48,7 +48,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
   innerCharLower = genericCharactersLower[inner]
 }%
     // MARK: ${innerCharLower}Screen
-    let ${innerCharLower}BuiltView = sut.build(pathElement: ${innerChar}Screen())
+    let ${innerCharLower}BuiltView = sut.build(pathElement: ${innerChar}Screen().asPathElement())
 
     guard case .${innerCharLower} = ${innerCharLower}BuiltView else {
       XCTFail("Expected \(${innerChar}Screen.self) to build Either.${innerCharLower}. Got \(${innerCharLower}BuiltView.debugDescription).")
@@ -63,7 +63,7 @@ final class PathBuilder_AnyOfTests: XCTestCase {
     )
 
 % end
-    let nonMatchingBuilt = sut.build(pathElement: NonMatching())
+    let nonMatchingBuilt = sut.build(pathElement: NonMatching().asPathElement())
 
     XCTAssertNil(nonMatchingBuilt)
   }
