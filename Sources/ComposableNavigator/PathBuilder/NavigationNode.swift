@@ -23,7 +23,6 @@ public struct NavigationNode<Content: View, Successor: View>: View {
   @Environment(\.treatSheetDismissAsAppearInPresenter) private var treatSheetDismissAsAppearInPresenter
   @EnvironmentObject private var dataSource: Navigator.Datasource
 
-
   let content: Content
   let onAppear: (Bool) -> Void
   let buildSuccessor: (NavigationPathElement) -> Successor?

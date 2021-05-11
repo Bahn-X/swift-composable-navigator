@@ -7,6 +7,7 @@ let snapshotFolders = [
   "PathBuilder/__Snapshots__",
   "NavigationTree/__Snapshots__",
   "Screen/__Snapshots__",
+  "Dependency Store/__Snapshots__",
 ]
 
 let tcaSnapshotFolders = [
