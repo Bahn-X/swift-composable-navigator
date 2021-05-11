@@ -52,6 +52,347 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  func test_go_to_screen_on_tab() {
+    let tabbedID = ScreenID()
+    let expectedNextID = ScreenID()
+
+    let firstTabID = ScreenID()
+    let firstTab = TestScreen(identifier: "firstTab", presentationStyle: .push)
+
+    let tabScreen = TabScreen(
+      id: tabbedID,
+      activeTab: TabScreen.Tab(
+        head: .screen(
+          IdentifiedScreen(
+            id: firstTabID,
+            content: firstTab,
+            hasAppeared: false
+          )
+        ),
+        tail: []
+      ),
+      inactiveTabs: []
+    )
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(
+        tabScreen
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { expectedNextID }
+    )
+
+    sut.wrappedInNavigator().go(to: next, on: tabbedID, forceNavigation: false)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+          ),
+          .tabbed(tabScreen),
+          .screen(
+            IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+          )
+        ]
+      )
+    )
+  }
+
+  func test_go_to_screen_in_active_tab() {
+    let tabbedID = ScreenID()
+    let expectedNextID = ScreenID()
+
+    let firstTabID = ScreenID()
+    let firstTab = TestScreen(identifier: "firstTab", presentationStyle: .push)
+
+    let tabScreen = TabScreen(
+      id: tabbedID,
+      activeTab: TabScreen.Tab(
+        head: .screen(
+          IdentifiedScreen(
+            id: firstTabID,
+            content: firstTab,
+            hasAppeared: false
+          )
+        ),
+        tail: []
+      ),
+      inactiveTabs: []
+    )
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(
+        tabScreen
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { expectedNextID }
+    )
+
+    sut.wrappedInNavigator().go(to: next, on: firstTabID, forceNavigation: false)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabbedID,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: firstTabID,
+                    content: firstTab,
+                    hasAppeared: false
+                  )
+                ),
+                tail: [
+                  .screen(
+                    IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+                  )
+                ]
+              ),
+              inactiveTabs: []
+            )
+          ),
+        ]
+      )
+    )
+  }
+
+  func test_go_to_screen_in_inactive_tab() {
+    let tabbedID = ScreenID()
+    let expectedNextID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let activeTab = TestScreen(identifier: "activeTab", presentationStyle: .push)
+
+    let inactiveTabID = ScreenID()
+    let inactiveTab = TestScreen(identifier: "inactiveTab", presentationStyle: .push)
+
+    let tabScreen = TabScreen(
+      id: tabbedID,
+      activeTab: TabScreen.Tab(
+        head: .screen(
+          IdentifiedScreen(
+            id: activeTabID,
+            content: activeTab,
+            hasAppeared: false
+          )
+        ),
+        tail: []
+      ),
+      inactiveTabs: [
+        TabScreen.Tab(
+          head: .screen(
+            IdentifiedScreen(
+              id: inactiveTabID,
+              content: inactiveTab,
+              hasAppeared: false
+            )
+          ),
+          tail: []
+        )
+      ]
+    )
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(
+        tabScreen
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { expectedNextID }
+    )
+
+    sut.wrappedInNavigator().go(to: next, on: inactiveTabID, forceNavigation: false)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabbedID,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: activeTabID,
+                    content: activeTab,
+                    hasAppeared: false
+                  )
+                ),
+                tail: []
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(
+                    IdentifiedScreen(
+                      id: inactiveTabID,
+                      content: inactiveTab,
+                      hasAppeared: false
+                    )
+                  ),
+                  tail: [
+                    .screen(
+                      IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+                    )
+                  ]
+                )
+              ]
+            )
+          ),
+        ]
+      )
+    )
+  }
+
+  func test_go_to_screen_in_inactive_tab_forcing_navigation() {
+    let tabbedID = ScreenID()
+    let expectedNextID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let activeTab = TestScreen(identifier: "activeTab", presentationStyle: .push)
+
+    let inactiveTabID = ScreenID()
+    let inactiveTab = TestScreen(identifier: "inactiveTab", presentationStyle: .push)
+
+    let tabScreen = TabScreen(
+      id: tabbedID,
+      activeTab: TabScreen.Tab(
+        head: .screen(
+          IdentifiedScreen(
+            id: activeTabID,
+            content: activeTab,
+            hasAppeared: false
+          )
+        ),
+        tail: []
+      ),
+      inactiveTabs: [
+        TabScreen.Tab(
+          head: .screen(
+            IdentifiedScreen(
+              id: inactiveTabID,
+              content: inactiveTab,
+              hasAppeared: false
+            )
+          ),
+          tail: []
+        )
+      ]
+    )
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(
+        tabScreen
+      ),
+      .screen(
+        IdentifiedScreen(
+          id: ScreenID(),
+          content: root,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { expectedNextID }
+    )
+
+    sut.wrappedInNavigator().go(to: next, on: inactiveTabID, forceNavigation: true)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabbedID,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: inactiveTabID,
+                    content: inactiveTab,
+                    hasAppeared: false
+                  )
+                ),
+                tail: [
+                  .screen(
+                    IdentifiedScreen(id: expectedNextID, content: self.next, hasAppeared: false)
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(
+                    IdentifiedScreen(
+                      id: activeTabID,
+                      content: activeTab,
+                      hasAppeared: false
+                    )
+                  ),
+                  tail: []
+                )
+              ]
+            )
+          ),
+        ]
+      )
+    )
+  }
+
   func test_go_to_on_screen() {
     let expectedNextID = ScreenID()
 
@@ -1111,6 +1452,333 @@ final class NavigatorDatasourceTests: XCTestCase {
           IdentifiedScreen(id: .root, content: root, hasAppeared: false),
           IdentifiedScreen(id: first, content: next, hasAppeared: false),
           IdentifiedScreen(id: second, content: root, hasAppeared: true)
+        ]
+      )
+    )
+  }
+
+  func test_didAppear_tabbed_root() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let tabRoot = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabRoot,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: second,
+                content: root,
+                hasAppeared: false
+              )
+            ),
+            tail: []
+          ),
+          inactiveTabs: []
+        )
+      ),
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().didAppear(id: tabRoot)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabRoot,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: second,
+                    content: root,
+                    hasAppeared: true
+                  )
+                ),
+                tail: []
+              ),
+              inactiveTabs: []
+            )
+          ),
+        ]
+      )
+    )
+  }
+
+  func test_didAppear_tabbed_tail() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let tabRoot = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabRoot,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: second,
+                content: root,
+                hasAppeared: false
+              )
+            ),
+            tail: [
+              .screen(IdentifiedScreen(id: third, content: next, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: []
+        )
+      ),
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().didAppear(id: third)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabRoot,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: second,
+                    content: root,
+                    hasAppeared: false
+                  )
+                ),
+                tail: [
+                  .screen(IdentifiedScreen(id: third, content: next, hasAppeared: true))
+                ]
+              ),
+              inactiveTabs: []
+            )
+          ),
+        ]
+      )
+    )
+  }
+
+  func test_didAppear_tabbed_inactive_tab_head() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let tabRoot = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabRoot,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: first,
+                content: root,
+                hasAppeared: false
+              )
+            ),
+            tail: []
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(
+                IdentifiedScreen(
+                  id: second,
+                  content: root,
+                  hasAppeared: false
+                )
+              ),
+              tail: [
+                .screen(
+                  IdentifiedScreen(
+                    id: third,
+                    content: next,
+                    hasAppeared: false
+                  )
+                )
+              ]
+            )
+          ]
+        )
+      ),
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().didAppear(id: second)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabRoot,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: first,
+                    content: root,
+                    hasAppeared: false
+                  )
+                ),
+                tail: []
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(
+                    IdentifiedScreen(
+                      id: second,
+                      content: root,
+                      hasAppeared: true
+                    )
+                  ),
+                  tail: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: third,
+                        content: next,
+                        hasAppeared: false
+                      )
+                    )
+                  ]
+                )
+              ]
+            )
+          ),
+        ]
+      )
+    )
+  }
+
+  func test_didAppear_tabbed_inactive_tab_tail() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let tabRoot = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabRoot,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: second,
+                content: root,
+                hasAppeared: false
+              )
+            ),
+            tail: []
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(
+                IdentifiedScreen(
+                  id: second,
+                  content: root,
+                  hasAppeared: false
+                )
+              ),
+              tail: [
+                .screen(
+                  IdentifiedScreen(
+                    id: third,
+                    content: next,
+                    hasAppeared: false
+                  )
+                )
+              ]
+            )
+          ]
+        )
+      ),
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().didAppear(id: third)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .screen(IdentifiedScreen(id: first, content: next, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabRoot,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: second,
+                    content: root,
+                    hasAppeared: false
+                  )
+                ),
+                tail: []
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(
+                    IdentifiedScreen(
+                      id: second,
+                      content: root,
+                      hasAppeared: false
+                    )
+                  ),
+                  tail: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: third,
+                        content: next,
+                        hasAppeared: true
+                      )
+                    )
+                  ]
+                )
+              ]
+            )
+          ),
         ]
       )
     )

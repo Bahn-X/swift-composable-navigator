@@ -19,9 +19,14 @@ final class Navigator_DebugTests: XCTestCase {
   func test_goTo_screen_on_id() {
     let expectedScreen = TestScreen(identifier: "0", presentationStyle: .push).eraseToAnyScreen()
     let expectedID = ScreenID()
+    let forceNavigation = true
 
     let expectedInvocations = [
-      Navigator.GoToInvocation(screen: expectedScreen, on: .id(expectedID))
+      Navigator.GoToInvocation(
+        screen: expectedScreen,
+        on: .id(expectedID),
+        forceNavigation: forceNavigation
+      )
     ]
     var invocations = [Navigator.GoToInvocation]()
 
@@ -34,7 +39,7 @@ final class Navigator_DebugTests: XCTestCase {
     var dumpedPaths = [NavigationPathUpdate]()
 
     let expectedLoggedMessages = [
-      "Sent go(to: \(expectedScreen), on: \(expectedID)).\nNew path:"
+      "Sent go(to: \(expectedScreen), on: \(expectedID), forceNavigation: \(forceNavigation)).\nNew path:"
     ]
     let expectedPaths = [underlyingNavigator.path()]
 
@@ -43,7 +48,7 @@ final class Navigator_DebugTests: XCTestCase {
         log: { message in loggedMessages.append(message) },
         dumpPath: { path in dumpedPaths.append(path) }
       )
-      .go(to: expectedScreen, on: expectedID)
+      .go(to: expectedScreen, on: expectedID, forceNavigation: forceNavigation)
 
     XCTAssertEqual(expectedInvocations, invocations)
     XCTAssertEqual(expectedLoggedMessages, loggedMessages)
@@ -51,10 +56,15 @@ final class Navigator_DebugTests: XCTestCase {
   }
 
   func test_goTo_screen_on_screen() {
+    let forceNavigation = true
     let expectedScreen = TestScreen(identifier: "0", presentationStyle: .push).eraseToAnyScreen()
 
     let expectedInvocations = [
-      Navigator.GoToInvocation(screen: expectedScreen, on: .screen(expectedScreen))
+      Navigator.GoToInvocation(
+        screen: expectedScreen,
+        on: .screen(expectedScreen),
+        forceNavigation: forceNavigation
+      )
     ]
     var invocations = [Navigator.GoToInvocation]()
 
@@ -67,7 +77,7 @@ final class Navigator_DebugTests: XCTestCase {
     var dumpedPaths = [NavigationPathUpdate]()
 
     let expectedLoggedMessages = [
-      "Sent go(to: \(expectedScreen), on: \(expectedScreen)).\nNew path:"
+      "Sent go(to: \(expectedScreen), on: \(expectedScreen), forceNavigation: \(forceNavigation)).\nNew path:"
     ]
     let expectedPaths = [underlyingNavigator.path()]
 
@@ -76,7 +86,7 @@ final class Navigator_DebugTests: XCTestCase {
         log: { message in loggedMessages.append(message) },
         dumpPath: { path in dumpedPaths.append(path) }
       )
-      .go(to: expectedScreen, on: expectedScreen)
+      .go(to: expectedScreen, on: expectedScreen, forceNavigation: forceNavigation)
 
     XCTAssertEqual(expectedInvocations, invocations)
     XCTAssertEqual(expectedLoggedMessages, loggedMessages)

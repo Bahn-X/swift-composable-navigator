@@ -3,8 +3,8 @@ import Foundation
 /// Facade type erasing the type of the underlying datasource
 public struct Navigator {
   private let _path: () -> NavigationPathUpdate
-  private let _go: (AnyScreen, ScreenID) -> Void
-  private let _goToOnScreen: (AnyScreen, AnyScreen) -> Void
+  private let _go: (AnyScreen, ScreenID, Bool) -> Void
+  private let _goToOnScreen: (AnyScreen, AnyScreen, Bool) -> Void
   private let _goToPath: ([AnyScreen], ScreenID) -> Void
   private let _goToPathOnScreen: ([AnyScreen], AnyScreen) -> Void
   private let _goBack: (AnyScreen) -> Void
@@ -42,8 +42,12 @@ public struct Navigator {
   /// - Parameters:
   ///   - screen: Destination
   ///   - id: `ScreenID` used to identify where the destination should be appended
-  public func go<S: Screen>(to screen: S, on id: ScreenID) {
-    _go(screen.eraseToAnyScreen(), id)
+  public func go<S: Screen>(
+    to screen: S,
+    on id: ScreenID,
+    forceNavigation: Bool = false
+  ) {
+    _go(screen.eraseToAnyScreen(), id, forceNavigation)
   }
 
   /// Append a screen after a  given `Screen`.
@@ -63,8 +67,12 @@ public struct Navigator {
   /// - Parameters:
   ///   - screen: Destination
   ///   - parent: `Parent` screen object used to identify where the destination should be appended
-  public func go<S: Screen, Parent: Screen>(to screen: S, on parent: Parent) {
-    _goToOnScreen(screen.eraseToAnyScreen(), parent.eraseToAnyScreen())
+  public func go<S: Screen, Parent: Screen>(
+    to screen: S,
+    on parent: Parent,
+    forceNavigation: Bool = false
+  ) {
+    _goToOnScreen(screen.eraseToAnyScreen(), parent.eraseToAnyScreen(), forceNavigation)
   }
 
   /// Replace the path  after a given `ScreenID` with the passed path.
@@ -347,8 +355,8 @@ public struct Navigator {
 
   public init(
     path: @escaping () -> NavigationPathUpdate,
-    go: @escaping (AnyScreen, ScreenID) -> Void,
-    goToOnScreen: @escaping (AnyScreen, AnyScreen) -> Void,
+    go: @escaping (AnyScreen, ScreenID, Bool) -> Void,
+    goToOnScreen: @escaping (AnyScreen, AnyScreen, Bool) -> Void,
     goToPath: @escaping ([AnyScreen], ScreenID) -> Void,
     goToPathOnScreen: @escaping ([AnyScreen], AnyScreen) -> Void,
     goBack: @escaping (AnyScreen) -> Void,

@@ -8,31 +8,24 @@ public extension Navigator {
     private let screenID: () -> ScreenID
 
     init(
-      path: [IdentifiedScreen],
+      navigationPath: NavigationPath,
       screenID: @escaping () -> ScreenID = ScreenID.init
     ) {
       self.path = NavigationPathUpdate(
         previous: [],
-        current: path.map(NavigationPathElement.screen)
+        current: navigationPath
       )
       self.screenID = screenID
     }
 
-    func go(to successor: AnyScreen, on id: ScreenID) {
-      guard let index = path.current.firstIndex(where: { $0.id == id }) else {
-        return
-      }
-
+    func go(to successor: AnyScreen, on id: ScreenID, forceNavigation: Bool) {
       update(
-        path: path.current.prefix(through: index) + [
-          .screen(
-            IdentifiedScreen(
-              id: screenID(),
-              content: successor,
-              hasAppeared: false
-            )
-          )
-        ]
+        path: path.current.go(
+            to: successor,
+            on: id,
+            forceNavigation: forceNavigation,
+            screenID: screenID
+        )
       )
     }
 
@@ -178,21 +171,7 @@ public extension Navigator {
     }
 
     func didAppear(id: ScreenID) {
-      update(
-        path: path.current.map { element in
-          guard element.id == id else {
-            return element
-          }
-
-          return .screen(
-            IdentifiedScreen(
-              id: element.id,
-              content: element.content,
-              hasAppeared: true
-            )
-          )
-        }
-      )
+      update(path: path.current.didAppear(id: id))
     }
 
     private func update(path newValue: NavigationPath) {
@@ -212,9 +191,9 @@ extension Navigator.Datasource {
     path.current.last(where: { $0.content == content })
   }
 
-  func go(to successor: AnyScreen, on parent: AnyScreen) {
+  func go(to successor: AnyScreen, on parent: AnyScreen, forceNavigation: Bool) {
     guard let id = identifiedScreen(for: parent)?.id else { return }
-    go(to: successor, on: id)
+    go(to: successor, on: id, forceNavigation: forceNavigation)
   }
 
   func go(to newPath: [AnyScreen], on parent: AnyScreen) {
@@ -240,6 +219,16 @@ extension Navigator.Datasource {
 
 // MARK: - Convenience Initialisers
 public extension Navigator.Datasource {
+  convenience init(
+    path: [IdentifiedScreen],
+    screenID: @escaping () -> ScreenID = ScreenID.init
+  ) {
+    self.init(
+      navigationPath: path.map(NavigationPathElement.screen),
+      screenID: screenID
+    )
+  }
+
   /// Initialise a data source given a root screen.
   /// - Parameters:
   ///   - root: The application's root screen
@@ -279,10 +268,10 @@ public extension Navigator.Datasource {
   ///   - path: The navigation path built on Root view appear
   ///   - screenID: Closure used to initialise `ScreenID`s for new navigation path elements
   convenience init(
-    path: [AnyScreen],
+    screens: [AnyScreen],
     screenID: @escaping () -> ScreenID = ScreenID.init
   ) {
-    let identifiedPath = path.map { element in
+    let identifiedPath = screens.map { element in
       IdentifiedScreen(id: screenID(), content: element, hasAppeared: false)
     }
 

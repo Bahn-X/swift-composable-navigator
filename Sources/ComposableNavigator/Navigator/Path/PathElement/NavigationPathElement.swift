@@ -1,9 +1,12 @@
-public enum NavigationPathElement: Hashable {
+public indirect enum NavigationPathElement: Hashable {
   case screen(IdentifiedScreen)
+  case tabbed(TabScreen)
 
   public var id: ScreenID {
     switch self {
     case .screen(let screen):
+      return screen.id
+    case .tabbed(let screen):
       return screen.id
     }
   }
@@ -12,6 +15,8 @@ public enum NavigationPathElement: Hashable {
     switch self {
     case .screen(let screen):
       return [screen.id]
+    case .tabbed(let screen):
+      return screen.ids()
     }
   }
 
@@ -19,6 +24,8 @@ public enum NavigationPathElement: Hashable {
     switch self {
     case .screen(let screen):
       return screen.content
+    case .tabbed(let screen):
+      return screen.activeTab.head.content
     }
   }
 
@@ -26,6 +33,8 @@ public enum NavigationPathElement: Hashable {
     switch self {
     case .screen(let screen):
       return screen.hasAppeared
+    case .tabbed(let screen):
+      return screen.activeTab.head.hasAppeared
     }
   }
 }

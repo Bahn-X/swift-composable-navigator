@@ -5,11 +5,11 @@ public extension Navigator {
   init(dataSource: Navigator.Datasource) {
     self.init(
       path: { dataSource.path },
-      go: { screen, id in
-        dataSource.go(to: screen, on: id)
+      go: { screen, id, forceNavigation in
+        dataSource.go(to: screen, on: id, forceNavigation: forceNavigation)
       },
-      goToOnScreen: { screen, parent in
-        dataSource.go(to: screen, on: parent)
+      goToOnScreen: { screen, parent, forceNavigation in
+        dataSource.go(to: screen, on: parent, forceNavigation: forceNavigation)
       },
       goToPath: { path, id in
         dataSource.go(to: path, on: id)

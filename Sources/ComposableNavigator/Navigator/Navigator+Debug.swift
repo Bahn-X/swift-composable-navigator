@@ -7,14 +7,14 @@ public extension Navigator {
   ) -> Navigator {
     Navigator(
       path: path,
-      go: { (screen, id) in
-        go(to: screen, on: id)
-        log("Sent go(to: \(screen), on: \(id)).\nNew path:")
+      go: { (screen, id, forceNavigation) in
+        go(to: screen, on: id, forceNavigation: forceNavigation)
+        log("Sent go(to: \(screen), on: \(id), forceNavigation: \(forceNavigation)).\nNew path:")
         dumpPath(path())
       },
-      goToOnScreen: { screen, parent in
-        go(to: screen, on: parent)
-        log("Sent go(to: \(screen), on: \(parent)).\nNew path:")
+      goToOnScreen: { screen, parent, forceNavigation in
+        go(to: screen, on: parent, forceNavigation: forceNavigation)
+        log("Sent go(to: \(screen), on: \(parent), forceNavigation: \(forceNavigation)).\nNew path:")
         dumpPath(path())
       },
       goToPath: { newPath, id in

@@ -75,7 +75,7 @@ public extension PathBuilders {
 extension NavigationPathElement {
   func wildcard<S: Screen>(screen: S) -> NavigationPathElement {
     switch self {
-    case .screen:
+    case .screen, .tabbed:
       return .screen(
         IdentifiedScreen(
           id: id,

@@ -4,10 +4,10 @@ public extension Navigator {
     path: @escaping () -> NavigationPathUpdate = {
       fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    go: @escaping (AnyScreen, ScreenID) -> Void = { _, _ in
+    go: @escaping (AnyScreen, ScreenID, Bool) -> Void = { _, _, _ in
       fatalError("go(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    goToOnScreen: @escaping (AnyScreen, AnyScreen) -> Void = { _, _ in
+    goToOnScreen: @escaping (AnyScreen, AnyScreen, Bool) -> Void = { _, _, _ in
       fatalError("go(to:, on screen:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     goToPath: @escaping ([AnyScreen], ScreenID) -> Void = { _, _ in
@@ -100,11 +100,23 @@ public extension Navigator {
   ) -> Navigator {
     Navigator.mock(
       path: path,
-      go: { screen, id in
-        goToInvoked(Navigator.GoToInvocation(screen: screen, on: .id(id)))
+      go: { screen, id, forceNavigation in
+        goToInvoked(
+          Navigator.GoToInvocation(
+            screen: screen,
+            on: .id(id),
+            forceNavigation: forceNavigation
+          )
+        )
       },
-      goToOnScreen: { screen, parent in
-        goToInvoked(Navigator.GoToInvocation(screen: screen, on: .screen(parent)))
+      goToOnScreen: { screen, parent, forceNavigation in
+        goToInvoked(
+          Navigator.GoToInvocation(
+            screen: screen,
+            on: .screen(parent),
+            forceNavigation: forceNavigation
+          )
+        )
       },
       goToPath: { newPath, id in
         goToPathInvoked(Navigator.GoToPathInvocation(path: newPath, on: .id(id)))
@@ -177,6 +189,17 @@ public extension Navigator {
   struct GoToInvocation: Hashable {
     let screen: AnyScreen
     let on: NavigationIdentifier
+    let forceNavigation: Bool
+
+    init(
+      screen: AnyScreen,
+      on: NavigationIdentifier,
+      forceNavigation: Bool = false
+    ) {
+      self.screen = screen
+      self.on = on
+      self.forceNavigation = forceNavigation
+    }
   }
 
   /// Testing helper
