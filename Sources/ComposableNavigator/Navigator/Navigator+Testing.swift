@@ -45,6 +45,9 @@ public extension Navigator {
     },
     didAppear: @escaping (ScreenID) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    setActive: @escaping (ScreenID) -> Void = { _ in
+      fatalError("setActive(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
   ) -> Navigator {
     Navigator(
@@ -62,7 +65,8 @@ public extension Navigator {
       dismissSuccessorOfScreen: dismissSuccessorOfScreen,
       replaceContent: replaceContent,
       replaceScreen: replaceScreen,
-      didAppear: didAppear
+      didAppear: didAppear,
+      setActive: setActive
     )
   }
 
@@ -96,6 +100,9 @@ public extension Navigator {
     },
     didAppearInvoked: @escaping (Navigator.DidAppearInvocation) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    setActiveInvoked: @escaping (Navigator.SetActiveInvocation) -> Void = { _ in
+      fatalError("setActive(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
   ) -> Navigator {
     Navigator.mock(
@@ -153,6 +160,9 @@ public extension Navigator {
       },
       didAppear: { id in
         didAppearInvoked(Navigator.DidAppearInvocation(id: id))
+      },
+      setActive: { id in
+        setActiveInvoked(Navigator.SetActiveInvocation(id: id))
       }
     )
   }
@@ -397,6 +407,30 @@ public extension Navigator {
   ///  XCTAssertEqual(expectectedInvocations, invocations)
   ///```
   struct DidAppearInvocation: Hashable {
+    let id: ScreenID
+  }
+
+  /// Testing helper
+  ///
+  /// # Example
+  /// ```swift
+  ///  var invocations = [Navigator.SetActiveInvocation]()
+  ///  let expectectedInvocations = [
+  ///    Navigator.SetActiveInvocation(id: expectedID)
+  ///  ]
+  ///
+  ///  let sut = Navigator.mock(
+  ///    path: { self.path },
+  ///    didAppear: { id in
+  ///      invocations.append(.init(id: id))
+  ///    }
+  ///  )
+  ///
+  ///  sut.setActive(id: expectedID) // invoke code that invokes dismissSuccessor(of:)
+  ///
+  ///  XCTAssertEqual(expectectedInvocations, invocations)
+  ///```
+  struct SetActiveInvocation: Hashable {
     let id: ScreenID
   }
 }

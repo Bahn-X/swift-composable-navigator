@@ -497,4 +497,38 @@ final class Navigator_DebugTests: XCTestCase {
     XCTAssertEqual(expectedLoggedMessages, loggedMessages)
     XCTAssertEqual(expectedPaths, dumpedPaths)
   }
+
+  // MARK: - setActive
+  func test_setActive() {
+    let expectedID = ScreenID()
+
+    let expectedInvocations = [
+      Navigator.SetActiveInvocation(id: expectedID)
+    ]
+    var invocations = [Navigator.SetActiveInvocation]()
+
+    let underlyingNavigator = Navigator.mock(
+      path: { NavigationPathUpdate(previous: self.previous, current: self.current) },
+      setActiveInvoked: { invocation in invocations.append(invocation) }
+    )
+
+    var loggedMessages = [String]()
+    var dumpedPaths = [NavigationPathUpdate]()
+
+    let expectedLoggedMessages = [
+      "Sent setActive(id: \(expectedID)).\nNew path:"
+    ]
+    let expectedPaths = [underlyingNavigator.path()]
+
+    underlyingNavigator
+      .debug(
+        log: { message in loggedMessages.append(message) },
+        dumpPath: { path in dumpedPaths.append(path) }
+      )
+      .setActive(id: expectedID)
+
+    XCTAssertEqual(expectedInvocations, invocations)
+    XCTAssertEqual(expectedLoggedMessages, loggedMessages)
+    XCTAssertEqual(expectedPaths, dumpedPaths)
+  }
 }

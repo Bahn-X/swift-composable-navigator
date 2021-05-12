@@ -174,6 +174,10 @@ public extension Navigator {
       update(path: path.current.didAppear(id: id))
     }
 
+    func setActive(id: ScreenID) {
+      update(path: path.current.setActive(id: id))
+    }
+
     private func update(path newValue: NavigationPath) {
       guard newValue != path.current else { return }
 

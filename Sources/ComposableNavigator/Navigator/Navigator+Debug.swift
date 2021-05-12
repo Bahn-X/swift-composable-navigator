@@ -72,9 +72,14 @@ public extension Navigator {
         log("Sent replace(screen: \(oldContent), with: \(newContent)).\nNew path:")
         dumpPath(path())
       },
-      didAppear: { (id) in
+      didAppear: { id in
         didAppear(id: id)
         log("Sent didAppear(id: \(id)).\nNew path:")
+        dumpPath(path())
+      },
+      setActive: { id in
+        setActive(id: id)
+        log("Sent setActive(id: \(id)).\nNew path:")
         dumpPath(path())
       }
     )
