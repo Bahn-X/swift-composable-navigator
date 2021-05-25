@@ -48,6 +48,9 @@ public extension Navigator {
     },
     setActive: @escaping (ScreenID) -> Void = { _ in
       fatalError("setActive(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    },
+    setActiveScreen: @escaping (AnyScreen) -> Void = { _ in
+      fatalError("setActive(screen:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
   ) -> Navigator {
     Navigator(
@@ -66,7 +69,8 @@ public extension Navigator {
       replaceContent: replaceContent,
       replaceScreen: replaceScreen,
       didAppear: didAppear,
-      setActive: setActive
+      setActive: setActive,
+      setActiveScreen: setActiveScreen
     )
   }
 
@@ -162,7 +166,10 @@ public extension Navigator {
         didAppearInvoked(Navigator.DidAppearInvocation(id: id))
       },
       setActive: { id in
-        setActiveInvoked(Navigator.SetActiveInvocation(id: id))
+        setActiveInvoked(Navigator.SetActiveInvocation(id: .id(id)))
+      },
+      setActiveScreen: { screen in
+        setActiveInvoked(Navigator.SetActiveInvocation(id: .screen(screen)))
       }
     )
   }
@@ -431,6 +438,6 @@ public extension Navigator {
   ///  XCTAssertEqual(expectectedInvocations, invocations)
   ///```
   struct SetActiveInvocation: Hashable {
-    let id: ScreenID
+    let id: NavigationIdentifier
   }
 }

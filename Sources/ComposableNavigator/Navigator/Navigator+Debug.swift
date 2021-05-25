@@ -81,6 +81,11 @@ public extension Navigator {
         setActive(id: id)
         log("Sent setActive(id: \(id)).\nNew path:")
         dumpPath(path())
+      },
+      setActiveScreen: { screen in
+        setActive(screen: screen)
+        log("Sent setActive(screen: \(screen)).\nNew path:")
+        dumpPath(path())
       }
     )
   }

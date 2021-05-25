@@ -1810,6 +1810,7 @@ final class NavigatorDatasourceTests: XCTestCase {
 
   func test_setActive_on_tabbed_keeps_active_tab_active() {
     let first = ScreenID()
+    let second = ScreenID()
     let tabbedID = ScreenID()
 
     let previousPath: NavigationPath = [
@@ -1826,7 +1827,18 @@ final class NavigatorDatasourceTests: XCTestCase {
             ),
             tail: []
           ),
-          inactiveTabs: []
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(
+                IdentifiedScreen(
+                  id: second,
+                  content: root,
+                  hasAppeared: false
+                )
+              ),
+              tail: []
+            )
+          ]
         )
       )
     ]
@@ -1837,6 +1849,58 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
 
     sut.wrappedInNavigator().setActive(id: first)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: [],
+        current: previousPath
+      )
+    )
+  }
+
+  func test_setActive_screen_on_tabbed_keeps_active_tab_active() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let content = TestScreen(identifier: "content", presentationStyle: .push)
+    let tabbedID = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .tabbed(
+        TabScreen(
+          id: tabbedID,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: first,
+                content: content,
+                hasAppeared: false
+              )
+            ),
+            tail: []
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(
+                IdentifiedScreen(
+                  id: second,
+                  content: root,
+                  hasAppeared: false
+                )
+              ),
+              tail: []
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().setActive(screen: content)
 
     XCTAssertEqual(
       sut.path,
@@ -1902,6 +1966,86 @@ final class NavigatorDatasourceTests: XCTestCase {
                   IdentifiedScreen(
                     id: second,
                     content: root,
+                    hasAppeared: false
+                  )
+                ),
+                tail: []
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(
+                    IdentifiedScreen(
+                      id: first,
+                      content: root,
+                      hasAppeared: false
+                    )
+                  ),
+                  tail: []
+                )
+              ]
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_setActive_screen_on_tabbed_activates_inactive_tab() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let secondContent = TestScreen(identifier: "second", presentationStyle: .push)
+    let tabbedID = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .tabbed(
+        TabScreen(
+          id: tabbedID,
+          activeTab: TabScreen.Tab(
+            head: .screen(
+              IdentifiedScreen(
+                id: first,
+                content: root,
+                hasAppeared: false
+              )
+            ),
+            tail: []
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(
+                IdentifiedScreen(
+                  id: second,
+                  content: secondContent,
+                  hasAppeared: false
+                )
+              ),
+              tail: []
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().setActive(screen: secondContent)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .tabbed(
+            TabScreen(
+              id: tabbedID,
+              activeTab: TabScreen.Tab(
+                head: .screen(
+                  IdentifiedScreen(
+                    id: second,
+                    content: secondContent,
                     hasAppeared: false
                   )
                 ),

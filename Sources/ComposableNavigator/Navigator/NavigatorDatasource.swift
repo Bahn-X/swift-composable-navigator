@@ -216,6 +216,11 @@ extension Navigator.Datasource {
     guard let id = lastOccurrence(of: screen) else { return }
     replaceContent(of: id, with: newContent)
   }
+
+  func setActive(screen: AnyScreen) {
+    guard let id = lastOccurrence(of: screen) else { return }
+    setActive(id: id)
+  }
 }
 
 // MARK: - Convenience Initialisers

@@ -503,7 +503,7 @@ final class Navigator_DebugTests: XCTestCase {
     let expectedID = ScreenID()
 
     let expectedInvocations = [
-      Navigator.SetActiveInvocation(id: expectedID)
+      Navigator.SetActiveInvocation(id: .id(expectedID))
     ]
     var invocations = [Navigator.SetActiveInvocation]()
 
@@ -526,6 +526,39 @@ final class Navigator_DebugTests: XCTestCase {
         dumpPath: { path in dumpedPaths.append(path) }
       )
       .setActive(id: expectedID)
+
+    XCTAssertEqual(expectedInvocations, invocations)
+    XCTAssertEqual(expectedLoggedMessages, loggedMessages)
+    XCTAssertEqual(expectedPaths, dumpedPaths)
+  }
+
+  func test_setActive_screen() {
+    let expectedScreen = TestScreen(identifier: "test", presentationStyle: .push)
+
+    let expectedInvocations = [
+      Navigator.SetActiveInvocation(id: .screen(expectedScreen.eraseToAnyScreen()))
+    ]
+    var invocations = [Navigator.SetActiveInvocation]()
+
+    let underlyingNavigator = Navigator.mock(
+      path: { NavigationPathUpdate(previous: self.previous, current: self.current) },
+      setActiveInvoked: { invocation in invocations.append(invocation) }
+    )
+
+    var loggedMessages = [String]()
+    var dumpedPaths = [NavigationPathUpdate]()
+
+    let expectedLoggedMessages = [
+      "Sent setActive(screen: \(expectedScreen.eraseToAnyScreen())).\nNew path:"
+    ]
+    let expectedPaths = [underlyingNavigator.path()]
+
+    underlyingNavigator
+      .debug(
+        log: { message in loggedMessages.append(message) },
+        dumpPath: { path in dumpedPaths.append(path) }
+      )
+      .setActive(screen: expectedScreen)
 
     XCTAssertEqual(expectedInvocations, invocations)
     XCTAssertEqual(expectedLoggedMessages, loggedMessages)

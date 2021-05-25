@@ -19,6 +19,7 @@ public struct Navigator {
 
   private let _didAppear: (ScreenID) -> Void
   private let _setActive: (ScreenID) -> Void
+  private let _setActiveScreen: (AnyScreen) -> Void
 
   /// Retrieve the current value of the navigation path
   /// - Returns: The current navigation path
@@ -361,8 +362,19 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - id: ScreenID identifying the active screen
-  func setActive(id: ScreenID) {
+  public func setActive(id: ScreenID) {
     _setActive(id)
+  }
+
+  /// Activates the last occurrence of the passed `Screen`.
+  ///
+  /// Depending on the context, activating a screen can mean different things.
+  /// For TabScreens, setting a screen as active switches the active tab.
+  ///
+  /// - Parameters:
+  ///   - id: ScreenID identifying the active screen
+  public func setActive<S: Screen>(screen: S) {
+    _setActiveScreen(screen.eraseToAnyScreen())
   }
 
   public init(
@@ -381,7 +393,8 @@ public struct Navigator {
     replaceContent: @escaping (ScreenID, AnyScreen) -> Void,
     replaceScreen: @escaping (AnyScreen, AnyScreen) -> Void,
     didAppear: @escaping (ScreenID) -> Void,
-    setActive: @escaping (ScreenID) -> Void
+    setActive: @escaping (ScreenID) -> Void,
+    setActiveScreen: @escaping (AnyScreen) -> Void
   ) {
     self._path = path
     self._go = go
@@ -399,5 +412,6 @@ public struct Navigator {
     self._replaceScreen = replaceScreen
     self._didAppear = didAppear
     self._setActive = setActive
+    self._setActiveScreen = setActiveScreen
   }
 }
