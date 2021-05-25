@@ -162,14 +162,6 @@ public extension Navigator {
       )
     }
 
-    func replace(screen: AnyScreen, with newContent: AnyScreen) {
-      guard let id = identifiedScreen(for: screen)?.id else {
-        return
-      }
-
-      replaceContent(of: id, with: newContent)
-    }
-
     func didAppear(id: ScreenID) {
       update(path: path.current.didAppear(id: id))
     }
@@ -191,33 +183,38 @@ public extension Navigator {
 
 // MARK: - Screen based navigation
 extension Navigator.Datasource {
-  private func identifiedScreen(for content: AnyScreen) -> NavigationPathElement? {
-    path.current.last(where: { $0.content == content })
+  private func lastOccurrence(of content: AnyScreen) -> ScreenID? {
+    path.current.lastOccurrence(of: content)
   }
 
   func go(to successor: AnyScreen, on parent: AnyScreen, forceNavigation: Bool) {
-    guard let id = identifiedScreen(for: parent)?.id else { return }
+    guard let id = lastOccurrence(of: parent) else { return }
     go(to: successor, on: id, forceNavigation: forceNavigation)
   }
 
   func go(to newPath: [AnyScreen], on parent: AnyScreen) {
-    guard let id = identifiedScreen(for: parent)?.id else { return }
+    guard let id = lastOccurrence(of: parent) else { return }
     go(to: newPath, on: id)
   }
 
   func goBack(to predecessor: AnyScreen) {
-    guard let id = identifiedScreen(for: predecessor)?.id else { return }
+    guard let id = lastOccurrence(of: predecessor) else { return }
     goBack(to: id)
   }
 
   func dismiss(screen: AnyScreen) {
-    guard let id = identifiedScreen(for: screen)?.id else { return }
+    guard let id = lastOccurrence(of: screen) else { return }
     dismiss(id: id)
   }
 
   func dismissSuccessor(of screen: AnyScreen) {
-    guard let id = identifiedScreen(for: screen)?.id else { return }
+    guard let id = lastOccurrence(of: screen) else { return }
     dismissSuccessor(of: id)
+  }
+
+  func replace(screen: AnyScreen, with newContent: AnyScreen) {
+    guard let id = lastOccurrence(of: screen) else { return }
+    replaceContent(of: id, with: newContent)
   }
 }
 

@@ -42,8 +42,8 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
       .screen(IdentifiedScreen(id: expectedID, content: content, hasAppeared: false))
     ]
 
-    let id = path.lastOccurrenceOf(
-      content: content.eraseToAnyScreen()
+    let id = path.lastOccurrence(
+      of: content.eraseToAnyScreen()
     )
 
     XCTAssertEqual(expectedID, id)
@@ -85,8 +85,8 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
       .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
     ]
 
-    let id = path.lastOccurrenceOf(
-      content: content.eraseToAnyScreen()
+    let id = path.lastOccurrence(
+      of: content.eraseToAnyScreen()
     )
 
     XCTAssertEqual(expectedID, id)
@@ -125,8 +125,8 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
       .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
     ]
 
-    let id = path.lastOccurrenceOf(
-      content: content.eraseToAnyScreen()
+    let id = path.lastOccurrence(
+      of: content.eraseToAnyScreen()
     )
 
     XCTAssertEqual(expectedID, id)
@@ -165,8 +165,8 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
       .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
     ]
 
-    let id = path.lastOccurrenceOf(
-      content: content.eraseToAnyScreen()
+    let id = path.lastOccurrence(
+      of: content.eraseToAnyScreen()
     )
 
     XCTAssertEqual(expectedID, id)
@@ -205,8 +205,8 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
       .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
     ]
 
-    let id = path.lastOccurrenceOf(
-      content: content.eraseToAnyScreen()
+    let id = path.lastOccurrence(
+      of: content.eraseToAnyScreen()
     )
 
     XCTAssertEqual(expectedID, id)
