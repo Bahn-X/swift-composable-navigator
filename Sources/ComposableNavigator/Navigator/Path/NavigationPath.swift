@@ -6,4 +6,10 @@ extension NavigationPath {
       acc.union(element.ids())
     }
   }
+
+  func contents() -> Set<AnyScreen> {
+    reduce(Set<AnyScreen>()) { acc, element in
+      acc.union(element.contents())
+    }
+  }
 }

@@ -29,6 +29,15 @@ public indirect enum NavigationPathElement: Hashable {
     }
   }
 
+  public func contents() -> Set<AnyScreen> {
+    switch self {
+    case .screen(let screen):
+      return [screen.content]
+    case .tabbed(let screen):
+      return screen.contents()
+    }
+  }
+
   public var hasAppeared: Bool {
     switch self {
     case .screen(let screen):

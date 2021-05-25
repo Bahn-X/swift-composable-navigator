@@ -21,4 +21,13 @@ public struct TabScreen: Hashable {
       }
     )
   }
+
+  public func contents() -> Set<AnyScreen> {
+    inactiveTabs.reduce(
+      Set<AnyScreen>(activeTab.head.contents()).union(activeTab.tail.contents()),
+      { acc, tab in
+        acc.union(tab.tail.contents().union(tab.head.contents()))
+      }
+    )
+  }
 }

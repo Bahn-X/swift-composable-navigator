@@ -319,9 +319,9 @@ public struct Navigator {
     _replaceContent(id, newContent.eraseToAnyScreen())
   }
 
-  /// Replace the last occurence of a `Screen` with a new `Screen`
+  /// Replace the last occurrence of a `Screen` with a new `Screen`
   ///
-  /// `replace(screen:, with:)` replaces the last occurence of the passed `Screen` with the passed newContent `Screen` and will not assign a new `ScreenID` to the changed path element.
+  /// `replace(screen:, with:)` replaces the last occurrence of the passed `Screen` with the passed newContent `Screen` and will not assign a new `ScreenID` to the changed path element.
   ///
   /// ## Example
   /// ```swift
