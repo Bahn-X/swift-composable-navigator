@@ -129,11 +129,8 @@ public extension Navigator {
     }
 
     func dismiss(id: ScreenID) {
-      guard id != path.current.first?.id,
-            let index = path.current.firstIndex(where: { $0.id == id })
-      else { return }
-
-      update(path: Array(path.current.prefix(upTo: index)))
+      guard id != path.current.first?.id else { return }
+      update(path: Array(path.current.dismiss(id: id)))
     }
 
     func dismissSuccessor(of id: ScreenID) {

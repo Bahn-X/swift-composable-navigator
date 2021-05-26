@@ -15,18 +15,27 @@ public struct TabScreen: Hashable {
 
   public func ids() -> Set<ScreenID> {
     inactiveTabs.reduce(
-      Set<ScreenID>(activeTab.ids().union([id])),
+      into: Set<ScreenID>(activeTab.ids().union([id])),
       { acc, tab in
-        acc.union(tab.ids())
+        acc.formUnion(tab.ids())
       }
     )
   }
 
   public func contents() -> Set<AnyScreen> {
     inactiveTabs.reduce(
-      Set<AnyScreen>(activeTab.head.contents()).union(activeTab.tail.contents()),
+      into: Set<AnyScreen>(activeTab.head.contents()).union(activeTab.tail.contents()),
       { acc, tab in
-        acc.union(tab.tail.contents().union(tab.head.contents()))
+        acc.formUnion(tab.tail.contents().union(tab.head.contents()))
+      }
+    )
+  }
+
+  public var tabIDs: Set<ScreenID> {
+    inactiveTabs.reduce(
+      into: Set<ScreenID>([activeTab.id]),
+      { acc, tab in
+        acc.formUnion([tab.id])
       }
     )
   }

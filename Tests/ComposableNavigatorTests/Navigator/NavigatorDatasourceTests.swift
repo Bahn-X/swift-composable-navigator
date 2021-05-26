@@ -1151,6 +1151,281 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  func test_dismiss_tabbed_tab_id() {
+    let tabID = ScreenID()
+
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let fourth = ScreenID()
+
+    let path: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+            tail: [
+              .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+              tail: [
+                .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+              ]
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: path,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismiss(id: tabID)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: path,
+        current: [.screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false))]
+      )
+    )
+  }
+
+  func test_dismiss_tabbed_active_tab_head() {
+    let tabID = ScreenID()
+
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let fourth = ScreenID()
+
+    let path: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+            tail: [
+              .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+              tail: [
+                .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+              ]
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: path,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismiss(id: first)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: path,
+        current: [.screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false))]
+      )
+    )
+  }
+
+  func test_dismiss_tabbed_active_tab_tail() {
+    let tabID = ScreenID()
+
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let fourth = ScreenID()
+
+    let path: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+            tail: [
+              .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+              tail: [
+                .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+              ]
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: path,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismiss(id: second)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: path,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+                tail: []
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+                  tail: [
+                    .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+                  ]
+                )
+              ]
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_dismiss_tabbed_inactive_tab_tail() {
+    let tabID = ScreenID()
+
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let fourth = ScreenID()
+
+    let path: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+            tail: [
+              .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+              tail: [
+                .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+              ]
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: path,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismiss(id: fourth)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: path,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+                tail: [
+                  .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+                  tail: []
+                )
+              ]
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_dismiss_tabbed_inactive_tab_head() {
+    let tabID = ScreenID()
+
+    let first = ScreenID()
+    let second = ScreenID()
+    let third = ScreenID()
+    let fourth = ScreenID()
+
+    let path: NavigationPath = [
+      .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false)),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            head: .screen(IdentifiedScreen(id: first, content: root, hasAppeared: false)),
+            tail: [
+              .screen(IdentifiedScreen(id: second, content: root, hasAppeared: false))
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              head: .screen(IdentifiedScreen(id: third, content: root, hasAppeared: false)),
+              tail: [
+                .screen(IdentifiedScreen(id: fourth, content: root, hasAppeared: false))
+              ]
+            )
+          ]
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: path,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismiss(id: third)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: path,
+        current: [
+          .screen(IdentifiedScreen(id: .root, content: root, hasAppeared: false))
+        ]
+      )
+    )
+  }
+
   // MARK: - dismissSuccessor(of:)
   func test_dismissSuccessor_of_id() {
     let first = ScreenID()
