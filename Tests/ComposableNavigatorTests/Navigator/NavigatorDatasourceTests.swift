@@ -1520,6 +1520,170 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  func test_dismissSuccessor_of_tabbed_tabID() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let tabbed = TabScreen(
+      id: first,
+      activeTab: TabScreen.Tab(
+        id: Tab.active,
+        path: []
+      ),
+      inactiveTabs: [],
+      presentationStyle: .push,
+      hasAppeared: false
+    )
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(tabbed),
+      .screen(
+        IdentifiedScreen(
+          id: second,
+          content: root,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismissSuccessor(of: first)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(id: .root, content: self.root, hasAppeared: false)
+          ),
+          .tabbed(tabbed)
+        ]
+      )
+    )
+  }
+
+  func test_dismissSuccessor_of_in_tabbed_path() {
+    let first = ScreenID()
+    let second = ScreenID()
+
+    let pathID = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: false
+        )
+      ),
+      .tabbed(
+        TabScreen(
+          id: first,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(id: pathID, content: root, hasAppeared: false)
+              ),
+              .screen(
+                IdentifiedScreen(id: second, content: root, hasAppeared: false)
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(id: pathID, content: root, hasAppeared: false)
+                ),
+                .screen(
+                  IdentifiedScreen(id: second, content: root, hasAppeared: false)
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      ),
+      .screen(
+        IdentifiedScreen(
+          id: second,
+          content: root,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().dismissSuccessor(of: pathID)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(
+              id: .root,
+              content: self.root,
+              hasAppeared: false
+            )
+          ),
+          .tabbed(
+            TabScreen(
+              id: first,
+              activeTab: TabScreen.Tab(
+                id: Tab.active,
+                path: [
+                  .screen(
+                    IdentifiedScreen(id: pathID, content: root, hasAppeared: false)
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.inactive,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(id: pathID, content: root, hasAppeared: false)
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: false
+            )
+          ),
+          .screen(
+            IdentifiedScreen(
+              id: second,
+              content: root,
+              hasAppeared: false
+            )
+          )
+        ]
+      )
+    )
+  }
+
   func test_dismissSuccessor_of_non_existing_id() {
     let first = ScreenID()
     let second = ScreenID()
