@@ -64,61 +64,8 @@ extension TabScreen {
     forceNavigation: Bool,
     screenID: () -> ScreenID
   ) -> TabScreen {
-    if id == activeTab.id {
-      let newTail: NavigationPath = [
-        .screen(
-          IdentifiedScreen(
-            id: screenID(),
-            content: successor,
-            hasAppeared: false
-          )
-        )
-      ]
-
-      return TabScreen(
-        id: self.id,
-        activeTab: Tab(
-          head: activeTab.head,
-          tail: newTail
-        ),
-        inactiveTabs: inactiveTabs
-      )
-    }
-
-    if let tab = inactiveTabs.first(where: { tab in tab.id == id }) {
-      let newTail: NavigationPath = [
-        .screen(
-          IdentifiedScreen(
-            id: screenID(),
-            content: successor,
-            hasAppeared: false
-          )
-        )
-      ]
-
-      let updatedTab = Tab(head: tab.head, tail: newTail)
-
-      if forceNavigation {
-        return TabScreen(
-          id: self.id,
-          activeTab: updatedTab,
-          inactiveTabs: inactiveTabs
-            .filter { $0.id != tab.id }
-            .union([activeTab])
-        )
-      } else {
-        return TabScreen(
-          id: self.id,
-          activeTab: activeTab,
-          inactiveTabs: inactiveTabs
-            .filter { $0.id != tab.id }
-            .union([updatedTab])
-        )
-      }
-    }
-
-    if activeTab.tail.ids().contains(id) {
-      let newTail = activeTab.tail.go(
+    if activeTab.path.ids().contains(id) {
+      let newPath = activeTab.path.go(
         to: successor,
         on: id,
         forceNavigation: forceNavigation,
@@ -128,38 +75,44 @@ extension TabScreen {
       return TabScreen(
         id: self.id,
         activeTab: Tab(
-          head: activeTab.head,
-          tail: newTail
+          id: activeTab.id,
+          path: newPath
         ),
-        inactiveTabs: inactiveTabs
+        inactiveTabs: inactiveTabs,
+        presentationStyle: presentationStyle,
+        hasAppeared: hasAppeared
       )
     }
 
-    if let tab = inactiveTabs.first(where: { tab in tab.tail.ids().contains(id) }) {
-      let newTail = tab.tail.go(
+    if let tab = inactiveTabs.first(where: { tab in tab.path.ids().contains(id) }) {
+      let newPath = tab.path.go(
         to: successor,
         on: id,
         forceNavigation: forceNavigation,
         screenID: screenID
       )
 
-      let updatedTab = Tab(head: tab.head, tail: newTail)
+      let updatedTab = Tab(id: tab.id, path: newPath)
 
       if forceNavigation {
         return TabScreen(
           id: self.id,
           activeTab: updatedTab,
           inactiveTabs: inactiveTabs
-            .filter { $0.id != tab.id }
-            .union([activeTab])
+            .subtracting([tab])
+            .union([activeTab]),
+          presentationStyle: presentationStyle,
+          hasAppeared: hasAppeared
         )
       } else {
         return TabScreen(
           id: self.id,
           activeTab: activeTab,
           inactiveTabs: inactiveTabs
-            .filter { $0.id != tab.id }
-            .union([updatedTab])
+            .subtracting([tab])
+            .union([updatedTab]),
+          presentationStyle: presentationStyle,
+          hasAppeared: hasAppeared
         )
       }
     }

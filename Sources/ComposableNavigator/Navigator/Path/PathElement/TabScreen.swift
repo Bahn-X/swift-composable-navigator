@@ -1,17 +1,24 @@
-public struct TabScreen: Hashable {
+public struct TabScreen: Hashable, Screen {
   public struct Tab: Hashable {
-    let head: NavigationPathElement
-    let tail: NavigationPath
+    let id: AnyActivatable
+    let path: NavigationPath
 
-    var id: ScreenID { head.id }
+    init<A: Activatable>(id: A, path: NavigationPath) {
+      self.id = id.eraseToAnyActivatable()
+      self.path = path
+    }
+
     func ids() -> Set<ScreenID> {
-      tail.ids().union([id])
+      path.ids()
     }
   }
 
   public let id: ScreenID
   public let activeTab: Tab
   public let inactiveTabs: Set<Tab>
+
+  public let presentationStyle: ScreenPresentationStyle
+  public var hasAppeared: Bool
 
   public func ids() -> Set<ScreenID> {
     inactiveTabs.reduce(
@@ -24,18 +31,9 @@ public struct TabScreen: Hashable {
 
   public func contents() -> Set<AnyScreen> {
     inactiveTabs.reduce(
-      into: Set<AnyScreen>(activeTab.head.contents()).union(activeTab.tail.contents()),
+      into: activeTab.path.contents(),
       { acc, tab in
-        acc.formUnion(tab.tail.contents().union(tab.head.contents()))
-      }
-    )
-  }
-
-  public var tabIDs: Set<ScreenID> {
-    inactiveTabs.reduce(
-      into: Set<ScreenID>([activeTab.id]),
-      { acc, tab in
-        acc.formUnion([tab.id])
+        acc.formUnion(tab.path.contents())
       }
     )
   }

@@ -163,8 +163,8 @@ public extension Navigator {
       update(path: path.current.didAppear(id: id))
     }
 
-    func setActive(id: ScreenID) {
-      update(path: path.current.setActive(id: id))
+    func activate(_ activatable: AnyActivatable) {
+      update(path: path.current.activate(activatable))
     }
 
     private func update(path newValue: NavigationPath) {
@@ -212,11 +212,6 @@ extension Navigator.Datasource {
   func replace(screen: AnyScreen, with newContent: AnyScreen) {
     guard let id = lastOccurrence(of: screen) else { return }
     replaceContent(of: id, with: newContent)
-  }
-
-  func setActive(screen: AnyScreen) {
-    guard let id = lastOccurrence(of: screen) else { return }
-    setActive(id: id)
   }
 }
 

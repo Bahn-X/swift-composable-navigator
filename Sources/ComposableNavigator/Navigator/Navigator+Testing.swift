@@ -46,11 +46,8 @@ public extension Navigator {
     didAppear: @escaping (ScreenID) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    setActive: @escaping (ScreenID) -> Void = { _ in
-      fatalError("setActive(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
-    },
-    setActiveScreen: @escaping (AnyScreen) -> Void = { _ in
-      fatalError("setActive(screen:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    activate: @escaping (AnyActivatable) -> Void = { _ in
+      fatalError("activate(_ activatable:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
   ) -> Navigator {
     Navigator(
@@ -69,8 +66,7 @@ public extension Navigator {
       replaceContent: replaceContent,
       replaceScreen: replaceScreen,
       didAppear: didAppear,
-      setActive: setActive,
-      setActiveScreen: setActiveScreen
+      activate: activate
     )
   }
 
@@ -105,8 +101,8 @@ public extension Navigator {
     didAppearInvoked: @escaping (Navigator.DidAppearInvocation) -> Void = { _ in
       fatalError("didAppear(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    setActiveInvoked: @escaping (Navigator.SetActiveInvocation) -> Void = { _ in
-      fatalError("setActive(id:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    activateInvoked: @escaping (Navigator.ActivateInvocation) -> Void = { _ in
+      fatalError("activate(_ activatable:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     }
   ) -> Navigator {
     Navigator.mock(
@@ -165,11 +161,8 @@ public extension Navigator {
       didAppear: { id in
         didAppearInvoked(Navigator.DidAppearInvocation(id: id))
       },
-      setActive: { id in
-        setActiveInvoked(Navigator.SetActiveInvocation(id: .id(id)))
-      },
-      setActiveScreen: { screen in
-        setActiveInvoked(Navigator.SetActiveInvocation(id: .screen(screen)))
+      activate: { activatable in
+        activateInvoked(Navigator.ActivateInvocation(activatable: activatable))
       }
     )
   }
@@ -421,23 +414,23 @@ public extension Navigator {
   ///
   /// # Example
   /// ```swift
-  ///  var invocations = [Navigator.SetActiveInvocation]()
+  ///  var invocations = [Navigator.ActivateInvocation]()
   ///  let expectectedInvocations = [
-  ///    Navigator.SetActiveInvocation(id: expectedID)
+  ///    Navigator.ActivateInvocation(activatable: expectedActivatable)
   ///  ]
   ///
   ///  let sut = Navigator.mock(
   ///    path: { self.path },
-  ///    didAppear: { id in
-  ///      invocations.append(.init(id: id))
+  ///    didAppear: { activatable in
+  ///      invocations.append(.init(activatable: activatable))
   ///    }
   ///  )
   ///
-  ///  sut.setActive(id: expectedID) // invoke code that invokes dismissSuccessor(of:)
+  ///  sut.activate(id: expectedActivatable) // invoke code that invokes dismissSuccessor(of:)
   ///
   ///  XCTAssertEqual(expectectedInvocations, invocations)
   ///```
-  struct SetActiveInvocation: Hashable {
-    let id: NavigationIdentifier
+  struct ActivateInvocation: Hashable {
+    let activatable: AnyActivatable
   }
 }

@@ -77,14 +77,9 @@ public extension Navigator {
         log("Sent didAppear(id: \(id)).\nNew path:")
         dumpPath(path())
       },
-      setActive: { id in
-        setActive(id: id)
-        log("Sent setActive(id: \(id)).\nNew path:")
-        dumpPath(path())
-      },
-      setActiveScreen: { screen in
-        setActive(screen: screen)
-        log("Sent setActive(screen: \(screen)).\nNew path:")
+      activate: { activatable in
+        activate(activatable)
+        log("Sent activate(_ activatable: \(activatable)).\nNew path:")
         dumpPath(path())
       }
     )

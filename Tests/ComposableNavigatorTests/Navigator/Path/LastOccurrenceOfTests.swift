@@ -7,39 +7,59 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
   let expectedID = ScreenID()
   let tabID = ScreenID()
 
+  struct Tab: Activatable {}
+
   func test_lastOccurrence_rootLevel() {
     let expectedID = ScreenID()
 
     let path: NavigationPath = [
-      .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: content,
+          hasAppeared: false
+        )
+      ),
       .tabbed(
         TabScreen(
           id: tabID,
           activeTab: TabScreen.Tab(
-            head: .screen(
-              IdentifiedScreen(id: ScreenID(), content: content, hasAppeared: false)
-            ),
-            tail: [
+            id: Tab(),
+            path: [
               .screen(
-                IdentifiedScreen(id: ScreenID(), content: content, hasAppeared: false)
+                IdentifiedScreen(
+                  id: ScreenID(),
+                  content: content,
+                  hasAppeared: false
+                )
               )
             ]
           ),
           inactiveTabs: [
             TabScreen.Tab(
-              head: .screen(
-                IdentifiedScreen(id: ScreenID(), content: content, hasAppeared: false)
-              ),
-              tail: [
+              id: Tab(),
+              path: [
                 .screen(
-                  IdentifiedScreen(id: ScreenID(), content: content, hasAppeared: false)
+                  IdentifiedScreen(
+                    id: ScreenID(),
+                    content: content,
+                    hasAppeared: false
+                  )
                 )
               ]
             ),
-          ]
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
         )
       ),
-      .screen(IdentifiedScreen(id: expectedID, content: content, hasAppeared: false))
+      .screen(
+        IdentifiedScreen(
+          id: expectedID,
+          content: content,
+          hasAppeared: false
+        )
+      )
     ]
 
     let id = path.lastOccurrence(
@@ -49,7 +69,7 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
     XCTAssertEqual(expectedID, id)
   }
 
-  func test_lastOccurrence_childLevel_tabbed_active_head() {
+  func test_lastOccurrence_childLevel_tabbed_active_path() {
     let expectedID = ScreenID()
     let tabID = ScreenID()
 
@@ -59,30 +79,42 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
         TabScreen(
           id: tabID,
           activeTab: TabScreen.Tab(
-            head: .screen(
-              IdentifiedScreen(id: expectedID, content: content, hasAppeared: false)
-            ),
-            tail: [
+            id: Tab(),
+            path: [
               .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
+                IdentifiedScreen(
+                  id: expectedID,
+                  content: content,
+                  hasAppeared: false
+                )
               )
             ]
           ),
           inactiveTabs: [
             TabScreen.Tab(
-              head: .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-              ),
-              tail: [
+              id: Tab(),
+              path: [
                 .screen(
-                  IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
+                  IdentifiedScreen(
+                    id: ScreenID(),
+                    content: otherContent,
+                    hasAppeared: false
+                  )
                 )
               ]
             ),
-          ]
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
         )
       ),
-      .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
+      .screen(
+        IdentifiedScreen(
+          id: ScreenID(),
+          content: otherContent,
+          hasAppeared: false
+        )
+      )
     ]
 
     let id = path.lastOccurrence(
@@ -92,117 +124,45 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
     XCTAssertEqual(expectedID, id)
   }
 
-  func test_lastOccurrence_childLevel_tabbed_in_active_tail() {
+  func test_lastOccurrence_childLevel_tabbed_in_inactive_tab_path() {
     let path: NavigationPath = [
       .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
       .tabbed(
         TabScreen(
           id: tabID,
           activeTab: TabScreen.Tab(
-            head: .screen(
-              IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-            ),
-            tail: [
+            id: Tab(),
+            path: [
               .screen(
-                IdentifiedScreen(id: expectedID, content: content, hasAppeared: false)
-              )
-            ]
-          ),
-          inactiveTabs: [
-            TabScreen.Tab(
-              head: .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-              ),
-              tail: [
-                .screen(
-                  IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
+                IdentifiedScreen(
+                  id: ScreenID(),
+                  content: otherContent,
+                  hasAppeared: false
                 )
-              ]
-            ),
-          ]
-        )
-      ),
-      .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
-    ]
-
-    let id = path.lastOccurrence(
-      of: content.eraseToAnyScreen()
-    )
-
-    XCTAssertEqual(expectedID, id)
-  }
-
-  func test_lastOccurrence_childLevel_tabbed_in_inactive_tab_head() {
-    let path: NavigationPath = [
-      .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
-      .tabbed(
-        TabScreen(
-          id: tabID,
-          activeTab: TabScreen.Tab(
-            head: .screen(
-              IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-            ),
-            tail: [
-              .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
               )
             ]
           ),
           inactiveTabs: [
             TabScreen.Tab(
-              head: .screen(
-                IdentifiedScreen(id: expectedID, content: content, hasAppeared: false)
-              ),
-              tail: [
-                .screen(
-                  IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-                )
-              ]
-            ),
-          ]
-        )
-      ),
-      .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
-    ]
-
-    let id = path.lastOccurrence(
-      of: content.eraseToAnyScreen()
-    )
-
-    XCTAssertEqual(expectedID, id)
-  }
-
-  func test_lastOccurrence_childLevel_tabbed_in_inactive_tab_tail() {
-    let path: NavigationPath = [
-      .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
-      .tabbed(
-        TabScreen(
-          id: tabID,
-          activeTab: TabScreen.Tab(
-            head: .screen(
-              IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-            ),
-            tail: [
-              .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-              )
-            ]
-          ),
-          inactiveTabs: [
-            TabScreen.Tab(
-              head: .screen(
-                IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false)
-              ),
-              tail: [
+              id: Tab(),
+              path: [
                 .screen(
                   IdentifiedScreen(id: expectedID, content: content, hasAppeared: false)
                 )
               ]
             ),
-          ]
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
         )
       ),
-      .screen(IdentifiedScreen(id: ScreenID(), content: otherContent, hasAppeared: false))
+      .screen(
+        IdentifiedScreen(
+          id: ScreenID(),
+          content: otherContent,
+          hasAppeared: false
+        )
+      )
     ]
 
     let id = path.lastOccurrence(

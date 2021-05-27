@@ -11,6 +11,20 @@ public indirect enum NavigationPathElement: Hashable {
     }
   }
 
+  public var representedIDs: Set<ScreenID> {
+    switch self {
+    case .screen(let screen):
+      return [screen.id]
+    case .tabbed(let screen):
+      return screen.inactiveTabs.reduce(
+        into: Set([screen.id, screen.activeTab.path.first?.id].compactMap { $0 }),
+        { acc, inactiveTab in
+          acc.formUnion([inactiveTab.path.first?.id].compactMap { $0 })
+        }
+      )
+    }
+  }
+
   public func ids() -> Set<ScreenID> {
     switch self {
     case .screen(let screen):
@@ -25,7 +39,7 @@ public indirect enum NavigationPathElement: Hashable {
     case .screen(let screen):
       return screen.content
     case .tabbed(let screen):
-      return screen.activeTab.head.content
+      return screen.eraseToAnyScreen()
     }
   }
 
@@ -43,7 +57,7 @@ public indirect enum NavigationPathElement: Hashable {
     case .screen(let screen):
       return screen.hasAppeared
     case .tabbed(let screen):
-      return screen.activeTab.head.hasAppeared
+      return screen.hasAppeared
     }
   }
 }

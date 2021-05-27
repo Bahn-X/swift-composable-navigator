@@ -19,8 +19,7 @@ public extension Navigator {
       replaceContent: dataSource.replaceContent,
       replaceScreen: dataSource.replace,
       didAppear: dataSource.didAppear,
-      setActive: dataSource.setActive,
-      setActiveScreen: dataSource.setActive
+      activate: dataSource.activate
     )
   }
 }

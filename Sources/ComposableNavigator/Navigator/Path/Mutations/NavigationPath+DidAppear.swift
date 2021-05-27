@@ -33,48 +33,29 @@ extension NavigationPathElement {
 
 extension TabScreen {
   func setHasAppeared(id: ScreenID, _ newValue: Bool) -> TabScreen {
-    if self.id == id || activeTab.id == id {
+    if self.id == id {
       return TabScreen(
+        id: id,
+        activeTab: activeTab,
+        inactiveTabs: inactiveTabs,
+        presentationStyle: presentationStyle,
+        hasAppeared: newValue
+      )
+    }
+
+    return TabScreen(
         id: self.id,
         activeTab: Tab(
-          head: activeTab.head.setHasAppeared(id: activeTab.id, newValue),
-          tail: activeTab.tail
+            id: activeTab.id,
+            path: activeTab.path.setHasAppeared(id: id, newValue)
         ),
-        inactiveTabs: inactiveTabs
-      )
-    }
-
-    if activeTab.tail.ids().contains(id) {
-      return TabScreen(
-        id: self.id,
-        activeTab: Tab(
-          head: activeTab.head,
-          tail: activeTab.tail.setHasAppeared(id: id, newValue)
+        inactiveTabs: Set(
+            inactiveTabs.map { tab in
+                Tab(id: tab.id, path: tab.path.setHasAppeared(id: id, newValue))
+            }
         ),
-        inactiveTabs: inactiveTabs
-      )
-    }
-
-    if let tab = inactiveTabs.first(where: { $0.id == id }) {
-      return TabScreen(
-        id: self.id,
-        activeTab: activeTab,
-        inactiveTabs: inactiveTabs
-          .subtracting([tab])
-          .union([Tab(head: tab.head.setHasAppeared(id: id, newValue), tail: tab.tail)])
-      )
-    }
-
-    if let tab = inactiveTabs.first(where: { $0.tail.ids().contains(id) }) {
-      return TabScreen(
-        id: self.id,
-        activeTab: activeTab,
-        inactiveTabs: inactiveTabs
-          .subtracting([tab])
-          .union([Tab(head: tab.head, tail: tab.tail.setHasAppeared(id: id, newValue))])
-      )
-    }
-
-    return self
+        presentationStyle: presentationStyle,
+        hasAppeared: hasAppeared
+    )
   }
 }
