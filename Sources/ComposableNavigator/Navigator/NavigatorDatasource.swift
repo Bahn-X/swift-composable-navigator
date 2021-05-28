@@ -125,7 +125,6 @@ public extension Navigator {
     }
 
     func dismiss(id: ScreenID) {
-      guard id != path.current.first?.id else { return }
       update(path: path.current.dismiss(id: id))
     }
 
@@ -134,21 +133,7 @@ public extension Navigator {
     }
 
     func replaceContent(of id: ScreenID, with newContent: AnyScreen) {
-      update(
-        path: path.current.map { element in
-          guard element.id == id else {
-            return element
-          }
-
-          return .screen(
-            IdentifiedScreen(
-              id: element.id,
-              content: newContent,
-              hasAppeared: element.hasAppeared
-            )
-          )
-        }
-      )
+      update(path: path.current.replaceContent(of: id, with: newContent))
     }
 
     func didAppear(id: ScreenID) {

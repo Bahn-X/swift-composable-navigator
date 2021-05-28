@@ -1799,6 +1799,149 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
+  func test_replaceContent_of_tab_root() {
+    let previousPath: NavigationPath = [
+      .tabbed(
+        TabScreen(
+          id: .root,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: []
+          ),
+          inactiveTabs: [],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath: NavigationPath = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: expectedContent,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().replaceContent(of: .root, with: expectedContent)
+
+    XCTAssertEqual(
+      sut.path,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: expectedPath
+      )
+    )
+  }
+
+  func test_replaceContent_in_tabbed_path() {
+    let pathID = ScreenID()
+
+    let previousPath: NavigationPath = [
+      .tabbed(
+        TabScreen(
+          id: .root,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: pathID,
+                  content: next,
+                  hasAppeared: false
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: pathID,
+                    content: next,
+                    hasAppeared: false
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let expectedContent = TestScreen(
+      identifier: "newContent",
+      presentationStyle: .push
+    ).eraseToAnyScreen()
+
+    let expectedPath: NavigationPath = [
+      .tabbed(
+        TabScreen(
+          id: .root,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: pathID,
+                  content: expectedContent,
+                  hasAppeared: false
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: pathID,
+                    content: expectedContent,
+                    hasAppeared: false
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationPath: previousPath,
+      screenID: { fatalError("unimplemented") }
+    )
+
+    sut.wrappedInNavigator().replaceContent(of: pathID, with: expectedContent)
+
+    XCTAssertEqual(
+      sut.path.current,
+      NavigationPathUpdate(
+        previous: previousPath,
+        current: expectedPath
+      ).current
+    )
+  }
+
   func test_replaceContent_of_non_existent_screen_with_newContent() {
     let first = ScreenID()
     let second = ScreenID()

@@ -1,5 +1,7 @@
 extension NavigationPath {
   func dismiss(id: ScreenID) -> NavigationPath {
+    guard id != first?.id else { return self }
+
     if let firstIndex = firstIndex(
         where: { pathElement in pathElement.representedIDs.contains(id) }
     ) {
