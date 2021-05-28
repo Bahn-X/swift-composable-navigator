@@ -77,11 +77,7 @@ public extension Navigator {
     }
 
     func goBack(to id: ScreenID) {
-      guard let index = path.current.firstIndex(where: { $0.id == id }) else {
-        return
-      }
-
-      update(path: Array(path.current.prefix(through: index)))
+      dismissSuccessor(of: id)
     }
 
     func replace(path: [AnyScreen]) {
