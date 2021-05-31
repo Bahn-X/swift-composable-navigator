@@ -3,7 +3,7 @@ import SwiftUI
 /// Screen container view, taking care of push and sheet bindings.
 public struct NavigationNode<Content: View, Successor: View>: View {
   private struct SuccessorView: Identifiable, View {
-    let pathElement: NavigationPathElement
+    let pathElement: ActiveNavigationTreeElement
     let body: Successor
 
     var id: ScreenID { pathElement.id }
@@ -11,7 +11,7 @@ public struct NavigationNode<Content: View, Successor: View>: View {
       pathElement.content.presentationStyle
     }
 
-    init(successor: NavigationPathElement, content: Successor) {
+    init(successor: ActiveNavigationTreeElement, content: Successor) {
       self.pathElement = successor
       self.body = content
     }
@@ -26,12 +26,12 @@ public struct NavigationNode<Content: View, Successor: View>: View {
 
   let content: Content
   let onAppear: (Bool) -> Void
-  let buildSuccessor: (NavigationPathElement) -> Successor?
+  let buildSuccessor: (ActiveNavigationTreeElement) -> Successor?
 
   public init(
     content: Content,
     onAppear: @escaping (Bool) -> Void,
-    buildSuccessor: @escaping (NavigationPathElement) -> Successor?
+    buildSuccessor: @escaping (ActiveNavigationTreeElement) -> Successor?
   ) {
     self.content = content
     self.onAppear = onAppear
@@ -64,12 +64,12 @@ public struct NavigationNode<Content: View, Successor: View>: View {
       }
   }
 
-  private var screen: NavigationPathElement? {
-    dataSource.path.component(for: screenID).current
+  private var screen: ActiveNavigationTreeElement? {
+    dataSource.navigationTree.component(for: screenID).current
   }
 
   private var successorView: SuccessorView? {
-    let successorUpdate = dataSource.path.successor(of: screenID)
+    let successorUpdate = dataSource.navigationTree.successor(of: screenID)
     return successorUpdate.current.flatMap { successor in
       buildSuccessor(successor).flatMap { content in
         SuccessorView(successor: successor, content: content)

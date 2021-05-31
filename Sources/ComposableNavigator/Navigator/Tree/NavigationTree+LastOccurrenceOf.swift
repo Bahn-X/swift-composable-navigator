@@ -1,4 +1,4 @@
-extension NavigationPath {
+extension ActiveNavigationTree {
   func lastOccurrence(of content: AnyScreen) -> ScreenID? {
     reversed()
       .first(where: { $0.contents().contains(content) })?
@@ -6,7 +6,7 @@ extension NavigationPath {
   }
 }
 
-extension NavigationPathElement {
+extension ActiveNavigationTreeElement {
   func lastOccurrence(of content: AnyScreen) -> ScreenID? {
     switch self {
     case .screen(let screen):

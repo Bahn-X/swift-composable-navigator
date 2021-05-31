@@ -1,17 +1,17 @@
-extension NavigationPath {
-  func didAppear(id: ScreenID) -> NavigationPath {
+extension ActiveNavigationTree {
+  func didAppear(id: ScreenID) -> ActiveNavigationTree {
     setHasAppeared(id: id, true)
   }
 
-  func setHasAppeared(id: ScreenID, _ newValue: Bool) -> NavigationPath {
+  func setHasAppeared(id: ScreenID, _ newValue: Bool) -> ActiveNavigationTree {
     map { element in
       element.setHasAppeared(id: id, newValue)
     }
   }
 }
 
-extension NavigationPathElement {
-  func setHasAppeared(id: ScreenID, _ newValue: Bool) -> NavigationPathElement {
+extension ActiveNavigationTreeElement {
+  func setHasAppeared(id: ScreenID, _ newValue: Bool) -> ActiveNavigationTreeElement {
     switch self {
     case .screen(let screen) where id == screen.id:
       return .screen(

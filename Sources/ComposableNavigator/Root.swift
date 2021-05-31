@@ -57,7 +57,7 @@ public struct Root<Builder: PathBuilder>: View {
   }
 
   public var body: some View {
-    if let rootPathComponent = dataSource.path.current.first {
+    if let rootPathComponent = dataSource.navigationTree.current.first {
       NavigationView {
         pathBuilder.build(
           pathElement: rootPathComponent

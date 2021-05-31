@@ -10,7 +10,7 @@ final class NavigationPathElement_Tests: XCTestCase {
 
   // MARK: - Screen path element
   func test_screen_id_equals_wrapped_screen_id() {
-    let sut = NavigationPathElement.screen(
+    let sut = ActiveNavigationTreeElement.screen(
       IdentifiedScreen(
         id: screenID,
         content: content,
@@ -24,7 +24,7 @@ final class NavigationPathElement_Tests: XCTestCase {
   func test_screen_ids_contains_only_screen_id() {
     let expectedIDs = Set<ScreenID>([screenID])
 
-    let sut = NavigationPathElement.screen(
+    let sut = ActiveNavigationTreeElement.screen(
       IdentifiedScreen(
         id: screenID,
         content: content,
@@ -38,7 +38,7 @@ final class NavigationPathElement_Tests: XCTestCase {
   func test_screen_content_equals_wrapped_content() {
     let expectedContent = content.eraseToAnyScreen()
 
-    let sut = NavigationPathElement.screen(
+    let sut = ActiveNavigationTreeElement.screen(
       IdentifiedScreen(
         id: screenID,
         content: content,
@@ -50,7 +50,7 @@ final class NavigationPathElement_Tests: XCTestCase {
   }
 
   func test_screen_hasAppeared_equals_wrapped_screen() {
-    var sut = NavigationPathElement.screen(
+    var sut = ActiveNavigationTreeElement.screen(
       IdentifiedScreen(
         id: screenID,
         content: content,
@@ -60,7 +60,7 @@ final class NavigationPathElement_Tests: XCTestCase {
 
     XCTAssertFalse(sut.hasAppeared)
 
-    sut = NavigationPathElement.screen(
+    sut = ActiveNavigationTreeElement.screen(
       IdentifiedScreen(
         id: screenID,
         content: content,

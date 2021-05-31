@@ -12,7 +12,7 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
   func test_lastOccurrence_rootLevel() {
     let expectedID = ScreenID()
 
-    let path: NavigationPath = [
+    let path: ActiveNavigationTree = [
       .screen(
         IdentifiedScreen(
           id: .root,
@@ -73,7 +73,7 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
     let expectedID = ScreenID()
     let tabID = ScreenID()
 
-    let path: NavigationPath = [
+    let path: ActiveNavigationTree = [
       .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
       .tabbed(
         TabScreen(
@@ -125,7 +125,7 @@ final class NavigationPath_LastOccurrenceOf: XCTestCase {
   }
 
   func test_lastOccurrence_childLevel_tabbed_in_inactive_tab_path() {
-    let path: NavigationPath = [
+    let path: ActiveNavigationTree = [
       .screen(IdentifiedScreen(id: .root, content: content, hasAppeared: false)),
       .tabbed(
         TabScreen(

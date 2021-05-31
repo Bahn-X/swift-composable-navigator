@@ -2,7 +2,7 @@ import Foundation
 
 /// Facade type erasing the type of the underlying datasource
 public struct Navigator {
-  private let _path: () -> NavigationPathUpdate
+  private let _navigationTree: () -> NavigationTreeUpdate
   private let _go: (AnyScreen, ScreenID, Bool) -> Void
   private let _goToOnScreen: (AnyScreen, AnyScreen, Bool) -> Void
   private let _goToPath: ([AnyScreen], ScreenID) -> Void
@@ -23,8 +23,8 @@ public struct Navigator {
   /// Retrieve the current value of the navigation path
   /// - Returns: The current navigation path
   /// - SeeAlso: `Navigator.debug()`
-  func path() -> NavigationPathUpdate {
-    _path()
+  func navigationTree() -> NavigationTreeUpdate {
+    _navigationTree()
   }
 
   /// Append a screen after a  given `ScreenID`.
@@ -366,7 +366,7 @@ public struct Navigator {
   }
 
   public init(
-    path: @escaping () -> NavigationPathUpdate,
+    navigationTree: @escaping () -> NavigationTreeUpdate,
     go: @escaping (AnyScreen, ScreenID, Bool) -> Void,
     goToOnScreen: @escaping (AnyScreen, AnyScreen, Bool) -> Void,
     goToPath: @escaping ([AnyScreen], ScreenID) -> Void,
@@ -383,7 +383,7 @@ public struct Navigator {
     didAppear: @escaping (ScreenID) -> Void,
     activate: @escaping (AnyActivatable) -> Void
   ) {
-    self._path = path
+    self._navigationTree = navigationTree
     self._go = go
     self._goToOnScreen = goToOnScreen
     self._goToPath = goToPath

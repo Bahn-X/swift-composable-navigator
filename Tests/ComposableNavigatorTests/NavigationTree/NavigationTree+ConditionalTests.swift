@@ -12,7 +12,7 @@ final class NavigationTree_ConditionalTests: XCTestCase {
   // MARK: - ifScreen
   func test_ifScreen_builds_path_if_screen_matches() {
     var builtScreens = [AnyScreen]()
-    var builtPaths = [NavigationPathElement]()
+    var builtPaths = [ActiveNavigationTreeElement]()
 
     let expectedScreens = [
       pathElement.content
@@ -42,10 +42,10 @@ final class NavigationTree_ConditionalTests: XCTestCase {
     }
 
     var builtScreens = [AnyScreen]()
-    var builtPaths = [NavigationPathElement]()
+    var builtPaths = [ActiveNavigationTreeElement]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [NavigationPathElement]()
+    let expectedPaths = [ActiveNavigationTreeElement]()
 
     let sut = EmptyNavigationTree()
       .If { (screen: TestScreen) in
@@ -63,11 +63,11 @@ final class NavigationTree_ConditionalTests: XCTestCase {
 
   func test_ifScreen_builds_else_builder_if_screen_does_not_match() {
     var builtScreens = [AnyScreen]()
-    var builtPaths = [NavigationPathElement]()
-    var builtElsePaths = [NavigationPathElement]()
+    var builtPaths = [ActiveNavigationTreeElement]()
+    var builtElsePaths = [ActiveNavigationTreeElement]()
 
     let expectedScreens = [AnyScreen]()
-    let expectedPaths = [NavigationPathElement]()
+    let expectedPaths = [ActiveNavigationTreeElement]()
     let expectedElsePaths = [NonMatching().asPathElement()]
 
     let sut = EmptyNavigationTree()

@@ -1,14 +1,14 @@
-extension NavigationPath {
-  func dismissSuccessor(of id: ScreenID) -> NavigationPath {
+extension ActiveNavigationTree {
+  func dismissSuccessor(of id: ScreenID) -> ActiveNavigationTree {
     if let firstIndex = firstIndex(where: { pathElement in pathElement.id == id }) {
       return Array(prefix(through: firstIndex))
     }
 
-    return map { pathElement in
-      if case .tabbed(let screen) = pathElement {
+    return map { element in
+      if case .tabbed(let screen) = element {
         return .tabbed(screen.dismissSuccessor(of: id))
       }
-      return pathElement
+      return element
     }
   }
 }

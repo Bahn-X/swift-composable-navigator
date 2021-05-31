@@ -1,4 +1,4 @@
-public indirect enum NavigationPathElement: Hashable {
+public indirect enum ActiveNavigationTreeElement: Hashable {
   case screen(IdentifiedScreen)
   case tabbed(TabScreen)
 

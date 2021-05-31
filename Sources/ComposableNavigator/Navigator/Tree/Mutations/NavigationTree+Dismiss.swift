@@ -1,5 +1,5 @@
-extension NavigationPath {
-  func dismiss(id: ScreenID) -> NavigationPath {
+extension ActiveNavigationTree {
+  func dismiss(id: ScreenID) -> ActiveNavigationTree {
     guard id != first?.id else { return self }
 
     if let firstIndex = firstIndex(
@@ -8,11 +8,11 @@ extension NavigationPath {
       return Array(prefix(upTo: firstIndex))
     }
 
-    return map { pathElement in
-      if case .tabbed(let screen) = pathElement {
+    return map { element in
+      if case .tabbed(let screen) = element {
         return .tabbed(screen.dismiss(id: id))
       }
-      return pathElement
+      return element
     }
   }
 }

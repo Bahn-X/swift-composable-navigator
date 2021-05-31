@@ -1,11 +1,13 @@
-extension NavigationPath {
-  func activate(_ activatable: AnyActivatable) -> NavigationPath {
-    map { $0.activate(activatable) }
+extension ActiveNavigationTree {
+  func activate(_ activatable: AnyActivatable) -> ActiveNavigationTree {
+    map { element in
+      element.activate(activatable)
+    }
   }
 }
 
-extension NavigationPathElement {
-  func activate(_ activatable: AnyActivatable) -> NavigationPathElement {
+extension ActiveNavigationTreeElement {
+  func activate(_ activatable: AnyActivatable) -> ActiveNavigationTreeElement {
     switch self {
     case .screen:
       return self

@@ -3,24 +3,24 @@ import Foundation
 public extension Navigator {
   /// Observable Object exposing navigation path changes
   class Datasource: ObservableObject {
-    @Published public var path: NavigationPathUpdate
+    @Published public var navigationTree: NavigationTreeUpdate
 
     private let screenID: () -> ScreenID
 
     init(
-      navigationPath: NavigationPath,
+      navigationTree: ActiveNavigationTree,
       screenID: @escaping () -> ScreenID = ScreenID.init
     ) {
-      self.path = NavigationPathUpdate(
+      self.navigationTree = NavigationTreeUpdate(
         previous: [],
-        current: navigationPath
+        current: navigationTree
       )
       self.screenID = screenID
     }
 
     func go(to successor: AnyScreen, on id: ScreenID, forceNavigation: Bool) {
       update(
-        path: path.current.go(
+        path: navigationTree.current.go(
             to: successor,
             on: id,
             forceNavigation: forceNavigation,
@@ -30,11 +30,11 @@ public extension Navigator {
     }
 
     func go(to newPath: [AnyScreen], on id: ScreenID) {
-      guard let index = path.current.firstIndex(where: { $0.id == id }) else {
+      guard let index = navigationTree.current.firstIndex(where: { $0.id == id }) else {
         return
       }
 
-      let suffix = path
+      let suffix = navigationTree
         .current
         .suffix(from: index.advanced(by: 1))
         .prefix(newPath.count)
@@ -52,14 +52,14 @@ public extension Navigator {
       let suffixRange = suffix.startIndex..<suffix.startIndex.advanced(by: newPath.count)
 
       let appendedPath = zip(suffixRange, newPath)
-        .map { index, element -> NavigationPathElement in
-          let oldPathElement: NavigationPathElement? = matchingContentRange.contains(index)
+        .map { index, element -> ActiveNavigationTreeElement in
+          let oldPathElement: ActiveNavigationTreeElement? = matchingContentRange.contains(index)
             ? suffix[index]
             : nil
 
           let id: ScreenID = oldPathElement.map(\.id) ?? screenID()
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
-            && (index != matchingContentRange.last || index == path.current.endIndex.advanced(by: -1))
+            && (index != matchingContentRange.last || index == navigationTree.current.endIndex.advanced(by: -1))
 
           return .screen(
             IdentifiedScreen(
@@ -71,7 +71,7 @@ public extension Navigator {
         }
 
       update(
-        path: Array(path.current.prefix(through: index))
+        path: Array(navigationTree.current.prefix(through: index))
           + appendedPath
       )
     }
@@ -85,7 +85,7 @@ public extension Navigator {
         return
       }
 
-      let pathPrefix = self.path.current.prefix(path.count)
+      let pathPrefix = self.navigationTree.current.prefix(path.count)
 
       let firstNonMatchingContent = pathPrefix
         .enumerated()
@@ -102,15 +102,15 @@ public extension Navigator {
 
       let newPath = path
         .enumerated()
-        .map { (index, element) -> NavigationPathElement in
-          let oldPathElement: NavigationPathElement? = matchingContentRange.contains(index)
-            ? self.path.current[index]
+        .map { (index, element) -> ActiveNavigationTreeElement in
+          let oldPathElement: ActiveNavigationTreeElement? = matchingContentRange.contains(index)
+            ? self.navigationTree.current[index]
             : nil
 
           let fallBackID = (index == 0) ? ScreenID.root: self.screenID()
           let id: ScreenID = oldPathElement.map(\.id) ?? fallBackID
           let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
-            && (index != matchingContentRange.last || index == self.path.current.endIndex.advanced(by: -1))
+            && (index != matchingContentRange.last || index == self.navigationTree.current.endIndex.advanced(by: -1))
 
           return .screen(
             IdentifiedScreen(
@@ -125,30 +125,30 @@ public extension Navigator {
     }
 
     func dismiss(id: ScreenID) {
-      update(path: path.current.dismiss(id: id))
+      update(path: navigationTree.current.dismiss(id: id))
     }
 
     func dismissSuccessor(of id: ScreenID) {
-      update(path: path.current.dismissSuccessor(of: id))
+      update(path: navigationTree.current.dismissSuccessor(of: id))
     }
 
     func replaceContent(of id: ScreenID, with newContent: AnyScreen) {
-      update(path: path.current.replaceContent(of: id, with: newContent))
+      update(path: navigationTree.current.replaceContent(of: id, with: newContent))
     }
 
     func didAppear(id: ScreenID) {
-      update(path: path.current.didAppear(id: id))
+      update(path: navigationTree.current.didAppear(id: id))
     }
 
     func activate(_ activatable: AnyActivatable) {
-      update(path: path.current.activate(activatable))
+      update(path: navigationTree.current.activate(activatable))
     }
 
-    private func update(path newValue: NavigationPath) {
-      guard newValue != path.current else { return }
+    private func update(path newValue: ActiveNavigationTree) {
+      guard newValue != navigationTree.current else { return }
 
-      path = NavigationPathUpdate(
-        previous: path.current,
+      navigationTree = NavigationTreeUpdate(
+        previous: navigationTree.current,
         current: newValue
       )
     }
@@ -158,7 +158,7 @@ public extension Navigator {
 // MARK: - Screen based navigation
 extension Navigator.Datasource {
   private func lastOccurrence(of content: AnyScreen) -> ScreenID? {
-    path.current.lastOccurrence(of: content)
+    navigationTree.current.lastOccurrence(of: content)
   }
 
   func go(to successor: AnyScreen, on parent: AnyScreen, forceNavigation: Bool) {
@@ -199,7 +199,7 @@ public extension Navigator.Datasource {
     screenID: @escaping () -> ScreenID = ScreenID.init
   ) {
     self.init(
-      navigationPath: path.map(NavigationPathElement.screen),
+      navigationTree: path.map(ActiveNavigationTreeElement.screen),
       screenID: screenID
     )
   }

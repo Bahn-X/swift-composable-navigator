@@ -2,7 +2,7 @@ import SwiftUI
 
 /// An erased path builder that erases the underlying Content to AnyView
 public struct AnyPathBuilder: PathBuilder {
-  private let buildPathElement: (NavigationPathElement) -> AnyView?
+  private let buildPathElement: (ActiveNavigationTreeElement) -> AnyView?
 
   /// Erases the passed PathBuilder's Content to AnyView, if it builds the passed PathElement
   public init<Erased: PathBuilder>(erasing: Erased) {
@@ -13,7 +13,7 @@ public struct AnyPathBuilder: PathBuilder {
     }
   }
 
-  public func build(pathElement: NavigationPathElement) -> AnyView? {
+  public func build(pathElement: ActiveNavigationTreeElement) -> AnyView? {
     buildPathElement(pathElement)
   }
 }

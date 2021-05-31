@@ -55,7 +55,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       )
 
     let content = sut
-      .build(pathElement: dataSource.path.component(for: nextID).current!)?
+      .build(pathElement: dataSource.navigationTree.component(for: nextID).current!)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -95,7 +95,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       )
 
     let content = sut
-      .build(pathElement: dataSource.path.component(for: nextID).current!)?
+      .build(pathElement: dataSource.navigationTree.component(for: nextID).current!)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)
@@ -134,7 +134,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       )
     
     let content = sut
-      .build(pathElement: dataSource.path.component(for: nextID).current!)?
+      .build(pathElement: dataSource.navigationTree.component(for: nextID).current!)?
       .environment(\.parentScreenID, .root)
       .environmentObject(dataSource)
       .frame(width: 20, height: 20)

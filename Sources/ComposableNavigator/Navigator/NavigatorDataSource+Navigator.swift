@@ -4,7 +4,7 @@ public extension Navigator {
   ///   - dataSource: The wrapped data source
   init(dataSource: Navigator.Datasource) {
     self.init(
-      path: { dataSource.path },
+      navigationTree: { dataSource.navigationTree },
       go: dataSource.go,
       goToOnScreen: dataSource.go,
       goToPath: dataSource.go,

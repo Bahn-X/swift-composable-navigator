@@ -4,14 +4,14 @@ public struct OnDismissView<Content: View>: View {
   @EnvironmentObject var datasource: Navigator.Datasource
   @Environment(\.parentScreenID) var parentScreenID
 
-  let build: (NavigationPathElement) -> Content?
+  let build: (ActiveNavigationTreeElement) -> Content?
   let content: Content
   let perform: (AnyScreen) -> Void
 
   public var body: some View {
     content
       .onReceive(
-        datasource.$path,
+        datasource.$navigationTree,
         perform: { path in
           guard let parentScreenID = parentScreenID,
                 path.component(for: parentScreenID).current != nil

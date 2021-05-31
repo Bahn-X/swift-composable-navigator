@@ -1,10 +1,10 @@
-extension NavigationPath {
+extension ActiveNavigationTree {
   func go(
     to successor: AnyScreen,
     on id: ScreenID,
     forceNavigation: Bool,
     screenID: () -> ScreenID
-  ) -> NavigationPath {
+  ) -> ActiveNavigationTree {
     if let index = self.firstIndex(where: { $0.id == id }) {
       return prefix(through: index) + [
         .screen(
@@ -34,13 +34,13 @@ extension NavigationPath {
   }
 }
 
-extension NavigationPathElement {
+extension ActiveNavigationTreeElement {
   func go(
     to successor: AnyScreen,
     on id: ScreenID,
     forceNavigation: Bool,
     screenID: () -> ScreenID
-  ) -> NavigationPathElement {
+  ) -> ActiveNavigationTreeElement {
     switch self {
     case .screen:
       return self

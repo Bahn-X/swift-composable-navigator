@@ -1,13 +1,13 @@
-extension NavigationPath {
-  func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> NavigationPath {
+extension ActiveNavigationTree {
+  func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> ActiveNavigationTree {
     map { element in
       element.replaceContent(of: id, with: newContent)
     }
   }
 }
 
-extension NavigationPathElement {
-  func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> NavigationPathElement {
+extension ActiveNavigationTreeElement {
+  func replaceContent(of id: ScreenID, with newContent: AnyScreen) -> ActiveNavigationTreeElement {
     switch self {
     case .screen(let screen) where id == screen.id:
       return .screen(

@@ -1,8 +1,8 @@
 // MARK: - Stub
 public extension Navigator {
   static func mock(
-    path: @escaping () -> NavigationPathUpdate = {
-      fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+    navigationTree: @escaping () -> NavigationTreeUpdate = {
+      fatalError("navigationTree() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     go: @escaping (AnyScreen, ScreenID, Bool) -> Void = { _, _, _ in
       fatalError("go(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
@@ -38,7 +38,7 @@ public extension Navigator {
       fatalError("dismissSuccessor(of:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     replaceContent: @escaping (ScreenID, AnyScreen) -> Void = { _, _ in
-        fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+      fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     replaceScreen: @escaping (AnyScreen, AnyScreen) -> Void = { _, _ in
       fatalError("replace(screen:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
@@ -51,7 +51,7 @@ public extension Navigator {
     }
   ) -> Navigator {
     Navigator(
-      path: path,
+      navigationTree: navigationTree,
       go: go,
       goToOnScreen: goToOnScreen,
       goToPath: goToPath,
@@ -71,7 +71,7 @@ public extension Navigator {
   }
 
   static func mock(
-    path: @escaping () -> NavigationPathUpdate = {
+    path: @escaping () -> NavigationTreeUpdate = {
       fatalError("path() unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     goToInvoked: @escaping (Navigator.GoToInvocation) -> Void = { _ in
@@ -93,7 +93,7 @@ public extension Navigator {
       fatalError("dismissSuccessor(of:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     replaceContentInvoked: @escaping (Navigator.ReplaceContentInvocation) -> Void = { _ in
-        fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
+      fatalError("replaceContent(of id:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     replaceScreenInvoked: @escaping (Navigator.ReplaceScreenInvocation) -> Void = { _ in
       fatalError("replace(screen:, with:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
@@ -106,7 +106,7 @@ public extension Navigator {
     }
   ) -> Navigator {
     Navigator.mock(
-      path: path,
+      navigationTree: path,
       go: { screen, id, forceNavigation in
         goToInvoked(
           Navigator.GoToInvocation(
