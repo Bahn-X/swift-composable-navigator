@@ -60,4 +60,18 @@ public indirect enum ActiveNavigationTreeElement: Hashable {
       return screen.hasAppeared
     }
   }
+
+  var activeNavigationPathElement: ActiveNavigationPathElement {
+    switch self {
+    case let .screen(screen):
+      return .screen(screen.content)
+    case let .tabbed(screen):
+      return .tabbed(
+        ActiveNavigationPathElement.ActiveTab(
+          active: screen.activeTab.id,
+          path: screen.activeTab.path.activePath()
+        )
+      )
+    }
+  }
 }

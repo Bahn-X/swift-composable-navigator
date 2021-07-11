@@ -30,49 +30,13 @@ public extension Navigator {
     }
 
     func go(to newPath: [AnyScreen], on id: ScreenID) {
-      guard let index = navigationTree.current.firstIndex(where: { $0.id == id }) else {
-        return
-      }
-
-      let suffix = navigationTree
-        .current
-        .suffix(from: index.advanced(by: 1))
-        .prefix(newPath.count)
-
-      let firstNonMatchingContent = zip(suffix.indices, suffix)
-        .first(
-          where: { (index, element) in
-            let newPathIndex = index.advanced(by: -suffix.startIndex)
-            return element.content != newPath[newPathIndex]
-              || element.content.presentationStyle != newPath[newPathIndex].presentationStyle
-          }
-        )?.0 ?? suffix.endIndex
-
-      let matchingContentRange = suffix.startIndex..<firstNonMatchingContent
-      let suffixRange = suffix.startIndex..<suffix.startIndex.advanced(by: newPath.count)
-
-      let appendedPath = zip(suffixRange, newPath)
-        .map { index, element -> ActiveNavigationTreeElement in
-          let oldPathElement: ActiveNavigationTreeElement? = matchingContentRange.contains(index)
-            ? suffix[index]
-            : nil
-
-          let id: ScreenID = oldPathElement.map(\.id) ?? screenID()
-          let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
-            && (index != matchingContentRange.last || index == navigationTree.current.endIndex.advanced(by: -1))
-
-          return .screen(
-            IdentifiedScreen(
-              id: id,
-              content: element,
-              hasAppeared: hasAppeared
-            )
-          )
-        }
-
       update(
-        path: Array(navigationTree.current.prefix(through: index))
-          + appendedPath
+        path: navigationTree.current.go(
+          to: newPath.map(ActiveNavigationPathElement.screen),
+          on: id,
+          forceNavigation: true,
+          screenID: screenID
+        )
       )
     }
 
@@ -85,43 +49,12 @@ public extension Navigator {
         return
       }
 
-      let pathPrefix = self.navigationTree.current.prefix(path.count)
-
-      let firstNonMatchingContent = pathPrefix
-        .enumerated()
-        .first(
-          where: { (index, element) in
-            element.content != path[index]
-              || element.content.presentationStyle != path[index].presentationStyle
-          }
-        )?
-        .offset
-        ?? pathPrefix.count
-
-      let matchingContentRange = 0..<firstNonMatchingContent
-
-      let newPath = path
-        .enumerated()
-        .map { (index, element) -> ActiveNavigationTreeElement in
-          let oldPathElement: ActiveNavigationTreeElement? = matchingContentRange.contains(index)
-            ? self.navigationTree.current[index]
-            : nil
-
-          let fallBackID = (index == 0) ? ScreenID.root: self.screenID()
-          let id: ScreenID = oldPathElement.map(\.id) ?? fallBackID
-          let hasAppeared = oldPathElement.map(\.hasAppeared) ?? false
-            && (index != matchingContentRange.last || index == self.navigationTree.current.endIndex.advanced(by: -1))
-
-          return .screen(
-            IdentifiedScreen(
-              id: id,
-              content: element,
-              hasAppeared: hasAppeared
-            )
-          )
-        }
-
-      update(path: newPath)
+      update(
+        path: navigationTree.current.update(
+          with: path.map(ActiveNavigationPathElement.screen),
+          screenID: screenID
+        )
+      )
     }
 
     func dismiss(id: ScreenID) {

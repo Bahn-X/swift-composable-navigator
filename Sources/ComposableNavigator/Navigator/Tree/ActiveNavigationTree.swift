@@ -14,18 +14,6 @@ extension ActiveNavigationTree {
   }
 
   func activePath() -> ActiveNavigationPath {
-    map { element in
-      switch element {
-      case let .screen(screen):
-        return .screen(screen.content)
-      case let .tabbed(screen):
-        return .tabbed(
-          ActiveNavigationPathElement.ActiveTab(
-            id: screen.activeTab.id,
-            path: screen.activeTab.path.activePath()
-          )
-        )
-      }
-    }
+    map(\.activeNavigationPathElement)
   }
 }

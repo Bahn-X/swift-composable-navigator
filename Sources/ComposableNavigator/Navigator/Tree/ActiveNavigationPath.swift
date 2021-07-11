@@ -1,8 +1,49 @@
 public typealias ActiveNavigationPath = [ActiveNavigationPathElement]
 
+public extension ActiveNavigationPath {
+  func toNavigationTree(screenID: () -> ScreenID) -> ActiveNavigationTree {
+    map { $0.toNavigationTreeElement(screenID: screenID) }
+  }
+}
+
 public indirect enum ActiveNavigationPathElement: Hashable {
   case screen(AnyScreen)
   case tabbed(ActiveTab)
+
+  var presentationStyle: ScreenPresentationStyle {
+    switch self {
+    case let .screen(screen):
+      return screen.presentationStyle
+    case let .tabbed(screen):
+      return screen.path.first?.presentationStyle ?? .push
+    }
+  }
+
+  func toNavigationTreeElement(screenID: () -> ScreenID) -> ActiveNavigationTreeElement {
+    switch self {
+    case let .screen(screen):
+      return .screen(
+        IdentifiedScreen(
+          id: screenID(),
+          content: screen,
+          hasAppeared: false
+        )
+      )
+    case let .tabbed(screen):
+      return .tabbed(
+        TabScreen(
+          id: screenID(),
+          activeTab: TabScreen.Tab(
+            id: screen.id,
+            path: screen.path.toNavigationTree(screenID: screenID)
+          ),
+          inactiveTabs: [],
+          presentationStyle: screen.path.first?.presentationStyle ?? .push,
+          hasAppeared: false
+        )
+      )
+    }
+  }
 }
 
 // MARK: - Tabbed
@@ -11,8 +52,8 @@ public extension ActiveNavigationPathElement {
     let id: AnyActivatable
     let path: ActiveNavigationPath
 
-    public init<A: Activatable>(id: A, path: ActiveNavigationPath) {
-      self.id = id.eraseToAnyActivatable()
+    public init<A: Activatable>(active: A, path: ActiveNavigationPath) {
+      self.id = active.eraseToAnyActivatable()
       self.path = path
     }
   }

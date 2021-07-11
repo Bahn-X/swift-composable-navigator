@@ -481,7 +481,6 @@ final class NavigatorDatasourceTests: XCTestCase {
     let first = TestScreen(identifier: "first", presentationStyle: .push)
     let second = TestScreen(identifier: "second", presentationStyle: .push)
 
-
     let appendedPath = [
       first.eraseToAnyScreen(),
       second.eraseToAnyScreen()
@@ -490,14 +489,14 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
             id: .root,
             content: root,
-            hasAppeared: true
+            hasAppeared: false
           ),
           IdentifiedScreen(
             id: newID,
@@ -510,7 +509,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      )
+      ).current
     )
   }
 
@@ -537,17 +536,17 @@ final class NavigatorDatasourceTests: XCTestCase {
       second.eraseToAnyScreen()
     ]
 
-    sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
+    sut.wrappedInNavigator().go(to: appendedPath, on: root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
           IdentifiedScreen(
             id: .root,
             content: root,
-            hasAppeared: true
+            hasAppeared: false
           ),
           IdentifiedScreen(
             id: newID,
@@ -560,7 +559,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      )
+      ).current
     )
   }
 
@@ -580,14 +579,14 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
 
     let appendedPath = [
-      TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen(),
+      next.eraseToAnyScreen(),
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
     ]
 
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -607,7 +606,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      )
+      ).current
     )
   }
 
@@ -634,7 +633,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -654,7 +653,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      )
+      ).current
     )
   }
 
@@ -678,7 +677,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -693,7 +692,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      )
+      ).current
     )
   }
 
@@ -716,7 +715,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -731,7 +730,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      )
+      ).current
     )
   }
 
@@ -898,7 +897,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().replace(path: next, next, next)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -918,7 +917,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      )
+      ).current
     )
   }
 
@@ -966,7 +965,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: [],
         current: [
@@ -986,7 +985,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: true
           )
         ]
-      )
+      ).current
     )
   }
 
@@ -1015,7 +1014,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
-      sut.navigationTree,
+      sut.navigationTree.current,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -1040,7 +1039,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      )
+      ).current
     )
   }
 
