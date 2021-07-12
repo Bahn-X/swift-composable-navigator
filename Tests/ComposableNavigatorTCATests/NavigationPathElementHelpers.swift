@@ -4,7 +4,7 @@ extension Screen {
   func asPathElement(
     with id: ScreenID = .root,
     hasAppeared: Bool = false
-  ) -> NavigationPathElement {
+  ) -> ActiveNavigationTreeElement {
     .screen(
       IdentifiedScreen(
         id: id,
@@ -16,12 +16,12 @@ extension Screen {
 }
 
 extension IdentifiedScreen {
-  func asPathElement() -> NavigationPathElement {
+  func asPathElement() -> ActiveNavigationTreeElement {
     .screen(self)
   }
 }
 
-extension NavigationPathUpdate {
+extension NavigationTreeUpdate {
   init(previous: [IdentifiedScreen], current: [IdentifiedScreen]) {
     self.init(
       previous: previous.map { $0.asPathElement() },

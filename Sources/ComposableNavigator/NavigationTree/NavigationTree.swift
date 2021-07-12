@@ -358,7 +358,7 @@ public protocol NavigationTree: PathBuilder {
 }
 
 extension NavigationTree {
-  public func build(pathElement: NavigationPathElement) -> Builder.Content? {
+  public func build(pathElement: ActiveNavigationTreeElement) -> Builder.Content? {
     builder.build(pathElement: pathElement)
   }
 }

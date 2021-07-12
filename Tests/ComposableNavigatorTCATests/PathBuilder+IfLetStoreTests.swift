@@ -66,8 +66,8 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedPath =  TestScreen().asPathElement()
 
@@ -75,7 +75,7 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       expectedPath
     ]
 
-    let expectedElseBuilderInvocations = [NavigationPathElement]()
+    let expectedElseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let sut = PathBuilders.ifLetStore(
       store: store,
@@ -106,12 +106,12 @@ final class PathBuilder_IfLetStoreTests: XCTestCase {
       environment: ()
     )
 
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedPath = TestScreen().asPathElement()
 
-    let expectedThenBuilderInvocations = [NavigationPathElement]()
+    let expectedThenBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedElseBuilderInvocations = [
       expectedPath

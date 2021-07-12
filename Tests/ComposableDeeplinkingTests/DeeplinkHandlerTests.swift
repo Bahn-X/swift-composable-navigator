@@ -10,7 +10,7 @@ final class DeeplinkHandlerTests: XCTestCase {
 
     var replacePathInvocations = [Navigator.ReplacePathInvocation]()
     let expectedInvocations = [
-      Navigator.ReplacePathInvocation(path: resolvedPath)
+      Navigator.ReplacePathInvocation(path: resolvedPath.map(ActiveNavigationPathElement.screen))
     ]
 
     let sut = DeeplinkHandler(

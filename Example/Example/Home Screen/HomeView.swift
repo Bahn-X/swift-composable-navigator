@@ -202,7 +202,7 @@ let homeReducer = Reducer<
           to: [
             DetailScreen(detailID: element).eraseToAnyScreen(),
             SettingsScreen().eraseToAnyScreen(),
-          ],
+          ].map(ActiveNavigationPathElement.screen),
           on: screenID
         )
     }

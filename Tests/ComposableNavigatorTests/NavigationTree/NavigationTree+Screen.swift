@@ -11,11 +11,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [NavigationPathElement]()
+    var nestingPathBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let pathElement = NonMatching().asPathElement()
 
-    let expectedNestingPathBuilderInvocations = [NavigationPathElement]()
+    let expectedNestingPathBuilderInvocations = [ActiveNavigationTreeElement]()
     
     let sut = EmptyNavigationTree().Screen(
       content: { (screen: TestScreen) in EmptyView() },
@@ -67,7 +67,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   func test_closure_based_next_in_built_view_calls_nesting_path_builder() {
     let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
-    var nextInvocations = [NavigationPathElement]()
+    var nextInvocations = [ActiveNavigationTreeElement]()
     let expectedNextInvocations = [
       pathElement
     ]
@@ -94,11 +94,11 @@ final class NavigationTree_ScreenTests: XCTestCase {
       let presentationStyle: ScreenPresentationStyle = .push
     }
 
-    var nestingPathBuilderInvocations = [NavigationPathElement]()
+    var nestingPathBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let pathElement = NonMatching().asPathElement()
 
-    let expectedNestingPathBuilderInvocations = [NavigationPathElement]()
+    let expectedNestingPathBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let sut = EmptyNavigationTree().Screen(
       TestScreen.self,
@@ -155,7 +155,7 @@ final class NavigationTree_ScreenTests: XCTestCase {
   func test_type_based_next_in_built_view_calls_nesting_path_builder() {
     let pathElement = TestScreen(identifier: "0", presentationStyle: .push).asPathElement()
 
-    var nextInvocations = [NavigationPathElement]()
+    var nextInvocations = [ActiveNavigationTreeElement]()
     let expectedNextInvocations = [
       pathElement
     ]

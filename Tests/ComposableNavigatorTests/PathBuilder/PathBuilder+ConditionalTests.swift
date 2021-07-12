@@ -7,7 +7,7 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
 
   // MARK: - If
   func test_if_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedThenBuilderInvocations = [
       pathElement
@@ -27,14 +27,14 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifElse_builds_then_builder_if_condition_is_true() {
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedThenBuilderInvocations = [
       pathElement
     ]
 
-    let expectedElseBuilderInvocations = [NavigationPathElement]()
+    let expectedElseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let sut = PathBuilders
       .if (
@@ -56,10 +56,10 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifElse_builds_else_builder_if_condition_is_false() {
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
-    let expectedThenBuilderInvocations = [NavigationPathElement]()
+    let expectedThenBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedElseBuilderInvocations = [
       pathElement
@@ -85,7 +85,7 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   // MARK: - ifLet
   func test_ifLet_without_elseBuilder_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
     let expectedThenBuilderInvocations = [
       pathElement
     ]
@@ -112,14 +112,14 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
 
   func test_ifLet_builds_thenBuilder_ifLetContent_not_nil() {
     let letContent = 1
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedThenBuilderInvocations = [
       pathElement
     ]
 
-    let expectedElseBuilderInvocations = [NavigationPathElement]()
+    let expectedElseBuilderInvocations = [ActiveNavigationTreeElement]()
 
     var unwrappedContents = [Int]()
     let expectedUnwrappedContents = [1]
@@ -149,10 +149,10 @@ final class PathBuilder_Conditional_Tests: XCTestCase {
   }
 
   func test_ifLet_builds_elseBuilder_ifLetContent_is_nil() {
-    var thenBuilderInvocations = [NavigationPathElement]()
-    var elseBuilderInvocations = [NavigationPathElement]()
+    var thenBuilderInvocations = [ActiveNavigationTreeElement]()
+    var elseBuilderInvocations = [ActiveNavigationTreeElement]()
 
-    let expectedThenBuilderInvocations = [NavigationPathElement]()
+    let expectedThenBuilderInvocations = [ActiveNavigationTreeElement]()
 
     let expectedElseBuilderInvocations = [pathElement]
 

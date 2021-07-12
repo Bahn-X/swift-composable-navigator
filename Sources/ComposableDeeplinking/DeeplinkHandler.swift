@@ -12,7 +12,7 @@ public struct DeeplinkHandler {
 
   public func handle(deeplink: Deeplink) {
     if let path = parser.parse(deeplink) {
-      navigator.replace(path: path)
+      navigator.replace(path: path.map(ActiveNavigationPathElement.screen))
     }
   }
 }
