@@ -29,10 +29,10 @@ public extension Navigator {
       )
     }
 
-    func go(to newPath: [AnyScreen], on id: ScreenID) {
+    func go(to newPath: ActiveNavigationPath, on id: ScreenID) {
       update(
         path: navigationTree.current.go(
-          to: newPath.map(ActiveNavigationPathElement.screen),
+          to: newPath,
           on: id,
           forceNavigation: true,
           screenID: screenID
@@ -44,14 +44,14 @@ public extension Navigator {
       dismissSuccessor(of: id)
     }
 
-    func replace(path: [AnyScreen]) {
+    func replace(path: ActiveNavigationPath) {
       guard !path.isEmpty else {
         return
       }
 
       update(
         path: navigationTree.current.update(
-          with: path.map(ActiveNavigationPathElement.screen),
+          with: path,
           screenID: screenID
         )
       )
@@ -99,7 +99,7 @@ extension Navigator.Datasource {
     go(to: successor, on: id, forceNavigation: forceNavigation)
   }
 
-  func go(to newPath: [AnyScreen], on parent: AnyScreen) {
+  func go(to newPath: ActiveNavigationPath, on parent: AnyScreen) {
     guard let id = lastOccurrence(of: parent) else { return }
     go(to: newPath, on: id)
   }

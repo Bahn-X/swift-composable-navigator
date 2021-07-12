@@ -13,9 +13,9 @@ struct NavigationShortcuts: View {
       action: {
         navigator.replace(
           path: [
-            HomeScreen().eraseToAnyScreen(),
-            DetailScreen(detailID: "0").eraseToAnyScreen(),
-            NavigationShortcutsScreen(presentationStyle: .push).eraseToAnyScreen()
+            .screen(HomeScreen().eraseToAnyScreen()),
+            .screen(DetailScreen(detailID: "0").eraseToAnyScreen()),
+            .screen(NavigationShortcutsScreen(presentationStyle: .push).eraseToAnyScreen())
           ]
         )
       },
@@ -33,7 +33,7 @@ struct NavigationShortcuts: View {
             HomeScreen().eraseToAnyScreen(),
             DetailScreen(detailID: "0").eraseToAnyScreen(),
             SettingsScreen().eraseToAnyScreen()
-          ]
+          ].map(ActiveNavigationPathElement.screen)
         )
       },
       label: { Text("Go to [home/detail?id=0/settings]") }
@@ -48,7 +48,7 @@ struct NavigationShortcuts: View {
             DetailScreen(detailID: "0").eraseToAnyScreen(),
             SettingsScreen().eraseToAnyScreen(),
             NavigationShortcutsScreen(presentationStyle: .push).eraseToAnyScreen()
-          ]
+          ].map(ActiveNavigationPathElement.screen)
         )
       },
       label: { Text("Go to [home/detail?id=0/settings/shortcuts?style=push]") }
@@ -65,7 +65,7 @@ struct NavigationShortcuts: View {
             NavigationShortcutsScreen(
               presentationStyle: .sheet(allowsPush: true)
             ).eraseToAnyScreen()
-          ]
+          ].map(ActiveNavigationPathElement.screen)
         )
       },
       label: { Text("Go to [home/detail?id=0/settings/shortcuts?style=sheet]") }
@@ -79,7 +79,7 @@ struct NavigationShortcuts: View {
           path: [
             HomeScreen().eraseToAnyScreen(),
             SettingsScreen().eraseToAnyScreen()
-          ]
+          ].map(ActiveNavigationPathElement.screen)
         )
       },
       label: { Text("Go to [home/settings]") }

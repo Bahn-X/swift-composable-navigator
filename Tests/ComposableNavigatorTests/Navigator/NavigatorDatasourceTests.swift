@@ -484,12 +484,12 @@ final class NavigatorDatasourceTests: XCTestCase {
     let appendedPath = [
       first.eraseToAnyScreen(),
       second.eraseToAnyScreen()
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -509,7 +509,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      ).current
+      )
     )
   }
 
@@ -534,12 +534,12 @@ final class NavigatorDatasourceTests: XCTestCase {
     let appendedPath = [
       first.eraseToAnyScreen(),
       second.eraseToAnyScreen()
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -559,7 +559,259 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      ).current
+      )
+    )
+  }
+
+  func test_goTo_path_in_tabbed_in_active_tab() {
+    let newID = ScreenID()
+    let tabID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let inactiveTabID = ScreenID()
+
+    let activeTabContent = TestScreen(identifier: "activeTabContent", presentationStyle: .push)
+    let inactiveTabContent = TestScreen(identifier: "inactiveTabContent", presentationStyle: .push)
+
+    let previousPath: ActiveNavigationTree = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        )
+      ),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: activeTabID,
+                  content: activeTabContent,
+                  hasAppeared: true
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: inactiveTabID,
+                    content: inactiveTabContent,
+                    hasAppeared: true
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: true
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { newID }
+    )
+
+    let newScreen = TestScreen(identifier: "newScreen", presentationStyle: .push)
+
+    let newPath: ActiveNavigationPath = [
+      .screen(newScreen.eraseToAnyScreen())
+    ]
+
+    sut.wrappedInNavigator().go(
+      to: newPath,
+      on: activeTabID
+    )
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(
+              id: .root,
+              content: root,
+              hasAppeared: true
+            )
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                id: Tab.active,
+                path: [
+                  .screen(
+                    IdentifiedScreen(
+                      id: activeTabID,
+                      content: activeTabContent,
+                      hasAppeared: true
+                    )
+                  ),
+                  .screen(
+                    IdentifiedScreen(
+                      id: newID,
+                      content: newScreen,
+                      hasAppeared: false
+                    )
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.inactive,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: inactiveTabID,
+                        content: inactiveTabContent,
+                        hasAppeared: true
+                      )
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: true
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_goTo_path_in_tabbed_switching_tabs() {
+    let newID = ScreenID()
+    let tabID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let inactiveTabID = ScreenID()
+
+    let activeTabContent = TestScreen(identifier: "activeTabContent", presentationStyle: .push)
+    let inactiveTabContent = TestScreen(identifier: "inactiveTabContent", presentationStyle: .push)
+
+    let previousPath: ActiveNavigationTree = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        )
+      ),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: activeTabID,
+                  content: activeTabContent,
+                  hasAppeared: true
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: inactiveTabID,
+                    content: inactiveTabContent,
+                    hasAppeared: true
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: true
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { newID }
+    )
+
+    let newScreen = TestScreen(identifier: "newScreen", presentationStyle: .push)
+
+    let newPath: ActiveNavigationPath = [
+      .screen(newScreen.eraseToAnyScreen())
+    ]
+
+    sut.wrappedInNavigator().go(
+      to: newPath,
+      on: inactiveTabContent.eraseToAnyScreen()
+    )
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(
+              id: .root,
+              content: root,
+              hasAppeared: true
+            )
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                id: Tab.inactive,
+                path: [
+                  .screen(
+                    IdentifiedScreen(
+                      id: inactiveTabID,
+                      content: inactiveTabContent,
+                      hasAppeared: true
+                    )
+                  ),
+                  .screen(
+                    IdentifiedScreen(
+                      id: newID,
+                      content: newScreen,
+                      hasAppeared: false
+                    )
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.active,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: activeTabID,
+                        content: activeTabContent,
+                        hasAppeared: true
+                      )
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: true
+            )
+          )
+        ]
+      )
     )
   }
 
@@ -581,12 +833,12 @@ final class NavigatorDatasourceTests: XCTestCase {
     let appendedPath = [
       next.eraseToAnyScreen(),
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -606,7 +858,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      ).current
+      )
     )
   }
 
@@ -628,12 +880,12 @@ final class NavigatorDatasourceTests: XCTestCase {
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen(),
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -653,7 +905,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      ).current
+      )
     )
   }
 
@@ -672,12 +924,12 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen()
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: .root)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -692,7 +944,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      ).current
+      )
     )
   }
 
@@ -710,12 +962,12 @@ final class NavigatorDatasourceTests: XCTestCase {
 
     let appendedPath = [
       TestScreen(identifier: "next", presentationStyle: .push).eraseToAnyScreen()
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().go(to: appendedPath, on: self.root.eraseToAnyScreen())
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -730,7 +982,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      ).current
+      )
     )
   }
 
@@ -837,7 +1089,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     )
   }
 
-  // MARK: - replace(path: [AnyScreen])
+  // MARK: - replace(path:)
   func test_replace_path() {
     let expectedNextID = ScreenID()
     let newID = ScreenID()
@@ -856,7 +1108,7 @@ final class NavigatorDatasourceTests: XCTestCase {
     let newPath = [
       TestScreen(identifier: "newRoot", presentationStyle: .push).eraseToAnyScreen(),
       TestScreen(identifier: "newDetail", presentationStyle: .push).eraseToAnyScreen(),
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().replace(path: newPath)
 
@@ -894,10 +1146,13 @@ final class NavigatorDatasourceTests: XCTestCase {
       screenID: { expectedNextID }
     )
 
-    sut.wrappedInNavigator().replace(path: next, next, next)
+    sut.wrappedInNavigator().replace(
+      path: [next, next, next]
+        .map(ActiveNavigationPathElement.screen)
+    )
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -917,7 +1172,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           ),
         ]
-      ).current
+      )
     )
   }
 
@@ -960,12 +1215,12 @@ final class NavigatorDatasourceTests: XCTestCase {
       root.eraseToAnyScreen(),
       next,
       next
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: [],
         current: [
@@ -985,7 +1240,7 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: true
           )
         ]
-      ).current
+      )
     )
   }
 
@@ -1009,12 +1264,12 @@ final class NavigatorDatasourceTests: XCTestCase {
       next,
       other,
       next
-    ]
+    ].map(ActiveNavigationPathElement.screen)
 
     sut.wrappedInNavigator().replace(path: newPath)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: [
@@ -1039,7 +1294,271 @@ final class NavigatorDatasourceTests: XCTestCase {
             hasAppeared: false
           )
         ]
-      ).current
+      )
+    )
+  }
+
+  func test_replace_path_in_tabbed_in_active_tab() {
+    let newID = ScreenID()
+    let tabID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let inactiveTabID = ScreenID()
+
+    let activeTabContent = TestScreen(identifier: "activeTabContent", presentationStyle: .push)
+    let inactiveTabContent = TestScreen(identifier: "inactiveTabContent", presentationStyle: .push)
+
+    let previousPath: ActiveNavigationTree = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        )
+      ),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: activeTabID,
+                  content: activeTabContent,
+                  hasAppeared: true
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: inactiveTabID,
+                    content: inactiveTabContent,
+                    hasAppeared: true
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: true
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { newID }
+    )
+
+    let newScreen = TestScreen(identifier: "newScreen", presentationStyle: .push)
+
+    let newPath: ActiveNavigationPath = [
+      .screen(root.eraseToAnyScreen()),
+      .tabbed(
+        .init(
+          active: Tab.active,
+          path: [
+            .screen(activeTabContent.eraseToAnyScreen()),
+            .screen(newScreen.eraseToAnyScreen())
+          ]
+        )
+      )
+    ]
+
+    sut.wrappedInNavigator().replace(path: newPath)
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(
+              id: .root,
+              content: root,
+              hasAppeared: true
+            )
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                id: Tab.active,
+                path: [
+                  .screen(
+                    IdentifiedScreen(
+                      id: activeTabID,
+                      content: activeTabContent,
+                      hasAppeared: true
+                    )
+                  ),
+                  .screen(
+                    IdentifiedScreen(
+                      id: newID,
+                      content: newScreen,
+                      hasAppeared: false
+                    )
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.inactive,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: inactiveTabID,
+                        content: inactiveTabContent,
+                        hasAppeared: true
+                      )
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: true
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_replace_path_in_tabbed_switching_tabs() {
+    let newID = ScreenID()
+    let tabID = ScreenID()
+
+    let activeTabID = ScreenID()
+    let inactiveTabID = ScreenID()
+
+    let activeTabContent = TestScreen(identifier: "activeTabContent", presentationStyle: .push)
+    let inactiveTabContent = TestScreen(identifier: "inactiveTabContent", presentationStyle: .push)
+
+    let previousPath: ActiveNavigationTree = [
+      .screen(
+        IdentifiedScreen(
+          id: .root,
+          content: root,
+          hasAppeared: true
+        )
+      ),
+      .tabbed(
+        TabScreen(
+          id: tabID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: activeTabID,
+                  content: activeTabContent,
+                  hasAppeared: true
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: inactiveTabID,
+                    content: inactiveTabContent,
+                    hasAppeared: true
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: true
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { newID }
+    )
+
+    let newScreen = TestScreen(identifier: "newScreen", presentationStyle: .push)
+
+    let newPath: ActiveNavigationPath = [
+      .screen(root.eraseToAnyScreen()),
+      .tabbed(
+        .init(
+          active: Tab.inactive,
+          path: [
+            .screen(inactiveTabContent.eraseToAnyScreen()),
+            .screen(newScreen.eraseToAnyScreen())
+          ]
+        )
+      )
+    ]
+
+    sut.wrappedInNavigator().replace(path: newPath)
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: previousPath,
+        current: [
+          .screen(
+            IdentifiedScreen(
+              id: .root,
+              content: root,
+              hasAppeared: true
+            )
+          ),
+          .tabbed(
+            TabScreen(
+              id: tabID,
+              activeTab: TabScreen.Tab(
+                id: Tab.inactive,
+                path: [
+                  .screen(
+                    IdentifiedScreen(
+                      id: inactiveTabID,
+                      content: inactiveTabContent,
+                      hasAppeared: true
+                    )
+                  ),
+                  .screen(
+                    IdentifiedScreen(
+                      id: newID,
+                      content: newScreen,
+                      hasAppeared: false
+                    )
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.active,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: activeTabID,
+                        content: activeTabContent,
+                        hasAppeared: true
+                      )
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: true
+            )
+          )
+        ]
+      )
     )
   }
 
@@ -1933,11 +2452,11 @@ final class NavigatorDatasourceTests: XCTestCase {
     sut.wrappedInNavigator().replaceContent(of: pathID, with: expectedContent)
 
     XCTAssertEqual(
-      sut.navigationTree.current,
+      sut.navigationTree,
       NavigationTreeUpdate(
         previous: previousPath,
         current: expectedPath
-      ).current
+      )
     )
   }
 

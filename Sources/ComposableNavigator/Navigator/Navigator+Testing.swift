@@ -10,10 +10,10 @@ public extension Navigator {
     goToOnScreen: @escaping (AnyScreen, AnyScreen, Bool) -> Void = { _, _, _ in
       fatalError("go(to:, on screen:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    goToPath: @escaping ([AnyScreen], ScreenID) -> Void = { _, _ in
+    goToPath: @escaping (ActiveNavigationPath, ScreenID) -> Void = { _, _ in
       fatalError("goTo(path:, to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    goToPathOnScreen: @escaping ([AnyScreen], AnyScreen) -> Void = { _, _ in
+    goToPathOnScreen: @escaping (ActiveNavigationPath, AnyScreen) -> Void = { _, _ in
       fatalError("goTo(path:, to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     goBack: @escaping (AnyScreen) -> Void = { _ in
@@ -22,7 +22,7 @@ public extension Navigator {
     goBackToID: @escaping (ScreenID) -> Void = { _ in
       fatalError("goBack(to:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
-    replace: @escaping ([AnyScreen]) -> Void = { _ in
+    replace: @escaping (ActiveNavigationPath) -> Void = { _ in
       fatalError("replace(path:) unimplemented in stub. Make sure to wrap your application in a Root view or inject Navigator via .environment(\\.navigator, navigator) for testing purposes.")
     },
     dismiss: @escaping (ScreenID) -> Void = { _ in
@@ -233,7 +233,7 @@ public extension Navigator {
   /// XCTAssertEqual(expectectedInvocations, invocations)
   ///```
   struct GoToPathInvocation: Hashable {
-    let path: [AnyScreen]
+    let path: ActiveNavigationPath
     let on: NavigationIdentifier
   }
 
@@ -257,7 +257,7 @@ public extension Navigator {
   ///
   ///  XCTAssertEqual(expectectedInvocations, invocations)
   struct ReplacePathInvocation: Hashable {
-    let path: [AnyScreen]
+    let path: ActiveNavigationPath
   }
 
   /// Testing helper

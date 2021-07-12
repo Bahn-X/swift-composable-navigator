@@ -5,11 +5,11 @@ public struct Navigator {
   private let _navigationTree: () -> NavigationTreeUpdate
   private let _go: (AnyScreen, ScreenID, Bool) -> Void
   private let _goToOnScreen: (AnyScreen, AnyScreen, Bool) -> Void
-  private let _goToPath: ([AnyScreen], ScreenID) -> Void
-  private let _goToPathOnScreen: ([AnyScreen], AnyScreen) -> Void
+  private let _goToPath: (ActiveNavigationPath, ScreenID) -> Void
+  private let _goToPathOnScreen: (ActiveNavigationPath, AnyScreen) -> Void
   private let _goBack: (AnyScreen) -> Void
   private let _goBackToID: (ScreenID) -> Void
-  private let _replace: ([AnyScreen]) -> Void
+  private let _replace: (ActiveNavigationPath) -> Void
   private let _dismiss: (ScreenID) -> Void
   private let _dismissScreen: (AnyScreen) -> Void
   private let _dismissSuccessor: (ScreenID) -> Void
@@ -97,7 +97,7 @@ public struct Navigator {
   /// - Parameters:
   ///   - path: New path after `id`
   ///   - id: `ScreenID` used to identify where the path should be appended
-  public func go(to path: [AnyScreen], on id: ScreenID) {
+  public func go(to path: ActiveNavigationPath, on id: ScreenID) {
     _goToPath(path, id)
   }
 
@@ -122,7 +122,7 @@ public struct Navigator {
   /// - Parameters:
   ///   - path: New path after `Parent`
   ///   - parent: `Screen` used to identify where the path should be appended
-  public func go<Parent: Screen>(to path: [AnyScreen], on parent: Parent) {
+  public func go<Parent: Screen>(to path: ActiveNavigationPath, on parent: Parent) {
     _goToPathOnScreen(path, parent.eraseToAnyScreen())
   }
 
@@ -183,33 +183,7 @@ public struct Navigator {
   ///
   /// - Parameters:
   ///   - path: The new navigation path
-  public func replace(path: AnyScreen...) {
-    _replace(path)
-  }
-
-  /// Replace the current navigation path with a new navigation path.
-  ///
-  /// `replace(path:)` checks if a prefix  of the new path was already part of the replaced navigation path and makes sure to keep the IDs and hasAppeared state intact.
-  ///
-  /// ## Example
-  /// ```swift
-  /// // Curent path [(Content, ID)]
-  /// // [(A, 0), (B, 1)]
-  ///
-  /// navigator.replace(
-  ///   path: [
-  ///     C().eraseToAnyScreen(),
-  ///     D().eraseToAnyScreen()
-  ///   ]
-  /// )
-  ///
-  /// // New path
-  /// // [(C, 0), (D, 1)]
-  /// ```
-  ///
-  /// - Parameters:
-  ///   - path: The new navigation path
-  public func replace(path: [AnyScreen]) {
+  public func replace(path: ActiveNavigationPath) {
     _replace(path)
   }
 
@@ -369,11 +343,11 @@ public struct Navigator {
     navigationTree: @escaping () -> NavigationTreeUpdate,
     go: @escaping (AnyScreen, ScreenID, Bool) -> Void,
     goToOnScreen: @escaping (AnyScreen, AnyScreen, Bool) -> Void,
-    goToPath: @escaping ([AnyScreen], ScreenID) -> Void,
-    goToPathOnScreen: @escaping ([AnyScreen], AnyScreen) -> Void,
+    goToPath: @escaping (ActiveNavigationPath, ScreenID) -> Void,
+    goToPathOnScreen: @escaping (ActiveNavigationPath, AnyScreen) -> Void,
     goBack: @escaping (AnyScreen) -> Void,
     goBackToID: @escaping (ScreenID) -> Void,
-    replace: @escaping ([AnyScreen]) -> Void,
+    replace: @escaping (ActiveNavigationPath) -> Void,
     dismiss: @escaping (ScreenID) -> Void,
     dismissScreen: @escaping (AnyScreen) -> Void,
     dismissSuccessor: @escaping (ScreenID) -> Void,
