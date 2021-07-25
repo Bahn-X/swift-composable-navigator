@@ -48,9 +48,9 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder { path -> Color? in .red }
+    let sut = _PathBuilder { _ in Color.red }
       .onDismiss(
-        send: { (screen: AnyScreen) in .anyScreen(screen)},
+        send: { (screen: AnyScreen) in .anyScreen(screen) },
         into: store
       )
 
@@ -87,7 +87,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder { path -> Color? in .red }
+    let sut = _PathBuilder { _ in Color.red }
       .onDismiss(
         of: TestScreen.self,
         send: .action,
@@ -127,7 +127,7 @@ final class PathBuilder_OnDismiss_TCATests: XCTestCase {
       environment: ()
     )
 
-    let sut = _PathBuilder { path -> Color? in .red }
+    let sut = _PathBuilder { _ in Color.red }
       .onDismiss(
         send: { (screen: TestScreen) in Action.screen(screen) },
         into: store

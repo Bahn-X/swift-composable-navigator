@@ -13,9 +13,9 @@ public struct OnDismissView<Content: View>: View {
       .onReceive(
         datasource.$navigationTree,
         perform: { path in
-          guard let parentScreenID = parentScreenID,
-                path.component(for: parentScreenID).current != nil
-          else { return }
+          guard let parentScreenID = parentScreenID, path.component(for: parentScreenID).current != nil else {
+            return
+          }
 
           let update = path.successor(of: parentScreenID)
           let built = update.current.flatMap(build)

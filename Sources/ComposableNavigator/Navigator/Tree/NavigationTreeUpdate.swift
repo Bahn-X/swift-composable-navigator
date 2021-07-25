@@ -20,19 +20,48 @@ public struct NavigationTreeUpdate: Equatable {
     for id: ScreenID,
     from path: ActiveNavigationTree
   ) -> ActiveNavigationTreeElement? {
-    return path.first(where: { $0.id == id })
+    if let elementInFlatPath = path.first(where: { $0.id == id }) {
+      return elementInFlatPath
+    }
+
+    if let elementContainingID = path.first(where: { $0.ids().contains(id) }) {
+      switch elementContainingID {
+      case .screen:
+        return elementContainingID
+      case let .tabbed(tabbedScreen):
+        return (tabbedScreen.inactiveTabs + [tabbedScreen.activeTab])
+          .first(where: { $0.ids().contains(id) })
+          .flatMap { tab in
+            extractPathComponent(for: id, from: tab.path)
+          }
+      }
+    }
+
+    return nil
   }
 
   private func extractSuccessor(
     of id: ScreenID,
     from path: ActiveNavigationTree
   ) -> ActiveNavigationTreeElement? {
-    guard let successorIndex = path.firstIndex(where: { $0.id == id })?.advanced(by: 1),
-          path.indices.contains(successorIndex)
-    else {
-      return nil
+    if let flatSuccessorIndex = path.firstIndex(where: { $0.id == id })?.advanced(by: 1),
+        path.indices.contains(flatSuccessorIndex) {
+      return path[flatSuccessorIndex]
     }
 
-    return path[successorIndex]
+    if let elementContainingID = path.first(where: { $0.ids().contains(id) }) {
+      switch elementContainingID {
+      case .screen:
+        return nil
+      case let .tabbed(tabbedScreen):
+        return (tabbedScreen.inactiveTabs + [tabbedScreen.activeTab])
+          .first(where: { $0.ids().contains(id) })
+          .flatMap { tab in
+            extractSuccessor(of: id, from: tab.path)
+          }
+      }
+    }
+
+    return nil
   }
 }
