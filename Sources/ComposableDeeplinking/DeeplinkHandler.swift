@@ -11,8 +11,8 @@ public struct DeeplinkHandler {
   }
 
   public func handle(deeplink: Deeplink) {
-    if let path = parser.parse(deeplink) {
-      navigator.replace(path: path.map(ActiveNavigationPathElement.screen))
+    if let activeNavigationPath = parser.parse(deeplink) {
+      navigator.replace(path: activeNavigationPath)
     }
   }
 }

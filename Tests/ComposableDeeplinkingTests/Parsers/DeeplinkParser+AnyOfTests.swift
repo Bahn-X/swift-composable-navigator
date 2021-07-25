@@ -1,14 +1,15 @@
+import ComposableNavigator
 @testable import ComposableDeeplinking
 import XCTest
 
 final class DeeplinkParser_AnyOfTests: XCTestCase {
   func test_anyOf_deeplink_parser_returns_first_built_path() {
-    let firstPath = [
-      TestScreen(identifier: "first", presentationStyle: .push).eraseToAnyScreen()
+    let firstPath: ActiveNavigationPath = [
+      .screen(TestScreen(identifier: "first", presentationStyle: .push).eraseToAnyScreen())
     ]
     
-    let secondPath = [
-      TestScreen(identifier: "second", presentationStyle: .push).eraseToAnyScreen()
+    let secondPath: ActiveNavigationPath = [
+      .screen(TestScreen(identifier: "second", presentationStyle: .push).eraseToAnyScreen())
     ]
     
     let sut: DeeplinkParser = .anyOf(
@@ -20,8 +21,8 @@ final class DeeplinkParser_AnyOfTests: XCTestCase {
   }
   
   func test_anyOf_deeplink_parser_returns_second_built_path_when_first_does_not_match() {
-    let secondPath = [
-      TestScreen(identifier: "second", presentationStyle: .push).eraseToAnyScreen()
+    let secondPath: ActiveNavigationPath = [
+      .screen(TestScreen(identifier: "second", presentationStyle: .push).eraseToAnyScreen())
     ]
     
     let sut: DeeplinkParser = .anyOf(
