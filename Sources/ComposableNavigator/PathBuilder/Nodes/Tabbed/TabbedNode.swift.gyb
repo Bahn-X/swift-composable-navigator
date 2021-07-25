@@ -1,0 +1,75 @@
+// AUTO-GENERATED: Do not edit
+% import string
+%{
+  letters = string.ascii_uppercase
+  combineCount = 5
+}%
+import SwiftUI
+
+// TODO: capture case where not all paths are initialized with defaultContent
+
+% for i in range(1, combineCount+1):
+%{
+    # ABCD...
+    genericCharacters = letters[0:i]
+
+    # ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, ...
+    nodeRequirements = ", ".join(map(lambda x: "{0}Builder: PathBuilder, {0}Item: View".format(x), genericCharacters))
+
+    # let nodeItemA: TabbedNodeItem<ABuilder, AItem>
+    nodeItems = "\n".join(map(lambda x: "  let nodeItem{0}: TabbedNodeItem<{0}Builder, {0}Item>".format(x), genericCharacters))
+
+    # _ a: TabbedNodeItem<ABuilder, AItem>,\n ...
+    parameters = ", ".join(map(lambda x: "_ nodeItem{0}: TabbedNodeItem<{0}Builder, {0}Item>".format(x), genericCharacters))
+}%
+public struct TabbedNode${genericCharacters}<${nodeRequirements}>: View {
+  @Environment(\.currentScreenID) private var screenID
+  @EnvironmentObject private var dataSource: Navigator.Datasource
+  @Environment(\.navigator) private var navigator
+
+${nodeItems}
+
+  public var body: some View {
+    TabView(selection: selection) {
+% for c in genericCharacters:
+      if let tabContent = screen?.path(for: nodeItem${c}.tag)?.first, let content = nodeItem${c}.contentBuilder.build(
+        pathElement: tabContent
+      ) {
+        content
+          .tabItem { nodeItem${c}.tabItem }
+          .tag(nodeItem${c}.tag)
+      } else {
+        Color.clear
+          .tabItem { nodeItem${c}.tabItem }
+          .tag(nodeItem${c}.tag)
+      }
+% if c != genericCharacters[i - 1]:
+
+% else:
+% end
+% end
+    }
+  }
+
+  private var screen: TabScreen? {
+    guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+      return nil
+    }
+
+    return screen
+  }
+
+  private var selection: Binding<AnyActivatable> {
+    Binding(
+      get: { screen?.activeTab.id ?? nodeItemA.tag },
+      set: { newValue in
+        navigator.activate(newValue)
+      }
+    )
+  }
+}
+% if i != combineCount:
+
+% else:
+% end
+% end

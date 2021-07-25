@@ -54,7 +54,9 @@ let package = Package(
       dependencies: [],
       exclude: [
         "NavigationTree/NavigationTreeBuilder+AnyOf.swift.gyb",
+        "NavigationTree/NavigationTreeBuilder+Tabbed.swift.gyb",
         "PathBuilder/PathBuilders/PathBuilder+AnyOf.swift.gyb",
+        "PathBuilder/Nodes/Tabbed/TabbedNode.swift.gyb"
       ]
     ),
     .target(

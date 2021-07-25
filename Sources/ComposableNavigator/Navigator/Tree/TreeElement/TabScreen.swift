@@ -37,4 +37,16 @@ public struct TabScreen: Hashable, Screen {
       }
     )
   }
+
+  func path(for tab: AnyActivatable) -> ActiveNavigationTree? {
+    if activeTab.id == tab {
+      return activeTab.path
+    }
+
+    if let inactiveTab = inactiveTabs.first(where: { $0.id == tab }) {
+      return inactiveTab.path
+    }
+
+    return nil
+  }
 }

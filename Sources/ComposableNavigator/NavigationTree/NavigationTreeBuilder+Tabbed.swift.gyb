@@ -1,0 +1,50 @@
+// AUTO-GENERATED: Do not edit
+% import string
+%{
+  letters = string.ascii_uppercase
+  combineCount = 5
+}%
+import SwiftUI
+
+public extension NavigationTreeBuilder {
+% for i in range(1, combineCount+1):
+%{
+    # ABCD...
+    genericCharacters = letters[0:i]
+
+    # ABuilder: PathBuilder, BBuilder: PathBuilder, ...
+    nodeRequirements = ", ".join(map(lambda x: "{0}Builder: PathBuilder, {0}Item: View".format(x), genericCharacters))
+    nodeGenerics = ", ".join(map(lambda x: "{0}Builder, {0}Item".format(x), genericCharacters))
+
+    # nodeItems
+    nodeItems = "\n".join(map(lambda x: "  let nodeItem{0}: TabbedNodeItem<{0}Builder, {0}Item>".format(x), genericCharacters))
+
+    # _ a: TabbedNodeItem<ABuilder, AItem>,\n ...
+    parameters = ", ".join(map(lambda x: "_ nodeItem{0}: TabbedNodeItem<{0}Builder, {0}Item>".format(x), genericCharacters))
+    initialiserAssignments = "\n".join(map(lambda x: "    self.nodeItem{0} = nodeItem{0}".format(x), genericCharacters))
+
+    viewName = "TabbedNode{0}<{1}>".format(genericCharacters, nodeGenerics)
+    viewInitialiser = ", ".join(map(lambda x: "nodeItem{0}: nodeItem{0}".format(x), genericCharacters))
+
+    # PathBuilder<Either<A, B, C, D>>
+    combinedPathBuilderType = "_PathBuilder<{0}>".format(viewName)
+
+    isExpectedTabScreen = " || ".join(map(lambda x: "nodeItem{0}.tag == screen.activeTab.id".format(x), genericCharacters))
+}%
+  static func tabbed<${nodeRequirements}>(
+    ${parameters}
+  ) -> ${combinedPathBuilderType} {
+    _PathBuilder { element in
+      guard case .tabbed(let screen) = element, ${isExpectedTabScreen} else {
+        return nil
+      }
+
+      return ${viewName}(${viewInitialiser})
+    }
+  }
+% if i != combineCount:
+
+% else:
+% end
+% end
+}
