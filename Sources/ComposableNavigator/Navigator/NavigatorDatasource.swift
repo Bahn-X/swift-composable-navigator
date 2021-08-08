@@ -77,6 +77,10 @@ public extension Navigator {
       update(path: navigationTree.current.activate(activatable))
     }
 
+    func initializeDefaultContents(for id: ScreenID, contents: [DefaultTabContent]) {
+      fatalError("unimplemented")
+    }
+
     private func update(path newValue: ActiveNavigationTree) {
       guard newValue != navigationTree.current else { return }
 

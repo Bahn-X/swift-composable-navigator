@@ -1,8 +1,6 @@
 // AUTO-GENERATED: Do not edit
 import SwiftUI
 
-// TODO: capture case where not all paths are initialized with defaultContent
-
 public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
   @Environment(\.currentScreenID) private var screenID
   @EnvironmentObject private var dataSource: Navigator.Datasource
@@ -12,18 +10,66 @@ public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
 
   public var body: some View {
     TabView(selection: selection) {
-      if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
     }
+    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
+    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .onReceive(
+      dataSource.$navigationTree,
+      perform: { path in
+        guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+          return
+        }
+
+        // check if initialised, inactive tabs count should be (total tab count - 1)
+        guard screen.inactiveTabs.count != 0 else {
+          // Tab screen is correctly initialized
+          return
+        }
+
+        func isPresent(tag: AnyActivatable) -> Bool {
+          screen.activeTab.id == tag || screen.inactiveTabs.map(\.id).contains(tag)
+        }
+
+        let matchesAtLeastOneTabID = [
+          isPresent(
+            tag: nodeItemA.tag
+          )
+        ].filter { $0 }.count >= 1
+
+        guard matchesAtLeastOneTabID else {
+          // TabScreen does not match any of the provided IDs.
+          // Probably a different tab screen, therefore initialisation is skipped
+          return
+        }
+
+        // if the tag is not present, initialise the tab with the default content
+        let defaultContents = [
+          isPresent(tag: nodeItemA.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemA.tag,
+            content: nodeItemA.defaultContent
+          )
+        ].compactMap { $0 }
+
+        dataSource.initializeDefaultContents(for: screenID, contents: defaultContents)
+      }
+    )
   }
 
   private var screen: TabScreen? {
@@ -54,30 +100,90 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
 
   public var body: some View {
     TabView(selection: selection) {
-      if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
     }
+    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
+    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .onReceive(
+      dataSource.$navigationTree,
+      perform: { path in
+        guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+          return
+        }
+
+        // check if initialised, inactive tabs count should be (total tab count - 1)
+        guard screen.inactiveTabs.count != 1 else {
+          // Tab screen is correctly initialized
+          return
+        }
+
+        func isPresent(tag: AnyActivatable) -> Bool {
+          screen.activeTab.id == tag || screen.inactiveTabs.map(\.id).contains(tag)
+        }
+
+        let matchesAtLeastOneTabID = [
+          isPresent(
+            tag: nodeItemA.tag
+          ),
+          isPresent(
+            tag: nodeItemB.tag
+          )
+        ].filter { $0 }.count >= 1
+
+        guard matchesAtLeastOneTabID else {
+          // TabScreen does not match any of the provided IDs.
+          // Probably a different tab screen, therefore initialisation is skipped
+          return
+        }
+
+        // if the tag is not present, initialise the tab with the default content
+        let defaultContents = [
+          isPresent(tag: nodeItemA.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemA.tag,
+            content: nodeItemA.defaultContent
+          ),
+          isPresent(tag: nodeItemB.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemB.tag,
+            content: nodeItemB.defaultContent
+          )
+        ].compactMap { $0 }
+
+        dataSource.initializeDefaultContents(for: screenID, contents: defaultContents)
+      }
+    )
   }
 
   private var screen: TabScreen? {
@@ -109,42 +215,114 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
 
   public var body: some View {
     TabView(selection: selection) {
-      if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
     }
+    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
+    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .onReceive(
+      dataSource.$navigationTree,
+      perform: { path in
+        guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+          return
+        }
+
+        // check if initialised, inactive tabs count should be (total tab count - 1)
+        guard screen.inactiveTabs.count != 2 else {
+          // Tab screen is correctly initialized
+          return
+        }
+
+        func isPresent(tag: AnyActivatable) -> Bool {
+          screen.activeTab.id == tag || screen.inactiveTabs.map(\.id).contains(tag)
+        }
+
+        let matchesAtLeastOneTabID = [
+          isPresent(
+            tag: nodeItemA.tag
+          ),
+          isPresent(
+            tag: nodeItemB.tag
+          ),
+          isPresent(
+            tag: nodeItemC.tag
+          )
+        ].filter { $0 }.count >= 1
+
+        guard matchesAtLeastOneTabID else {
+          // TabScreen does not match any of the provided IDs.
+          // Probably a different tab screen, therefore initialisation is skipped
+          return
+        }
+
+        // if the tag is not present, initialise the tab with the default content
+        let defaultContents = [
+          isPresent(tag: nodeItemA.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemA.tag,
+            content: nodeItemA.defaultContent
+          ),
+          isPresent(tag: nodeItemB.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemB.tag,
+            content: nodeItemB.defaultContent
+          ),
+          isPresent(tag: nodeItemC.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemC.tag,
+            content: nodeItemC.defaultContent
+          )
+        ].compactMap { $0 }
+
+        dataSource.initializeDefaultContents(for: screenID, contents: defaultContents)
+      }
+    )
   }
 
   private var screen: TabScreen? {
@@ -177,54 +355,138 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
 
   public var body: some View {
     TabView(selection: selection) {
-      if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemD.tabItem }
-          .tag(nodeItemD.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemD.tabItem }
-          .tag(nodeItemD.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemD.tabItem }
+            .tag(nodeItemD.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemD.tabItem }
+            .tag(nodeItemD.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
     }
+    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
+    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .onReceive(
+      dataSource.$navigationTree,
+      perform: { path in
+        guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+          return
+        }
+
+        // check if initialised, inactive tabs count should be (total tab count - 1)
+        guard screen.inactiveTabs.count != 3 else {
+          // Tab screen is correctly initialized
+          return
+        }
+
+        func isPresent(tag: AnyActivatable) -> Bool {
+          screen.activeTab.id == tag || screen.inactiveTabs.map(\.id).contains(tag)
+        }
+
+        let matchesAtLeastOneTabID = [
+          isPresent(
+            tag: nodeItemA.tag
+          ),
+          isPresent(
+            tag: nodeItemB.tag
+          ),
+          isPresent(
+            tag: nodeItemC.tag
+          ),
+          isPresent(
+            tag: nodeItemD.tag
+          )
+        ].filter { $0 }.count >= 1
+
+        guard matchesAtLeastOneTabID else {
+          // TabScreen does not match any of the provided IDs.
+          // Probably a different tab screen, therefore initialisation is skipped
+          return
+        }
+
+        // if the tag is not present, initialise the tab with the default content
+        let defaultContents = [
+          isPresent(tag: nodeItemA.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemA.tag,
+            content: nodeItemA.defaultContent
+          ),
+          isPresent(tag: nodeItemB.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemB.tag,
+            content: nodeItemB.defaultContent
+          ),
+          isPresent(tag: nodeItemC.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemC.tag,
+            content: nodeItemC.defaultContent
+          ),
+          isPresent(tag: nodeItemD.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemD.tag,
+            content: nodeItemD.defaultContent
+          )
+        ].compactMap { $0 }
+
+        dataSource.initializeDefaultContents(for: screenID, contents: defaultContents)
+      }
+    )
   }
 
   private var screen: TabScreen? {
@@ -258,66 +520,162 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
 
   public var body: some View {
     TabView(selection: selection) {
-      if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemA.tabItem }
-          .tag(nodeItemA.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemA.tag)?.first, let content = nodeItemA.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemA.tabItem }
+            .tag(nodeItemA.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemB.tabItem }
-          .tag(nodeItemB.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemB.tabItem }
+            .tag(nodeItemB.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemC.tabItem }
-          .tag(nodeItemC.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemC.tabItem }
+            .tag(nodeItemC.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemD.tabItem }
-          .tag(nodeItemD.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemD.tabItem }
-          .tag(nodeItemD.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemD.tabItem }
+            .tag(nodeItemD.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemD.tabItem }
+            .tag(nodeItemD.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
 
-      if let tabContent = screen?.path(for: nodeItemE.tag)?.first, let content = nodeItemE.contentBuilder.build(
-        pathElement: tabContent
-      ) {
-        content
-          .tabItem { nodeItemE.tabItem }
-          .tag(nodeItemE.tag)
-      } else {
-        Color.clear
-          .tabItem { nodeItemE.tabItem }
-          .tag(nodeItemE.tag)
+      NavigationView {
+        if let tabContent = screen?.path(for: nodeItemE.tag)?.first, let content = nodeItemE.contentBuilder.build(
+          pathElement: tabContent
+        ) {
+          content
+            .tabItem { nodeItemE.tabItem }
+            .tag(nodeItemE.tag)
+        } else {
+          Color.clear
+            .tabItem { nodeItemE.tabItem }
+            .tag(nodeItemE.tag)
+        }
       }
+      .environment(\.isInActiveTab, nodeItemE.tag == screen?.activeTab.id)
     }
+    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
+    .navigationBarHidden(true)
+    .navigationBarBackButtonHidden(true)
+    .onReceive(
+      dataSource.$navigationTree,
+      perform: { path in
+        guard case let .tabbed(screen) = dataSource.navigationTree.component(for: screenID).current else {
+          return
+        }
+
+        // check if initialised, inactive tabs count should be (total tab count - 1)
+        guard screen.inactiveTabs.count != 4 else {
+          // Tab screen is correctly initialized
+          return
+        }
+
+        func isPresent(tag: AnyActivatable) -> Bool {
+          screen.activeTab.id == tag || screen.inactiveTabs.map(\.id).contains(tag)
+        }
+
+        let matchesAtLeastOneTabID = [
+          isPresent(
+            tag: nodeItemA.tag
+          ),
+          isPresent(
+            tag: nodeItemB.tag
+          ),
+          isPresent(
+            tag: nodeItemC.tag
+          ),
+          isPresent(
+            tag: nodeItemD.tag
+          ),
+          isPresent(
+            tag: nodeItemE.tag
+          )
+        ].filter { $0 }.count >= 1
+
+        guard matchesAtLeastOneTabID else {
+          // TabScreen does not match any of the provided IDs.
+          // Probably a different tab screen, therefore initialisation is skipped
+          return
+        }
+
+        // if the tag is not present, initialise the tab with the default content
+        let defaultContents = [
+          isPresent(tag: nodeItemA.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemA.tag,
+            content: nodeItemA.defaultContent
+          ),
+          isPresent(tag: nodeItemB.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemB.tag,
+            content: nodeItemB.defaultContent
+          ),
+          isPresent(tag: nodeItemC.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemC.tag,
+            content: nodeItemC.defaultContent
+          ),
+          isPresent(tag: nodeItemD.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemD.tag,
+            content: nodeItemD.defaultContent
+          ),
+          isPresent(tag: nodeItemE.tag)
+          ? nil
+          : DefaultTabContent(
+            tag: nodeItemE.tag,
+            content: nodeItemE.defaultContent
+          )
+        ].compactMap { $0 }
+
+        dataSource.initializeDefaultContents(for: screenID, contents: defaultContents)
+      }
+    )
   }
 
   private var screen: TabScreen? {
