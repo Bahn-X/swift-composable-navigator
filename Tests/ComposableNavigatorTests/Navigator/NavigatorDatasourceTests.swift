@@ -2959,6 +2959,163 @@ final class NavigatorDatasourceTests: XCTestCase {
       )
     )
   }
+
+  // MARK: - Initialise Default Contents
+  func test_initialise_default_contents_of_tabbed() {
+    let first = ScreenID()
+    let tabbedID = ScreenID()
+    let expectedNewID = ScreenID()
+
+    let previousPath: ActiveNavigationTree = [
+      .tabbed(
+        TabScreen(
+          id: tabbedID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: first,
+                  content: root,
+                  hasAppeared: false
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { expectedNewID }
+    )
+
+    sut.initializeDefaultContents(
+      for: tabbedID,
+      contents: [
+        DefaultTabContent(
+          tag: Tab.inactive.eraseToAnyActivatable(),
+          content: .screen(root.eraseToAnyScreen())
+        )
+      ]
+    )
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: previousPath,
+        current: [
+          .tabbed(
+            TabScreen(
+              id: tabbedID,
+              activeTab: TabScreen.Tab(
+                id: Tab.active,
+                path: [
+                  .screen(
+                    IdentifiedScreen(
+                      id: first,
+                      content: root,
+                      hasAppeared: false
+                    )
+                  )
+                ]
+              ),
+              inactiveTabs: [
+                TabScreen.Tab(
+                  id: Tab.inactive,
+                  path: [
+                    .screen(
+                      IdentifiedScreen(
+                        id: expectedNewID,
+                        content: root,
+                        hasAppeared: false
+                      )
+                    )
+                  ]
+                )
+              ],
+              presentationStyle: .push,
+              hasAppeared: false
+            )
+          )
+        ]
+      )
+    )
+  }
+
+  func test_initialise_default_contents_of_tabbed_ignores_present_tabs() {
+    let first = ScreenID()
+    let second = ScreenID()
+    let tabbedID = ScreenID()
+    let unexpectedNewID = ScreenID()
+
+    let previousPath: ActiveNavigationTree = [
+      .tabbed(
+        TabScreen(
+          id: tabbedID,
+          activeTab: TabScreen.Tab(
+            id: Tab.active,
+            path: [
+              .screen(
+                IdentifiedScreen(
+                  id: first,
+                  content: root,
+                  hasAppeared: false
+                )
+              )
+            ]
+          ),
+          inactiveTabs: [
+            TabScreen.Tab(
+              id: Tab.inactive,
+              path: [
+                .screen(
+                  IdentifiedScreen(
+                    id: second,
+                    content: root,
+                    hasAppeared: false
+                  )
+                )
+              ]
+            )
+          ],
+          presentationStyle: .push,
+          hasAppeared: false
+        )
+      )
+    ]
+
+    let sut = Navigator.Datasource(
+      navigationTree: previousPath,
+      screenID: { unexpectedNewID }
+    )
+
+    sut.initializeDefaultContents(
+      for: tabbedID,
+      contents: [
+        DefaultTabContent(
+          tag: Tab.active.eraseToAnyActivatable(),
+          content: .screen(root.eraseToAnyScreen())
+        ),
+        DefaultTabContent(
+          tag: Tab.inactive.eraseToAnyActivatable(),
+          content: .screen(root.eraseToAnyScreen())
+        )
+      ]
+    )
+
+    XCTAssertEqual(
+      sut.navigationTree,
+      NavigationTreeUpdate(
+        previous: [],
+        current: previousPath
+      )
+    )
+  }
 }
 
 private extension Navigator.Datasource {

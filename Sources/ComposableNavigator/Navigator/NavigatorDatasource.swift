@@ -78,7 +78,13 @@ public extension Navigator {
     }
 
     func initializeDefaultContents(for id: ScreenID, contents: [DefaultTabContent]) {
-      fatalError("unimplemented")
+      update(
+        path: navigationTree.current.initializeDefaultContents(
+          for: id,
+          contents: contents,
+          initScreenID: screenID
+        )
+      )
     }
 
     private func update(path newValue: ActiveNavigationTree) {
