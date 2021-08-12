@@ -1,8 +1,8 @@
 // AUTO-GENERATED: Do not edit
 import SwiftUI
 
-public extension NavigationTreeBuilder {
-  static func tabbed<ABuilder: PathBuilder, AItem: View>(
+public extension NavigationTree {
+  func Tabbed<ABuilder: PathBuilder, AItem: View>(
     _ nodeItemA: TabbedNodeItem<ABuilder, AItem>
   ) -> _PathBuilder<TabbedNodeA<ABuilder, AItem>> {
     _PathBuilder { element in
@@ -14,7 +14,7 @@ public extension NavigationTreeBuilder {
     }
   }
 
-  static func tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View>(
+  func Tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View>(
     _ nodeItemA: TabbedNodeItem<ABuilder, AItem>, _ nodeItemB: TabbedNodeItem<BBuilder, BItem>
   ) -> _PathBuilder<TabbedNodeAB<ABuilder, AItem, BBuilder, BItem>> {
     _PathBuilder { element in
@@ -26,7 +26,7 @@ public extension NavigationTreeBuilder {
     }
   }
 
-  static func tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View>(
+  func Tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View>(
     _ nodeItemA: TabbedNodeItem<ABuilder, AItem>, _ nodeItemB: TabbedNodeItem<BBuilder, BItem>, _ nodeItemC: TabbedNodeItem<CBuilder, CItem>
   ) -> _PathBuilder<TabbedNodeABC<ABuilder, AItem, BBuilder, BItem, CBuilder, CItem>> {
     _PathBuilder { element in
@@ -38,7 +38,7 @@ public extension NavigationTreeBuilder {
     }
   }
 
-  static func tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View, DBuilder: PathBuilder, DItem: View>(
+  func Tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View, DBuilder: PathBuilder, DItem: View>(
     _ nodeItemA: TabbedNodeItem<ABuilder, AItem>, _ nodeItemB: TabbedNodeItem<BBuilder, BItem>, _ nodeItemC: TabbedNodeItem<CBuilder, CItem>, _ nodeItemD: TabbedNodeItem<DBuilder, DItem>
   ) -> _PathBuilder<TabbedNodeABCD<ABuilder, AItem, BBuilder, BItem, CBuilder, CItem, DBuilder, DItem>> {
     _PathBuilder { element in
@@ -50,7 +50,7 @@ public extension NavigationTreeBuilder {
     }
   }
 
-  static func tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View, DBuilder: PathBuilder, DItem: View, EBuilder: PathBuilder, EItem: View>(
+  func Tabbed<ABuilder: PathBuilder, AItem: View, BBuilder: PathBuilder, BItem: View, CBuilder: PathBuilder, CItem: View, DBuilder: PathBuilder, DItem: View, EBuilder: PathBuilder, EItem: View>(
     _ nodeItemA: TabbedNodeItem<ABuilder, AItem>, _ nodeItemB: TabbedNodeItem<BBuilder, BItem>, _ nodeItemC: TabbedNodeItem<CBuilder, CItem>, _ nodeItemD: TabbedNodeItem<DBuilder, DItem>, _ nodeItemE: TabbedNodeItem<EBuilder, EItem>
   ) -> _PathBuilder<TabbedNodeABCDE<ABuilder, AItem, BBuilder, BItem, CBuilder, CItem, DBuilder, DItem, EBuilder, EItem>> {
     _PathBuilder { element in
