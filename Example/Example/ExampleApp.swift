@@ -19,7 +19,12 @@ struct ExampleApp: App {
 
   init() {
     dataSource = Navigator.Datasource(
-      root: HomeScreen()
+      root: ActiveNavigationPathElement.tabbed(
+        ActiveNavigationPathElement.ActiveTab(
+          active: HomeTabs.list,
+          path: [.screen(HomeScreen().eraseToAnyScreen())]
+        )
+      )
     )
 
     navigator = Navigator(dataSource: dataSource).debug()

@@ -96,6 +96,11 @@ struct HomeView: View {
   }
 }
 
+enum HomeTabs: Activatable {
+  case list
+  case settings
+}
+
 struct HomeScreen: Screen {
   let presentationStyle: ScreenPresentationStyle = .push
 
@@ -126,46 +131,75 @@ struct HomeScreen: Screen {
     }
 
     var builder: some PathBuilder {
-      Screen( // /home
-        HomeScreen.self,
-        onAppear: { _ in print("HomeView appeared") },
-        content: { HomeView(store: homeStore) },
-        nesting: {
-          If { (screen: DetailScreen) in
-            IfLetStore(
-              store: detailStore(for: screen.detailID),
-              then: { store in
-                DetailScreen.Builder(
-                  store: store,
-                  settingsStore: settingsStore
-                )
-                .onDismiss { (screen: DetailScreen) in
-                  print("Dismissed \(screen)")
-                  let viewStore = ViewStore(homeStore)
-                  // Only if the current detail state represents the dismissed screen, set the state to nil.
-                  if viewStore.state.selectedDetail?.id == screen.detailID {
-                    ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
-                  }
+      Tabbed(
+        .init(
+          tag: HomeTabs.list,
+          contentBuilder: {
+            Screen( // /home
+              HomeScreen.self,
+              onAppear: { _ in print("HomeView appeared") },
+              content: { HomeView(store: homeStore) },
+              nesting: {
+                If { (screen: DetailScreen) in
+                  IfLetStore(
+                    store: detailStore(for: screen.detailID),
+                    then: { store in
+                      DetailScreen.Builder(
+                        store: store,
+                        settingsStore: settingsStore
+                      )
+                        .onDismiss { (screen: DetailScreen) in
+                          print("Dismissed \(screen)")
+                          let viewStore = ViewStore(homeStore)
+                          // Only if the current detail state represents the dismissed screen, set the state to nil.
+                          if viewStore.state.selectedDetail?.id == screen.detailID {
+                            ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+                          }
+                        }
+                    }
+                  )
+                    .beforeBuild {
+                      let viewStore = ViewStore(homeStore)
+                      // we do not navigate to invalid navigation paths (i.e. example://detail?id=123)
+                      if viewStore.elements.contains(screen.detailID),
+                         viewStore.state.selectedDetail?.id != screen.detailID {
+                        viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
+                      }
+                    }
+                }
+
+                SettingsScreen.Builder(
+                  store: settingsStore,
+                  entrypoint: "home"
+                ).onDismiss(of: SettingsScreen.self) {
+                  print("Dismissed settings")
                 }
               }
             )
-            .beforeBuild {
-              let viewStore = ViewStore(homeStore)
-              // we do not navigate to invalid navigation paths (i.e. example://detail?id=123)
-              if viewStore.elements.contains(screen.detailID),
-                 viewStore.state.selectedDetail?.id != screen.detailID {
-                viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
-              }
-            }
-          }
+          },
+          tabItem: {
+            Image(systemName: "list.triangle")
+            Text("List")
 
-          SettingsScreen.Builder(
-            store: settingsStore,
-            entrypoint: "home"
-          ).onDismiss(of: SettingsScreen.self) {
-            print("Dismissed settings")
-          }
-        }
+          },
+          defaultContent: .screen(HomeScreen().eraseToAnyScreen())
+        ),
+        .init(
+          tag: HomeTabs.settings,
+          contentBuilder: {
+            SettingsScreen.Builder(
+              store: settingsStore,
+              entrypoint: "home"
+            ).onDismiss(of: SettingsScreen.self) {
+              print("Dismissed settings")
+            }
+          },
+          tabItem: {
+            Image(systemName: "gear")
+            Text("Settings")
+          },
+          defaultContent: .screen(SettingsScreen().eraseToAnyScreen())
+        )
       )
     }
   }
