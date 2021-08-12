@@ -161,6 +161,20 @@ public extension Navigator.Datasource {
     )
   }
 
+  /// Initialise a data source given a root active navigation path element.
+  /// - Parameters:
+  ///   - root: The application's root screen
+  ///   - screenID: Closure used to initialise `ScreenID`s for new navigation path elements
+  convenience init(
+    root: ActiveNavigationPathElement,
+    screenID: @escaping () -> ScreenID = ScreenID.init
+  ) {
+    self.init(
+      navigationTree: [root].toNavigationTree(screenID: screenID),
+      screenID: screenID
+    )
+  }
+
   /// Initialise a data source given a root screen.
   /// - Parameters:
   ///   - root: The application's root screen

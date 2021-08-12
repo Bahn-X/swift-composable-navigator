@@ -43,6 +43,7 @@ ${nodeItems}
             .tag(nodeItem${c}.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItem${c}.tag == screen?.activeTab.id)
 % if c != genericCharacters[i - 1]:
 

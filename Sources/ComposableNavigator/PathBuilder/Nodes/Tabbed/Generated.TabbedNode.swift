@@ -23,6 +23,7 @@ public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
             .tag(nodeItemA.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
@@ -113,6 +114,7 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
             .tag(nodeItemA.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -128,6 +130,7 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
             .tag(nodeItemB.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
@@ -228,6 +231,7 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
             .tag(nodeItemA.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -243,6 +247,7 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
             .tag(nodeItemB.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -258,6 +263,7 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
             .tag(nodeItemC.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
@@ -368,6 +374,7 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
             .tag(nodeItemA.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -383,6 +390,7 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
             .tag(nodeItemB.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -398,6 +406,7 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
             .tag(nodeItemC.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -413,6 +422,7 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
             .tag(nodeItemD.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
@@ -533,6 +543,7 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
             .tag(nodeItemA.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -548,6 +559,7 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
             .tag(nodeItemB.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -563,6 +575,7 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
             .tag(nodeItemC.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -578,6 +591,7 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
             .tag(nodeItemD.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
 
       NavigationView {
@@ -593,6 +607,7 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
             .tag(nodeItemE.tag)
         }
       }
+      .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemE.tag == screen?.activeTab.id)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
