@@ -21,10 +21,10 @@ public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
       .tabItem { nodeItemA.tabItem }
       .tag(nodeItemA.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in
@@ -108,6 +108,9 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
       .tabItem { nodeItemA.tabItem }
       .tag(nodeItemA.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
@@ -120,10 +123,10 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
       .tabItem { nodeItemB.tabItem }
       .tag(nodeItemB.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in
@@ -217,6 +220,9 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
       .tabItem { nodeItemA.tabItem }
       .tag(nodeItemA.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
@@ -229,6 +235,9 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
       .tabItem { nodeItemB.tabItem }
       .tag(nodeItemB.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
@@ -241,10 +250,10 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
       .tabItem { nodeItemC.tabItem }
       .tag(nodeItemC.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in
@@ -348,6 +357,9 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
       .tabItem { nodeItemA.tabItem }
       .tag(nodeItemA.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
@@ -360,6 +372,9 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
       .tabItem { nodeItemB.tabItem }
       .tag(nodeItemB.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
@@ -372,6 +387,9 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
       .tabItem { nodeItemC.tabItem }
       .tag(nodeItemC.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
@@ -384,10 +402,10 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
       .tabItem { nodeItemD.tabItem }
       .tag(nodeItemD.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in
@@ -501,6 +519,9 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
       .tabItem { nodeItemA.tabItem }
       .tag(nodeItemA.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
@@ -513,6 +534,9 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
       .tabItem { nodeItemB.tabItem }
       .tag(nodeItemB.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
@@ -525,6 +549,9 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
       .tabItem { nodeItemC.tabItem }
       .tag(nodeItemC.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
@@ -537,6 +564,9 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
       .tabItem { nodeItemD.tabItem }
       .tag(nodeItemD.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemE.tag)?.first, let content = nodeItemE.contentBuilder.build(
@@ -549,10 +579,10 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
       .environment(\.isInActiveTab, nodeItemE.tag == screen?.activeTab.id)
       .tabItem { nodeItemE.tabItem }
       .tag(nodeItemE.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in

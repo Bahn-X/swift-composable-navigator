@@ -41,15 +41,15 @@ ${nodeItems}
       .environment(\.isInActiveTab, nodeItem${c}.tag == screen?.activeTab.id)
       .tabItem { nodeItem${c}.tabItem }
       .tag(nodeItem${c}.tag)
+      .navigationBarTitle("") // hide the outer navigation bar on the wrapping TabView
+      .navigationBarHidden(true)
+      .navigationBarBackButtonHidden(true)
 % if c != genericCharacters[i - 1]:
 
 % else:
 % end
 % end
     }
-    .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
-    .navigationBarHidden(true)
-    .navigationBarBackButtonHidden(true)
     .onReceive(
       dataSource.$navigationTree,
       perform: { path in
