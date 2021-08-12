@@ -35,16 +35,12 @@ ${nodeItems}
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItem${c}.tabItem }
-            .tag(nodeItem${c}.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItem${c}.tabItem }
-            .tag(nodeItem${c}.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItem${c}.tag == screen?.activeTab.id)
+      .tabItem { nodeItem${c}.tabItem }
+      .tag(nodeItem${c}.tag)
 % if c != genericCharacters[i - 1]:
 
 % else:

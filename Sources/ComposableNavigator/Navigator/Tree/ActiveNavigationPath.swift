@@ -7,8 +7,21 @@ public extension ActiveNavigationPath {
 }
 
 public indirect enum ActiveNavigationPathElement: Hashable {
-  case screen(AnyScreen)
+  case screen(screen: AnyScreen)
   case tabbed(ActiveTab)
+
+  static func screen<S: Screen>(_ screen: S) -> Self {
+    .screen(screen: screen.eraseToAnyScreen())
+  }
+
+  static func tabbed<A: Activatable, S: Screen>(active: A, content: S) -> Self {
+    .tabbed(
+      .init(
+        active: active,
+        path: [.screen(content)]
+      )
+    )
+  }
 
   var presentationStyle: ScreenPresentationStyle {
     switch self {

@@ -15,16 +15,12 @@ public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
+      .tabItem { nodeItemA.tabItem }
+      .tag(nodeItemA.tag)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
     .navigationBarHidden(true)
@@ -106,32 +102,24 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
+      .tabItem { nodeItemA.tabItem }
+      .tag(nodeItemA.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
+      .tabItem { nodeItemB.tabItem }
+      .tag(nodeItemB.tag)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
     .navigationBarHidden(true)
@@ -223,48 +211,36 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
+      .tabItem { nodeItemA.tabItem }
+      .tag(nodeItemA.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
+      .tabItem { nodeItemB.tabItem }
+      .tag(nodeItemB.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
+      .tabItem { nodeItemC.tabItem }
+      .tag(nodeItemC.tag)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
     .navigationBarHidden(true)
@@ -366,64 +342,48 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
+      .tabItem { nodeItemA.tabItem }
+      .tag(nodeItemA.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
+      .tabItem { nodeItemB.tabItem }
+      .tag(nodeItemB.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
+      .tabItem { nodeItemC.tabItem }
+      .tag(nodeItemC.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemD.tabItem }
-            .tag(nodeItemD.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemD.tabItem }
-            .tag(nodeItemD.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
+      .tabItem { nodeItemD.tabItem }
+      .tag(nodeItemD.tag)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
     .navigationBarHidden(true)
@@ -535,80 +495,60 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemA.tabItem }
-            .tag(nodeItemA.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemA.tag == screen?.activeTab.id)
+      .tabItem { nodeItemA.tabItem }
+      .tag(nodeItemA.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemB.tag)?.first, let content = nodeItemB.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemB.tabItem }
-            .tag(nodeItemB.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemB.tag == screen?.activeTab.id)
+      .tabItem { nodeItemB.tabItem }
+      .tag(nodeItemB.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemC.tag)?.first, let content = nodeItemC.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemC.tabItem }
-            .tag(nodeItemC.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemC.tag == screen?.activeTab.id)
+      .tabItem { nodeItemC.tabItem }
+      .tag(nodeItemC.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemD.tag)?.first, let content = nodeItemD.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemD.tabItem }
-            .tag(nodeItemD.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemD.tabItem }
-            .tag(nodeItemD.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemD.tag == screen?.activeTab.id)
+      .tabItem { nodeItemD.tabItem }
+      .tag(nodeItemD.tag)
 
       NavigationView {
         if let tabContent = screen?.path(for: nodeItemE.tag)?.first, let content = nodeItemE.contentBuilder.build(
           pathElement: tabContent
         ) {
           content
-            .tabItem { nodeItemE.tabItem }
-            .tag(nodeItemE.tag)
-        } else {
-          Color.clear
-            .tabItem { nodeItemE.tabItem }
-            .tag(nodeItemE.tag)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
       .environment(\.isInActiveTab, nodeItemE.tag == screen?.activeTab.id)
+      .tabItem { nodeItemE.tabItem }
+      .tag(nodeItemE.tag)
     }
     .navigationBarTitle("") // hide the navigation bar on the wrapping TabView
     .navigationBarHidden(true)
