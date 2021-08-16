@@ -1,14 +1,14 @@
 public struct TabScreen: Hashable, Screen {
   public struct Tab: Hashable {
-    let id: AnyActivatable
-    let path: ActiveNavigationTree
+    public let id: AnyActivatable
+    public let path: ActiveNavigationTree
 
     init<A: Activatable>(id: A, path: ActiveNavigationTree) {
       self.id = id.eraseToAnyActivatable()
       self.path = path
     }
 
-    func ids() -> Set<ScreenID> {
+    public func ids() -> Set<ScreenID> {
       path.ids()
     }
   }
