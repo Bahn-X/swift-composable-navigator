@@ -1,12 +1,12 @@
 import SwiftUI
 
 public struct TabbedNodeItem<Builder: PathBuilder, TabItem: View> {
-  let tag: AnyActivatable
+  public let tag: AnyActivatable
 
-  let contentBuilder: Builder
-  let tabItem: TabItem
+  public let contentBuilder: Builder
+  public let tabItem: TabItem
 
-  let defaultContent: ActiveNavigationPathElement
+  public let defaultContent: ActiveNavigationPathElement
 
   public init<Tag: Activatable>(
     tag: Tag,

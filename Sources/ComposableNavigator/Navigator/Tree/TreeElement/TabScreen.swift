@@ -38,7 +38,7 @@ public struct TabScreen: Hashable, Screen {
     )
   }
 
-  func path(for tab: AnyActivatable) -> ActiveNavigationTree? {
+  public func path(for tab: AnyActivatable) -> ActiveNavigationTree? {
     if activeTab.id == tab {
       return activeTab.path
     }
