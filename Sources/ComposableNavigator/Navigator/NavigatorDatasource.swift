@@ -77,7 +77,7 @@ public extension Navigator {
       update(path: navigationTree.current.activate(activatable))
     }
 
-    func initializeDefaultContents(for id: ScreenID, contents: [DefaultTabContent]) {
+    public func initializeDefaultContents(for id: ScreenID, contents: [DefaultTabContent]) {
       update(
         path: navigationTree.current.initializeDefaultContents(
           for: id,
