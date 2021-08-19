@@ -15,6 +15,8 @@ public struct TabbedNodeA<ABuilder: PathBuilder, AItem: View>: View {
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -102,6 +104,8 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -117,6 +121,8 @@ public struct TabbedNodeAB<ABuilder: PathBuilder, AItem: View, BBuilder: PathBui
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -214,6 +220,8 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -229,6 +237,8 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -244,6 +254,8 @@ public struct TabbedNodeABC<ABuilder: PathBuilder, AItem: View, BBuilder: PathBu
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -351,6 +363,8 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -366,6 +380,8 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -381,6 +397,8 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -396,6 +414,8 @@ public struct TabbedNodeABCD<ABuilder: PathBuilder, AItem: View, BBuilder: PathB
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -513,6 +533,8 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -528,6 +550,8 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -543,6 +567,8 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -558,6 +584,8 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
@@ -573,6 +601,8 @@ public struct TabbedNodeABCDE<ABuilder: PathBuilder, AItem: View, BBuilder: Path
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())

@@ -35,6 +35,8 @@ ${nodeItems}
           pathElement: tabContent
         ) {
           content
+            .environment(\.currentScreenID, tabContent.id)
+            .environment(\.parentScreenID, screenID)
         }
       }
       .navigationViewStyle(StackNavigationViewStyle())
