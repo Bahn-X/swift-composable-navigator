@@ -1,5 +1,5 @@
 # Unmaintained 
-See #78
+See [#80](https://github.com/Bahn-X/swift-composable-navigator/pull/80)
 
 <p align="center">
   <img src="./Documentation/logo.png" width="15%" align-content: center/>
