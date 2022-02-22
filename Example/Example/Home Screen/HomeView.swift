@@ -5,10 +5,11 @@ import SwiftUI
 struct HomeState: Equatable {
   var elements: [String]
 
+  @BindableState
   var selectedDetail: DetailState?
 }
 
-enum HomeAction: Equatable {
+enum HomeAction: Equatable, BindableAction {
   case viewAppeared
   case selected(element: String, on: ScreenID)
   case openSettings(for: String, on: ScreenID)
@@ -144,7 +145,7 @@ struct HomeScreen: Screen {
                   let viewStore = ViewStore(homeStore)
                   // Only if the current detail state represents the dismissed screen, set the state to nil.
                   if viewStore.state.selectedDetail?.id == screen.detailID {
-                    ViewStore(homeStore).send(.binding(.set(\.selectedDetail, nil)))
+                    ViewStore(homeStore).send(.set(\.$selectedDetail, nil))
                   }
                 }
               }
@@ -154,7 +155,7 @@ struct HomeScreen: Screen {
               // we do not navigate to invalid navigation paths (i.e. example://detail?id=123)
               if viewStore.elements.contains(screen.detailID),
                  viewStore.state.selectedDetail?.id != screen.detailID {
-                viewStore.send(.binding(.set(\.selectedDetail, DetailState(id: screen.detailID))))
+                viewStore.send(.set(\.$selectedDetail, DetailState(id: screen.detailID)))
               }
             }
           }
@@ -218,7 +219,7 @@ let homeReducer = Reducer<
     environment: \.detail
   )
 )
-.binding(action: /HomeAction.binding)
+.binding()
 
 struct HomeView_Previews: PreviewProvider {
   static var previews: some View {
